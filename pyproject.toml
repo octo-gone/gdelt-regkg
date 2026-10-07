@@ -1,6 +1,6 @@
 [project]
 name = "gdelt-regkg"
-version = "1.0.0"
+version = "1.0.1"
 description = "GDELT GKG reconstruction from article text and metadata"
 readme = "README.md"
 license = "MIT"
