@@ -89,7 +89,7 @@ print([(issue.text, issue.reason) for issue in resolved.issues])
 
 `extract_location_mentions(text, recognizer=ner)` also returns raw place spans. `entities.to_gkg("LOCATION")` is unsupported because raw NER spans do not contain resolved geography.
 
-Load a custom JSON/gzip database with `Gazetteer.from_json(path)` and pass `gazetteer=` to the analyzer, extractor or generator. See the [gazetteer schema](../../src/gdelt_regkg/resources/schemas/gazetteer.schema.json) and [resource setup](../installation.md#sources-and-file-formats).
+Load a custom JSON/gzip database with `Gazetteer.from_json(path)` and pass `gazetteer=` to the analyzer, extractor or generator. See the [gazetteer schema](../../src/gdelt_regkg/resources/schemas/gazetteer.schema.json) and [resource setup](../installation.md#build-a-custom-gazetteer).
 
 ## Limits
 

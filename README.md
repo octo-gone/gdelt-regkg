@@ -1,5 +1,10 @@
 # gdelt-regkg
 
+[![CI](https://github.com/octo-gone/gdelt-regkg/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/octo-gone/gdelt-regkg/actions/workflows/ci.yml)
+[![PyPI](https://img.shields.io/pypi/v/gdelt-regkg)](https://pypi.org/project/gdelt-regkg/)
+[![Python](https://img.shields.io/badge/python-3.12%2B-blue)](https://pypi.org/project/gdelt-regkg/)
+[![License](https://img.shields.io/github/license/octo-gone/gdelt-regkg)](https://github.com/octo-gone/gdelt-regkg/blob/master/LICENSE)
+
 Package for reconstructing GDELT GKG files from article text and metadata.
 
 `gdelt-regkg` converts prepared article bodies and supplied metadata into GKG records. It can be used for reconstructing gaps in GKG coverage, processing your own news datasets, or extract individual fields for analysis. To make it work you just need article text and some metadata, while the library extracts and formats the fields automatically. You can generate full GKG entry or extract data only for specific fields.
