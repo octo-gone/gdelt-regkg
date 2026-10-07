@@ -1,0 +1,433 @@
+{
+  "corpus_sha256": "e7e4d5a4d2c2c4f4afa62008dc3ce3df8c16a89e0d646d99008bf74a87c3038e",
+  "archives": [
+    {
+      "name": "20251010001500.gkg.csv.zip",
+      "sha256": "46e9806309857bd9ccc7351fbc5cd078964377ff84a14f9c79438aac9cf97fd9"
+    },
+    {
+      "name": "20251010043000.gkg.csv.zip",
+      "sha256": "2f998d1d3b49b37a9ed2b5475fca2315e0599e7404de31cf72f4bd23a9de1799"
+    },
+    {
+      "name": "20251010084500.gkg.csv.zip",
+      "sha256": "a165b8b075de11ec85737ee5e87eef137b3a1cc672f52eb811b5b2a048f6137e"
+    },
+    {
+      "name": "20251010121500.gkg.csv.zip",
+      "sha256": "41881a184c9c6f7ddf844c4f1c8107ba76a3cd46c24617888ba059920ce86034"
+    },
+    {
+      "name": "20251010163000.gkg.csv.zip",
+      "sha256": "e791e3adf18284a06319f878de692d3c71f4c62b05b1a5a0ba0377296445771d"
+    },
+    {
+      "name": "20251010204500.gkg.csv.zip",
+      "sha256": "3b473a22af9937762361e46e7e0b6b1a7903011eeb7f65eed7b95ac8b8cbcd67"
+    },
+    {
+      "name": "20251021001500.gkg.csv.zip",
+      "sha256": "af4342dc4ccfb5d4df42c11f7423c57b9a04f9dbf44da7fdbe9782fdc5560678"
+    },
+    {
+      "name": "20251021043000.gkg.csv.zip",
+      "sha256": "5b14d18ee5001c78c0112e925958795b5bec9e1cb1fd1ab320aa288158381967"
+    },
+    {
+      "name": "20251021084500.gkg.csv.zip",
+      "sha256": "471cbf10fbd78a238649df1cffd2acb6075432c683be5d896c93f5a40f26b39d"
+    },
+    {
+      "name": "20251021121500.gkg.csv.zip",
+      "sha256": "13e55e5e49050dd4a8b0cf75440c8a2b65a68ac8dc48fd3c4a118babd6392f56"
+    },
+    {
+      "name": "20251021163000.gkg.csv.zip",
+      "sha256": "257aa4c28d4eccb49b9fc72eaa4ceaffc97fe6686f516cde2f99c908164911c8"
+    },
+    {
+      "name": "20251021204500.gkg.csv.zip",
+      "sha256": "67913087f480dafbdd066867610091d1b787cb6d398329bbbb22959c465fdacd"
+    },
+    {
+      "name": "20260110001500.gkg.csv.zip",
+      "sha256": "8dd9b451c728449e8fe3a40558d8ed655f2cbd4c71363be946162df2e08eec1e"
+    },
+    {
+      "name": "20260110043000.gkg.csv.zip",
+      "sha256": "da1f9dc6d531b1c5c74b8aab313a11cfb06e5d6f26d1bae4cf5927a949bfb074"
+    },
+    {
+      "name": "20260110084500.gkg.csv.zip",
+      "sha256": "385cff9c4ebbcfc98f4cb0bc1770bde31144e8b6ba31e8b3a1badeef8b4e8de9"
+    },
+    {
+      "name": "20260110121500.gkg.csv.zip",
+      "sha256": "7b4a098b4e6a532e7effaf6ee85cef38f115fde9f3ea92ce7a91e6f079bf5774"
+    },
+    {
+      "name": "20260110163000.gkg.csv.zip",
+      "sha256": "5d187279c3bb42c456f9b6f5cd08011a2d5fb670b96cfca5e561d95cee46ac72"
+    },
+    {
+      "name": "20260110204500.gkg.csv.zip",
+      "sha256": "6fa9d3a3fe6a267c385ec4a2aba197f63d6d9f4a9dc5899318f1f746bc3771de"
+    },
+    {
+      "name": "20260121001500.gkg.csv.zip",
+      "sha256": "c139a38f4cef28af8ec20a0ad705819123e08f0a1b8ade34aa4fc1578b9684b6"
+    },
+    {
+      "name": "20260121043000.gkg.csv.zip",
+      "sha256": "90fad677d202fa726789a8359181aa35f7ddaf2420f643aae34407aba4263ecd"
+    },
+    {
+      "name": "20260121084500.gkg.csv.zip",
+      "sha256": "f8f7d85ab4084acb56b9fafa6beda6ece33f1df5a5ab45c0fe7f0c6e0d4254a2"
+    },
+    {
+      "name": "20260121121500.gkg.csv.zip",
+      "sha256": "8317831919807010507face165c1f4f75a7982a677e1e43c03e9f847889741f8"
+    },
+    {
+      "name": "20260121163000.gkg.csv.zip",
+      "sha256": "2e64c4cc0925435ae5b817a7bd216a8ba97203164f288572458d722ea92ea15b"
+    },
+    {
+      "name": "20260121204500.gkg.csv.zip",
+      "sha256": "ce28a3007065f5099cc62375162a1dd408f4f04b2aee5a73df5583ee3e1a1cf0"
+    },
+    {
+      "name": "20260410001500.gkg.csv.zip",
+      "sha256": "100815c567c213ac9d9857810e85f26294b0a826cfb82289bab9b1a962d3d271"
+    },
+    {
+      "name": "20260410043000.gkg.csv.zip",
+      "sha256": "17cc7f863d643a0cfda482b437acb8537098bae368d27afef8c099fd4e232fd0"
+    },
+    {
+      "name": "20260410084500.gkg.csv.zip",
+      "sha256": "1b218a7e421883762e399e995082ee5c018bbf927fe23d9e4d0c7cc4c9fb1a58"
+    },
+    {
+      "name": "20260410121500.gkg.csv.zip",
+      "sha256": "2f8f440d2e8780d729e7dcf2bd4470c0a01086ef19ee04c0e39b4654637e85af"
+    },
+    {
+      "name": "20260410163000.gkg.csv.zip",
+      "sha256": "4377d13cf82c0103fd28e0814d2f16178b5415c8d2a27c77bb4df5d27878ba1a"
+    },
+    {
+      "name": "20260410204500.gkg.csv.zip",
+      "sha256": "3f5a5917d9440d91651ce8887355237928dab5b8e3fe86972d072e5446ed8e7b"
+    },
+    {
+      "name": "20260421001500.gkg.csv.zip",
+      "sha256": "9d68d33a39390640bf005f0b2da7a78fefa14e19b5159f676c579c0e183de5e9"
+    },
+    {
+      "name": "20260421043000.gkg.csv.zip",
+      "sha256": "ead2cf8a16bc3456613e65d18c9bf48e1beaa282e363217b6a2d838bb1a2f1ed"
+    },
+    {
+      "name": "20260421084500.gkg.csv.zip",
+      "sha256": "0a5ff1c76e2d0e1d904c9b33c3234fa6113fae65e19012b0c62b719bf950b2e8"
+    },
+    {
+      "name": "20260421121500.gkg.csv.zip",
+      "sha256": "68f0447c940b307d5c9842ae819fcd18dc89acedce46c854fb454d8f499d6e15"
+    },
+    {
+      "name": "20260421163000.gkg.csv.zip",
+      "sha256": "7f0f241a75fb9c151a3c9f3efe7266b323c5142a910f1dee72e07b4dc833f573"
+    },
+    {
+      "name": "20260421204500.gkg.csv.zip",
+      "sha256": "6f1dfb30b78ad532ad5a6ce87d8a2e7ae3ef73fe6e8fa30badf8a0813b4cb2e8"
+    },
+    {
+      "name": "20260710001500.gkg.csv.zip",
+      "sha256": "2561e409f779360b84945dd1d534a03b055d80666c64d86cae1de1b65c216971"
+    },
+    {
+      "name": "20260710043000.gkg.csv.zip",
+      "sha256": "936546a60adc2d6a09452c9c4b1b1bd8b12405ac39eb42a335201b921ad41ea9"
+    },
+    {
+      "name": "20260710084500.gkg.csv.zip",
+      "sha256": "11a6f0a507e1885b8d92180cff40fcdb1870c29287965a8c995423a686339d28"
+    },
+    {
+      "name": "20260710121500.gkg.csv.zip",
+      "sha256": "a00d78c358ead0a7f3fbff285d1b0411565f16462fa34d540da4110dc70cae2c"
+    },
+    {
+      "name": "20260710163000.gkg.csv.zip",
+      "sha256": "b1ca821a5d3db069795b15649da651bf5c30645d451472e2adae8ae534c38c20"
+    },
+    {
+      "name": "20260710204500.gkg.csv.zip",
+      "sha256": "548cc3a392b9c92e80a9ca5a2897aa102bbdf743a9d7d4497061a979a895884d"
+    },
+    {
+      "name": "20260721001500.gkg.csv.zip",
+      "sha256": "a971924c4c1c2c3da4dbb31131e02f54e44eacdffbb4464111d6ba99005ac4ad"
+    },
+    {
+      "name": "20260721043000.gkg.csv.zip",
+      "sha256": "db43ebd9aba17f90b0cbd273651e17cefe4fe58f89659003fc34eae595b7f6d1"
+    },
+    {
+      "name": "20260721084500.gkg.csv.zip",
+      "sha256": "464e3d78edfd76ae9b8e44d94e4d79ced092cc1799b228f1b3e4cf3a3e919729"
+    },
+    {
+      "name": "20260721121500.gkg.csv.zip",
+      "sha256": "3f6f5d8d4420da3d873e52457070c3c9e9daf997c109248d8f0eba64934926ae"
+    },
+    {
+      "name": "20260721163000.gkg.csv.zip",
+      "sha256": "edace6740acdfa5c29f72b89038a9b264c92cf6ca9b034cefc495cdbde8a10b9"
+    },
+    {
+      "name": "20260721204500.gkg.csv.zip",
+      "sha256": "6afd628b593444b06f2b580019d984042a943dd7c494e61baa1bce6ef29c4f18"
+    }
+  ],
+  "profiles": {
+    "ner": null,
+    "gazetteer": null,
+    "gcam": "general-inquirer-vader-lexicoder-custom-gcam-v2"
+  },
+  "resource_sha256": {},
+  "gcam_configuration_sha256": "3191cac5ae526155a18f6deea1e9848d128b924918bd63c99f642ee627b6c68d",
+  "audit": {
+    "excluded_missing_body": 1613,
+    "missing_original_record": 0,
+    "articles": 2707
+  },
+  "metrics": {},
+  "gcam": {
+    "evaluated_dimensions": [
+      "c2.21",
+      "c2.74",
+      "c2.79",
+      "c2.93",
+      "c2.156",
+      "c2.213",
+      "c2.214",
+      "c2.225",
+      "c3.1",
+      "c3.2",
+      "c3.3",
+      "c3.4",
+      "c26.1",
+      "v26.1"
+    ],
+    "word_count_mae": 117.51902475064647,
+    "median_word_count_ratio": 1.082375478927203,
+    "dimensions": {
+      "c2.21": {
+        "articles": 2707,
+        "excluded_unreported_native_count": 0,
+        "count_mae": 0.6963428149242704,
+        "count_bias": -0.1606944957517547,
+        "count_pearson": 0.8643506142159106,
+        "reference_nonzero_articles": 1689,
+        "predicted_nonzero_articles": 1611,
+        "density_mae_percentage_points": 0.14835657115477235
+      },
+      "c2.74": {
+        "articles": 2707,
+        "excluded_unreported_native_count": 0,
+        "count_mae": 0.4233468784632434,
+        "count_bias": 0.12855559660140375,
+        "count_pearson": 0.8547898910993769,
+        "reference_nonzero_articles": 1696,
+        "predicted_nonzero_articles": 1783,
+        "density_mae_percentage_points": 0.10128170443026321
+      },
+      "c2.79": {
+        "articles": 2707,
+        "excluded_unreported_native_count": 0,
+        "count_mae": 2.9412633912079795,
+        "count_bias": -0.43073513114148504,
+        "count_pearson": 0.8369135313280139,
+        "reference_nonzero_articles": 2544,
+        "predicted_nonzero_articles": 2596,
+        "density_mae_percentage_points": 0.57387640157512
+      },
+      "c2.93": {
+        "articles": 2707,
+        "excluded_unreported_native_count": 0,
+        "count_mae": 3.6272626523827114,
+        "count_bias": 2.267824159586258,
+        "count_pearson": 0.8792592799331779,
+        "reference_nonzero_articles": 2575,
+        "predicted_nonzero_articles": 2647,
+        "density_mae_percentage_points": 0.5194533457587639
+      },
+      "c2.156": {
+        "articles": 2707,
+        "excluded_unreported_native_count": 0,
+        "count_mae": 5.004802364240857,
+        "count_bias": -0.1810121906169191,
+        "count_pearson": 0.8551575685167454,
+        "reference_nonzero_articles": 2665,
+        "predicted_nonzero_articles": 2680,
+        "density_mae_percentage_points": 0.8589220503713182
+      },
+      "c2.213": {
+        "articles": 2707,
+        "excluded_unreported_native_count": 0,
+        "count_mae": 4.427410417436277,
+        "count_bias": -3.0945696342814926,
+        "count_pearson": 0.736711303813406,
+        "reference_nonzero_articles": 2536,
+        "predicted_nonzero_articles": 2400,
+        "density_mae_percentage_points": 0.8829118975578722
+      },
+      "c2.214": {
+        "articles": 2707,
+        "excluded_unreported_native_count": 0,
+        "count_mae": 5.942002216475803,
+        "count_bias": -2.5397118581455485,
+        "count_pearson": 0.8791452883415201,
+        "reference_nonzero_articles": 2662,
+        "predicted_nonzero_articles": 2672,
+        "density_mae_percentage_points": 1.1645156571472
+      },
+      "c2.225": {
+        "articles": 2707,
+        "excluded_unreported_native_count": 0,
+        "count_mae": 3.698928703361655,
+        "count_bias": -1.2933136313261913,
+        "count_pearson": 0.8636572281863433,
+        "reference_nonzero_articles": 2553,
+        "predicted_nonzero_articles": 2606,
+        "density_mae_percentage_points": 0.697405934454801
+      },
+      "c3.1": {
+        "articles": 2707,
+        "excluded_unreported_native_count": 0,
+        "count_mae": 10.06760251200591,
+        "count_bias": -6.940893978574067,
+        "count_pearson": 0.7647284596354091,
+        "reference_nonzero_articles": 2643,
+        "predicted_nonzero_articles": 2580,
+        "density_mae_percentage_points": 1.9411879390486995
+      },
+      "c3.2": {
+        "articles": 2707,
+        "excluded_unreported_native_count": 0,
+        "count_mae": 12.964166974510528,
+        "count_bias": -9.0550424824529,
+        "count_pearson": 0.8452803919570513,
+        "reference_nonzero_articles": 2687,
+        "predicted_nonzero_articles": 2684,
+        "density_mae_percentage_points": 2.713983280452196
+      },
+      "c3.3": {
+        "articles": 2707,
+        "excluded_unreported_native_count": 0,
+        "count_mae": 0.024011821204285185,
+        "count_bias": 0.012190616919098634,
+        "count_pearson": 0.8733091465306757,
+        "reference_nonzero_articles": 197,
+        "predicted_nonzero_articles": 219,
+        "density_mae_percentage_points": 0.006338156048632493
+      },
+      "c3.4": {
+        "articles": 2707,
+        "excluded_unreported_native_count": 0,
+        "count_mae": 0.031030661248614703,
+        "count_bias": 0.014776505356483192,
+        "count_pearson": 0.9064082194070198,
+        "reference_nonzero_articles": 288,
+        "predicted_nonzero_articles": 321,
+        "density_mae_percentage_points": 0.008629252990664896
+      },
+      "c26.1": {
+        "articles": 0,
+        "excluded_unreported_native_count": 2707,
+        "count_mae": null,
+        "count_bias": null,
+        "count_pearson": null,
+        "reference_nonzero_articles": 0,
+        "predicted_nonzero_articles": 0,
+        "density_mae_percentage_points": null
+      }
+    },
+    "values": {
+      "v26.1": {
+        "paired_articles": 2679,
+        "value_mae": 0.2121038608844339,
+        "value_bias": -0.07018821763852225,
+        "pearson": 0.8847249245225872,
+        "sign_agreement": 0.9227323628219485,
+        "audit": {
+          "reference_match_count_unreported": 2681,
+          "local_matches_only": 23,
+          "both_no_matches": 3,
+          "reference_matches_only": 2
+        }
+      }
+    }
+  },
+  "limitations": [
+    "Saved bodies can differ from GDELT's original body",
+    "Set scoring ignores offsets and repeated mentions",
+    "Amount scoring requires matching numeric value and normalized object",
+    "GCAM scores cover declared implemented dimensions only",
+    "Value errors require a native value and local matches; native companion counts are checked when present",
+    "Missing native weighted match counts are unreported, not measured zeros; they are excluded from count errors",
+    "A sample-size limit selects record IDs in order and is not source-balanced"
+  ],
+  "sample": {
+    "split": "development",
+    "used_for_fitting": false,
+    "selection": "all previously accepted English development bodies",
+    "monthly_articles": {
+      "202510": 649,
+      "202601": 674,
+      "202604": 680,
+      "202607": 704
+    },
+    "sources": 1801,
+    "sample_size_limit": null,
+    "policy": "original vocabulary, fixed category mapping and unchanged matching rules; no score fitting"
+  },
+  "lexicoder_source": {
+    "preprocessing": "not applied",
+    "source_sha256": "07416e15df7d04b3a3e0ff553a704fb16d25340ce045eda2a7ddecb53fe18907",
+    "format": "original-lc3-zip",
+    "members": [
+      {
+        "name": "LSDaug2015/LSD2015.lc3",
+        "sha256": "9f6e917cb1658b8492d9a7459d959627d0274cecb0a34610750aa860fea40ab8",
+        "encoding": "utf-8"
+      },
+      {
+        "name": "LSDaug2015/LSD2015_NEG.lc3",
+        "sha256": "10cc20582a426290de838efb5e97739b942dd21432094c4be77f201d41bfb16c",
+        "encoding": "utf-8"
+      }
+    ],
+    "terms_url": "https://www.snsoroka.com/s/LSDagreement.pdf",
+    "bundled_with_package": false,
+    "matching": "longest nonoverlapping matches within each category; categories independent",
+    "source_entries": {
+      "negative": 2858,
+      "positive": 1709,
+      "neg_positive": 1721,
+      "neg_negative": 2860
+    },
+    "normalized_unique_patterns": {
+      "negative": 2858,
+      "positive": 1709,
+      "neg_positive": 1721,
+      "neg_negative": 2860
+    }
+  },
+  "custom_profile_sha256": "325650eb3a1df4a21e7808273decce62d2118b24b62ddbf602f198d83d747673"
+}

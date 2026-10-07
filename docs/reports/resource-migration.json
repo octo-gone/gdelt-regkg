@@ -1,0 +1,59 @@
+{
+  "comparison": "Previous package profiles versus locally rebuilt profiles on the same reserved article bodies",
+  "articles": 2943,
+  "cohorts": {
+    "retained-benchmark.jsonl": 2626,
+    "retained-translated.jsonl": 317
+  },
+  "columns_per_article": 27,
+  "changed_cells_by_column": {},
+  "changed_cells": 0,
+  "full_gcam_changed_articles": 0,
+  "resources": {
+    "tone.v1.json": {
+      "semantic_sha256": "14142e9e4f26d3e98e4477671d0de06800a6b3bff152e7df63a4a5bd2b8da999",
+      "matches_previous": true
+    },
+    "tone.v2.json": {
+      "semantic_sha256": "ae4f476342ba77230949597256fcb278b9df43ec7f4aa212de2a38bf865e1a34",
+      "matches_previous": true
+    },
+    "tone.v3.json": {
+      "semantic_sha256": "8cba956adb685188fcfcae8ace8f26531c462cf0340362c54ed78e934c7fc8da",
+      "matches_previous": true
+    },
+    "themes.v1.json": {
+      "semantic_sha256": "774cd1e975ebe9a7b653a675bf310c7dec9e3fb1914c30441de49106e75ae0e1",
+      "matches_previous": true
+    },
+    "themes.v2.json": {
+      "semantic_sha256": "8b6dca6b17e90a46f83d63e5a2012813ee96909803b9a2e341ff71e6062933e5",
+      "matches_previous": true
+    },
+    "themes.v3.json": {
+      "semantic_sha256": "889bc98194e59efa0554badb443b34e34cdbe17d32e2c74a9e34a55396e8766b",
+      "matches_previous": true
+    },
+    "gcam.v1.json": {
+      "semantic_sha256": "bbdf25e7cd9ddd1eb5a3bef5d9dcfeb0572d7d5896ca2940f060fb199ee16386",
+      "matches_previous": true
+    },
+    "gcam.v2.json": {
+      "semantic_sha256": "7f2a1d39d505fd84e31e0cb1a2db870ae8501cd5cb251dcecd8c566869c938d7",
+      "matches_previous": true
+    },
+    "gcam.v3.json.gz": {
+      "semantic_sha256": "3a7688b17b5bba86bba947fe20958feedb079d260bd35827964bd96ceb293a08",
+      "matches_previous": true
+    },
+    "locations.v1.json.gz": {
+      "semantic_sha256": "21cda057d1d15b01ac75f248413ead3ae96f81579029d52b31b8299e2df678c1",
+      "matches_previous": true
+    }
+  },
+  "ner": "Reused frozen en_core_web_lg 3.8.0 spans; model weights and normalization rules unchanged",
+  "metrics": "Identical predictions against identical references preserve all deterministic agreement metrics",
+  "capture_sha256": "93b1e4cc72d7331b6ef915a41c942e983d0c80a6e004110f6e0beb51f17dd0a9",
+  "final_default_objects_match_previous": true,
+  "metadata_policy": "Media/extras explicitly empty in both runs; saved translated English bodies reused without retranslating"
+}

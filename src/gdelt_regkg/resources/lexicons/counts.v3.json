@@ -1,0 +1,3141 @@
+{
+  "$schema": "../schemas/count-rules.schema.json",
+  "schema": "reconstruct-gkg/count-rules/v1",
+  "name": "gdelt-count-seasonal-v3",
+  "settings": {
+    "object_nouns": [
+      "people",
+      "person",
+      "persons",
+      "men",
+      "man",
+      "women",
+      "woman",
+      "children",
+      "child",
+      "civilians",
+      "civilian",
+      "soldiers",
+      "soldier",
+      "officers",
+      "officer",
+      "police",
+      "policemen",
+      "policeman",
+      "protesters",
+      "protester",
+      "demonstrators",
+      "demonstrator",
+      "suspects",
+      "suspect",
+      "militants",
+      "militant",
+      "rebels",
+      "rebel",
+      "fighters",
+      "fighter",
+      "hostages",
+      "hostage",
+      "passengers",
+      "passenger",
+      "workers",
+      "worker",
+      "students",
+      "student",
+      "patients",
+      "patient",
+      "residents",
+      "resident",
+      "villagers",
+      "villager",
+      "migrants",
+      "migrant",
+      "refugees",
+      "refugee",
+      "inmates",
+      "inmate",
+      "prisoners",
+      "prisoner",
+      "jihadists",
+      "jihadist",
+      "missionaries",
+      "missionary",
+      "tourists",
+      "tourist",
+      "journalists",
+      "journalist",
+      "reporters",
+      "reporter",
+      "attackers",
+      "attacker",
+      "adults",
+      "adult",
+      "babies",
+      "baby",
+      "marines",
+      "marine",
+      "boys",
+      "boy",
+      "girls",
+      "girl",
+      "families",
+      "family",
+      "households",
+      "household",
+      "homes",
+      "home",
+      "houses",
+      "house",
+      "vehicles",
+      "vehicle",
+      "victims",
+      "victim",
+      "survivors",
+      "survivor",
+      "members",
+      "member",
+      "citizens",
+      "citizen",
+      "individuals",
+      "individual",
+      "infants",
+      "infant",
+      "teenagers",
+      "teenager",
+      "youths",
+      "youth",
+      "commuters",
+      "commuter",
+      "rescuers",
+      "rescuer",
+      "personnel",
+      "troops"
+    ],
+    "auxiliaries": [
+      "were",
+      "was",
+      "are",
+      "is",
+      "have been",
+      "has been",
+      "had been",
+      "have",
+      "has",
+      "had",
+      "were also",
+      "were reportedly",
+      "were seriously",
+      "were critically",
+      "were fatally",
+      "were confirmed",
+      "was also",
+      "was reportedly",
+      "was seriously",
+      "was critically",
+      "was fatally",
+      "was confirmed",
+      "are also",
+      "are reportedly",
+      "are seriously",
+      "are critically",
+      "are fatally",
+      "are confirmed",
+      "is also",
+      "is reportedly",
+      "is seriously",
+      "is critically",
+      "is fatally",
+      "is confirmed",
+      "have been also",
+      "have been reportedly",
+      "have been seriously",
+      "have been critically",
+      "have been fatally",
+      "have been confirmed",
+      "has been also",
+      "has been reportedly",
+      "has been seriously",
+      "has been critically",
+      "has been fatally",
+      "has been confirmed",
+      "had been also",
+      "had been reportedly",
+      "had been seriously",
+      "had been critically",
+      "had been fatally",
+      "had been confirmed"
+    ],
+    "unsafe_phrases": [
+      "no",
+      "not",
+      "never",
+      "neither",
+      "without",
+      "could",
+      "would",
+      "may",
+      "might",
+      "will",
+      "should",
+      "if",
+      "denied",
+      "denies",
+      "deny",
+      "between"
+    ],
+    "unsafe_suffixes": [
+      "n't"
+    ],
+    "bad_object_words": [
+      "and",
+      "or",
+      "not",
+      "no",
+      "other",
+      "more",
+      "fewer",
+      "remaining",
+      "another"
+    ],
+    "max_object_modifiers": 3,
+    "context_words": 10,
+    "allow_bare_active": true,
+    "reject_time_objects": false
+  },
+  "rules": [
+    {
+      "id": "active_predicate-8190a7f6a9930d74",
+      "kind": "active_predicate",
+      "expression": "abducted",
+      "labels": [
+        "KIDNAP"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KIDNAP",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-a7a74dfa8f503e23",
+      "kind": "active_predicate",
+      "expression": "affected",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "AFFECT",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-9041911f272e24aa",
+      "kind": "active_predicate",
+      "expression": "arrested",
+      "labels": [
+        "ARREST",
+        "CRISISLEX_C07_SAFETY",
+        "SOC_GENERALCRIME"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "ARREST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "CRISISLEX_C07_SAFETY",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ],
+        "calibration": {
+          "id": "active_predicate-9041911f272e24aa",
+          "expression": "arrested",
+          "before": [
+            "ARREST",
+            "CRISISLEX_C07_SAFETY"
+          ],
+          "after": [
+            "ARREST",
+            "CRISISLEX_C07_SAFETY",
+            "SOC_GENERALCRIME"
+          ],
+          "training_matches": 12,
+          "training_reference_counts": {
+            "ARREST": 10,
+            "CRISISLEX_C07_SAFETY": 9,
+            "SOC_GENERALCRIME": 9,
+            "CRISISLEX_T03_DEAD": 1,
+            "KILL": 1,
+            "CRISISLEX_CRISISLEXREC": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "active_predicate-baabe7de7c4d7ac7",
+      "kind": "active_predicate",
+      "expression": "assassinated",
+      "labels": [
+        "ASSASSINATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "ASSASSINATION",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-83a21eec526f6df4",
+      "kind": "active_predicate",
+      "expression": "charged",
+      "labels": [
+        "ARREST",
+        "CRISISLEX_C07_SAFETY",
+        "SOC_GENERALCRIME"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "ARREST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "CRISISLEX_C07_SAFETY",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "SOC_GENERALCRIME",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-16409c50f6a6780f",
+      "kind": "active_predicate",
+      "expression": "confiscated",
+      "labels": [
+        "SEIZE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "SEIZE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-40be2b767ae546bc",
+      "kind": "active_predicate",
+      "expression": "convicted",
+      "labels": [
+        "SOC_GENERALCRIME"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "SOC_GENERALCRIME",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "predicate-c4636d5bc8dd5a51",
+      "kind": "predicate",
+      "expression": "dead",
+      "labels": [
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T03_DEAD",
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_CRISISLEXREC",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "CRISISLEX_T03_DEAD",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "predicate-3ab9f66c6417592f",
+      "kind": "predicate",
+      "expression": "demonstrated",
+      "labels": [
+        "PROTEST"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "PROTEST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-ebaa3aee1add5884",
+      "kind": "active_predicate",
+      "expression": "detained",
+      "labels": [
+        "ARREST",
+        "CRISISLEX_C07_SAFETY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "ARREST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "CRISISLEX_C07_SAFETY",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "predicate-cc994c01e7a453e4",
+      "kind": "predicate",
+      "expression": "died",
+      "labels": [
+        "CRISISLEX_T03_DEAD",
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T03_DEAD",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-50929ba926879bb5",
+      "kind": "active_predicate",
+      "expression": "displaced",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T09_DISPLACEDRELOCATEDEVACUATED",
+        "DISPLACED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T09_DISPLACEDRELOCATEDEVACUATED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "DISPLACED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "predicate-c71052dc667dbbca",
+      "kind": "predicate",
+      "expression": "drowned",
+      "labels": [
+        "NATURAL_DISASTER_DROWNED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "NATURAL_DISASTER_DROWNED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-fef526dcc00cac77",
+      "kind": "active_predicate",
+      "expression": "evacuated",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T09_DISPLACEDRELOCATEDEVACUATED",
+        "EVACUATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T09_DISPLACEDRELOCATEDEVACUATED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "EVACUATION",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-62610d3a8992c5ae",
+      "kind": "active_predicate",
+      "expression": "executed",
+      "labels": [
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-c83f25a345f652a4",
+      "kind": "active_predicate",
+      "expression": "hospitalized",
+      "labels": [
+        "CRISISLEX_C03_WELLBEING_HEALTH",
+        "SICKENED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "SICKENED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-380c9ea24bf46d42",
+      "kind": "active_predicate",
+      "expression": "hurt",
+      "labels": [
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T02_INJURED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "WOUND",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-9d1d2b1e8adfa7fa",
+      "kind": "active_predicate",
+      "expression": "imprisoned",
+      "labels": [
+        "ARREST",
+        "SOC_POINTSOFINTEREST_JAIL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "ARREST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "SOC_POINTSOFINTEREST_JAIL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-c00d7203b6064f3d",
+      "kind": "active_predicate",
+      "expression": "infected",
+      "labels": [
+        "SICKENED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "SICKENED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-ae0dc7d36a11b55c",
+      "kind": "active_predicate",
+      "expression": "injured",
+      "labels": [
+        "CRISISLEX_C03_WELLBEING_HEALTH",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T02_INJURED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "WOUND",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-015fa820834d84ff",
+      "kind": "active_predicate",
+      "expression": "jailed",
+      "labels": [
+        "ARREST",
+        "SOC_POINTSOFINTEREST_JAIL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "ARREST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "SOC_POINTSOFINTEREST_JAIL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-5eb2e4b1a7371e5e",
+      "kind": "active_predicate",
+      "expression": "kidnapped",
+      "labels": [
+        "KIDNAP"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KIDNAP",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-efd0b5af9398e93f",
+      "kind": "active_predicate",
+      "expression": "killed",
+      "labels": [
+        "CRISISLEX_T03_DEAD",
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T03_DEAD",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "predicate-f571dd61a4873a88",
+      "kind": "predicate",
+      "expression": "missing",
+      "labels": [
+        "CRISISLEX_T08_MISSINGFOUNDTRAPPEDPEOPLE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T08_MISSINGFOUNDTRAPPEDPEOPLE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "predicate-2ae70ef0c622706a",
+      "kind": "predicate",
+      "expression": "perished",
+      "labels": [
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "predicate-db57dd250b62b388",
+      "kind": "predicate",
+      "expression": "protested",
+      "labels": [
+        "PROTEST"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "PROTEST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-cb723fc75cd2cd3c",
+      "kind": "active_predicate",
+      "expression": "rescued",
+      "labels": [
+        "CRISISLEX_T08_MISSINGFOUNDTRAPPEDPEOPLE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T08_MISSINGFOUNDTRAPPEDPEOPLE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "predicate-4d7da4fecfe97292",
+      "kind": "predicate",
+      "expression": "rioted",
+      "labels": [
+        "PROTEST"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "PROTEST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-6e2c640ce85ac1d2",
+      "kind": "active_predicate",
+      "expression": "seized",
+      "labels": [
+        "SEIZE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "SEIZE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-e7c890b2346a4c92",
+      "kind": "active_predicate",
+      "expression": "sickened",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_C03_WELLBEING_HEALTH",
+        "SICKENED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "SICKENED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "predicate-0fdaea55b59737c5",
+      "kind": "predicate",
+      "expression": "slain",
+      "labels": [
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "predicate-68c1e59721f24860",
+      "kind": "predicate",
+      "expression": "stranded",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_C04_LOGISTICS_TRANSPORT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "AFFECT",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "CRISISLEX_C04_LOGISTICS_TRANSPORT",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "predicate-5864cd84c997baa0",
+      "kind": "predicate",
+      "expression": "trapped",
+      "labels": [
+        "CRISISLEX_T08_MISSINGFOUNDTRAPPEDPEOPLE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T08_MISSINGFOUNDTRAPPEDPEOPLE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-45ade80843fbbe7e",
+      "kind": "active_predicate",
+      "expression": "wounded",
+      "labels": [
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T02_INJURED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "WOUND",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-3950176da398",
+      "kind": "template",
+      "expression": "death toll of {number}",
+      "labels": [
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-1cedc2db978f",
+      "kind": "template",
+      "expression": "death toll rises to {number}",
+      "labels": [
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-beb07e850e22",
+      "kind": "template",
+      "expression": "death toll rose to {number}",
+      "labels": [
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-73ad4bd3fc21",
+      "kind": "template",
+      "expression": "protest drew {number}",
+      "labels": [
+        "PROTEST"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "PROTEST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-5d6ed26ef16f",
+      "kind": "template",
+      "expression": "released {number} hostages",
+      "labels": [
+        "RELEASE_HOSTAGE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "RELEASE_HOSTAGE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-88199171339f",
+      "kind": "template",
+      "expression": "{number} activist",
+      "labels": [
+        "TAX_FNCACT_ACTIVIST"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "TAX_FNCACT_ACTIVIST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-464320c44cb4",
+      "kind": "template",
+      "expression": "{number} activists",
+      "labels": [
+        "MOVEMENT_GENERAL",
+        "TAX_FNCACT_ACTIVISTS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "MOVEMENT_GENERAL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "TAX_FNCACT_ACTIVISTS",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-5bcaeb744445",
+      "kind": "template",
+      "expression": "{number} arrests",
+      "labels": [
+        "ARREST",
+        "CRISISLEX_C07_SAFETY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "ARREST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "CRISISLEX_C07_SAFETY",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-9d05cb4d8771",
+      "kind": "template",
+      "expression": "{number} confirmed dead",
+      "labels": [
+        "CRISISLEX_T03_DEAD"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T03_DEAD",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-7e7ec56c1cea",
+      "kind": "template",
+      "expression": "{number} criminal charges",
+      "labels": [
+        "SOC_GENERALCRIME"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "SOC_GENERALCRIME",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-33acb8e9d170",
+      "kind": "template",
+      "expression": "{number} deaths",
+      "labels": [
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-5cf2a85f9b71",
+      "kind": "template",
+      "expression": "{number} demonstrators",
+      "labels": [
+        "MOVEMENT_GENERAL",
+        "PROTEST",
+        "TAX_FNCACT_DEMONSTRATORS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "MOVEMENT_GENERAL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "PROTEST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "TAX_FNCACT_DEMONSTRATORS",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-54a84c25f476",
+      "kind": "template",
+      "expression": "{number} displaced people",
+      "labels": [
+        "DISPLACED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "DISPLACED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-6c05082073a4",
+      "kind": "template",
+      "expression": "{number} drowning deaths",
+      "labels": [
+        "NATURAL_DISASTER_DROWNED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "NATURAL_DISASTER_DROWNED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-5aeeb960a8c5",
+      "kind": "template",
+      "expression": "{number} evacuees",
+      "labels": [
+        "EVACUATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "EVACUATION",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-f9542c44f082",
+      "kind": "template",
+      "expression": "{number} fatalities",
+      "labels": [
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-480895d8dce1",
+      "kind": "template",
+      "expression": "{number} homeless",
+      "labels": [
+        "CRISISLEX_C05_NEED_OF_SHELTERS",
+        "POVERTY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_C05_NEED_OF_SHELTERS",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "POVERTY",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-5a285d909271",
+      "kind": "template",
+      "expression": "{number} hostages",
+      "labels": [
+        "KIDNAP"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KIDNAP",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-b2c5701efc43",
+      "kind": "template",
+      "expression": "{number} hostages released",
+      "labels": [
+        "RELEASE_HOSTAGE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "RELEASE_HOSTAGE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-2447ca889f32",
+      "kind": "template",
+      "expression": "{number} injuries",
+      "labels": [
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T02_INJURED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "WOUND",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-fc6fa67c56a4",
+      "kind": "template",
+      "expression": "{number} inmates",
+      "labels": [
+        "SOC_POINTSOFINTEREST_JAIL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "SOC_POINTSOFINTEREST_JAIL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-cef9b8684762",
+      "kind": "template",
+      "expression": "{number} killed in combat",
+      "labels": [
+        "ARMEDCONFLICT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "ARMEDCONFLICT",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-db4461af7b95",
+      "kind": "template",
+      "expression": "{number} killed in fighting",
+      "labels": [
+        "ARMEDCONFLICT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "ARMEDCONFLICT",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-a5170f268ef4",
+      "kind": "template",
+      "expression": "{number} marchers",
+      "labels": [
+        "MOVEMENT_GENERAL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "MOVEMENT_GENERAL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-653750b30958",
+      "kind": "template",
+      "expression": "{number} migrants",
+      "labels": [
+        "EPU_CATS_MIGRATION_FEAR_MIGRATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "EPU_CATS_MIGRATION_FEAR_MIGRATION",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-4973e7678e6a",
+      "kind": "template",
+      "expression": "{number} patients",
+      "labels": [
+        "CRISISLEX_C03_WELLBEING_HEALTH"
+      ],
+      "status": "disabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_C03_WELLBEING_HEALTH",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ],
+        "calibration": {
+          "id": "candidate-4973e7678e6a",
+          "expression": "{number} patients",
+          "before": [
+            "CRISISLEX_C03_WELLBEING_HEALTH"
+          ],
+          "after": [],
+          "training_matches": 6,
+          "training_reference_counts": {}
+        }
+      }
+    },
+    {
+      "id": "candidate-857b9e937b75",
+      "kind": "template",
+      "expression": "{number} people affected",
+      "labels": [
+        "AFFECT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "AFFECT",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-04231f9a83ac",
+      "kind": "template",
+      "expression": "{number} people in poverty",
+      "labels": [
+        "POVERTY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "POVERTY",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-1ef851edba3a",
+      "kind": "template",
+      "expression": "{number} people protested",
+      "labels": [
+        "PROTEST"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "PROTEST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-f05b34a6df61",
+      "kind": "template",
+      "expression": "{number} people rioted",
+      "labels": [
+        "VIOLENT_UNREST"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "VIOLENT_UNREST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-f2c3d60b001e",
+      "kind": "template",
+      "expression": "{number} people warned",
+      "labels": [
+        "CRISISLEX_T01_CAUTION_ADVICE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T01_CAUTION_ADVICE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-cac7630b1602",
+      "kind": "template",
+      "expression": "{number} prisoners",
+      "labels": [
+        "SOC_POINTSOFINTEREST_JAIL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "SOC_POINTSOFINTEREST_JAIL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-a56414827bd8",
+      "kind": "template",
+      "expression": "{number} protesters",
+      "labels": [
+        "PROTEST"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "PROTEST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-43afda0b41ea",
+      "kind": "template",
+      "expression": "{number} refugee families",
+      "labels": [
+        "REFUGEES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "REFUGEES",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-32d728482d8a",
+      "kind": "template",
+      "expression": "{number} refugees",
+      "labels": [
+        "EPU_CATS_MIGRATION_FEAR_MIGRATION",
+        "REFUGEES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "EPU_CATS_MIGRATION_FEAR_MIGRATION",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "REFUGEES",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-e667263165a5",
+      "kind": "template",
+      "expression": "{number} residents warned",
+      "labels": [
+        "CRISISLEX_T01_CAUTION_ADVICE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T01_CAUTION_ADVICE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-9e236cb4cfe8",
+      "kind": "template",
+      "expression": "{number} rioters",
+      "labels": [
+        "VIOLENT_UNREST"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "VIOLENT_UNREST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-33aaf8499e50",
+      "kind": "template",
+      "expression": "{number} shelters",
+      "labels": [
+        "CRISISLEX_C05_NEED_OF_SHELTERS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_C05_NEED_OF_SHELTERS",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-2e5346241f30",
+      "kind": "template",
+      "expression": "{number} stranded passengers",
+      "labels": [
+        "CRISISLEX_C04_LOGISTICS_TRANSPORT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_C04_LOGISTICS_TRANSPORT",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-b3d153af1eb2",
+      "kind": "template",
+      "expression": "{number} strikers",
+      "labels": [
+        "STRIKE",
+        "TAX_FNCACT_STRIKERS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "STRIKE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "TAX_FNCACT_STRIKERS",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-dc8b2814de36",
+      "kind": "template",
+      "expression": "{number} terrorists",
+      "labels": [
+        "TERROR"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "TERROR",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-b942120cdc6d",
+      "kind": "template",
+      "expression": "{number} workers on strike",
+      "labels": [
+        "STRIKE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "STRIKE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "expanded-0af9367563ad11ea",
+      "kind": "active_predicate",
+      "expression": "abducting",
+      "labels": [
+        "KIDNAP"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-82ecf5943d5fe4f3",
+      "kind": "active_predicate",
+      "expression": "affecting",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-128407ac51758d7c",
+      "kind": "active_predicate",
+      "expression": "affects",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-4204ebee21839135",
+      "kind": "active_predicate",
+      "expression": "arresting",
+      "labels": [
+        "ARREST",
+        "CRISISLEX_C07_SAFETY",
+        "SOC_GENERALCRIME"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-06ef542f32d790fd",
+      "kind": "active_predicate",
+      "expression": "arrests",
+      "labels": [
+        "ARREST",
+        "CRISISLEX_C07_SAFETY",
+        "SOC_GENERALCRIME"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-d5f7dae577926f11",
+      "kind": "active_predicate",
+      "expression": "displacing",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T09_DISPLACEDRELOCATEDEVACUATED",
+        "DISPLACED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-f7a62bca47a5d3bf",
+      "kind": "active_predicate",
+      "expression": "evacuating",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T09_DISPLACEDRELOCATEDEVACUATED",
+        "EVACUATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-634d3ed7ff32b4fa",
+      "kind": "active_predicate",
+      "expression": "injures",
+      "labels": [
+        "CRISISLEX_C03_WELLBEING_HEALTH",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-d4fa545326bf57d5",
+      "kind": "active_predicate",
+      "expression": "injuring",
+      "labels": [
+        "CRISISLEX_C03_WELLBEING_HEALTH",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-f2b0cbf305e1b634",
+      "kind": "active_predicate",
+      "expression": "kidnapping",
+      "labels": [
+        "KIDNAP"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-52f42cd00ca88362",
+      "kind": "active_predicate",
+      "expression": "kill",
+      "labels": [
+        "CRISISLEX_T03_DEAD",
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-501dc16ef20629ef",
+      "kind": "active_predicate",
+      "expression": "killing",
+      "labels": [
+        "CRISISLEX_T03_DEAD",
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-4580eaeaeeb75e46",
+      "kind": "active_predicate",
+      "expression": "kills",
+      "labels": [
+        "CRISISLEX_T03_DEAD",
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-b1d97a119991320e",
+      "kind": "active_predicate",
+      "expression": "lost their lives",
+      "labels": [
+        "CRISISLEX_T03_DEAD",
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-5ed89bbcaf2be2b5",
+      "kind": "active_predicate",
+      "expression": "shot dead",
+      "labels": [
+        "CRISISLEX_T03_DEAD",
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-976aeedbb1da36db",
+      "kind": "active_predicate",
+      "expression": "wounding",
+      "labels": [
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-1f9c7244d3c1f520",
+      "kind": "active_predicate",
+      "expression": "wounds",
+      "labels": [
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-61eaf6fbb6a1aab3",
+      "kind": "template",
+      "expression": "affected about {number}",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-572906d636eee7b9",
+      "kind": "template",
+      "expression": "affected around {number}",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-36414bfdc044c128",
+      "kind": "template",
+      "expression": "affected at least {number}",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-947e3454e8983a0b",
+      "kind": "template",
+      "expression": "affected at most {number}",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-26e38704211df08b",
+      "kind": "template",
+      "expression": "affected more than {number}",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-8211a56b21e412f5",
+      "kind": "template",
+      "expression": "affected nearly {number}",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-7a336301c766ad1f",
+      "kind": "template",
+      "expression": "affected over {number}",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-8215f72a79685729",
+      "kind": "template",
+      "expression": "arrested about {number}",
+      "labels": [
+        "ARREST",
+        "CRISISLEX_C07_SAFETY",
+        "SOC_GENERALCRIME"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-87d039cf906a4f13",
+      "kind": "template",
+      "expression": "arrested around {number}",
+      "labels": [
+        "ARREST",
+        "CRISISLEX_C07_SAFETY",
+        "SOC_GENERALCRIME"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-8e47e221c802e331",
+      "kind": "template",
+      "expression": "arrested at least {number}",
+      "labels": [
+        "ARREST",
+        "CRISISLEX_C07_SAFETY",
+        "SOC_GENERALCRIME"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-5449684263b6d6a6",
+      "kind": "template",
+      "expression": "arrested at most {number}",
+      "labels": [
+        "ARREST",
+        "CRISISLEX_C07_SAFETY",
+        "SOC_GENERALCRIME"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-5a2462407ae87bf9",
+      "kind": "template",
+      "expression": "arrested more than {number}",
+      "labels": [
+        "ARREST",
+        "CRISISLEX_C07_SAFETY",
+        "SOC_GENERALCRIME"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-1143428bedcc2e99",
+      "kind": "template",
+      "expression": "arrested nearly {number}",
+      "labels": [
+        "ARREST",
+        "CRISISLEX_C07_SAFETY",
+        "SOC_GENERALCRIME"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-a5b9ce49ec90387b",
+      "kind": "template",
+      "expression": "arrested over {number}",
+      "labels": [
+        "ARREST",
+        "CRISISLEX_C07_SAFETY",
+        "SOC_GENERALCRIME"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-23e79c91c1fc1b38",
+      "kind": "template",
+      "expression": "death toll climbed to {number}",
+      "labels": [
+        "KILL",
+        "CRISISLEX_T03_DEAD"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-acc616808c18892f",
+      "kind": "template",
+      "expression": "death toll climbs to {number}",
+      "labels": [
+        "KILL",
+        "CRISISLEX_T03_DEAD"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-6747e9b71a98c6e1",
+      "kind": "template",
+      "expression": "death toll is {number}",
+      "labels": [
+        "KILL",
+        "CRISISLEX_T03_DEAD"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-6eecbfb64ccd3193",
+      "kind": "template",
+      "expression": "death toll reached {number}",
+      "labels": [
+        "KILL",
+        "CRISISLEX_T03_DEAD"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-5ddae10cd6e1a0c7",
+      "kind": "template",
+      "expression": "death toll stands at {number}",
+      "labels": [
+        "KILL",
+        "CRISISLEX_T03_DEAD"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-28686108e19594e3",
+      "kind": "template",
+      "expression": "displaced about {number}",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T09_DISPLACEDRELOCATEDEVACUATED",
+        "DISPLACED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-99f8218bc9bcc3c6",
+      "kind": "template",
+      "expression": "displaced around {number}",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T09_DISPLACEDRELOCATEDEVACUATED",
+        "DISPLACED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-4b169366d669430b",
+      "kind": "template",
+      "expression": "displaced at least {number}",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T09_DISPLACEDRELOCATEDEVACUATED",
+        "DISPLACED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-3eb42963f29c4962",
+      "kind": "template",
+      "expression": "displaced at most {number}",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T09_DISPLACEDRELOCATEDEVACUATED",
+        "DISPLACED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-809c978e9eee657b",
+      "kind": "template",
+      "expression": "displaced more than {number}",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T09_DISPLACEDRELOCATEDEVACUATED",
+        "DISPLACED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-3b51956f62b4771a",
+      "kind": "template",
+      "expression": "displaced nearly {number}",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T09_DISPLACEDRELOCATEDEVACUATED",
+        "DISPLACED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-bbdb0c6db4d87b3a",
+      "kind": "template",
+      "expression": "displaced over {number}",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T09_DISPLACEDRELOCATEDEVACUATED",
+        "DISPLACED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-79799018113fb2bf",
+      "kind": "template",
+      "expression": "evacuated about {number}",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T09_DISPLACEDRELOCATEDEVACUATED",
+        "EVACUATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-f5f3a6704deb6a52",
+      "kind": "template",
+      "expression": "evacuated around {number}",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T09_DISPLACEDRELOCATEDEVACUATED",
+        "EVACUATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-bb193762823f93d7",
+      "kind": "template",
+      "expression": "evacuated at least {number}",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T09_DISPLACEDRELOCATEDEVACUATED",
+        "EVACUATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-48ade1e09e081614",
+      "kind": "template",
+      "expression": "evacuated at most {number}",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T09_DISPLACEDRELOCATEDEVACUATED",
+        "EVACUATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-ab2cdf3761cf3cf4",
+      "kind": "template",
+      "expression": "evacuated more than {number}",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T09_DISPLACEDRELOCATEDEVACUATED",
+        "EVACUATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-03e6a7bb66a2babe",
+      "kind": "template",
+      "expression": "evacuated nearly {number}",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T09_DISPLACEDRELOCATEDEVACUATED",
+        "EVACUATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-383b6e6297c0e2a5",
+      "kind": "template",
+      "expression": "evacuated over {number}",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T09_DISPLACEDRELOCATEDEVACUATED",
+        "EVACUATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-c1dc1c64e91a0823",
+      "kind": "template",
+      "expression": "injured about {number}",
+      "labels": [
+        "CRISISLEX_C03_WELLBEING_HEALTH",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-0176bc2ef1dd7cd0",
+      "kind": "template",
+      "expression": "injured around {number}",
+      "labels": [
+        "CRISISLEX_C03_WELLBEING_HEALTH",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-89407da0ef3e290c",
+      "kind": "template",
+      "expression": "injured at least {number}",
+      "labels": [
+        "CRISISLEX_C03_WELLBEING_HEALTH",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-684fec4971961576",
+      "kind": "template",
+      "expression": "injured at most {number}",
+      "labels": [
+        "CRISISLEX_C03_WELLBEING_HEALTH",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-757bd4afbfb93b43",
+      "kind": "template",
+      "expression": "injured more than {number}",
+      "labels": [
+        "CRISISLEX_C03_WELLBEING_HEALTH",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-b7c17dc8f5814a8c",
+      "kind": "template",
+      "expression": "injured nearly {number}",
+      "labels": [
+        "CRISISLEX_C03_WELLBEING_HEALTH",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-a2a7fbf115147b7a",
+      "kind": "template",
+      "expression": "injured over {number}",
+      "labels": [
+        "CRISISLEX_C03_WELLBEING_HEALTH",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-d3f15e9554f9be16",
+      "kind": "template",
+      "expression": "injuring about {number}",
+      "labels": [
+        "CRISISLEX_C03_WELLBEING_HEALTH",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-b2822ceae76327c3",
+      "kind": "template",
+      "expression": "injuring around {number}",
+      "labels": [
+        "CRISISLEX_C03_WELLBEING_HEALTH",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-7cb6f80b84fd431a",
+      "kind": "template",
+      "expression": "injuring at least {number}",
+      "labels": [
+        "CRISISLEX_C03_WELLBEING_HEALTH",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-2b4140eba0b388a0",
+      "kind": "template",
+      "expression": "injuring at most {number}",
+      "labels": [
+        "CRISISLEX_C03_WELLBEING_HEALTH",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-389f6317420de794",
+      "kind": "template",
+      "expression": "injuring more than {number}",
+      "labels": [
+        "CRISISLEX_C03_WELLBEING_HEALTH",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-1ae319cf29a348b2",
+      "kind": "template",
+      "expression": "injuring nearly {number}",
+      "labels": [
+        "CRISISLEX_C03_WELLBEING_HEALTH",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-a2c493d38d46b6ba",
+      "kind": "template",
+      "expression": "injuring over {number}",
+      "labels": [
+        "CRISISLEX_C03_WELLBEING_HEALTH",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-3c3cca8e22ba6d19",
+      "kind": "template",
+      "expression": "killed about {number}",
+      "labels": [
+        "CRISISLEX_T03_DEAD",
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-3c3ddb444ce2249e",
+      "kind": "template",
+      "expression": "killed around {number}",
+      "labels": [
+        "CRISISLEX_T03_DEAD",
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-b6a6e89afa5e17d3",
+      "kind": "template",
+      "expression": "killed at least {number}",
+      "labels": [
+        "CRISISLEX_T03_DEAD",
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-525123dd8679d179",
+      "kind": "template",
+      "expression": "killed at most {number}",
+      "labels": [
+        "CRISISLEX_T03_DEAD",
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-c10ef1f55c1bc012",
+      "kind": "template",
+      "expression": "killed more than {number}",
+      "labels": [
+        "CRISISLEX_T03_DEAD",
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-dc9d36a56b0d9e60",
+      "kind": "template",
+      "expression": "killed nearly {number}",
+      "labels": [
+        "CRISISLEX_T03_DEAD",
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-dd00593f0eb478ca",
+      "kind": "template",
+      "expression": "killed over {number}",
+      "labels": [
+        "CRISISLEX_T03_DEAD",
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-b5d5b70b568be444",
+      "kind": "template",
+      "expression": "killing about {number}",
+      "labels": [
+        "CRISISLEX_T03_DEAD",
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-69ba5e5abf87fce1",
+      "kind": "template",
+      "expression": "killing around {number}",
+      "labels": [
+        "CRISISLEX_T03_DEAD",
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-ce42ae13ec54e4b2",
+      "kind": "template",
+      "expression": "killing at least {number}",
+      "labels": [
+        "CRISISLEX_T03_DEAD",
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-18927dc3687aaacd",
+      "kind": "template",
+      "expression": "killing at most {number}",
+      "labels": [
+        "CRISISLEX_T03_DEAD",
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-4b6752be2174c09b",
+      "kind": "template",
+      "expression": "killing more than {number}",
+      "labels": [
+        "CRISISLEX_T03_DEAD",
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-39e4e9f0373891ab",
+      "kind": "template",
+      "expression": "killing nearly {number}",
+      "labels": [
+        "CRISISLEX_T03_DEAD",
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-7db52f32c9a1878a",
+      "kind": "template",
+      "expression": "killing over {number}",
+      "labels": [
+        "CRISISLEX_T03_DEAD",
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-cb6883deec573473",
+      "kind": "template",
+      "expression": "wounded about {number}",
+      "labels": [
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-582f050e4895f2ce",
+      "kind": "template",
+      "expression": "wounded around {number}",
+      "labels": [
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-c38780b40e2da054",
+      "kind": "template",
+      "expression": "wounded at least {number}",
+      "labels": [
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-4972e5203f602cc4",
+      "kind": "template",
+      "expression": "wounded at most {number}",
+      "labels": [
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-090716cba7a5d9e6",
+      "kind": "template",
+      "expression": "wounded more than {number}",
+      "labels": [
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-e02942da96185da7",
+      "kind": "template",
+      "expression": "wounded nearly {number}",
+      "labels": [
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-5bcf19151f797bc8",
+      "kind": "template",
+      "expression": "wounded over {number}",
+      "labels": [
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-980f12c4bc4a703c",
+      "kind": "template",
+      "expression": "wounding about {number}",
+      "labels": [
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-423720424bfc3064",
+      "kind": "template",
+      "expression": "wounding around {number}",
+      "labels": [
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-6693ca896b2422a0",
+      "kind": "template",
+      "expression": "wounding at least {number}",
+      "labels": [
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-7ac2783778c98425",
+      "kind": "template",
+      "expression": "wounding at most {number}",
+      "labels": [
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-e99ed85c34edc589",
+      "kind": "template",
+      "expression": "wounding more than {number}",
+      "labels": [
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-663e2ab6040df1ee",
+      "kind": "template",
+      "expression": "wounding nearly {number}",
+      "labels": [
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-e9d0095d2863636d",
+      "kind": "template",
+      "expression": "wounding over {number}",
+      "labels": [
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    },
+    {
+      "id": "expanded-0c8be0b72f169b16",
+      "kind": "template",
+      "expression": "{number} people lost their lives",
+      "labels": [
+        "KILL",
+        "CRISISLEX_T03_DEAD"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "method": "authored bounded grammatical expansion",
+        "evidence": "training-date count discrepancy audit"
+      }
+    }
+  ],
+  "evaluation": {
+    "training_articles": 1059,
+    "validation_articles": 1322,
+    "reference": "CHANGELOG.md#seasonal-development",
+    "method": "Training-only emission and generic-object calibration; authored bounded grammar candidates selected on development validation; no benchmark fitting."
+  }
+}

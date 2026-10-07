@@ -1,0 +1,47 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+      - id: check-toml
+      - id: check-added-large-files
+      - id: check-merge-conflict
+
+  - repo: local
+    hooks:
+      - id: isort
+        name: isort
+        entry: uv run --no-sync python -X utf8 -m isort
+        language: system
+        types_or: [python, pyi]
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.1
+    hooks:
+      - id: ruff-format
+        types_or: [python, pyi]
+      - id: ruff-check
+        types_or: [python, pyi]
+        args: ["--fix", "--exit-non-zero-on-fix"]
+
+  - repo: local
+    hooks:
+      - id: pylint
+        name: pylint
+        entry: uv run --no-sync python -X utf8 -m pylint
+        language: system
+        files: ^(src/|scripts/|\.github/scripts/|pyproject\.toml|\.pre-commit-config\.yaml)
+        pass_filenames: false
+        args: [src/gdelt_regkg, scripts, .github/scripts]
+        always_run: true
+        require_serial: true
+      - id: mypy
+        name: mypy
+        entry: uv run --no-sync python -X utf8 -m mypy
+        language: system
+        files: ^(src/|scripts/|\.github/scripts/|pyproject\.toml|\.pre-commit-config\.yaml)
+        pass_filenames: false
+        always_run: true
+        require_serial: true
+exclude: ^(tmp|data|data2|output[^/]*|dist|build)/

@@ -1,0 +1,1983 @@
+{
+  "$schema": "../schemas/theme-rules.schema.json",
+  "schema": "reconstruct-gkg/theme-rules/v1",
+  "name": "gdelt-count-candidates-v2-themes",
+  "sources": [
+    {
+      "resource": "CrisisLexRec",
+      "url": "https://raw.githubusercontent.com/sajao/CrisisLex/master/data/CrisisLexLexicon/CrisisLexRec.txt",
+      "sha256": "3445bd7cdb85e102e7c6d565b6b0079007286fef6c71700ea0f3e906da9b11ff"
+    }
+  ],
+  "rules": [
+    {
+      "id": "literal-2b3e94752df6ff82",
+      "kind": "literal",
+      "expression": "abducted",
+      "labels": [
+        "KIDNAP"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KIDNAP",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-1f0469d3af9c354d",
+      "kind": "literal",
+      "expression": "activist",
+      "labels": [
+        "TAX_FNCACT_ACTIVIST"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "TAX_FNCACT_ACTIVIST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-d2ad4a44cb304761",
+      "kind": "literal",
+      "expression": "activists",
+      "labels": [
+        "MOVEMENT_GENERAL",
+        "TAX_FNCACT_ACTIVISTS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "MOVEMENT_GENERAL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "TAX_FNCACT_ACTIVISTS",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-b0d786f2bc663eeb",
+      "kind": "literal",
+      "expression": "affected",
+      "labels": [
+        "AFFECT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "AFFECT",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "CRISISLEX_CRISISLEXREC",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-9d460953908171b4",
+      "kind": "literal",
+      "expression": "armed conflict",
+      "labels": [
+        "ARMEDCONFLICT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "ARMEDCONFLICT",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-336052699a58ec83",
+      "kind": "literal",
+      "expression": "arrested",
+      "labels": [
+        "ARREST",
+        "CRISISLEX_C07_SAFETY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "ARREST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "CRISISLEX_C07_SAFETY",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-63a272a5adbf1da2",
+      "kind": "literal",
+      "expression": "arrests",
+      "labels": [
+        "ARREST"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "ARREST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-bcc4edd6e8905cb3",
+      "kind": "literal",
+      "expression": "assassinated",
+      "labels": [
+        "ASSASSINATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "ASSASSINATION",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-f3a2b83a3300a653",
+      "kind": "literal",
+      "expression": "caution",
+      "labels": [
+        "CRISISLEX_T01_CAUTION_ADVICE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T01_CAUTION_ADVICE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-93fe5cdc2cb579d4",
+      "kind": "literal",
+      "expression": "charged",
+      "labels": [
+        "ARREST",
+        "CRISISLEX_C07_SAFETY",
+        "SOC_GENERALCRIME"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "ARREST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "CRISISLEX_C07_SAFETY",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "SOC_GENERALCRIME",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-216665f5f50f1ca0",
+      "kind": "literal",
+      "expression": "combat",
+      "labels": [
+        "ARMEDCONFLICT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "ARMEDCONFLICT",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-4f7b7f5bc81aa8e9",
+      "kind": "literal",
+      "expression": "confiscated",
+      "labels": [
+        "SEIZE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "SEIZE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-3c6b2be024b96e0d",
+      "kind": "literal",
+      "expression": "convicted",
+      "labels": [
+        "SOC_GENERALCRIME"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "SOC_GENERALCRIME",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-985cb07ab9812834",
+      "kind": "literal",
+      "expression": "crime",
+      "labels": [
+        "SOC_GENERALCRIME"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "SOC_GENERALCRIME",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-c358a03cf8d045d8",
+      "kind": "literal",
+      "expression": "criminal charges",
+      "labels": [
+        "SOC_GENERALCRIME"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "SOC_GENERALCRIME",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-f9e50422e8e5294b",
+      "kind": "literal",
+      "expression": "dead",
+      "labels": [
+        "CRISISLEX_T03_DEAD",
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_CRISISLEXREC",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "CRISISLEX_T03_DEAD",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-6b15585badb0af08",
+      "kind": "literal",
+      "expression": "death toll",
+      "labels": [
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-84b44539f53134e2",
+      "kind": "literal",
+      "expression": "deaths",
+      "labels": [
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-c120d64e19e5a969",
+      "kind": "literal",
+      "expression": "demonstrated",
+      "labels": [
+        "PROTEST"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "PROTEST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-ed64796a05b3a42c",
+      "kind": "literal",
+      "expression": "demonstrators",
+      "labels": [
+        "MOVEMENT_GENERAL",
+        "PROTEST",
+        "TAX_FNCACT_DEMONSTRATORS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "MOVEMENT_GENERAL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "PROTEST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "TAX_FNCACT_DEMONSTRATORS",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-2cd94ba7291e755d",
+      "kind": "literal",
+      "expression": "detained",
+      "labels": [
+        "ARREST",
+        "CRISISLEX_C07_SAFETY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "ARREST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "CRISISLEX_C07_SAFETY",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-cb602368067fc465",
+      "kind": "literal",
+      "expression": "died",
+      "labels": [
+        "CRISISLEX_T03_DEAD",
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T03_DEAD",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-a9f3969e9104efd9",
+      "kind": "literal",
+      "expression": "displaced",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_T09_DISPLACEDRELOCATEDEVACUATED",
+        "DISPLACED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "AFFECT",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "CRISISLEX_CRISISLEXREC",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "CRISISLEX_T09_DISPLACEDRELOCATEDEVACUATED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "DISPLACED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-53c88d6e1d25f2a9",
+      "kind": "literal",
+      "expression": "drowned",
+      "labels": [
+        "NATURAL_DISASTER_DROWNED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "NATURAL_DISASTER_DROWNED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "NATURAL_DISASTER_DROWNED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-93e7850126805f3e",
+      "kind": "literal",
+      "expression": "drowning",
+      "labels": [
+        "NATURAL_DISASTER_DROWNED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "NATURAL_DISASTER_DROWNED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-d4d6a21ad3795902",
+      "kind": "literal",
+      "expression": "evacuated",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_T09_DISPLACEDRELOCATEDEVACUATED",
+        "EVACUATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "AFFECT",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "CRISISLEX_CRISISLEXREC",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "CRISISLEX_T09_DISPLACEDRELOCATEDEVACUATED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "EVACUATION",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-dc1dd409283aec10",
+      "kind": "literal",
+      "expression": "evacuation",
+      "labels": [
+        "EVACUATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "EVACUATION",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-6f3dd1f54d11a030",
+      "kind": "literal",
+      "expression": "evacuees",
+      "labels": [
+        "EVACUATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "EVACUATION",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-05942b9fc988c6cd",
+      "kind": "literal",
+      "expression": "executed",
+      "labels": [
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-6abb82083a60aefa",
+      "kind": "literal",
+      "expression": "fatalities",
+      "labels": [
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-38170e0462c259f2",
+      "kind": "literal",
+      "expression": "fighting",
+      "labels": [
+        "ARMEDCONFLICT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "ARMEDCONFLICT",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-3c40353446e263b0",
+      "kind": "literal",
+      "expression": "health",
+      "labels": [
+        "CRISISLEX_C03_WELLBEING_HEALTH"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_C03_WELLBEING_HEALTH",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-75915bf8f44994aa",
+      "kind": "literal",
+      "expression": "homeless",
+      "labels": [
+        "CRISISLEX_C05_NEED_OF_SHELTERS",
+        "POVERTY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_C05_NEED_OF_SHELTERS",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "POVERTY",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-386f2ec753376aed",
+      "kind": "literal",
+      "expression": "hospitalized",
+      "labels": [
+        "CRISISLEX_C03_WELLBEING_HEALTH",
+        "SICKENED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_C03_WELLBEING_HEALTH",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "SICKENED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-0c650ba776f1899c",
+      "kind": "literal",
+      "expression": "hostages",
+      "labels": [
+        "KIDNAP"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KIDNAP",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-e38dd5b54c7aa9d9",
+      "kind": "literal",
+      "expression": "hostages released",
+      "labels": [
+        "RELEASE_HOSTAGE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "RELEASE_HOSTAGE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-e21aafc82cd4790b",
+      "kind": "literal",
+      "expression": "hurt",
+      "labels": [
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T02_INJURED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "WOUND",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-ed0fe9ff6d950173",
+      "kind": "literal",
+      "expression": "imprisoned",
+      "labels": [
+        "ARREST",
+        "SOC_POINTSOFINTEREST_JAIL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "ARREST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "SOC_POINTSOFINTEREST_JAIL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-93544138254c16fb",
+      "kind": "literal",
+      "expression": "infected",
+      "labels": [
+        "SICKENED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "SICKENED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-733ad03ba9c19002",
+      "kind": "literal",
+      "expression": "injured",
+      "labels": [
+        "CRISISLEX_C03_WELLBEING_HEALTH",
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_C03_WELLBEING_HEALTH",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "CRISISLEX_CRISISLEXREC",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "CRISISLEX_T02_INJURED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "WOUND",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-6be96289ec402d99",
+      "kind": "literal",
+      "expression": "injuries",
+      "labels": [
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "WOUND",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-1b0841a3b1a9a47b",
+      "kind": "literal",
+      "expression": "inmates",
+      "labels": [
+        "SOC_POINTSOFINTEREST_JAIL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "SOC_POINTSOFINTEREST_JAIL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-2101be84194f74ca",
+      "kind": "literal",
+      "expression": "jail",
+      "labels": [
+        "SOC_POINTSOFINTEREST_JAIL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "SOC_POINTSOFINTEREST_JAIL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-de72f43ed23926d6",
+      "kind": "literal",
+      "expression": "jailed",
+      "labels": [
+        "ARREST",
+        "SOC_POINTSOFINTEREST_JAIL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "ARREST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "SOC_POINTSOFINTEREST_JAIL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-f246273b7e912f1a",
+      "kind": "literal",
+      "expression": "kidnapped",
+      "labels": [
+        "KIDNAP"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KIDNAP",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-c56e10e00ef30736",
+      "kind": "literal",
+      "expression": "killed",
+      "labels": [
+        "CRISISLEX_T03_DEAD",
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T03_DEAD",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-10a3a7f42c79fcb9",
+      "kind": "literal",
+      "expression": "marchers",
+      "labels": [
+        "MOVEMENT_GENERAL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "MOVEMENT_GENERAL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-6c05f5b7f0f5c844",
+      "kind": "literal",
+      "expression": "migrants",
+      "labels": [
+        "EPU_CATS_MIGRATION_FEAR_MIGRATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "EPU_CATS_MIGRATION_FEAR_MIGRATION",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-251a57968af30494",
+      "kind": "literal",
+      "expression": "migration",
+      "labels": [
+        "EPU_CATS_MIGRATION_FEAR_MIGRATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "EPU_CATS_MIGRATION_FEAR_MIGRATION",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-ccbb61e054646831",
+      "kind": "literal",
+      "expression": "missing",
+      "labels": [
+        "CRISISLEX_T08_MISSINGFOUNDTRAPPEDPEOPLE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T08_MISSINGFOUNDTRAPPEDPEOPLE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "CRISISLEX_T08_MISSINGFOUNDTRAPPEDPEOPLE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-32de25fc06e98ee0",
+      "kind": "literal",
+      "expression": "on strike",
+      "labels": [
+        "STRIKE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "STRIKE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-2751375b84377dfa",
+      "kind": "literal",
+      "expression": "patients",
+      "labels": [
+        "CRISISLEX_C03_WELLBEING_HEALTH"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_C03_WELLBEING_HEALTH",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-b829ba7154470acc",
+      "kind": "literal",
+      "expression": "perished",
+      "labels": [
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-eb492584eb9f1ccc",
+      "kind": "literal",
+      "expression": "poverty",
+      "labels": [
+        "POVERTY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "POVERTY",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-fa3f70ffb9e120f7",
+      "kind": "literal",
+      "expression": "prison",
+      "labels": [
+        "SOC_POINTSOFINTEREST_JAIL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "SOC_POINTSOFINTEREST_JAIL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-7eb76444dfc9c86d",
+      "kind": "literal",
+      "expression": "prisoners",
+      "labels": [
+        "SOC_POINTSOFINTEREST_JAIL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "SOC_POINTSOFINTEREST_JAIL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-90010bc85beda234",
+      "kind": "literal",
+      "expression": "protest",
+      "labels": [
+        "PROTEST"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "PROTEST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-da23f5e5796d93ae",
+      "kind": "literal",
+      "expression": "protested",
+      "labels": [
+        "PROTEST"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "PROTEST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-fade08b222f20ae0",
+      "kind": "literal",
+      "expression": "protesters",
+      "labels": [
+        "PROTEST"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "PROTEST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-550325c92231350f",
+      "kind": "literal",
+      "expression": "refugee",
+      "labels": [
+        "REFUGEES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "REFUGEES",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-e67635b969de657b",
+      "kind": "literal",
+      "expression": "refugees",
+      "labels": [
+        "EPU_CATS_MIGRATION_FEAR_MIGRATION",
+        "REFUGEES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "EPU_CATS_MIGRATION_FEAR_MIGRATION",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "REFUGEES",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-b9b6bc204b8a1a47",
+      "kind": "literal",
+      "expression": "rescued",
+      "labels": [
+        "CRISISLEX_T08_MISSINGFOUNDTRAPPEDPEOPLE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T08_MISSINGFOUNDTRAPPEDPEOPLE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "CRISISLEX_T08_MISSINGFOUNDTRAPPEDPEOPLE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-281fdd818ded90cc",
+      "kind": "literal",
+      "expression": "rioted",
+      "labels": [
+        "PROTEST"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "PROTEST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-6b9819e3d4f9259b",
+      "kind": "literal",
+      "expression": "rioters",
+      "labels": [
+        "VIOLENT_UNREST"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "VIOLENT_UNREST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-ce0968b5dac4c2bd",
+      "kind": "literal",
+      "expression": "rioting",
+      "labels": [
+        "VIOLENT_UNREST"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "VIOLENT_UNREST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-8aab16986206f37d",
+      "kind": "literal",
+      "expression": "seized",
+      "labels": [
+        "SEIZE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "SEIZE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-83ffa763496ccfd3",
+      "kind": "literal",
+      "expression": "shelters",
+      "labels": [
+        "CRISISLEX_C05_NEED_OF_SHELTERS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_C05_NEED_OF_SHELTERS",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-d2f04c9f6a364a81",
+      "kind": "literal",
+      "expression": "sickened",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_C03_WELLBEING_HEALTH",
+        "SICKENED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "AFFECT",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "CRISISLEX_C03_WELLBEING_HEALTH",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "SICKENED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-f54b5a8f2f818d76",
+      "kind": "literal",
+      "expression": "slain",
+      "labels": [
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-7f4cd5ecb41e8674",
+      "kind": "literal",
+      "expression": "stranded",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_C04_LOGISTICS_TRANSPORT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "AFFECT",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "CRISISLEX_C04_LOGISTICS_TRANSPORT",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "CRISISLEX_C04_LOGISTICS_TRANSPORT",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-dcb919ccd051a683",
+      "kind": "literal",
+      "expression": "strikers",
+      "labels": [
+        "STRIKE",
+        "TAX_FNCACT_STRIKERS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "STRIKE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "TAX_FNCACT_STRIKERS",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-a787af9bb28f528e",
+      "kind": "literal",
+      "expression": "terrorism",
+      "labels": [
+        "TERROR"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "TERROR",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-d1235ed9a4b9e5b7",
+      "kind": "literal",
+      "expression": "terrorists",
+      "labels": [
+        "TERROR"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "TERROR",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-fc7fe3207580c4f1",
+      "kind": "literal",
+      "expression": "transport",
+      "labels": [
+        "CRISISLEX_C04_LOGISTICS_TRANSPORT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_C04_LOGISTICS_TRANSPORT",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-13b96da1f24dffa4",
+      "kind": "literal",
+      "expression": "trapped",
+      "labels": [
+        "CRISISLEX_T08_MISSINGFOUNDTRAPPEDPEOPLE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T08_MISSINGFOUNDTRAPPEDPEOPLE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "CRISISLEX_T08_MISSINGFOUNDTRAPPEDPEOPLE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-8908fc72774818ce",
+      "kind": "literal",
+      "expression": "warning",
+      "labels": [
+        "CRISISLEX_T01_CAUTION_ADVICE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T01_CAUTION_ADVICE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-79ea92297dc049c7",
+      "kind": "literal",
+      "expression": "wounded",
+      "labels": [
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T02_INJURED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "WOUND",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    }
+  ],
+  "external_rule_ids": {
+    "25488ae65b3b3b8ed9e2532dd39ea63c66a1b30cd0a9b196823bb324e1c8a87c": "literal-cca54101b94eca55",
+    "a5e686992b8a088bf6e6239127f2f2139dbb91033dc6ad04b7f1334611e8f3f5": "literal-2cbe6091a1bdf563",
+    "3bbe3250b6e907bc4e4bcea2b7f7ed6b96f81a29eb4703217544cddd6e47d37d": "literal-07c30e3d0e4475e6",
+    "8806347f63572baecf3aeebee4ba1611913c2ca1cd6c2a2f01b9783acabb146e": "literal-77bc5ddf5cfb051d",
+    "d69b5717c08e0d46a5aff41cd54a0d9800e9c40b4bc3a60ad3a0defd405a9ec9": "literal-a288c33bf0df8f85",
+    "920f11069df524389a398cb6bd4d3476de85459b5286f0670701b9112774f9b8": "literal-e912396a8f9e2d93",
+    "bf648e312779342bb0c687654e34338830c9a6df999f1d64bf3e2237e93e222a": "literal-265569d6b863f0cd",
+    "fb5123a4b3c940e903e74a2f3dd7571ebea40a97827a24a7873624717f0f1abf": "literal-d13c0fb12e7918b7",
+    "559082be5accdd2cbc0aa2264ccd9cc7107a9d9b6912cb4cb28ff42e47c16b8c": "literal-0df5b45d07ed4dc9",
+    "bb04e91924a244ead914aa7db345ea890159e7f607cd6d5013a868d207c529f3": "literal-07ec0d692f1dca82",
+    "3de99d1d72327d3ec6694683b9d1907dc20efb78324d2ac511c023e3ce5f4fba": "literal-4e08822614984664",
+    "7f1c0fd436e9f13c99b0b8c204137fd15ec24423a536449dacef2f10899f2573": "literal-4955aebb75cbed24",
+    "6e284806940a17e2799dfb69794cac5bb5320a4c495e2aaf1d0325a7d9c8eddf": "literal-2341598a304273d6",
+    "fca30679635be3bbce1ca7d8a9ceb8f0daceaaa80e4cf645584db5ccc0dbf0b2": "literal-a39ee34dd6fd4fb1",
+    "9756757b8c6dd29422388434c0fda529a4a8b5bc95d590808b958a1d60325117": "literal-f556b5a2e8b2a561",
+    "982d3cec0c8e060d5b7175d368c2eb3171c291a20c97f83e29b386275174f4dc": "literal-561cbb1bf183d5b9",
+    "a207a55c151b756fa8d4b9eb5de4dc0178aeae19297fb06585c9d64cb3e32043": "literal-f182598a508db2c0",
+    "a51280f96d87bde0f6e5d292960f8d2d920dd6dcc6424d2f48543b87102d9a5d": "literal-e352bff534a81bfb",
+    "127c6aeff8130d6c6803e1c65e45159b3390057e0fed3c35644f5459c073139b": "literal-3e3360b933cc48fb",
+    "f8d834d9767b3961439cd443bb92a85ffec73c8a5a696ce862a81a2946c5212d": "literal-b7fa904ba196cae8",
+    "4d8c484b8b3b292f7d5b88170419fbb35737a4c26895a6d8b8914dae2442240f": "literal-b36553b80b01a763",
+    "f24ab499c5da4c345e98c217fdc97e91a426ace6d176c86b8c0ca14966a8d915": "literal-3b8bc1615fa81088",
+    "258c401be517ff8779104e009a0e6dfae6c7a3daba47fac599a73eced9ba0db6": "literal-df6712cfa0bf9b9e",
+    "1a6d69905e4a505c030db0c05ead267639e0ea92624fa0bf939449232a4f40fc": "literal-93211b6862e71949",
+    "79c5158edd449975975705eba794670f4d69ced86dac99fbae25571dc175c5a9": "literal-1dd65a12cff36403",
+    "c9d21bbcf9239961b8697ec83e3ba025a82581a628e091de930bf9566b424207": "literal-1a1727febe65529e",
+    "1e1d1a9ba61d10f4ffc28c6c7137876f22ba5a75e6e493268fc1f933425f4fd4": "literal-30563ff3ac2c1731",
+    "1c775808276a155c66a8fec3010ead48f0141e41a4d82d9ceac5c08d34b63f45": "literal-008233d3d61f7e5b",
+    "5dae0aee6d56484b95155407e8e460101882d588bcf241d6cd344f34a7863691": "literal-2cf8ccc878a6e4c9",
+    "9bcaf325e51e94baccd00191ef291dd8a72f19d4b4b7e255c4b7cf1e18ef9328": "literal-d654cf25aededc0c",
+    "379ded3bdaddeff04e8ac6baa39cfa6ef6e34df72a4f7a18607291337d3faca7": "literal-0589ef3f53d7755e",
+    "991617cde05b900dbec6c03e5d0b7cb9183800f4a116f90832a2900c57bdebeb": "literal-e344f17e0cc2c4f3",
+    "f4718fbf2d9f31454bf60d5323d38db39d7b5c699ed6e2b38ee55b767686e6b3": "literal-b769b485f77fa3e4",
+    "87ab7e6b09294531be1ba657b6b197cf79d04e7c7695353fbd04af43435db6c5": "literal-45b3d3ce2f243d38",
+    "4fc0ae5da23450b2efea74121646d45ab02db1efe84cd2d7d5d030e143d36c29": "literal-2e0d6852007e2e0b",
+    "48a7dbf8ff4ab714cf278ff0ef0c2637b77b711bc04787ee543964caec536f16": "literal-d32c234a84399580",
+    "405a3a06b45787004b9ec1a125f0ebfb6af75812e222907beacc698ed6c598ff": "literal-1cbe733f8e52eae3",
+    "26dd54b2bfb625ab71926985d7d0925f602e67705807d0b7d67aa49eead65b11": "literal-2cb7b0040592c0c8",
+    "5af029eb9a5a5ffe8974c4acf8e7c64b9da1942097a301414cfd0c0208933ab2": "literal-346d2986f88c2055",
+    "9fbefce4db62f0b998fc3d2f6278231002a3afb5a389ffbeb46994e977a259fc": "literal-473cd80898c59fe3",
+    "611496f412cac947be720d17a0ee6d7463221d14731fbc18244756271e8f5189": "literal-95219a62999a1f8f",
+    "f28d567cf5453b5cdf19411e9e8f3b827f46fffa6b4db5377bab0a90d271a524": "literal-29df0bdd783a0fa2",
+    "7a13bc5224da47e84d59173b854370eb3ee650f4cf9c32c3df138c403dba93e0": "literal-15a2463d625fd553",
+    "3d6c80ffa900dc703fe95d65e42aaf6baabda62a0c4425f78ac65e7d0b622bd7": "literal-b43ce6922614a61e",
+    "52c230e6a8280249b6854882d8c8337c5e4adf3c1888144671de222e5aa2ab8a": "literal-dbae6b17e5925b8c",
+    "e2080bd3ec0f3249c8fe4cd788f967f83f80138b4f07f3114cb341151d948bf8": "literal-8932a2ddcb725c84",
+    "7986bcac2b114b1d42c3a1b14dfe3380a770c9a80ae8a97f60f8218eed545689": "literal-58cb48c4a5ab1d29",
+    "34d6231c09aa82a5a446412b2372c9f972055548f835478e6625ca16f44c3944": "literal-61e8601fa0f91947",
+    "682d8b2d0830a27bc19e7bf47c0935044087d5153ff7def7fbe2d37c1bb4b6b8": "literal-2d9b937cd2741a52",
+    "91e0e425d2dcddb9a837e99bdfe86384f4cce97df3116046fd8b4ee0e0408d19": "literal-a8ba5b29331afd5a",
+    "36a1d63502a256e2135394260e431fecf24133bc46a5fed0adeeb4340551e689": "literal-04e510f006c31c49",
+    "7f2061385d9595b3687794174b3cbc459a8c4cf510a990e5d2cda9bdf18b51c7": "literal-7b8767d319e16df3",
+    "5e44d7d6118a5ac4b17132220a89505226b66fbfb9eed3f321d6341d7db890bb": "literal-361b52b7cb76cb72",
+    "cd7a6640f8874f698a310f5f1237b454bdb18cce98c90fdcf26c88b21e4dacdf": "literal-a580dc6401fb75ee",
+    "6f5a5c61ccdbd8ff2a620d28c86c721feda2dcc809d23b29e1983af5cc50bd85": "literal-6c5fc46dcfae473a",
+    "ce296bb12384824ccb0085a9ce746512958e438842d6ecfb2b220d5880e7588f": "literal-dba8fac4d99bc749",
+    "6174614522a05d9ab1f6cdeed7bba39972d39a5e83c9ee0a3bf2d5f47e3245eb": "literal-4d195036368ae60e",
+    "a70135b12877a005246681287b13a48fa26320e65d0f0f42bee1fd41c629b621": "literal-1b36998edac8bf82",
+    "b2c55a7618144d13900d8f6eba3f59e8f0c4d5a32ec243b686024c5b67dfad94": "literal-0e20d2ed0dd12f2c",
+    "c50e2a3747fa258e58fca76548374ae3b5bfc92e09aa539206c730298184283f": "literal-763a69fa9af29c9a",
+    "f7f72dcb5158962282a0577c97d8cb7f5db05bc250a98373a2baf9ca1862c498": "literal-de3d81ea503d31fa",
+    "252a38233c044c9c96c73e2b2668c9a3aecd8540cf735a7c19cbe5f98e9476c5": "literal-626f33fc7a243db6",
+    "e3865969d5ed33e31888ab29514738eb7bffab54a6c0eadd580c71e407d15d1f": "literal-c01f43f89f6239fc",
+    "27ec4ab2cc3f87a8c160fc241a7c331810a974573c60db010b788c600c644fb5": "literal-500a81e0168c96e5",
+    "ff49129f19ff2f688dd30e4a138db109684e9010ef03a20783ba0f0eeed2e415": "literal-50e2cb79ceae5124",
+    "9de68db5cb138dcef2fee657ea461cf5d513624a7f812640521b0fb3d806cb5c": "literal-37de2ca25699bedd",
+    "1a1b28e1fb353bd64f2ac36314d81c6402da587b7e11cb2f932348c9082d97bf": "literal-7b8ea47392d3d2ec",
+    "52c8e02987ccb1b0eef9c7c966aebf03c92a159aafda37fbcf03f4838dbcd48d": "literal-4703506147c3f6ea",
+    "40208c7b54a93ad062a5689583760b882aed3bac9eca9bb6e31191c393e74e46": "literal-13be264e9cc28b40",
+    "d202266e1ddc42d8c2064d93771316ca2494432d251bab3d917e475fa58d1822": "literal-fee9f1ded0e914d6",
+    "9cff331d66997b557344e1a7cf1a6ddffc9690e18fd90faa2aefbb203f0e7cd9": "literal-98a72b2c342881ce",
+    "9507b2daa0419d7e57b2e4a4dc7eeb5a28371c507ed6a0ff60d3c94da421ff50": "literal-1bd186084700a560",
+    "d61f6ed135b9ae7bb53bc64342b3501679384d1c8a08f268e247be0e93207613": "literal-b4c726950cbba44b",
+    "5cfaed47688f48e5c058e5af30f519cd8b828141c2da0a9cc8c9185f33306140": "literal-28084f1e63057ede",
+    "f7c0634c1de2714924c9909e925bd69b9499fbe8b08b864aef070b8b4d5086dc": "literal-621f593b55e4b0d9",
+    "6af308d5ad701d4b9fe0b567c27867550d2bff29e140d82c82ed1ec48c66acfa": "literal-35b9ef091380146f",
+    "3570e3626f534bb1dbaab0c3c3629e0280626c1215ef84d2478b7bc865c867f0": "literal-2ab3e72acb3fa33e",
+    "4a6ed80e57138aa0740b483fbf81abca4dd5a156590c95c4ddecdd79ec8e34d2": "literal-f3e97aabebc28a82",
+    "9b3e2278234d0e5fe5a4a6ef13b60d355c9be88e724e7ccc196528c3a40d2239": "literal-6eff071c01ffc4b6",
+    "0510d67cd4b190c8651b8250ea0683d13237a2b08b75a5350b8883ebd6529c95": "literal-771b336d43044011",
+    "ebb1df6e3068325a953236627652b1be159b8a706f374164448d8faec02177a5": "literal-5615639d96b40298",
+    "dacc76395565efc23c53a621d86525c1c8c8699ec7824865c55c27d737a2afec": "literal-f928410ab5ca5470",
+    "f10c2570677ccd58deda22105bc331302f971c23a99b8eb168665840526f9026": "literal-31c237e74f6905ba",
+    "0e982e0882a3839911816efed22eaf4f932ecf853160ba245463ea2fa7c30f59": "literal-3c2c926a66f96681",
+    "57453b9397398d88792e067f3ccaa92b2ccb7705878661d82223ae0bb4d7c8f1": "literal-f652164d82802632",
+    "219d9757b9f4c227b66e75e28922fb5e945af0b043260bcdced849e43b584905": "literal-8bb5d0cdd6da44b3",
+    "9c51288ab4f6ae0ce90609dca66380aee0717a93b3fd6337b7dc4fa4b34a0126": "literal-94f5feb310fd9b45",
+    "4f346843edf156bdcdf08551d1051d4b0d6b095fa67214b35a5d8c1cce02766e": "literal-ec840bcbe965fe30",
+    "1441a49790429a301b63397c488d82c6323cccb3c6413adea1c4e2635a057d48": "literal-0f15a22b3753232d",
+    "b955e6cd0808744cf5cba260906e156ab4c43076b4c933dea0a1df1baae2a4bb": "literal-2c47aa9407eb29b1",
+    "d08d5db815e59c5e55d742407807f8891cb5c4a35c6982ff75a36e57caa411a8": "literal-3482fa5121dc2d3f",
+    "075a3d18b7294ba9fc6f889cab66d831a04eb8063e9a67293ac0c9f2695229aa": "literal-36fe45c8d4258641",
+    "982e7def10c6f6122ae4732b06114b93974e450ae0794599a9f4b2af50e9afe7": "literal-069e176db2d877b6",
+    "53f34979324890a04878564c243a77d162bfe58805e7a09a6933eb8f81a4d315": "literal-32b6d89b980eb062",
+    "862417b9e7c3720bcb3263cd873b09892d787823b6f9a0f453e42824c5a4d4b6": "literal-3fa264f1aa882f19",
+    "4e33d57d8955b3138a0c0e71822fdb227c5de4a585022f3355c2a72a52adb4c8": "literal-e6ba370268603eb7",
+    "a957c1fd2d36b70e2af0facd992115b5ebeb9b889c41f1b90ceb56acb844c3d1": "literal-5c1a8cb6e476c40a",
+    "d76321ceef38ade74e15f9154801914f073ff7b15d3162e37c8f720458981525": "literal-d85597c15e466d1c",
+    "08d8ad3ecb2d6cf73d3899c418c6904536c0b06609c8ef42f1387d66cd32ddd7": "literal-fa94ff7c7c5d4384",
+    "374dbbb8c844e37cd787398827079751be5ef81fc5516fa9c54e3b93280c6872": "literal-210c558de2ee80fe",
+    "5b2a412a5e3acc4f32f453249ebd536bc82e7345024365329f4dd25a18bf5a14": "literal-f8facf951bb7df3e",
+    "835d50e2a7950514b8e12d83f00e1852aa27c367c67e4281a39c8dced0e7797d": "literal-7e534487088315f0",
+    "225c51d91e468459eb30793d7de58de6b41d2df3b6873c527155a163e63d647d": "literal-1f26c88294b7605f",
+    "8e6eaffea1de004cac917358c0527f57fb71da1cae53610ffc31d4dbae134cac": "literal-830832932f21f1e1",
+    "1561285617f319c1ff88f002b3a162682537d25fdd7015de9e0441fc17e091cf": "literal-dcc8a1d94ba37acd",
+    "6b7f2f4830419e377745463a7739b249ce5188b67ddf1238cd2fc445aea4de97": "literal-4f0fc59bb5f2ace0",
+    "ca88463f4d72d09ab2551e1b5f7870a3e4611ecebf50ae7fa6d6aca59efa962c": "literal-ef7066676450731a",
+    "13edc6a9bad6e23b93fa9283177a5c26511373b9179aff3e7f06851ef6ef4eb8": "literal-e54ed9bfede9cac0",
+    "ab1eaf1d7373e9fa854c723c0fd8f31f73188d44e12997bcc123c4d2facd6ecc": "literal-9b403fd397ae5db9",
+    "c0609ab2a31f7bf6b838f9bd1c5b6af8c2e7bf00ce7b05b949f2e7afc756a7b6": "literal-114c2cc6d2a7a598",
+    "4f00f276950c92117de5cbe45d07081bbb5f2ef0ef54ee42a6198fa16164271c": "literal-19e8b5195bfc0e5e",
+    "40d7a187c535b6c3e3efcb652521b249c76e8104f26823ba442fc97303d618db": "literal-066b01e07bad980d",
+    "b94dfac5319fb71ac04a84284fd94b6bd4048621c5e96a5ac4c5e819456a2dbb": "literal-7512eda8dbc2bc77",
+    "1112a68a68ea2bf24a7da19bcbc3f4d9443da96def3b82734e729eee162b4aa4": "literal-e81c99a4becdd51c",
+    "167e735bd20a8dd30be88bdfdc0797b4cf726834387209388b70e54e13ca5fec": "literal-dcd6ef234a7a310a",
+    "7903f61431958edd59435b26f823961bdf41d916e6f7537caadcde6557052c85": "literal-2e1a556d673de0a8",
+    "1c1d77f6b2566703c4b0270afb0cdc77f3a5891cba78c2f6b62ed6645aeafbba": "literal-721ede2942cff87e",
+    "844e0a41dd5ad5a73e645285fde56a53e880fbc6e32ca3a8215e43e3867bdcec": "literal-c3d74e8566d8a95c",
+    "d8864644c15d33be9c0aef2d08c8fc105adc040de488b0116882a2cc6aa4492b": "literal-b5d55570cf7412d6",
+    "32e5edfe99452947352a911f060936bfaba202aee555e02f27df9d5caae1c005": "literal-f53fee9e0e567e16",
+    "98a82e8c97ce9610da54a7f9a6e9208178251482829fb945b3de2d1716959a5e": "literal-4d566e9d48ad3cab",
+    "fc32629c969dd9c36deb390a601566ebb655d6940e97100b9e999f53b276413d": "literal-6c2a14cd9613c3c7",
+    "aced777925b6eb1391387d623ca336f37cb23ccf6cf9428a37e75b4827b124e1": "literal-d5efab76eb9db7b3",
+    "95a48d0c0329f11645223e63ddbb739eb8d04f52fbe43da4a4c7fca21d1df434": "literal-2b830e82ee338141",
+    "b194b02e307820b5a9d68915ad4d3dbd3b78e5a707dfa5d08934a98291b5a3f4": "literal-1ac053e83dccd3da",
+    "843e532b2d55a4c0ca5326bf1ef730f840baac4af6957eaa1af620e82b014032": "literal-40e4e3f4dc952844",
+    "fe5718f6951919c38a0ba8eeb05bb2d6080b09e98da230818e6cd20b352f6f63": "literal-2f7cd80236250a96",
+    "5c1eac4582931b1cd49b14dd4691a6216f5e149a86b6361defd332d57a30d8e7": "literal-a4ee7c2914789142",
+    "e283b1b181e759e8a94ae679199cc7e05acf9111872e965168d14260cad3dcd8": "literal-92fb9f5d3b83763d",
+    "d47ecb99e9b2108fb6b404129e7ef96e6f724d03e67fe88e0394b29c0bcf054f": "literal-92ed7b01a053ed49",
+    "84f4540de1f0757f64a0b7c6401bcee798e6624be6135c5f3f275283f8eb1f57": "literal-3d42d391535fd69f",
+    "f00551f2dd55889dc07564db4f3aaceb26cb6d6de043bdefe0bebad3bac540c2": "literal-dba86e4a143d21b9",
+    "00bae9cc0cacb8f98158740abe687d1b24e561b8cc2e46600cfc6bb293d2dc46": "literal-ebf157bf58962ad3",
+    "431e934049e3257abc155cd88a499069f57a9f1e2fa2e7cca3358c2e295016d0": "literal-202e5a275797c619",
+    "0bad41cb9df52f733de733cea0dfc3adcde3007116a18d324e04d6b7a5c3c011": "literal-2b450cfe25efbf1c",
+    "6d20b003896ab4de22ec73b60733b3526b394e67aa942aad054bc28b8357ab9b": "literal-0393b9b779e5ab08",
+    "e872a8a534279e6f74fc8bef3dcf644fb1b65cafd0dc7ff5fa7169f0323dab1c": "literal-7e552fe3dd834fb4",
+    "8615b0cb9160023ac8d21ca68c3b92bf2a1f6cb3376622b4550fcb1167363368": "literal-8de49f32827b653b",
+    "7423267f9c73eaa24ff865ccacb3af61349b801fa574e06be177ef3f6b76d586": "literal-43cec2e3352a27a5",
+    "c614ae8c7b452d94c1f8d5d3aafc8304425c825569683d808718cebaee2ed69e": "literal-7affe75cfbca88ea",
+    "0544d8bc9787222e337561151fef7819afc6e17818653366f1047ca207d2dd4d": "literal-610a57c5754d1d13",
+    "ba38a0491e2fdcc2a902853407b8ecc6834cc50b0df5cfc512e59e1ef9d13aa9": "literal-255242de15cb09cb",
+    "616a8d09a5e0d0356358c52e3271a18058155859de1b6e09f46e9175451e4698": "literal-8c95f1efa756563f",
+    "b9eae0ac244c27a5fac9689477f2ccd3ec4d7867ca5f7162deaadb37de4cae07": "literal-62ede26451a0d82d",
+    "86d0f521eec165044901543d9d1fee86593bba7b7f7387dcb9c2c0bf5fc3235f": "literal-97768998bab6e9b1",
+    "f18de5845c2b45c096c2145458b598525e0eb5c107602d6fd47dfaa4c3c10dbd": "literal-3b5f4a741ce97a36",
+    "99e171094288d71f0ba1e1a20f14bc5b964d16b142733128b9768802f05cb1ac": "literal-21790c597e4bc3ff",
+    "fa8e60dab130479f970042c5549ef0caeaa7efe4ac6dba8b290ef0e8991900bd": "literal-f402d7eff8f84f30",
+    "57ab57924177e105056f1c3ce7e648dbecce9d66a12854bbb47472762796b31b": "literal-e2ecc373c7a751a0",
+    "c356c922027e6b0e3e0acd685086ffe6ff26736dcf8e2077dddc964a6b3ea678": "literal-413c4920d79123d5",
+    "066d608d0c4d58f529cf925607900e9e0dd8f0da251e43028986149ce242d44b": "literal-84faaca320f482be",
+    "792aafbb2a0aa922c12143d30e12da645024e0072b18a835a5c2e5fac298edb6": "literal-cad0a884a208ebf1",
+    "03174b1bb84d1c2018ed621b2ffa37e187ea2da0ce159d93991426801706c528": "literal-8d8ef36ee9dc4e16",
+    "365db45344278792f1e3dc22f4e8b27e89c5a3a8463939e6be89ea99a5463c7d": "literal-cd3eaacb88d0293d",
+    "97ba9de376191da115c7b825c52ecd69db0d620338b7fc3f53ec865a035fc7ba": "literal-37c841d7b9754ec7",
+    "323b6a02be9aeefce1a2c44623d11304f56d4a1c196bb8ac3a5c8a48967ad8a5": "literal-282ec2ece0ae730b",
+    "503d7925dfcadef47c7b693ceb4ab2ff3fc8af18ba301625602cbf4a8f6cce19": "literal-d8b5fd9025cb9aa2",
+    "3b652ee153ff33670c897eadd75953370eee13095ab67b7757c77d696704ff7c": "literal-9102890c06f4ddaa",
+    "0d1a1e0d776976a3a0d5216f3f56b46248b4be08ece9caa73c82c423cc32fd96": "literal-0765c73b38f252b9",
+    "666755bcaa2354654d3d84dc8b6cecac46778db22c4c22a0df99fc8145b0df18": "literal-7ef0519dab9dfbfa",
+    "6495e90f226676f43fdca7b9de04ea0366889180556d1260774aa115c7308f0f": "literal-84071e80bec74d76",
+    "42986f33317b8c14462c8ade05105bb82134a6c4158072e846de0c4ea89e6417": "literal-3fd28c9b14b8be69",
+    "d0df949f8f219bc0a19243989cecb6d8640300d22b48759668ea8bb107bd7d1c": "literal-a7a6b5089a45e365",
+    "5bfc3517ab231eb1894d9c7b22bcc46365eee2869fc3bb150751e554818d3414": "literal-2d950b77e8337def",
+    "9e03b2afb4f83bc86997db2f6703d04192f5eee8f769b15d40ccc1d6ff5677bc": "literal-bf6841b0f32d09d4",
+    "8ab23a5d9550689da81fb733827420d669b9069c4c5b9ec6c14ea368b504c40d": "literal-9b222b9ced2b89b7",
+    "b76ac4887494c3741184f4d802993472d6e21ee5830a4a1ae10a9f1b84b97a53": "literal-c647da1b6f3ba901",
+    "4de848a4cbbeb141422dcd4088cb4541bb91a29724aa6a0ec4a8d993fa227a50": "literal-0dbea766a23ec683",
+    "1edf10e01e656fc435adb97e110af1019158fc577bcdfe5ab12a018fa94c28f5": "literal-7dfbab88131d3fcf",
+    "bdf0339b19a55ddfd4a2e2b50df1d6a41250a0a21b2c93a0895ac0cd72d32bf1": "literal-97c339108c3384bc",
+    "77e5fdb9d867aeb4a71b82731dd179c2ddfbd9158cc9e0fac9f0ed1399f5767f": "literal-80c33ea3634afe00",
+    "96870a2d2d897484c55cf00079bdb895974b4e5e584d871d9f2721e0a71be391": "literal-814906f5604faca2",
+    "9c4efe39be987d6aaa3ca0280163689144b47ac9d50e2891820535164e42f766": "literal-0c95d81ab7d1c33d",
+    "3fb312f8c4f8ecac0a0586a9b443ed140697af9256f3208625a370c77d47c92d": "literal-138c5fe48eb80efe",
+    "a481e6b423f4e86082dd9955e55170bdb4c4b0585d486490a727cb60086ae089": "literal-07462884ea4df011",
+    "2caa2704c559174cc66db7fb2f2dedad113e13782fa4230a262eeafda25d24d6": "literal-a212044e2d589c84",
+    "64a79d94942886c353996535b26b8666f87cb41aaa34d9b1084d58515919e563": "literal-6e0ef33661a27a3b",
+    "fd721a8989bec9092c4b3027285c60c67b401b4f0954fe7f030673cf51164b98": "literal-b5ef01338c608d63",
+    "e9323c87c2e56962f17f623ca4db6aed8b0f753f542ae9b9b3c05890f8d20b04": "literal-a0e7a072df45a7ef",
+    "906f3846eef013a2dcf8d6fd6504d7468d339ba1b20f20b131c21c445a73c2e1": "literal-75465b03d1c495c5",
+    "4e8f6523da5de96e87942ba0243e649364909592c4fc97991546626bbd3f2644": "literal-735afb8bf05a2709",
+    "7aa4bdf9c5f6d1a670fca24e0e2a406c6daa9746490818c7fefd427fa2cd38ae": "literal-2cf24d7c12e42af9",
+    "bbb70fd5d5fa0a2a210d53fe05ab74c74f80aea28011e6c86a4a5eec81e927ae": "literal-b5f542e27d63789b",
+    "57794bdeddd908748d80f827d22b534019ac4de886dde656caef927cbb839537": "literal-c4037538c661f374",
+    "9da1cc21d607b3e8758f4b939499af77e0840a9be6a8c4bdc87b20e88c8a75ee": "literal-0f257bcd56361618",
+    "8d45873fed1b604ba7c7e9f4abc14510c2f92b73fcaa11d0b0637e49c435d2d3": "literal-2f5ba506090d7023",
+    "6a8a4334c5b6241d40fe07fead86ddba7dd2109a5e38c2127a924dfbb362d7ad": "literal-e7339e18f61e46e8",
+    "c06d00fb3ea1788836a6104f05ed30838994b69048c13595bfe9c451850a4f7c": "literal-70aeb71413ac1859",
+    "0a80245dadb25c391b69ba9ba6a509610ddbea8c8afddf16b79cd662d048e721": "literal-2f1d297c3247f507",
+    "4606e6343602734442f2c2594d5b3a2298fac051ab83a6ce48d863da72e8dc93": "literal-3076942618917047",
+    "c7ba837d28a50a0ef053b10e2093c90c85aef3f8578ce355dac63360a2f3ead0": "literal-198b5960a564fdd3",
+    "7be51ad2c50a83d5160cc180fbe5a13b2fe610d4aada87ef737efeb2d79bcbd9": "literal-d1bdd7cae809535c",
+    "5a1a84de8c2ec09ba6b54a4c0aefc809441f018ac30620aa4d7e95023ce84de0": "literal-9e8beb357146334b",
+    "5f4c8903d3cdf7a5ac074f94a9f757becd40be483eee09fa6caa98ea486d457e": "literal-d0ad35e4ac5e048a",
+    "3c51f2500ad56f9322cddef6708daeb06daf9c3c369d37d465f7549f1b0c91b0": "literal-2f49ee0c01a633d8",
+    "c981055dd83791b7e2f139470fb48747312ec5ddb325c05d6172531c02cec316": "literal-088acf6dd87d532b",
+    "31bcf8cc94e3b16e11b0313a78728ee871c6297d5b07b7efffa4c5c08c76d05a": "literal-e64fcfdf981f8a4f",
+    "583a8f66167e0a7a2adfa8e90b259958fcdc2dc6706cc04a60a7ac8529975fd8": "literal-7e874b68707394a6",
+    "c6ee4f6255a4db2e0e6be8febb06196bdad6bf12e1e0f6bb672f1725622c9c72": "literal-b7d73d72c3a8bec1",
+    "835e72865c5a072bbda6ca4c058da092ba44f85e3eefc8220e68da57955306b2": "literal-d1d7ca82518c9d60",
+    "59645f0d9aacce55f6d88466aad43f6e06d895ce2c49c5b755c6486897fefec4": "literal-1cc82138c509c271",
+    "cdcb99c2404c0c41c91055dff722541545a3cb40119cec89f21b869665592c8a": "literal-964d09665e4677bc",
+    "6cd180731216d8ab1c8242962477113c1f90b15bb8fb805508bc125ffb907fed": "literal-593446662b350cc0",
+    "288263069846f27302a468466a61ccaea77e68c56a76f340875fc808fe428435": "literal-62313e47c4da255a",
+    "f4ad56f60c1df31d239e79e541ef1c84471ae5ec29d9121a6260a7ae3c87fad1": "literal-116395479bcb4970",
+    "52886b7e07c753876b0abf479f2b6c1c8015ef78a9c9f9019dbf86c826f4d4b0": "literal-e0bdc88562fb662d",
+    "6c7bbbc199d3b161dca15b7bf7a7c88f340c5373ccbe6fdc554231cbd5902450": "literal-7817d5ac501aa708",
+    "c800b7ce30cfdfeb4e8dd951444a96bbfa542d3e30358d8e5ed746c0b487b663": "literal-2d68ffbbcb3d12b5",
+    "c64bf67b3ac0e023cd23288cc352eefc8abe04f9d3fc57f363c96572f2274216": "literal-b0851f0589d15af5",
+    "625fe8302a1af3af75258cff1acc3ceee2af09930ad5415615fe76e4cb80bea8": "literal-7f8f46394c23501e",
+    "9a27f03c892442bd335a0a71d2efe08c96331f2c48ab33142272d5a1fcaedd55": "literal-38d31940c045466d",
+    "5eb9166c83990fcf87647a8554851566f91b953f40d349b087380d1a06530e2f": "literal-4f6e3d1e6db08d6f",
+    "f95bf6ffa6239e96230d491d93fd570a79f323192cca6fad7461d1aff76bf7be": "literal-6a23f4747f9e30ab",
+    "71d7575667922ac5c970baaee34eedd23815ef5a0608db867cd49a9c25686577": "literal-01910cebd99f32bb",
+    "8ddfab7bd04e685a2ff0e857af124a71d5a4063e37ab3a12546ab4cc1de953a0": "literal-8ac6c799550a5b16",
+    "3d513c278a7e1481ec2699e3aba7b62452876f384b894e02248b918786cf0e74": "literal-ef64767076f0c741",
+    "a33ad53a016cbceb521088f51e48689c6e22ddb788acf76d4d6acb990d18b26a": "literal-2d021e1adb47657a",
+    "3cdc9e415abe36f8d6cc3fc08a4ffa2b700ce612001219c579d8347c15bdee38": "literal-1011dc5a6c20ad12",
+    "b63cc5ffbf5c36683ff94665801c4ad2dd3bc0390e184ef5d99ffd836d5b8d83": "literal-66c2444e2b402926",
+    "7f66090c31361b884f4084859a5d486fc27cd73d0460dc35b9d19403181649ea": "literal-c3d9cb8d5473c082",
+    "8a44553f9a2d4f5ee4eb717eb64f6b9e635724a032d6b421a10899643bd9c71e": "literal-4dd0b85600a137cc",
+    "0729b81afda020e9ee173c3e86d94e5225a34976884776d5bfb27f606abec08d": "literal-c3cf0f8c43d04e1d",
+    "46e62f83e686b6dfca64cf6d5e9cefc030e757c29dc1a05d7dbb3270b6dc4aa3": "literal-6cb3e16727db7f6d",
+    "51f39f5adf0235d8331d2abe60fe61ad05924c8240d7c1c49be62dc4b0a01ee3": "literal-d86f89a7a63b875b",
+    "0f373737697c338ecf3a13ff686077315f8b22a3cbcee1296a6bccc14e5412ff": "literal-5de30ed3e175525f",
+    "c625cefae3a236869e09ca7282cbcf69cee8d3d679bbbe58a5f4b6d6f3e22f7a": "literal-0eb8d8f083d2b22d",
+    "795e0c4f7939a93d38f8b326a254e0dd438fdca716de92777b996f88bbf38be5": "literal-cc3465187ccbd384",
+    "6d02b718d7bc33d7e736707b66d858b471abc514b8b71bb5b0f21b9a9b8f176f": "literal-b6a496fe37d6576d",
+    "49a1926f074d22f0782dfeb21090aa9eaea5e1ee50276aa679d7489e4d6916b8": "literal-c86358602cb52b95",
+    "73fb636c21b67501b5075c1f0291ba4fd91e5dc323b89c0d328039b461524533": "literal-e598497edc0c2373",
+    "ac9a80cb8a6a1d24f19dafe51a70e9662e0e88b3509719decce32a5856341946": "literal-f88a6cc84da55d97",
+    "051696bdbd9a717326c071b6e03f7fa966b7db918adff1bf271fd02e965e339b": "literal-54516e5d8ba322d8",
+    "b59db43c7812bddb216994c013093419fcab04667c9c92efba8a71d69b8326b4": "literal-f3136f40ad75d417",
+    "96eaff298ca28af1cb37c10d921709a1cea86bbc84f07dd2c6e7ed0726d32986": "literal-c037275a92791e7a",
+    "9237dfa126516cd65bfe793029498189425c15eadbc96508a51c88d497fad784": "literal-7d3dc9893e856737",
+    "6d492e449f045297b01acb99da457b42f6886bfcca9bbc1ad7529c5dddb3e1d4": "literal-e79a0b6590e3786f",
+    "49329a51f89b310a3afb72ea5205fb25975a27200d3b5f5bd778e0a5a931df58": "literal-fa80ad70c7438762",
+    "497383ab2d21b3f84c1a5dd269f4aa9aa5e81571b0b9d1d5bfd4078be20ec194": "literal-58e238ccd226af36",
+    "097a2cd802e4f68beb1bc00317bec1d6647ea53e9511ab296c91e38b74a17c47": "literal-768d120c341c8f74",
+    "a3224c3486421b70745f4fdf7a184dec0bd9b87acb495d052552ea583cd32fbe": "literal-ce340434aa408946",
+    "490b4bdcd0dcae41fc5c975dbc0f58bcd42b29256b88965d565a5c8975fc561a": "literal-261abc254a1bd0bf",
+    "5b0aa13135cff6cbc03b61b957cd0e6a186e43bf2c33c3ec55bcc2cb6df1e2b3": "literal-3604ad54e97e0f4f",
+    "d4c43deb72a5d1ef78c1e8fe08185d442b7f4f4c871c7ef60f46aa8cfe758168": "literal-83a10557d2e9b176",
+    "a745bac227f4d8869e3f07ad0400ee1a554957484e158d81b22cfdfddc4704d5": "literal-ec43b03f45832192",
+    "62cb0fcecaa0b890c98a0867a11edfdf318f41f8f79f11424ecb99fa8c7eb81f": "literal-3d414ec65bd03b9b",
+    "3ca4094987e1d1f6992689433b7651e44f11ab0e4ef456fd0720605deb5d6796": "literal-aced9d5719168759",
+    "0292a279b6c1b38a1dd1a333e5b10461d0979b839078edc11111133845477d64": "literal-4e17fb74ca088549",
+    "86fc706db1edb99471f0181c4c4d29bb7fee185bf53da4741f71b50c253021fc": "literal-4192b3d2d2a9c5ae",
+    "7133494e218c284d0a6db885be921d406e402f3d823b34c618557d678cd7f1b0": "literal-278cc674c0a17b25",
+    "49dd42d2669e1e6099095a67c09f5a32cad72861ca8f112849eda4c5a30a4773": "literal-9dc74db056ce44ec",
+    "8e0a2d58a5f64dafa052e75441ba4686bb1b9be92a76f94229d25ab60ebacddf": "literal-d036e562ed493d78",
+    "b2187eee2bf5954522460d0b724d636eee02c9708686256c6afcae06f1bfbee0": "literal-978bf918dfacf0a7",
+    "9df3890ce8fd62f4255e62aae349f1068298a6fea1a6b4681631fef3502afc4c": "literal-261fb613efeb0abb",
+    "522168b403837996f2aa2dfbc0471ed8b007fc7871e301148a691708514c379d": "literal-3233994a689b08f0",
+    "af74f148ff0f139809ca90fa107bdf03542b25ccda330fcb896e156b5cb730ad": "literal-8b4e4a119d479fa7",
+    "cf44886e54f424ce136dc38e4d9ef5b4b556d06060705262d6fcce02b4322539": "literal-b2469463e8db4443",
+    "9ae832844d70dd5a06b8c70f3f4f68bbe1c907b116d378c9654b217d4a7b6b4c": "literal-3f0d7d768f5a06ee",
+    "c417e777bd1b1a97f081cf9f477a7f9099490bc203430a6ba1d71144227d0bb2": "literal-3369819bad5db606",
+    "dd2d82002e7c66df6b008a2bcd9d81f3796d98ff7f56b25b0e5f1db3a3d782bb": "literal-0943e57afcf23ee8",
+    "9b1a6fec589ce3caffbe6384032e5cab983082a0b76f42dd483e266911cdfb0b": "literal-0f0bd1ba74f1bd9e",
+    "ec3915f542e0f8cb6c1832fbb0389a011fe48b6a82e37f7940e274bf23020776": "literal-a92992bc634652a3",
+    "9a02e74bcce6d75553d17b98c54b07f22e005c2a69212455c57840d673b183d6": "literal-5fd88fb140de6d48",
+    "16bb5e2db68d8862bc9fd44e0ffd86cbd0df18952b341be114c86c3c2f7e2a84": "literal-6551462d500e117d",
+    "95ec8386c3a359f31f9121661b5ab8e887a64f728e238d3aeaa7308b39155fd1": "literal-28e6065be8a4c77d",
+    "07b13297972f71ef55c142bedff3c93633bb82df641082f6991f28c5b8b1d570": "literal-be1ded5f04d288fb",
+    "f335c55e796795f5f50cd3b44f84f00675b40a473f718f1257d62fb008d615ac": "literal-e75be1dfffcc0213",
+    "33b5b1ababc7d77e3d8060e20e84a5a40f478dcda4a8d78878718b6b695c33ca": "literal-0fc936ae4393fc52",
+    "cc2cfb31f67e04a156e08940db813ed2d0577e3a34c4c5f868fed4a3a034e211": "literal-7ebbf8f13792ab99",
+    "2fc0184dcc5ae1612fe1e797e91a0cb789ed8b72b85ef1d488bb5a7bdb1090b3": "literal-d4ee64717abe2046",
+    "ea6a344e27604dcb67a09c548bcf44b13628c54debf48bcf37139db8f9f9dd86": "literal-4e861f7eeab16da7",
+    "628664216caeecad2ba52374ec8beb0d782f842f736af12fdaac4ae2353406c5": "literal-d84d1a8bab11ae79",
+    "ea1b40a6c0bbbd8359c7b3494744b0a7833eddf1f2e666433ff091af432c0249": "literal-c276899e9cf0a6e5",
+    "32cdfa622cbe921228d03b125613388187c307752bdab013bcee5da136ca4c9d": "literal-c374173e75f6e0d4",
+    "f9899c14addfcb9e01b273eea04dc1ca13c96e7dc2f0fac7501a74ff6a8d8445": "literal-f56d709ac2c19064",
+    "c7e2339fb9d9a3d658052c78f10db4541515f493bb7a3210c3f854e6a4ff5e76": "literal-8d54c6842fa14de4",
+    "94aa814d328fd9ab2109f6c382ec970711be6c96895dbd002171ea064b58d380": "literal-2eb3733039a6ac61",
+    "a6e3ae385f9a50a4f323d235fba7ff17b7ac3b4b58aa9c28189df0351a0293e8": "literal-d1ed323f8a78026a",
+    "824ef7874151e9c8c4f7c3c821d0e5da563a40bbfad1675d991aafabecb73139": "literal-49ca0b3aa45f25cc",
+    "66a5e96d1438b05fc145b095112f0aa76056cb37f02d603518a56f56147b7f2a": "literal-9d47c8180fd07193",
+    "01c64c4ea65eb660ec0bd2257230ff207f5e098d730ef580846c3463252f0422": "literal-cd36584f9a116525",
+    "c87735c56ba49d56591c61557cfd044f7f15f08031ca73b3edcb31e685b04105": "literal-e92cb4c06d46de32",
+    "58021a34ffe0b693e905e018da722f35a9811de3072f937a9796b5a715d66ea9": "literal-34864f6b56524adf",
+    "50286229439eccf54660bd7d555a4f7c6223d14d23b1565b7a2f71f359686144": "literal-89a657055823844f",
+    "7699beffce1fb1900a6b87b8920f2982c05bab51a8c7e003e651c1acda8a5b5d": "literal-9547e53303632afe",
+    "e0365e9a5253aaa62f3b28f79a0997e73f53759015384560b702d5f952d924a4": "literal-1e6a0eaf36fb1303",
+    "7f28b2a5adab8d2cad7ed310968da25fdee642983bb19413dd5bd1c4bfb2ba15": "literal-8232393ebacd1556",
+    "78413fe80539c1cfafaf83af12229074655d59d44abf274381b5264cdfe10ce0": "literal-0fc79f83e33542f4",
+    "73ab08476c2f42538a833b02b417c4339c59da30d09e50a52c59c0675d3f256b": "literal-13b546eb35c6a9af",
+    "a282ab13e887d967551c1fb9da393505b970a1ba06b4a6d84e915be879003dac": "literal-b4d09b9e936d9b54",
+    "44bf05b31949fa6f0d2f5e49ce328d61527899afa5183cf474ca0e88ca27dcac": "literal-6f395516d9973df7",
+    "5d6e0eecd32302adf4ad5e712f8f4e1db7cd9f9d37b0a1c1503aca6ee8ea7e44": "literal-d4442efd556ca708",
+    "a72b52ac0ad75c2ab93fef4f7edd9ba014508ddaa6d13df9e56bd046f5b9d885": "literal-337f4fd9d9b44572",
+    "3d22b708b5efa989c42d20c16fa75f63260b71ca9d9e41245025010b7684dd00": "literal-3dafb5a502bc900e",
+    "9c527cddf33441f450a635458b24de8ae74f79e25975950673eeade143ade054": "literal-f9eb2234f3d7eec5",
+    "4173f75625412e9a8cca933606d96909307f16be349f5cea6eb9ab795501cba6": "literal-e176ff2ee7db283b",
+    "856e8bd358ece398c72f1003391aef5d1cd4fb9146e9f280b86290ce670b5afc": "literal-e59efa90fe0c8691",
+    "279b11ef1d5229f90d8686ae5f4e05d99f611e63f171b3fe7abb54f48a78413b": "literal-bb12d80d23443eb2",
+    "0f38bd92d3f94e7eb0fc9565e9e4e1987e56cc255295a74b1f8baecc854ee433": "literal-1d8c931d77567a14",
+    "c224cc422d7cc43aec5e98e3413a7b1d04ad60346e12a32a13c7b2c8ddd9c98a": "literal-0da3ae7c81b13dc8",
+    "65c7bf400897071ee9f41fb83f05b93ebce509d82bb24d06ad292631f08b3f74": "literal-72332fb95ab09629",
+    "3c307d543682e143a20de9d7b1ac4d721845e715a97128ac9dd2c0f45a86b332": "literal-a7319a1078e834ae",
+    "58315fd0143dcdf695df2f90b6dfd953f62e57582c23f42249730f455604f742": "literal-5a4dcbb9a9dcb18d",
+    "644f4baab78459655fce9f844eb6d5f68a82af65a103c97b7c6f14d8f64915b2": "literal-adf3295138a8ab5f",
+    "e0c08c2b1f538cd00a812dee98b85fb52a7473b19c019da09ce539b3719a6805": "literal-8bc36f9132a4b5b3",
+    "4ac175b4320926267c3816f8e26cd52f6f4e73c3e1ffba46de0327a8a907860c": "literal-d2a5f352f45aef1f",
+    "6eff52dab467424eff509f4a9d769d458828b3ac313e9a1b0f0a5b2e8fbcbe98": "literal-9de96519ef4bfb8d",
+    "9a105749cfcbac2e07d7640697861f62dfcc7c02bc24519e9c287431bc493f9d": "literal-d8460299686df2d3",
+    "1f65c5e58bc1ee3714939ab63f8a32fd47e1963f45ba01d08efe4fdac8e25ec6": "literal-582ebbe5a710ae47",
+    "dca83e717b1f64eb141057a7415a330ad1361f51703efa2e4776f40047898a04": "literal-0f924e153be156d9",
+    "ed1b28820cd1ed4dc980a0d9e63ef9dee675722f12c3f7001c2e5d66409ff1ab": "literal-70574e1ed06836c8",
+    "9e4ce01b5b27e09018e74a3a9203e1834d951ffaa14e62e3389ba6797e3b363d": "literal-098337965c7c4671",
+    "fb639b64199fb299571df7d8f0b79beb010f72df81cabe9de191795872fbf0b1": "literal-35f6c71ed7c2beda",
+    "7a01ac37408614bcf58069bb6b6a543f6c473cdded552c491de4eb36aacce235": "literal-5b1115be0818ef70",
+    "12f4c3126864b55af959d8cf03c50c2017c1f6d73a02a705f49bd4e809645874": "literal-3f9502be07359522",
+    "cb2b25757e2ed259bce1e0812fecdf0e934b6e7f318838fd7e24820eca84cce8": "literal-7812ad06dd6aed54",
+    "00f7fe0a61bc67fbb48ccd2f2f5839f743427fe5e9c7a2cb69a09f99e471d7fc": "literal-2fc90857cc91a688",
+    "4975219e03d8a70d0e74edc92a067ba7eee5cbd6ae92c64c2edc8fc6c5b043dd": "literal-c9d39ac471f0ffe0",
+    "dbfc2d1825c98173613a355dedd9cd718e6f0cfe574ffa3cdab3d56dd388985a": "literal-42d9d3b354f683a4",
+    "1c24025a5226f7163598e6fb103a36171c11769fc266c762cde0dac17ad80710": "literal-8116113446f45ac6",
+    "8a9b0da7d7a1e69c42335bc9b5a9693a5810ccab488ee05d31fab057f6d40f89": "literal-36a059d4edf05604",
+    "0bede5a2492d637a3afa2400262c45d0f6f5a3884f0a2e000d6e2ee73b669ffa": "literal-9b05f8c77bb17afe",
+    "f6bf8e4d13878389a304bebe5463556193dd8c2f2e68769381091ea7dbf6d859": "literal-86226eaa92c72576",
+    "79cd2d45454cfe2ad368afa009ea1624e4d40f162b12aee10fe21af51265a445": "literal-a10215db16ab7883",
+    "bd778891dbe86ede8cdb26c8d9c48419d7e5a8797cf1599cf58ee3087f514c7a": "literal-1900d524baa3563d",
+    "d666c2925fc78b0d16a868e569b48ded669b1b3ce6dd45435f39cff47040dfd9": "literal-92010cde5e378723",
+    "3c16bea3df94a194d34c35f5034ac9616272f40497c7eed865dcac7ef57fa693": "literal-027f05969b32f34d",
+    "264bffd996f62c8d887cfcf6e63f18e05fa3bc7be1503436d7054b7e0b45d9fd": "literal-44f50cd067365b2b",
+    "c77c2ecc8df6489f2382b51ed0867bf9d295d86e04e7f29a26d10f936d8f9ce5": "literal-03c949c66f90836e",
+    "65c398aac3cc1bb419b159e2a4700245f2cf2713973596709c8671c4395cc864": "literal-2c0db61f09edc98e",
+    "c0ee40a625abb1c14c9480de4ac5cfece682a3c0a656e00b1146e4fa04bd97c4": "literal-e7f800f8f2748a90",
+    "bbb10665931b6fe7c88a6243767da8281b2cb5f920df53c9028ae012e6e11938": "literal-2df4b0f39c634f0c",
+    "bcade5095df6aac49c938e70b94def2a4321a7b445614766ab51d5bf217bdd5e": "literal-d28aa710e6056485",
+    "343939806765757062a3005e082945f746190063efd8ec2547382d5c9e5bf017": "literal-9c0f357b6170741e",
+    "83716a35515f728928d7ce0aaa73e3445679d939169124b88fec90b522c45179": "literal-1b19c0340e3cceb3",
+    "4fa9be3722d86dfd246f816fc24748eef4124a09a50dc59f55382b3387ce7ca0": "literal-6f274af51d16f9d5",
+    "ee8a02b3c5b073ac4c5b545eda2dc199b39b8d6ebe2c6dd1ed70b3341c81f4d1": "literal-ca6477c16406099b",
+    "d94e3f2f2db943f0eca27ef4300a86966bc335187ac04bb729f6576831cd81c9": "literal-4989bb2171a110de",
+    "6ed460db988ecbad47e6fbdcbbbce6b32170aa61b2f50b04c15038dbf5fe55f4": "literal-8679c3d4233142bc",
+    "3f5a4f8f1b1ed25740b3a5d85383af9f97ad2fd265fb0be28e080da838212d40": "literal-aa9943fbee382aae",
+    "81b83682cbb1d440fa352bc691ebd8eacfc7b9c438ed02982aea640df74aad33": "literal-f8867cac93ebb05d",
+    "f8ff136b3f781ea5b22201be1d56449669cae3d62d2fd9b7a25357244b6c186b": "literal-bccf948658e543e2",
+    "48d131bb3e8809c054940c4567928ba2bda6a05dc3d9058b6d8a6f4551627c50": "literal-408f9473f7587759",
+    "74c474e93060fe64396b97609afcff004c4f67a67e951c0c1511cb97b20d8011": "literal-a80ab17c7cb0460e",
+    "581d1db9044c7925e8d695727b3507c6233480371701ab2476766ba1ed72cb3b": "literal-acc66ed9c4feb748",
+    "0bf68c8f585383bc2918a3e63ac5d27be3bdffd5868d99c82597cb9c9652bc1e": "literal-21fd9fdd2011d61d",
+    "2b6c372eb8584a6ac780d01e0a646b0adeda2e1b920a0b6df4847ab631ea1702": "literal-2795323c24b306c4",
+    "57d93d6e0556f68d8720f1a5048b3c10823acc1a74ce3d031b49b38dd3e5a152": "literal-0bbb079c1b42257d",
+    "45c1fef36e87f9ee925f88eff0f73634a94c3d1f79b359caa6eb3533a3732290": "literal-7147135e61bcf3e4",
+    "c32ec83d06f5b2466a610a3e742c735e6fc237bf4c66070b14248c0aa67b3650": "literal-0e6b88d6d4783546",
+    "69abaec3d4243aa39755b273f5fe713736eba8cb6c937111698b8fb596aee137": "literal-4ef2c4a7891ab6d5",
+    "f512fa10933ead9e8c45044325917523183f321fb0031147913a4836fb3d7880": "literal-dc2046a92ad95deb",
+    "1e38c3c1c8d3ae5e00fb7000863459c7887cefc05383febffb274e0faaf30c91": "literal-d7db4b6e17fc862a",
+    "0b133ffd513137daf0f00fead7ef5f636ba7b880a673bc0667035e2b907ef86c": "literal-bae066be57a19c09",
+    "403b48198f3abc9c6aa363cd219e8b58bcaab3875d2e13a703317acdd2056a60": "literal-82b23beba2fe8e99",
+    "62ee6c11fbf81358c7fa35d502ac674c19610940df137c3268b074eb52952f28": "literal-baa077daf6a342a7",
+    "345cf08c1197ef20db0182c4524288aefc1c8a6e20ee2fdb9fe075cfe8adeed4": "literal-c12670d99ad64111",
+    "96136ce3590b5a6220b2b6a606bebc35d409d804e458b34be5d1ccf1236cb4a6": "literal-a0a633388ae77c15",
+    "f7d49479f68fc00f82ef8ccc2dc00afb6b68a58f7c41bd0a903374a8d7682286": "literal-335c20405b67f6dc",
+    "b881a18b516afa4cbd76112cd01b2f17e01eee1b7ac1fe734e5644468db647ed": "literal-557752d0b55fa483",
+    "b865ed38be572755aa62a1ffd51083750ef8871f34f46929d5efe62a36c1b9ba": "literal-fc6da9a1f12e92de",
+    "0881d544c6d143a76d99c144c29b66173a12dc9a65928dbb1fc590fcab85ea70": "literal-f5b9a7c83a3fd353",
+    "672f4ef4972bd1e2a595931d16541fe11d79f821d7cf5955fd0fb52b921ca94d": "literal-8173890ae7abee2d",
+    "51877e1d8701435782239a1380c0ed28e353e8e3772db455b167e44e6f876693": "literal-c9faf0653f4c3319",
+    "fb70fec16ab968d378b4a426ddbe7c001e168b2701cb876d827a2351bccc9aed": "literal-96f3b4e630771416",
+    "ce55cc547e89cb8cb30de2b584a81da7f86046981262d54080271f43f1ec0983": "literal-da10495793020b62",
+    "c75bb2fb718865a69184cca7f48dc7e8359bf7d75c38b25e518f90dc8ef34c13": "literal-c975469dbb18ebb9",
+    "6710a009b1d20ee0dc446534278827ca4d6baf61a8b45b506d38be243c4e4ea4": "literal-b95f7e97b90ba5c1",
+    "4cb1a82b3035217dc802a635eda00d398011d5b5147d0e0a5960d2ea7f33c454": "literal-1c3783a460f95fe5",
+    "e5ef2aff32d35eeb0e588baa3095b5ce3a0af676af89bca86bd4b4b66619452f": "literal-9490dff3d0cd69a5"
+  }
+}

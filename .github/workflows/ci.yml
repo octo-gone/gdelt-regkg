@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      release-tag:
+        type: string
+        default: ''
+        required: false
+      released-distributions:
+        type: boolean
+        default: false
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    name: Test and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.release-tag || github.ref }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: astral-sh/setup-uv@v10
+        with:
+          enable-cache: true
+      - name: Check package metadata and release version
+        env:
+          RELEASE_TAG: ${{ inputs.release-tag }}
+        run: python .github/scripts/check_release.py --tag "$RELEASE_TAG"
+      - name: Install dependencies
+        run: uv sync --group dev
+      - name: Install the recorded small English model
+        run: uv pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl
+      - name: Prepare local test resources
+        run: uv run --no-sync gdelt-regkg-build-resources --sources-dir downloads/resources --download-sources --output local-resources
+      - name: Build wheel and source distribution
+        if: ${{ !inputs.released-distributions }}
+        run: uv build --out-dir dist
+      - name: Download the published release distributions
+        if: ${{ inputs.released-distributions }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.release-tag }}
+        run: gh release download "$RELEASE_TAG" --dir dist --pattern '*.whl' --pattern '*.tar.gz'
+      - name: Validate distributions
+        env:
+          RELEASE_TAG: ${{ inputs.release-tag }}
+        run: |
+          python .github/scripts/check_release.py --tag "$RELEASE_TAG" --dist dist
+          uv run --no-sync python -m twine check --strict dist/*
+      - name: Install the built wheel
+        run: uv pip install --no-deps --reinstall dist/*.whl
+      - name: Test the installed wheel
+        run: uv run --no-sync python -m unittest discover -s tests
+      - uses: actions/upload-artifact@v4
+        with:
+          name: distributions
+          path: |
+            dist/*.whl
+            dist/*.tar.gz
+          if-no-files-found: error
+          retention-days: 7

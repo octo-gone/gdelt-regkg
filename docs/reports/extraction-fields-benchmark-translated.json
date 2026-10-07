@@ -1,0 +1,1416 @@
+{
+  "schema": "reconstruct-gkg/field-benchmark/v2",
+  "corpus_sha256": "1db21fcd187111179d47db6ac434c03b584532ec1c76868fb0332250f346bdce",
+  "archives": [
+    {
+      "name": "20251111001500.translation.gkg.csv.zip",
+      "sha256": "8dea58051ad6cdd517589b9846c3608d3195ce4d3f7b94b0aec8e108dd827aa3"
+    },
+    {
+      "name": "20251111043000.translation.gkg.csv.zip",
+      "sha256": "59001d7efba6905caaa05b9707cf05630f70946a99a401c0f2c66d5a75413886"
+    },
+    {
+      "name": "20251111084500.translation.gkg.csv.zip",
+      "sha256": "de11a50a173d393e811d06403c76696e0f0d071101b3eaebed09e1ec688f408d"
+    },
+    {
+      "name": "20251111121500.translation.gkg.csv.zip",
+      "sha256": "5067b6397dd983012fc0966577f4ffd9af7ac14de8e9603907a91be7abdede81"
+    },
+    {
+      "name": "20251111163000.translation.gkg.csv.zip",
+      "sha256": "35496b36b3dba552bf11ac428cc514da444dda27857c19ebaf79ad6910a46432"
+    },
+    {
+      "name": "20251111204500.translation.gkg.csv.zip",
+      "sha256": "2a79d30365552e1de191f521fa116cd44ba9c9fa86edde676e6503044569bebb"
+    },
+    {
+      "name": "20251122001500.translation.gkg.csv.zip",
+      "sha256": "6c47fb45bff6afae7fcf959d07dc87793f1c10d132785704b5d1e3fc25782d9b"
+    },
+    {
+      "name": "20251122043000.translation.gkg.csv.zip",
+      "sha256": "80a701a7b97c5ef13ec8cf57005ccdb4bad381ccbc549cd4cd2de6bd9fb49171"
+    },
+    {
+      "name": "20251122084500.translation.gkg.csv.zip",
+      "sha256": "f09c52e93072c591485061deaccd700b93edc6eedf30ae23479811614274734c"
+    },
+    {
+      "name": "20251122121500.translation.gkg.csv.zip",
+      "sha256": "86da214c7c720c91bb68f0f9ace93529dedd18c869c4be230a3c01a93e678a6d"
+    },
+    {
+      "name": "20251122163000.translation.gkg.csv.zip",
+      "sha256": "ae654130f1114af6e66ea38f130d82a63a3ec6d08c844cd61664b4ec1a3d59e1"
+    },
+    {
+      "name": "20251122204500.translation.gkg.csv.zip",
+      "sha256": "10b4eeb427dada00b793c2996a56676b57ef16595e7edc5103af9b1bd09ee5a6"
+    },
+    {
+      "name": "20260211001500.translation.gkg.csv.zip",
+      "sha256": "20bf7c5c2ebb85bc651bda9a362a0e31cd17c39f663d412565736f7c15be594b"
+    },
+    {
+      "name": "20260211043000.translation.gkg.csv.zip",
+      "sha256": "890e4f44ee1576396bf89285e285c1150015c9e83c2a5c1228409cd001e6d152"
+    },
+    {
+      "name": "20260211084500.translation.gkg.csv.zip",
+      "sha256": "81c0666dce2c3cf9f5bbd66f41a31218f6df1735cac94203aa628245b60432cb"
+    },
+    {
+      "name": "20260211121500.translation.gkg.csv.zip",
+      "sha256": "9f417fdd3304ed3a8119c75fcebf73e02d3d6dd1cd98422f8fd12e057d225e64"
+    },
+    {
+      "name": "20260211163000.translation.gkg.csv.zip",
+      "sha256": "82cb658c8b423a0f5d5c757543f8d63c04f3cc408bdfe714ef8a24477e33407d"
+    },
+    {
+      "name": "20260211204500.translation.gkg.csv.zip",
+      "sha256": "c0355b99ff7303b553a96f3f4006e39e4e57c33f4abc4ca70181e8a5280d3b44"
+    },
+    {
+      "name": "20260222001500.translation.gkg.csv.zip",
+      "sha256": "92b2f330fa2d39ddeb91ef3101d3f5f07c7d277ce2d67f6d23fbe4b797ff325a"
+    },
+    {
+      "name": "20260222043000.translation.gkg.csv.zip",
+      "sha256": "cf1f0f4d8cb36eabe9b09e75201519ecbf91a6ec05e0bdd77966f5ef11b588f1"
+    },
+    {
+      "name": "20260222084500.translation.gkg.csv.zip",
+      "sha256": "14fc31351ce0d9d99855edb139cd1dd5eade9299cf177ba434c39341be92c1e1"
+    },
+    {
+      "name": "20260222121500.translation.gkg.csv.zip",
+      "sha256": "a61aba00648aaee3e79e816fe24c0621f7c1d22a9a7fd1131720d6cbffa9a258"
+    },
+    {
+      "name": "20260222163000.translation.gkg.csv.zip",
+      "sha256": "544ddf273cfd1f08604e5d29b26c74b3a92bb25691a3e7b03b8eaef025e9040f"
+    },
+    {
+      "name": "20260222204500.translation.gkg.csv.zip",
+      "sha256": "7fc4d5d9c3eef16cda5cbda73c544c78202b9baa7f729908a9fb04fd2a1d1b35"
+    },
+    {
+      "name": "20260511001500.translation.gkg.csv.zip",
+      "sha256": "e40a5c1e4f5900a013a062f235ecf3df90aa2d0fc9bc1abe5807f160f2017d58"
+    },
+    {
+      "name": "20260511043000.translation.gkg.csv.zip",
+      "sha256": "38c2e8301779518cf36e8f00a8d1821c2c5642414b0b0b08a7557d2ae0cd53c7"
+    },
+    {
+      "name": "20260511084500.translation.gkg.csv.zip",
+      "sha256": "238bee8a6a29476348947d78e3d9e5afb4a8f4f125451d68089c75b6fd0b4117"
+    },
+    {
+      "name": "20260511121500.translation.gkg.csv.zip",
+      "sha256": "e6d409e85a7b566cbc9a8ed8f79919d44c219d5168f1b970a70a546b6c1a6dc3"
+    },
+    {
+      "name": "20260511163000.translation.gkg.csv.zip",
+      "sha256": "4fe51592ba91d1b5b2c09fb80902afb18cdd61ee4fbdbe3d2c8c6f9943daecd7"
+    },
+    {
+      "name": "20260511204500.translation.gkg.csv.zip",
+      "sha256": "68e4616c1ccf5f4338f5a5f87425af23d7292fd834954a7f13796db37d26d3c9"
+    },
+    {
+      "name": "20260522001500.translation.gkg.csv.zip",
+      "sha256": "3eb895832377e25f47afdc8279729b5e19efd10819019fb4dc61a600d81d9117"
+    },
+    {
+      "name": "20260522043000.translation.gkg.csv.zip",
+      "sha256": "13ec0ff63d89d92d64a8cb5a55dd997aac7940da2997f711cc0eac3b8249e1b3"
+    },
+    {
+      "name": "20260522084500.translation.gkg.csv.zip",
+      "sha256": "ae0ffa2a72aefa16ab7173049635d193fe3cf273dfdf9de817ab5d6b69c097d0"
+    },
+    {
+      "name": "20260522121500.translation.gkg.csv.zip",
+      "sha256": "0a390963bcb169b5d5cbdcefcbf278265203172ed15e20b3ba1ec7708d71c035"
+    },
+    {
+      "name": "20260522163000.translation.gkg.csv.zip",
+      "sha256": "9b5aee0eb4b34cfc12062170064ec91cfa41ab99aca66e2bb7cace98444400e7"
+    },
+    {
+      "name": "20260522204500.translation.gkg.csv.zip",
+      "sha256": "17d982fac05b667c189c0a5043b61233493ffd6ca21bf1fe34d6ffe5e9c37e60"
+    },
+    {
+      "name": "20260811001500.translation.gkg.csv.zip",
+      "sha256": "7ea37f12558a7ccddb3d086ee40aeb98a3c34dbe2b0052c3e98ac15e50e4f44d"
+    },
+    {
+      "name": "20260811043000.translation.gkg.csv.zip",
+      "sha256": "1a749cc24c4d1da9541a757c6c0c95efff59cec7cba62c31624294d381df3669"
+    },
+    {
+      "name": "20260811084500.translation.gkg.csv.zip",
+      "sha256": "d2e03e2e776f6dd8ae7a0fa34ecaa77618257b2ea6156491b83ea9f123b7aba2"
+    },
+    {
+      "name": "20260811121500.translation.gkg.csv.zip",
+      "sha256": "d468053fe97ee098b55c49e8dcac1872a655e12aeba6432cd5735d94eaeb632a"
+    },
+    {
+      "name": "20260811163000.translation.gkg.csv.zip",
+      "sha256": "a5702253a4daac81380e266e7ff5a210dca89f45ac1c14ec476b025fdb3f714d"
+    },
+    {
+      "name": "20260811204500.translation.gkg.csv.zip",
+      "sha256": "0994ab67d1d833271bb0bbc49446395ed1876923d3c1da99cac4a8b83ec1a058"
+    },
+    {
+      "name": "20260822001500.translation.gkg.csv.zip",
+      "sha256": "81be382127976ef26ce3a37266f4790dc226bffdf583457982c08e5a612e0af2"
+    },
+    {
+      "name": "20260822043000.translation.gkg.csv.zip",
+      "sha256": "bbd64fa431f4e9d0b93288decc7e932bf8dfdd5a066d9e7e1636185267503cac"
+    },
+    {
+      "name": "20260822084500.translation.gkg.csv.zip",
+      "sha256": "1a9e657eeb30223693893080d4980f72663a0d2aefbeec3ae4da3619e9cfa5da"
+    },
+    {
+      "name": "20260822121500.translation.gkg.csv.zip",
+      "sha256": "21e4e8f0ca48de8edb64b78db6eed692affefe2f582966dc373ca684fe2d0cec"
+    },
+    {
+      "name": "20260822163000.translation.gkg.csv.zip",
+      "sha256": "78a18b4480945dbd540eb148d7f588f5bb6072ccec29c887da83a6bae7770d67"
+    },
+    {
+      "name": "20260822204500.translation.gkg.csv.zip",
+      "sha256": "7e1e1544ed1546971fac6331bea1bcfbf11f05f9c84009a88d8035d0be1e8ee3"
+    }
+  ],
+  "profiles": {
+    "ner": "spacy:en:core_web_lg:3.8.0",
+    "gazetteer": "gkg-reference-gazetteer-v1",
+    "gcam": null,
+    "ner_name_policy": "gdelt-full-names"
+  },
+  "resource_sha256": {
+    "locations.v1.json.gz": "cdf590406f3f4d6011b4ca281b6bd2720b24db26e114da6e8a306d71238687b2"
+  },
+  "gcam_configuration_sha256": null,
+  "engine_sha256": {
+    "ner.py": "981393fa5409b6d0223ac24b360c30b6715ffa5da5312094b01c33a5bc593635",
+    "names.py": "268ee1e91bb35fdece35f59d8429f55480aacb42f7b867b38010ddea3c1c9d90",
+    "locations.py": "ea49d570adbf2ef4519c576bd34e35e0348e19662ee8cf761128f33d8b8d63a6",
+    "dates.py": "d6a83e71a443d00834edb37c62f9170ae7eaa86132c50f136fa6c607ae952ef8",
+    "amounts.py": "3af95a8c3a1e5f082d2024856278466ab12a962d5a650407a6fec84483b3ac50",
+    "quotations.py": "249fe04391cbef2475878c82169b20440b07b55e71566c1783a7e41a320344ae",
+    "tone.py": "acd0bc2363d6eb7c4526be97dcb631adb2d092498564b658bcd94c8992bd145b",
+    "wire.py": "5c1e31fb1be37a8047e79294304f6b1b11213f012ad4a26f39543e1fe4a0123a",
+    "scripts/benchmark_extraction.py": "21f8de43f97f4fe2de8e95edadb5f5c64d68bc4649faf34f0f2f3b3279dee840",
+    "scripts/benchmark_fields.py": "8a4e7f568fd5d3401c964c663fe02d8cd0f02d12e89d0114591b0a4994602cc3"
+  },
+  "audit": {
+    "ignored_same_id_other_url_records": 25,
+    "missing_original_record": 0,
+    "recognized_location_mentions": 2084,
+    "resolved_location_mentions": 1141,
+    "unknown_locations": 937,
+    "ambiguous_locations": 7,
+    "articles": 317
+  },
+  "sources": 292,
+  "evaluation": {
+    "identity_policy": "Per-document sets, ignoring offsets and repetition",
+    "quotation_policy": "Exact complete wire content after NFKC, casefold, apostrophe normalization and whitespace collapse; punctuation retained",
+    "amount_values_policy": "Numeric values only; diagnostic alongside primary value/object scoring",
+    "bootstrap_samples": 1000,
+    "bootstrap_seed": 1729,
+    "interval_policy": "95% percentile F1 intervals from resampling documents; conditional on retrieved corpus, not source-clustered or input-mismatch uncertainty",
+    "fitting": false
+  },
+  "metrics": {
+    "locations": {
+      "articles": 317,
+      "reference_positive_articles": 251,
+      "predicted_positive_articles": 182,
+      "true_positives": 333,
+      "predicted": 465,
+      "reference": 755,
+      "precision": 0.7161290322580646,
+      "recall": 0.4410596026490066,
+      "f1": 0.5459016393442623,
+      "exact_document_match": 0.27129337539432175,
+      "f1_ci95": [
+        0.49435240388290147,
+        0.592051905920519
+      ]
+    },
+    "dates": {
+      "articles": 317,
+      "reference_positive_articles": 8,
+      "predicted_positive_articles": 175,
+      "true_positives": 2,
+      "predicted": 322,
+      "reference": 9,
+      "precision": 0.006211180124223602,
+      "recall": 0.2222222222222222,
+      "f1": 0.012084592145015106,
+      "exact_document_match": 0.4416403785488959,
+      "f1_ci95": [
+        0.0,
+        0.03042466584245025
+      ]
+    },
+    "all_names": {
+      "articles": 317,
+      "reference_positive_articles": 305,
+      "predicted_positive_articles": 313,
+      "true_positives": 59,
+      "predicted": 4180,
+      "reference": 2383,
+      "precision": 0.014114832535885167,
+      "recall": 0.024758707511540076,
+      "f1": 0.01797958250799939,
+      "exact_document_match": 0.0031545741324921135,
+      "f1_ci95": [
+        0.013467963088068132,
+        0.023110847566435222
+      ]
+    },
+    "amounts": {
+      "articles": 317,
+      "reference_positive_articles": 173,
+      "predicted_positive_articles": 234,
+      "true_positives": 22,
+      "predicted": 1004,
+      "reference": 472,
+      "precision": 0.021912350597609563,
+      "recall": 0.046610169491525424,
+      "f1": 0.02981029810298103,
+      "exact_document_match": 0.17981072555205047,
+      "f1_ci95": [
+        0.017990667587554535,
+        0.043137960220059245
+      ]
+    },
+    "amount_values": {
+      "articles": 317,
+      "reference_positive_articles": 173,
+      "predicted_positive_articles": 234,
+      "true_positives": 116,
+      "predicted": 893,
+      "reference": 315,
+      "precision": 0.12989921612541994,
+      "recall": 0.3682539682539683,
+      "f1": 0.19205298013245034,
+      "exact_document_match": 0.2113564668769716,
+      "f1_ci95": [
+        0.15502445356651182,
+        0.22858030168589175
+      ]
+    },
+    "quotations": {
+      "articles": 317,
+      "reference_positive_articles": 0,
+      "predicted_positive_articles": 191,
+      "true_positives": 0,
+      "predicted": 676,
+      "reference": 0,
+      "precision": 0.0,
+      "recall": null,
+      "f1": 0.0,
+      "exact_document_match": 0.39747634069400634,
+      "f1_ci95": [
+        0.0,
+        0.0
+      ]
+    },
+    "quotations_with_verbs": {
+      "articles": 317,
+      "reference_positive_articles": 0,
+      "predicted_positive_articles": 191,
+      "true_positives": 0,
+      "predicted": 682,
+      "reference": 0,
+      "precision": 0.0,
+      "recall": null,
+      "f1": 0.0,
+      "exact_document_match": 0.39747634069400634,
+      "f1_ci95": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "subsets": {
+    "month/202511": {
+      "locations": {
+        "articles": 79,
+        "reference_positive_articles": 63,
+        "predicted_positive_articles": 45,
+        "true_positives": 115,
+        "predicted": 153,
+        "reference": 211,
+        "precision": 0.7516339869281046,
+        "recall": 0.5450236966824644,
+        "f1": 0.6318681318681318,
+        "exact_document_match": 0.2911392405063291
+      },
+      "dates": {
+        "articles": 79,
+        "reference_positive_articles": 2,
+        "predicted_positive_articles": 41,
+        "true_positives": 0,
+        "predicted": 74,
+        "reference": 3,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "exact_document_match": 0.45569620253164556
+      },
+      "all_names": {
+        "articles": 79,
+        "reference_positive_articles": 75,
+        "predicted_positive_articles": 78,
+        "true_positives": 21,
+        "predicted": 1122,
+        "reference": 634,
+        "precision": 0.01871657754010695,
+        "recall": 0.033123028391167195,
+        "f1": 0.023917995444191344,
+        "exact_document_match": 0.012658227848101266
+      },
+      "amounts": {
+        "articles": 79,
+        "reference_positive_articles": 46,
+        "predicted_positive_articles": 56,
+        "true_positives": 8,
+        "predicted": 253,
+        "reference": 142,
+        "precision": 0.03162055335968379,
+        "recall": 0.056338028169014086,
+        "f1": 0.04050632911392405,
+        "exact_document_match": 0.16455696202531644
+      },
+      "amount_values": {
+        "articles": 79,
+        "reference_positive_articles": 46,
+        "predicted_positive_articles": 56,
+        "true_positives": 32,
+        "predicted": 215,
+        "reference": 86,
+        "precision": 0.14883720930232558,
+        "recall": 0.37209302325581395,
+        "f1": 0.21262458471760798,
+        "exact_document_match": 0.20253164556962025
+      },
+      "quotations": {
+        "articles": 79,
+        "reference_positive_articles": 0,
+        "predicted_positive_articles": 47,
+        "true_positives": 0,
+        "predicted": 182,
+        "reference": 0,
+        "precision": 0.0,
+        "recall": null,
+        "f1": 0.0,
+        "exact_document_match": 0.4050632911392405
+      },
+      "quotations_with_verbs": {
+        "articles": 79,
+        "reference_positive_articles": 0,
+        "predicted_positive_articles": 47,
+        "true_positives": 0,
+        "predicted": 185,
+        "reference": 0,
+        "precision": 0.0,
+        "recall": null,
+        "f1": 0.0,
+        "exact_document_match": 0.4050632911392405
+      }
+    },
+    "month/202602": {
+      "locations": {
+        "articles": 70,
+        "reference_positive_articles": 55,
+        "predicted_positive_articles": 41,
+        "true_positives": 69,
+        "predicted": 93,
+        "reference": 161,
+        "precision": 0.7419354838709677,
+        "recall": 0.42857142857142855,
+        "f1": 0.5433070866141733,
+        "exact_document_match": 0.2857142857142857
+      },
+      "dates": {
+        "articles": 70,
+        "reference_positive_articles": 2,
+        "predicted_positive_articles": 31,
+        "true_positives": 1,
+        "predicted": 55,
+        "reference": 2,
+        "precision": 0.01818181818181818,
+        "recall": 0.5,
+        "f1": 0.03508771929824561,
+        "exact_document_match": 0.5571428571428572
+      },
+      "all_names": {
+        "articles": 70,
+        "reference_positive_articles": 65,
+        "predicted_positive_articles": 69,
+        "true_positives": 14,
+        "predicted": 892,
+        "reference": 431,
+        "precision": 0.01569506726457399,
+        "recall": 0.03248259860788863,
+        "f1": 0.021164021164021163,
+        "exact_document_match": 0.0
+      },
+      "amounts": {
+        "articles": 70,
+        "reference_positive_articles": 31,
+        "predicted_positive_articles": 47,
+        "true_positives": 1,
+        "predicted": 161,
+        "reference": 64,
+        "precision": 0.006211180124223602,
+        "recall": 0.015625,
+        "f1": 0.008888888888888889,
+        "exact_document_match": 0.2571428571428571
+      },
+      "amount_values": {
+        "articles": 70,
+        "reference_positive_articles": 31,
+        "predicted_positive_articles": 47,
+        "true_positives": 11,
+        "predicted": 142,
+        "reference": 49,
+        "precision": 0.07746478873239436,
+        "recall": 0.22448979591836735,
+        "f1": 0.11518324607329843,
+        "exact_document_match": 0.2857142857142857
+      },
+      "quotations": {
+        "articles": 70,
+        "reference_positive_articles": 0,
+        "predicted_positive_articles": 41,
+        "true_positives": 0,
+        "predicted": 123,
+        "reference": 0,
+        "precision": 0.0,
+        "recall": null,
+        "f1": 0.0,
+        "exact_document_match": 0.4142857142857143
+      },
+      "quotations_with_verbs": {
+        "articles": 70,
+        "reference_positive_articles": 0,
+        "predicted_positive_articles": 41,
+        "true_positives": 0,
+        "predicted": 123,
+        "reference": 0,
+        "precision": 0.0,
+        "recall": null,
+        "f1": 0.0,
+        "exact_document_match": 0.4142857142857143
+      }
+    },
+    "month/202605": {
+      "locations": {
+        "articles": 82,
+        "reference_positive_articles": 61,
+        "predicted_positive_articles": 39,
+        "true_positives": 46,
+        "predicted": 71,
+        "reference": 146,
+        "precision": 0.647887323943662,
+        "recall": 0.3150684931506849,
+        "f1": 0.423963133640553,
+        "exact_document_match": 0.3048780487804878
+      },
+      "dates": {
+        "articles": 82,
+        "reference_positive_articles": 3,
+        "predicted_positive_articles": 48,
+        "true_positives": 1,
+        "predicted": 98,
+        "reference": 3,
+        "precision": 0.01020408163265306,
+        "recall": 0.3333333333333333,
+        "f1": 0.019801980198019802,
+        "exact_document_match": 0.4146341463414634
+      },
+      "all_names": {
+        "articles": 82,
+        "reference_positive_articles": 80,
+        "predicted_positive_articles": 80,
+        "true_positives": 11,
+        "predicted": 1010,
+        "reference": 650,
+        "precision": 0.01089108910891089,
+        "recall": 0.016923076923076923,
+        "f1": 0.01325301204819277,
+        "exact_document_match": 0.0
+      },
+      "amounts": {
+        "articles": 82,
+        "reference_positive_articles": 48,
+        "predicted_positive_articles": 63,
+        "true_positives": 8,
+        "predicted": 260,
+        "reference": 106,
+        "precision": 0.03076923076923077,
+        "recall": 0.07547169811320754,
+        "f1": 0.04371584699453552,
+        "exact_document_match": 0.15853658536585366
+      },
+      "amount_values": {
+        "articles": 82,
+        "reference_positive_articles": 48,
+        "predicted_positive_articles": 63,
+        "true_positives": 33,
+        "predicted": 238,
+        "reference": 75,
+        "precision": 0.13865546218487396,
+        "recall": 0.44,
+        "f1": 0.2108626198083067,
+        "exact_document_match": 0.1951219512195122
+      },
+      "quotations": {
+        "articles": 82,
+        "reference_positive_articles": 0,
+        "predicted_positive_articles": 55,
+        "true_positives": 0,
+        "predicted": 215,
+        "reference": 0,
+        "precision": 0.0,
+        "recall": null,
+        "f1": 0.0,
+        "exact_document_match": 0.32926829268292684
+      },
+      "quotations_with_verbs": {
+        "articles": 82,
+        "reference_positive_articles": 0,
+        "predicted_positive_articles": 55,
+        "true_positives": 0,
+        "predicted": 217,
+        "reference": 0,
+        "precision": 0.0,
+        "recall": null,
+        "f1": 0.0,
+        "exact_document_match": 0.32926829268292684
+      }
+    },
+    "month/202608": {
+      "locations": {
+        "articles": 86,
+        "reference_positive_articles": 72,
+        "predicted_positive_articles": 57,
+        "true_positives": 103,
+        "predicted": 148,
+        "reference": 237,
+        "precision": 0.6959459459459459,
+        "recall": 0.4345991561181435,
+        "f1": 0.535064935064935,
+        "exact_document_match": 0.20930232558139536
+      },
+      "dates": {
+        "articles": 86,
+        "reference_positive_articles": 1,
+        "predicted_positive_articles": 55,
+        "true_positives": 0,
+        "predicted": 95,
+        "reference": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "exact_document_match": 0.36046511627906974
+      },
+      "all_names": {
+        "articles": 86,
+        "reference_positive_articles": 85,
+        "predicted_positive_articles": 86,
+        "true_positives": 13,
+        "predicted": 1156,
+        "reference": 668,
+        "precision": 0.01124567474048443,
+        "recall": 0.019461077844311378,
+        "f1": 0.01425438596491228,
+        "exact_document_match": 0.0
+      },
+      "amounts": {
+        "articles": 86,
+        "reference_positive_articles": 48,
+        "predicted_positive_articles": 68,
+        "true_positives": 5,
+        "predicted": 330,
+        "reference": 160,
+        "precision": 0.015151515151515152,
+        "recall": 0.03125,
+        "f1": 0.02040816326530612,
+        "exact_document_match": 0.1511627906976744
+      },
+      "amount_values": {
+        "articles": 86,
+        "reference_positive_articles": 48,
+        "predicted_positive_articles": 68,
+        "true_positives": 40,
+        "predicted": 298,
+        "reference": 105,
+        "precision": 0.1342281879194631,
+        "recall": 0.38095238095238093,
+        "f1": 0.19851116625310175,
+        "exact_document_match": 0.1744186046511628
+      },
+      "quotations": {
+        "articles": 86,
+        "reference_positive_articles": 0,
+        "predicted_positive_articles": 48,
+        "true_positives": 0,
+        "predicted": 156,
+        "reference": 0,
+        "precision": 0.0,
+        "recall": null,
+        "f1": 0.0,
+        "exact_document_match": 0.4418604651162791
+      },
+      "quotations_with_verbs": {
+        "articles": 86,
+        "reference_positive_articles": 0,
+        "predicted_positive_articles": 48,
+        "true_positives": 0,
+        "predicted": 157,
+        "reference": 0,
+        "precision": 0.0,
+        "recall": null,
+        "f1": 0.0,
+        "exact_document_match": 0.4418604651162791
+      }
+    },
+    "novel_sources": {
+      "locations": {
+        "articles": 250,
+        "reference_positive_articles": 200,
+        "predicted_positive_articles": 141,
+        "true_positives": 259,
+        "predicted": 367,
+        "reference": 613,
+        "precision": 0.7057220708446866,
+        "recall": 0.42251223491027734,
+        "f1": 0.5285714285714286,
+        "exact_document_match": 0.24
+      },
+      "dates": {
+        "articles": 250,
+        "reference_positive_articles": 6,
+        "predicted_positive_articles": 133,
+        "true_positives": 2,
+        "predicted": 250,
+        "reference": 6,
+        "precision": 0.008,
+        "recall": 0.3333333333333333,
+        "f1": 0.015625,
+        "exact_document_match": 0.464
+      },
+      "all_names": {
+        "articles": 250,
+        "reference_positive_articles": 243,
+        "predicted_positive_articles": 247,
+        "true_positives": 47,
+        "predicted": 3316,
+        "reference": 1820,
+        "precision": 0.014173703256936067,
+        "recall": 0.025824175824175823,
+        "f1": 0.018302180685358254,
+        "exact_document_match": 0.0
+      },
+      "amounts": {
+        "articles": 250,
+        "reference_positive_articles": 140,
+        "predicted_positive_articles": 182,
+        "true_positives": 18,
+        "predicted": 817,
+        "reference": 376,
+        "precision": 0.022031823745410038,
+        "recall": 0.047872340425531915,
+        "f1": 0.030176026823134954,
+        "exact_document_match": 0.184
+      },
+      "amount_values": {
+        "articles": 250,
+        "reference_positive_articles": 140,
+        "predicted_positive_articles": 182,
+        "true_positives": 98,
+        "predicted": 724,
+        "reference": 258,
+        "precision": 0.13535911602209943,
+        "recall": 0.3798449612403101,
+        "f1": 0.19959266802443992,
+        "exact_document_match": 0.212
+      },
+      "quotations": {
+        "articles": 250,
+        "reference_positive_articles": 0,
+        "predicted_positive_articles": 150,
+        "true_positives": 0,
+        "predicted": 535,
+        "reference": 0,
+        "precision": 0.0,
+        "recall": null,
+        "f1": 0.0,
+        "exact_document_match": 0.4
+      },
+      "quotations_with_verbs": {
+        "articles": 250,
+        "reference_positive_articles": 0,
+        "predicted_positive_articles": 150,
+        "true_positives": 0,
+        "predicted": 540,
+        "reference": 0,
+        "precision": 0.0,
+        "recall": null,
+        "f1": 0.0,
+        "exact_document_match": 0.4
+      }
+    },
+    "word_count_within_10_percent": {
+      "locations": {
+        "articles": 65,
+        "reference_positive_articles": 46,
+        "predicted_positive_articles": 34,
+        "true_positives": 82,
+        "predicted": 114,
+        "reference": 171,
+        "precision": 0.7192982456140351,
+        "recall": 0.47953216374269003,
+        "f1": 0.5754385964912281,
+        "exact_document_match": 0.3076923076923077
+      },
+      "dates": {
+        "articles": 65,
+        "reference_positive_articles": 2,
+        "predicted_positive_articles": 36,
+        "true_positives": 1,
+        "predicted": 65,
+        "reference": 2,
+        "precision": 0.015384615384615385,
+        "recall": 0.5,
+        "f1": 0.029850746268656716,
+        "exact_document_match": 0.4461538461538462
+      },
+      "all_names": {
+        "articles": 65,
+        "reference_positive_articles": 62,
+        "predicted_positive_articles": 63,
+        "true_positives": 13,
+        "predicted": 855,
+        "reference": 501,
+        "precision": 0.0152046783625731,
+        "recall": 0.02594810379241517,
+        "f1": 0.019174041297935103,
+        "exact_document_match": 0.0
+      },
+      "amounts": {
+        "articles": 65,
+        "reference_positive_articles": 32,
+        "predicted_positive_articles": 47,
+        "true_positives": 1,
+        "predicted": 212,
+        "reference": 97,
+        "precision": 0.0047169811320754715,
+        "recall": 0.010309278350515464,
+        "f1": 0.006472491909385114,
+        "exact_document_match": 0.23076923076923078
+      },
+      "amount_values": {
+        "articles": 65,
+        "reference_positive_articles": 32,
+        "predicted_positive_articles": 47,
+        "true_positives": 23,
+        "predicted": 189,
+        "reference": 64,
+        "precision": 0.12169312169312169,
+        "recall": 0.359375,
+        "f1": 0.18181818181818182,
+        "exact_document_match": 0.24615384615384617
+      },
+      "quotations": {
+        "articles": 65,
+        "reference_positive_articles": 0,
+        "predicted_positive_articles": 35,
+        "true_positives": 0,
+        "predicted": 141,
+        "reference": 0,
+        "precision": 0.0,
+        "recall": null,
+        "f1": 0.0,
+        "exact_document_match": 0.46153846153846156
+      },
+      "quotations_with_verbs": {
+        "articles": 65,
+        "reference_positive_articles": 0,
+        "predicted_positive_articles": 35,
+        "true_positives": 0,
+        "predicted": 143,
+        "reference": 0,
+        "precision": 0.0,
+        "recall": null,
+        "f1": 0.0,
+        "exact_document_match": 0.46153846153846156
+      }
+    }
+  },
+  "gcam": null,
+  "limitations": [
+    "Saved bodies can differ from GDELT's original body",
+    "Set scoring ignores offsets and repeated mentions",
+    "Amount scoring requires matching numeric value and normalized object",
+    "Quotation scoring requires complete content identity; changed boundaries and punctuation can lower agreement",
+    "Malformed native fields are excluded only from their corresponding metrics; amount-value diagnostics share amount exclusions",
+    "GCAM scores cover declared implemented dimensions only",
+    "Value errors require a native value and local matches; native companion counts are checked when present",
+    "Missing native weighted match counts are unreported, not measured zeros; they are excluded from count errors",
+    "Dimension and occurrence coverage measure computable keys, independently of matching agreement",
+    "Family correlations require at least 20 native-positive articles; WAPE divides absolute count error by native counts",
+    "A sample-size limit selects record IDs in order and is not source-balanced"
+  ],
+  "split_policy": "Existing reserved seasonal cohorts; first evaluation for these five fields. No fitting or changes to extractors. Earlier scores for other fields were already published.",
+  "model_metadata": {
+    "name": "spacy:en:core_web_lg:3.8.0",
+    "name_policy": "gdelt-full-names",
+    "enabled_pipes": [
+      "tok2vec",
+      "tagger",
+      "attribute_ruler",
+      "ner"
+    ],
+    "metadata": {
+      "lang": "en",
+      "name": "core_web_lg",
+      "version": "3.8.0",
+      "description": "English pipeline optimized for CPU. Components: tok2vec, tagger, parser, senter, ner, attribute_ruler, lemmatizer.",
+      "author": "Explosion",
+      "email": "contact@explosion.ai",
+      "url": "https://explosion.ai",
+      "license": "MIT",
+      "spacy_version": ">=3.8.0,<3.9.0",
+      "spacy_git_version": "5010fcbd3",
+      "vectors": {
+        "width": 300,
+        "vectors": 342918,
+        "keys": 684830,
+        "name": "en_vectors",
+        "mode": "default"
+      },
+      "labels": {
+        "tok2vec": [],
+        "tagger": [
+          "$",
+          "''",
+          ",",
+          "-LRB-",
+          "-RRB-",
+          ".",
+          ":",
+          "ADD",
+          "AFX",
+          "CC",
+          "CD",
+          "DT",
+          "EX",
+          "FW",
+          "HYPH",
+          "IN",
+          "JJ",
+          "JJR",
+          "JJS",
+          "LS",
+          "MD",
+          "NFP",
+          "NN",
+          "NNP",
+          "NNPS",
+          "NNS",
+          "PDT",
+          "POS",
+          "PRP",
+          "PRP$",
+          "RB",
+          "RBR",
+          "RBS",
+          "RP",
+          "SYM",
+          "TO",
+          "UH",
+          "VB",
+          "VBD",
+          "VBG",
+          "VBN",
+          "VBP",
+          "VBZ",
+          "WDT",
+          "WP",
+          "WP$",
+          "WRB",
+          "XX",
+          "_SP",
+          "``"
+        ],
+        "parser": [
+          "ROOT",
+          "acl",
+          "acomp",
+          "advcl",
+          "advmod",
+          "agent",
+          "amod",
+          "appos",
+          "attr",
+          "aux",
+          "auxpass",
+          "case",
+          "cc",
+          "ccomp",
+          "compound",
+          "conj",
+          "csubj",
+          "csubjpass",
+          "dative",
+          "dep",
+          "det",
+          "dobj",
+          "expl",
+          "intj",
+          "mark",
+          "meta",
+          "neg",
+          "nmod",
+          "npadvmod",
+          "nsubj",
+          "nsubjpass",
+          "nummod",
+          "oprd",
+          "parataxis",
+          "pcomp",
+          "pobj",
+          "poss",
+          "preconj",
+          "predet",
+          "prep",
+          "prt",
+          "punct",
+          "quantmod",
+          "relcl",
+          "xcomp"
+        ],
+        "attribute_ruler": [],
+        "lemmatizer": [],
+        "ner": [
+          "CARDINAL",
+          "DATE",
+          "EVENT",
+          "FAC",
+          "GPE",
+          "LANGUAGE",
+          "LAW",
+          "LOC",
+          "MONEY",
+          "NORP",
+          "ORDINAL",
+          "ORG",
+          "PERCENT",
+          "PERSON",
+          "PRODUCT",
+          "QUANTITY",
+          "TIME",
+          "WORK_OF_ART"
+        ]
+      },
+      "pipeline": [
+        "tok2vec",
+        "tagger",
+        "attribute_ruler",
+        "ner"
+      ],
+      "components": [
+        "tok2vec",
+        "tagger",
+        "parser",
+        "senter",
+        "attribute_ruler",
+        "lemmatizer",
+        "ner"
+      ],
+      "disabled": [
+        "parser",
+        "senter",
+        "lemmatizer"
+      ],
+      "performance": {
+        "token_acc": 0.9986194413,
+        "token_p": 0.9956819193,
+        "token_r": 0.9957659295000001,
+        "token_f": 0.9957239226000001,
+        "tag_acc": 0.9738004455,
+        "sents_p": 0.9203347166,
+        "sents_r": 0.8924071509,
+        "sents_f": 0.9061558041000001,
+        "dep_uas": 0.9204179485,
+        "dep_las": 0.9020651496000001,
+        "dep_las_per_type": {
+          "prep": {
+            "p": 0.8595858233,
+            "r": 0.8678049706000001,
+            "f": 0.8636758431
+          },
+          "det": {
+            "p": 0.9793024772000001,
+            "r": 0.9800212020000001,
+            "f": 0.9796617078000001
+          },
+          "pobj": {
+            "p": 0.9639618512,
+            "r": 0.9684665227,
+            "f": 0.9662089365000001
+          },
+          "nsubj": {
+            "p": 0.9586411289000001,
+            "r": 0.9494852136,
+            "f": 0.9540412044000001
+          },
+          "aux": {
+            "p": 0.9818682784,
+            "r": 0.9834416452,
+            "f": 0.9826543320000001
+          },
+          "advmod": {
+            "p": 0.8559065703000001,
+            "r": 0.8570587245,
+            "f": 0.85648226
+          },
+          "relcl": {
+            "p": 0.7664285714,
+            "r": 0.7786647315,
+            "f": 0.7724982001
+          },
+          "root": {
+            "p": 0.9225692318000001,
+            "r": 0.8944521406,
+            "f": 0.9082931404000001
+          },
+          "xcomp": {
+            "p": 0.8789253315000001,
+            "r": 0.9041636755,
+            "f": 0.8913658882000001
+          },
+          "amod": {
+            "p": 0.9216517712000001,
+            "r": 0.9153223194000001,
+            "f": 0.9184761409000001
+          },
+          "compound": {
+            "p": 0.9171140572,
+            "r": 0.9323345957,
+            "f": 0.9246616957
+          },
+          "poss": {
+            "p": 0.9746937136,
+            "r": 0.9768518519,
+            "f": 0.9757715894000001
+          },
+          "ccomp": {
+            "p": 0.776402176,
+            "r": 0.8429735234,
+            "f": 0.8083195
+          },
+          "attr": {
+            "p": 0.8962454582,
+            "r": 0.9335576114,
+            "f": 0.9145211123
+          },
+          "case": {
+            "p": 0.9777558082000001,
+            "r": 0.98998999,
+            "f": 0.9838348669
+          },
+          "mark": {
+            "p": 0.9007055135,
+            "r": 0.9133545310000001,
+            "f": 0.9069859229
+          },
+          "intj": {
+            "p": 0.6830039526,
+            "r": 0.632967033,
+            "f": 0.6570342205
+          },
+          "advcl": {
+            "p": 0.67100894,
+            "r": 0.66154621,
+            "f": 0.6662439767
+          },
+          "cc": {
+            "p": 0.8349385986000001,
+            "r": 0.8294462385,
+            "f": 0.8321833563000001
+          },
+          "neg": {
+            "p": 0.9461615155,
+            "r": 0.9523331661000001,
+            "f": 0.9492373093
+          },
+          "conj": {
+            "p": 0.7633823711000001,
+            "r": 0.7773162135,
+            "f": 0.7702862845
+          },
+          "nsubjpass": {
+            "p": 0.9223300971,
+            "r": 0.9256410256000001,
+            "f": 0.9239825953
+          },
+          "auxpass": {
+            "p": 0.9504464286000001,
+            "r": 0.9699316629,
+            "f": 0.9600901917
+          },
+          "dobj": {
+            "p": 0.9242424242,
+            "r": 0.9430233485,
+            "f": 0.9335384373000001
+          },
+          "nummod": {
+            "p": 0.9375317420000001,
+            "r": 0.9323232323,
+            "f": 0.934920233
+          },
+          "npadvmod": {
+            "p": 0.7957281553000001,
+            "r": 0.7278863233,
+            "f": 0.760296846
+          },
+          "prt": {
+            "p": 0.8149671053,
+            "r": 0.8879928315000001,
+            "f": 0.8499142367
+          },
+          "pcomp": {
+            "p": 0.8874032372,
+            "r": 0.8830532213000001,
+            "f": 0.8852228852
+          },
+          "expl": {
+            "p": 0.976744186,
+            "r": 0.9892933619000001,
+            "f": 0.9829787234
+          },
+          "acl": {
+            "p": 0.7511520737,
+            "r": 0.7114020731,
+            "f": 0.7307369011
+          },
+          "agent": {
+            "p": 0.8989726027,
+            "r": 0.9408602151000001,
+            "f": 0.9194395797
+          },
+          "dative": {
+            "p": 0.7897574124000001,
+            "r": 0.6720183486,
+            "f": 0.7261462206
+          },
+          "acomp": {
+            "p": 0.9046754426,
+            "r": 0.9038548753000001,
+            "f": 0.9042649728000001
+          },
+          "dep": {
+            "p": 0.3702422145,
+            "r": 0.1737012987,
+            "f": 0.23646408840000002
+          },
+          "csubj": {
+            "p": 0.679558011,
+            "r": 0.7278106509000001,
+            "f": 0.7028571429
+          },
+          "quantmod": {
+            "p": 0.8657117278,
+            "r": 0.7855402112000001,
+            "f": 0.8236797274000001
+          },
+          "nmod": {
+            "p": 0.7578616352,
+            "r": 0.5874466789,
+            "f": 0.6618606248000001
+          },
+          "appos": {
+            "p": 0.7024680073,
+            "r": 0.6668112798,
+            "f": 0.6841753839
+          },
+          "predet": {
+            "p": 0.8483606557000001,
+            "r": 0.8884120172000001,
+            "f": 0.8679245283
+          },
+          "preconj": {
+            "p": 0.5045045045000001,
+            "r": 0.6511627907,
+            "f": 0.5685279188
+          },
+          "oprd": {
+            "p": 0.8566552901000001,
+            "r": 0.7492537313000001,
+            "f": 0.7993630573
+          },
+          "parataxis": {
+            "p": 0.6108108108,
+            "r": 0.4902386117,
+            "f": 0.5439229844
+          },
+          "csubjpass": {
+            "p": 0.5714285714,
+            "r": 0.6666666667000001,
+            "f": 0.6153846154
+          },
+          "meta": {
+            "p": 0.9166666667000001,
+            "r": 0.4230769231,
+            "f": 0.5789473684
+          }
+        },
+        "ents_p": 0.8521445256,
+        "ents_r": 0.8586738782000001,
+        "ents_f": 0.8553967422000001,
+        "ents_per_type": {
+          "DATE": {
+            "p": 0.8669996878,
+            "r": 0.8815873016,
+            "f": 0.8742326460000001
+          },
+          "GPE": {
+            "p": 0.9232736573,
+            "r": 0.9062761506,
+            "f": 0.9146959459
+          },
+          "ORDINAL": {
+            "p": 0.7731092437,
+            "r": 0.8571428571,
+            "f": 0.8129602356000001
+          },
+          "ORG": {
+            "p": 0.8187693899,
+            "r": 0.8396076352,
+            "f": 0.8290575916
+          },
+          "CARDINAL": {
+            "p": 0.8170798898,
+            "r": 0.8816884661000001,
+            "f": 0.8481555619000001
+          },
+          "LOC": {
+            "p": 0.6894197952000001,
+            "r": 0.6433121019,
+            "f": 0.665568369
+          },
+          "PERSON": {
+            "p": 0.8786855037,
+            "r": 0.9337467363,
+            "f": 0.9053797468
+          },
+          "NORP": {
+            "p": 0.8934169279,
+            "r": 0.912,
+            "f": 0.9026128266000001
+          },
+          "FAC": {
+            "p": 0.2983425414,
+            "r": 0.4153846154,
+            "f": 0.347266881
+          },
+          "TIME": {
+            "p": 0.7598784195,
+            "r": 0.7309941520000001,
+            "f": 0.7451564829
+          },
+          "QUANTITY": {
+            "p": 0.7916666667000001,
+            "r": 0.6263736264,
+            "f": 0.6993865031000001
+          },
+          "WORK_OF_ART": {
+            "p": 0.4444444444,
+            "r": 0.32989690720000003,
+            "f": 0.3786982249
+          },
+          "EVENT": {
+            "p": 0.5567010309,
+            "r": 0.3103448276,
+            "f": 0.39852398520000004
+          },
+          "MONEY": {
+            "p": 0.9153754470000001,
+            "r": 0.9067296340000001,
+            "f": 0.9110320285
+          },
+          "LAW": {
+            "p": 0.6363636364,
+            "r": 0.546875,
+            "f": 0.5882352941
+          },
+          "PERCENT": {
+            "p": 0.9219745223,
+            "r": 0.886676876,
+            "f": 0.9039812646000001
+          },
+          "LANGUAGE": {
+            "p": 0.75,
+            "r": 0.65625,
+            "f": 0.7000000000000001
+          },
+          "PRODUCT": {
+            "p": 0.5842696629,
+            "r": 0.2464454976,
+            "f": 0.3466666667
+          }
+        },
+        "speed": 8838.8203104608
+      },
+      "sources": [
+        {
+          "name": "OntoNotes 5",
+          "url": "https://catalog.ldc.upenn.edu/LDC2013T19",
+          "license": "commercial (licensed by Explosion)",
+          "author": "Ralph Weischedel, Martha Palmer, Mitchell Marcus, Eduard Hovy, Sameer Pradhan, Lance Ramshaw, Nianwen Xue, Ann Taylor, Jeff Kaufman, Michelle Franchini, Mohammed El-Bachouti, Robert Belvin, Ann Houston"
+        },
+        {
+          "name": "ClearNLP Constituent-to-Dependency Conversion",
+          "url": "https://github.com/clir/clearnlp-guidelines/blob/master/md/components/dependency_conversion.md",
+          "license": "Citation provided for reference, no code packaged with model",
+          "author": "Emory University"
+        },
+        {
+          "name": "WordNet 3.0",
+          "url": "https://wordnet.princeton.edu/",
+          "author": "Princeton University",
+          "license": "WordNet 3.0 License"
+        },
+        {
+          "name": "Explosion Vectors (OSCAR 2109 + Wikipedia + OpenSubtitles + WMT News Crawl)",
+          "url": "https://github.com/explosion/spacy-vectors-builder",
+          "license": "CC0",
+          "author": "Explosion"
+        }
+      ],
+      "requirements": []
+    }
+  }
+}

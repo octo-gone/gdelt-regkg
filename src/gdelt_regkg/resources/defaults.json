@@ -1,0 +1,8 @@
+{
+  "tone": "tone.v3.json",
+  "themes": "themes.v3.json",
+  "counts": "counts.v3.json",
+  "ner": "names.v1.json",
+  "locations": "locations.v1.json.gz",
+  "gcam": "gcam.v3.json.gz"
+}

@@ -1,0 +1,34 @@
+name: Bug report
+description: Report an installation, API, formatting or runtime problem.
+body:
+  - type: markdown
+    attributes:
+      value: For vulnerabilities, follow the Security section in README.md. Share only minimal text and files you are allowed to publish.
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Package version or commit, Python version, OS, installation command, model and resource profile names. Include the PyTorch build and device if translation is involved.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Paste runnable code or a command with a short input. Include relevant arguments and resource setup steps.
+      render: python
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Include the output or complete traceback. Remove credentials and personal information.
+    validations:
+      required: true

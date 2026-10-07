@@ -1,0 +1,369 @@
+{
+  "corpus_sha256": "3336c295d4c2bc39ae32620d3bd6a4998b172f85bd1f861e36960d811c7b07fe",
+  "archives": [
+    {
+      "name": "20251111001500.gkg.csv.zip",
+      "sha256": "663b3670224e067d0e466a57a15c7967498357f50ef34efad270767875f68233"
+    },
+    {
+      "name": "20251111043000.gkg.csv.zip",
+      "sha256": "e82586e48c05d19d2e0ecc5c5533d093505f96d12d34c07e12ea588d758e07b5"
+    },
+    {
+      "name": "20251111084500.gkg.csv.zip",
+      "sha256": "967b77af1eb5dfd327271e37ceacca114faf027f3990cb85466c0e59461ccd7a"
+    },
+    {
+      "name": "20251111121500.gkg.csv.zip",
+      "sha256": "f4588a1c858716d33fdab2f16d05b78ae292ff937b39e840673892870b40eb47"
+    },
+    {
+      "name": "20251111163000.gkg.csv.zip",
+      "sha256": "fca244111d70990978be1d2bfdd17a2ad1eb0f81b5ded88ceecfb652e8bc37fc"
+    },
+    {
+      "name": "20251111204500.gkg.csv.zip",
+      "sha256": "ab1e3c227ea2a0aaa43709eb6612a0ebafe8b7dce04407781e6e28e376a4a9d4"
+    },
+    {
+      "name": "20251122001500.gkg.csv.zip",
+      "sha256": "90ef02a72faa0630468edff85956fca3b0e8959b7e618f926827acae79daced3"
+    },
+    {
+      "name": "20251122043000.gkg.csv.zip",
+      "sha256": "68f0c13b63986fcb82da5fbbd1c838001accf547def3aeff05010676edd80cd3"
+    },
+    {
+      "name": "20251122084500.gkg.csv.zip",
+      "sha256": "71d701e3fae3bf736e261314f1c4617c31ce0ccef309f846792a6b4090a083f4"
+    },
+    {
+      "name": "20251122121500.gkg.csv.zip",
+      "sha256": "2aa4935a309fff0b6d75e3c2f694b5f2feb6673d0f28d51e90a1a317c85b313f"
+    },
+    {
+      "name": "20251122163000.gkg.csv.zip",
+      "sha256": "7c9a942687b6d393803e4ce3e6badff255b500a96567546974cbc8afb6354f36"
+    },
+    {
+      "name": "20251122204500.gkg.csv.zip",
+      "sha256": "a6473bb29f8c83206335d827331905870ec250fd99a9dbaa52bc521d8fdb9bc2"
+    },
+    {
+      "name": "20260211001500.gkg.csv.zip",
+      "sha256": "6e36ee925b78e0fb93a94831210ff4df46cfc66907d973f42e7fe7242c340620"
+    },
+    {
+      "name": "20260211043000.gkg.csv.zip",
+      "sha256": "c2436091b5e35f0d49eea547951f0daffe57b8b8ccf6d051dd1e1122b2ce3ec2"
+    },
+    {
+      "name": "20260211084500.gkg.csv.zip",
+      "sha256": "b69ce8e4db378715e71c266ca563f87c78635cfda3dd16f11907238e0c5e1e3d"
+    },
+    {
+      "name": "20260211121500.gkg.csv.zip",
+      "sha256": "a11986ae7a806e645d64449ce3fbc229bfd0ca5edcea7ee0fb0ec371292d797f"
+    },
+    {
+      "name": "20260211163000.gkg.csv.zip",
+      "sha256": "777b78a7ddd2242b7e4cd553f762b6e4fead182f634c46281c4180de53c86fb7"
+    },
+    {
+      "name": "20260211204500.gkg.csv.zip",
+      "sha256": "43f391afa05e722d68856e1c3b8d59a00a8fcb13a50c09b18bb0c0af05017d4a"
+    },
+    {
+      "name": "20260222001500.gkg.csv.zip",
+      "sha256": "d2738d9b370691723dcf414606224db578e91e8743e886ba9ea25ac9bdd4795f"
+    },
+    {
+      "name": "20260222043000.gkg.csv.zip",
+      "sha256": "d6ddcba2164c9e37bbd266bf9fcdd4e1ff6df4f11bc1ea33d8fe8fd486f14034"
+    },
+    {
+      "name": "20260222084500.gkg.csv.zip",
+      "sha256": "c17029f30b98b1ee5eacf2f016e823821e62c05bf44d56e59b99d8dcfb863186"
+    },
+    {
+      "name": "20260222121500.gkg.csv.zip",
+      "sha256": "f4aab28ae7f727e651085375788fddae667855e3b473e5d31fb8524afe42ddb8"
+    },
+    {
+      "name": "20260222163000.gkg.csv.zip",
+      "sha256": "e067032d99b2a8c5455991437c9f1c6d0dd998f63185958fd2d245822d05316d"
+    },
+    {
+      "name": "20260222204500.gkg.csv.zip",
+      "sha256": "ba284c2decc75c6091214384c33a5f6315a67e9efd669d198822c9a47690248e"
+    },
+    {
+      "name": "20260511001500.gkg.csv.zip",
+      "sha256": "aa188ac9c8303066bb6001fd4d379917a8137606258a6cf8fc6c899794e7fbda"
+    },
+    {
+      "name": "20260511043000.gkg.csv.zip",
+      "sha256": "dd007bd834d05cde9d6db29eccaac26bae14a7f7343a3eab814ff583e5691424"
+    },
+    {
+      "name": "20260511084500.gkg.csv.zip",
+      "sha256": "c015f3d791849c1c860267f8ad494bd4a0699ef3a2e04c1f61bfd2451887f1a1"
+    },
+    {
+      "name": "20260511121500.gkg.csv.zip",
+      "sha256": "e7b5a3ebd46d615146c4bb4fa89e94c610203b1a55a631df0fb7c3239deae5f8"
+    },
+    {
+      "name": "20260511163000.gkg.csv.zip",
+      "sha256": "51631649a7c1a80fac827b81016ab7d29ab882e1d6f811df85a9d24505b26ded"
+    },
+    {
+      "name": "20260511204500.gkg.csv.zip",
+      "sha256": "8291ba9791a8c547220fc2441338fec2fc7bef2959786aa816111acf4fc58f8f"
+    },
+    {
+      "name": "20260522001500.gkg.csv.zip",
+      "sha256": "354eb46612343b944c249f6f00862d6400d5e921b1329846adf586e422d6c309"
+    },
+    {
+      "name": "20260522043000.gkg.csv.zip",
+      "sha256": "f2fafaeed49c0c5befee1871beaf5ff73ca39328c265d5697fc1273bd30c09df"
+    },
+    {
+      "name": "20260522084500.gkg.csv.zip",
+      "sha256": "592ce594a6253c0037f7f3ffc0d09fdec9f050c1008a8e80705c9b4feac1444a"
+    },
+    {
+      "name": "20260522121500.gkg.csv.zip",
+      "sha256": "a25e6e654571925ae8a34c582c674f7dbf2a2d30d395cb43c66555fb169a1177"
+    },
+    {
+      "name": "20260522163000.gkg.csv.zip",
+      "sha256": "9db924356321aace5b74cd8e1b3157722647722238f556469dd8db4946ed9cd8"
+    },
+    {
+      "name": "20260522204500.gkg.csv.zip",
+      "sha256": "f9b527d30ae3948f66f4c0e2fbeddb98cef6b67eceb8d282d905781bf152fdd7"
+    },
+    {
+      "name": "20260811001500.gkg.csv.zip",
+      "sha256": "d742907649ab0aebaf790112d250eb9201c0702a3a2b0bb504a03507e59e9b9a"
+    },
+    {
+      "name": "20260811043000.gkg.csv.zip",
+      "sha256": "42930f646f356efb1b5888330a6bf6ae3322a4de8e405492a7fa5a977a14fa2b"
+    },
+    {
+      "name": "20260811084500.gkg.csv.zip",
+      "sha256": "14e69ccaba87f14ab555e0a49e54d0678c96174eecf8a08e829f1596d67c966c"
+    },
+    {
+      "name": "20260811121500.gkg.csv.zip",
+      "sha256": "5b26cdc67e601ff7381f89fccf0f7d1ec049e3157294f0cf38f938e9234de91f"
+    },
+    {
+      "name": "20260811163000.gkg.csv.zip",
+      "sha256": "fbb6fc2eef6fc8849181e67d9dea94536eb9475a77a483c3319cb6c718179e1d"
+    },
+    {
+      "name": "20260811204500.gkg.csv.zip",
+      "sha256": "f0b8a318dd157861a49b551d159d52c4115bc56165f710edaea2d483981aaf09"
+    },
+    {
+      "name": "20260822001500.gkg.csv.zip",
+      "sha256": "01cb7361808834faeb0175d1a3aaf7f6e22cc96fcb6785a4dd06b6eb8d4a1728"
+    },
+    {
+      "name": "20260822043000.gkg.csv.zip",
+      "sha256": "5aa02169bca70b75e93c34cf86743d83459c8e0b553ee1e014513744b7883051"
+    },
+    {
+      "name": "20260822084500.gkg.csv.zip",
+      "sha256": "67f861d98629e6b1b0343c7d040ccb50f4033311db20cf89ce69d7078262c4d2"
+    },
+    {
+      "name": "20260822121500.gkg.csv.zip",
+      "sha256": "db6d8bf95ba2d1db5727d1d5b7afa7a8e3171e48ae727620f69b90ba598e12e5"
+    },
+    {
+      "name": "20260822163000.gkg.csv.zip",
+      "sha256": "956c21c187d384a6fe84277b6f101c2c945f98e7af1baba0abcd72c4eaf8118f"
+    },
+    {
+      "name": "20260822204500.gkg.csv.zip",
+      "sha256": "2ae988161d3f64197b8b679d470b1520ba1a0a917a4cf43b39da5637347a0da1"
+    }
+  ],
+  "profiles": {
+    "ner": null,
+    "gazetteer": null,
+    "gcam": "general-inquirer-vader-gcam-v2"
+  },
+  "resource_sha256": {
+    "gcam.v2.json": "4bca2173fbd20c019eee4724fbc48123460e8253afc92b36e8ecb32c71cd85c4"
+  },
+  "gcam_configuration_sha256": "eb249cd6f73002d9a7bfa2a0f387d0f88504b1b1d998151d45eca3712f59ad4a",
+  "audit": {
+    "missing_original_record": 0,
+    "articles": 2626
+  },
+  "metrics": {},
+  "gcam": {
+    "evaluated_dimensions": [
+      "c2.21",
+      "c2.74",
+      "c2.79",
+      "c2.93",
+      "c2.156",
+      "c2.213",
+      "c2.214",
+      "c2.225",
+      "c26.1",
+      "v26.1"
+    ],
+    "word_count_mae": 125.32330540746382,
+    "median_word_count_ratio": 1.079189445729639,
+    "dimensions": {
+      "c2.21": {
+        "articles": 2626,
+        "excluded_unreported_native_count": 0,
+        "count_mae": 0.7387661843107388,
+        "density_mae_percentage_points": 0.14610142339224422
+      },
+      "c2.74": {
+        "articles": 2626,
+        "excluded_unreported_native_count": 0,
+        "count_mae": 0.47334348819497335,
+        "density_mae_percentage_points": 0.1021545549099031
+      },
+      "c2.79": {
+        "articles": 2626,
+        "excluded_unreported_native_count": 0,
+        "count_mae": 3.3975628332063974,
+        "density_mae_percentage_points": 0.5751394163906242
+      },
+      "c2.93": {
+        "articles": 2626,
+        "excluded_unreported_native_count": 0,
+        "count_mae": 3.7124904798172125,
+        "density_mae_percentage_points": 0.5209803475616378
+      },
+      "c2.156": {
+        "articles": 2626,
+        "excluded_unreported_native_count": 0,
+        "count_mae": 5.4303122619954305,
+        "density_mae_percentage_points": 0.8654218802355281
+      },
+      "c2.213": {
+        "articles": 2626,
+        "excluded_unreported_native_count": 0,
+        "count_mae": 4.386900228484387,
+        "density_mae_percentage_points": 0.8505837751289691
+      },
+      "c2.214": {
+        "articles": 2626,
+        "excluded_unreported_native_count": 0,
+        "count_mae": 6.535415079969535,
+        "density_mae_percentage_points": 1.191283921871963
+      },
+      "c2.225": {
+        "articles": 2626,
+        "excluded_unreported_native_count": 0,
+        "count_mae": 4.182406702208683,
+        "density_mae_percentage_points": 0.7204148762392375
+      },
+      "c26.1": {
+        "articles": 0,
+        "excluded_unreported_native_count": 2626,
+        "count_mae": null,
+        "density_mae_percentage_points": null
+      }
+    },
+    "values": {
+      "v26.1": {
+        "paired_articles": 2592,
+        "value_mae": 0.21020137481304757,
+        "value_bias": -0.06978205412376223,
+        "pearson": 0.8979428918002489,
+        "sign_agreement": 0.9274691358024691,
+        "audit": {
+          "reference_match_count_unreported": 2596,
+          "local_matches_only": 22,
+          "both_no_matches": 8,
+          "reference_matches_only": 4
+        }
+      }
+    }
+  },
+  "limitations": [
+    "Saved bodies can differ from GDELT's original body",
+    "Set scoring ignores offsets and repeated mentions",
+    "Amount scoring requires matching numeric value and normalized object",
+    "GCAM scores cover declared implemented dimensions only",
+    "Value errors require a native value and local matches; native companion counts are checked when present",
+    "Missing native weighted match counts are unreported, not measured zeros; they are excluded from count errors",
+    "A sample-size limit selects record IDs in order and is not source-balanced"
+  ],
+  "sample": {
+    "split": "benchmark",
+    "monthly_articles": {
+      "202511": 600,
+      "202602": 645,
+      "202605": 663,
+      "202608": 718
+    },
+    "sources": 1808,
+    "used_for_fitting": false,
+    "selection": "all previously reserved English benchmark bodies after existing exact/near duplicate exclusions",
+    "resource_policy": "fixed published dictionary; no empirical word-score or rule edits",
+    "coverage_change": {
+      "previous_count_dimensions": 8,
+      "current_count_dimensions": 9,
+      "previous_value_dimensions": 0,
+      "current_value_dimensions": 1
+    }
+  },
+  "source_release": {
+    "source_url": "https://github.com/cjhutto/vaderSentiment",
+    "source_sha256": "1ec9c6e9ee19aade328f8beb393a6afa71a5bb3acf7d3cc22d4ef568df374bf5",
+    "license": "MIT",
+    "skipped_multiword_entries": [
+      "( '}{' )",
+      "can't stand",
+      "fed up",
+      "screwed up"
+    ],
+    "duplicate_normalized_entries": [
+      "(-:o",
+      "(:o",
+      ":-d",
+      ":-p",
+      ":d",
+      ":p",
+      ";d",
+      "=-d",
+      "=d",
+      "d:",
+      "d=",
+      "fav",
+      "lmao",
+      "lol",
+      "muah",
+      "o.o",
+      "o.o",
+      "o.o",
+      "o_o",
+      "o_o",
+      "ok",
+      "sob",
+      "x-d",
+      "x-p",
+      "xd",
+      "xp"
+    ],
+    "mode": "bag-of-words matched-occurrence mean; no sentence heuristics",
+    "version": "3.3.2",
+    "release_url": "https://pypi.org/project/vaderSentiment/3.3.2/"
+  },
+  "baseline_gcam_sha256": "f0227f387e1e2b32a263ff708c7ec98c8c84a5a702cdda2f70f66fdf62111d0e"
+}

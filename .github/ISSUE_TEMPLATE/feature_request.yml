@@ -1,0 +1,22 @@
+name: Feature request
+description: Propose a field improvement, importer, API or documentation change.
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      description: Describe what you need and how the current behavior affects it.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: Include an API or GKG output example where useful, and any alternatives considered.
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: Resources and evaluation
+      description: For new dictionaries or models, link their source and terms. For extraction changes, suggest how to evaluate on data separate from rule development.

@@ -1,0 +1,16 @@
+{
+  "seed": 1729,
+  "utc_windows": ["001500", "043000", "084500", "121500", "163000", "204500"],
+  "english_per_window": 90,
+  "translated_per_window": 10,
+  "per_source_per_day": 2,
+  "development": {
+    "days": ["20260110", "20260121", "20260410", "20260421", "20260710", "20260721", "20251010", "20251021"]
+  },
+  "benchmark": {
+    "days": ["20260211", "20260222", "20260511", "20260522", "20260811", "20260822", "20251111", "20251122"]
+  },
+  "split_policy": "Fit and select using development only; freeze candidates before evaluating benchmark. Exclude prior selected URLs and exact/near duplicate bodies; report translated records separately.",
+  "development_validation": "Second sampled day of each month, with source-hash reservation and deduplication; remaining development articles used for training.",
+  "season_note": "Season names describe northern-hemisphere month groups; sources span multiple climates and time zones. Six UTC windows are coverage strata, not publication times."
+}

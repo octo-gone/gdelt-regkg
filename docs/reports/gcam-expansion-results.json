@@ -1,0 +1,2382 @@
+{
+  "schema": "reconstruct-gkg/gcam-expansion/v1",
+  "samples": {
+    "development": {
+      "articles": 2707,
+      "sources": 1801,
+      "monthly_articles": {
+        "202510": 649,
+        "202601": 674,
+        "202604": 680,
+        "202607": 704
+      }
+    },
+    "benchmark": {
+      "articles": 2626,
+      "sources": 1808,
+      "monthly_articles": {
+        "202511": 600,
+        "202602": 645,
+        "202605": 663,
+        "202608": 718
+      }
+    }
+  },
+  "split_audit": {
+    "counts": {
+      "development_articles": 2707,
+      "benchmark_input_articles": 2626,
+      "benchmark_retained_articles": 2626
+    },
+    "development_sha256": "e7e4d5a4d2c2c4f4afa62008dc3ce3df8c16a89e0d646d99008bf74a87c3038e",
+    "benchmark_input_sha256": "3336c295d4c2bc39ae32620d3bd6a4998b172f85bd1f861e36960d811c7b07fe",
+    "selection": "URL and normalized-token exact/64-bit SimHash distance <=3 against all development bodies and within benchmark; no reference scores examined",
+    "retained_sha256": "3336c295d4c2bc39ae32620d3bd6a4998b172f85bd1f861e36960d811c7b07fe"
+  },
+  "selection_policy": "Published vocabularies; direct Affect labels selected on development count WAPE. No benchmark selection or subsequent resource revision.",
+  "codebook_dimensions": 2888,
+  "serialized_codebook_keys": 2989,
+  "default_stage": 7,
+  "all_optional_stage": 6,
+  "stages": [
+    {
+      "index": 0,
+      "name": "baseline",
+      "development_report": "gcam-expansion-0-development.json",
+      "benchmark_report": "gcam-expansion-0-benchmark.json",
+      "profile_sha256": "3a11692d7c0db9f69765856c6352f885654f93d9bad69d58e8647df7c19aa7ab",
+      "development": {
+        "coverage": {
+          "codebook_sha256": "2020a257f0b9d977d60cbfe076ef35db8b04507393adbc8f50d1024a06b8364f",
+          "codebook_dimensions": 2888,
+          "implemented_dimensions": 13,
+          "implemented_outside_codebook": [],
+          "dimension_fraction": 0.004501385041551247,
+          "native_observed_dimensions": 2401,
+          "supported_native_observed_dimensions": 13,
+          "native_document_dimension_assignments": 2690100,
+          "supported_native_document_dimension_assignments": 27416,
+          "native_assignment_fraction": 0.010191442697297498,
+          "native_count_occurrences": 29737528.0,
+          "supported_native_count_occurrences": 413811.0,
+          "native_count_occurrence_fraction": 0.013915447175030822,
+          "policy": "Conceptual c/v pairs counted once; occurrence coverage uses positive native count keys only"
+        },
+        "families": {
+          "2": {
+            "implemented_dimensions": 8,
+            "codebook_dimensions": 228,
+            "native_count_occurrences": 8721713.0,
+            "supported_native_count_occurrences": 253257.0,
+            "native_assignment_fraction": 0.04160216718266254,
+            "count_wape": 0.2860454005219994,
+            "density_mae_percentage_points": 0.6183404453062639,
+            "median_count_pearson_supported": 0.8594073983515443,
+            "presence": {
+              "true_positives": 18377,
+              "predicted": 18995,
+              "reference": 18920,
+              "precision": 0.9674651224006318,
+              "recall": 0.9713002114164905,
+              "f1": 0.9693788737966504,
+              "exact_document_match": 0.9463889915035094
+            }
+          },
+          "3": {
+            "implemented_dimensions": 4,
+            "codebook_dimensions": 4,
+            "native_count_occurrences": 160554.0,
+            "supported_native_count_occurrences": 160554.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.38925221420830375,
+            "density_mae_percentage_points": 1.1675346571350482,
+            "median_count_pearson_supported": 0.8592947692438635,
+            "presence": {
+              "true_positives": 5679,
+              "predicted": 5804,
+              "reference": 5815,
+              "precision": 0.9784631288766368,
+              "recall": 0.9766122098022356,
+              "f1": 0.9775367931835787,
+              "exact_document_match": 0.9758958256372368
+            }
+          },
+          "26": {
+            "implemented_dimensions": 1,
+            "codebook_dimensions": 1,
+            "native_count_occurrences": 0,
+            "supported_native_count_occurrences": 0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": null,
+            "density_mae_percentage_points": null,
+            "median_count_pearson_supported": null,
+            "presence": {
+              "true_positives": 0,
+              "predicted": 0,
+              "reference": 0,
+              "precision": null,
+              "recall": null,
+              "f1": null,
+              "exact_document_match": null
+            }
+          }
+        },
+        "values": {
+          "v26.1": {
+            "paired_articles": 2679,
+            "value_mae": 0.2121038608844339,
+            "value_bias": -0.07018821763852225,
+            "pearson": 0.8847249245225872,
+            "sign_agreement": 0.9227323628219485,
+            "audit": {
+              "reference_match_count_unreported": 2681,
+              "local_matches_only": 23,
+              "both_no_matches": 3,
+              "reference_matches_only": 2
+            }
+          }
+        }
+      },
+      "benchmark": {
+        "coverage": {
+          "codebook_sha256": "2020a257f0b9d977d60cbfe076ef35db8b04507393adbc8f50d1024a06b8364f",
+          "codebook_dimensions": 2888,
+          "implemented_dimensions": 13,
+          "implemented_outside_codebook": [],
+          "dimension_fraction": 0.004501385041551247,
+          "native_observed_dimensions": 2398,
+          "supported_native_observed_dimensions": 13,
+          "native_document_dimension_assignments": 2585131,
+          "supported_native_document_dimension_assignments": 26494,
+          "native_assignment_fraction": 0.010248610225168472,
+          "native_count_occurrences": 29197809.0,
+          "supported_native_count_occurrences": 406042.0,
+          "native_count_occurrence_fraction": 0.013906591415814797,
+          "policy": "Conceptual c/v pairs counted once; occurrence coverage uses positive native count keys only"
+        },
+        "families": {
+          "2": {
+            "implemented_dimensions": 8,
+            "codebook_dimensions": 228,
+            "native_count_occurrences": 8556835.0,
+            "supported_native_count_occurrences": 248563.0,
+            "native_assignment_fraction": 0.041821036680829475,
+            "count_wape": 0.3048683834681751,
+            "density_mae_percentage_points": 0.6215100244662634,
+            "median_count_pearson_supported": 0.8040537114720171,
+            "presence": {
+              "true_positives": 17788,
+              "predicted": 18373,
+              "reference": 18298,
+              "precision": 0.9681597997060905,
+              "recall": 0.9721281014318505,
+              "f1": 0.9701398925581523,
+              "exact_document_match": 0.9478769992383854
+            }
+          },
+          "3": {
+            "implemented_dimensions": 4,
+            "codebook_dimensions": 4,
+            "native_count_occurrences": 157479.0,
+            "supported_native_count_occurrences": 157479.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.4008915474444212,
+            "density_mae_percentage_points": 1.1619478799556406,
+            "median_count_pearson_supported": 0.7951394111372372,
+            "presence": {
+              "true_positives": 5449,
+              "predicted": 5582,
+              "reference": 5600,
+              "precision": 0.9761734145467574,
+              "recall": 0.9730357142857143,
+              "f1": 0.9746020389912359,
+              "exact_document_match": 0.9729626808834729
+            }
+          },
+          "26": {
+            "implemented_dimensions": 1,
+            "codebook_dimensions": 1,
+            "native_count_occurrences": 0,
+            "supported_native_count_occurrences": 0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": null,
+            "density_mae_percentage_points": null,
+            "median_count_pearson_supported": null,
+            "presence": {
+              "true_positives": 0,
+              "predicted": 0,
+              "reference": 0,
+              "precision": null,
+              "recall": null,
+              "f1": null,
+              "exact_document_match": null
+            }
+          }
+        },
+        "values": {
+          "v26.1": {
+            "paired_articles": 2592,
+            "value_mae": 0.21020137481304757,
+            "value_bias": -0.06978205412376223,
+            "pearson": 0.8979428918002489,
+            "sign_agreement": 0.9274691358024691,
+            "audit": {
+              "reference_match_count_unreported": 2596,
+              "local_matches_only": 22,
+              "both_no_matches": 8,
+              "reference_matches_only": 4
+            }
+          }
+        }
+      }
+    },
+    {
+      "index": 1,
+      "name": "general-inquirer",
+      "development_report": "gcam-expansion-1-development.json",
+      "benchmark_report": "gcam-expansion-1-benchmark.json",
+      "profile_sha256": "d3cc98e93528fccd2135a2ba25b0b5785228ed6f4dd5cabc02285216b4f223ce",
+      "development": {
+        "coverage": {
+          "codebook_sha256": "2020a257f0b9d977d60cbfe076ef35db8b04507393adbc8f50d1024a06b8364f",
+          "codebook_dimensions": 2888,
+          "implemented_dimensions": 222,
+          "implemented_outside_codebook": [],
+          "dimension_fraction": 0.07686980609418283,
+          "native_observed_dimensions": 2401,
+          "supported_native_observed_dimensions": 222,
+          "native_document_dimension_assignments": 2690100,
+          "supported_native_document_dimension_assignments": 448569,
+          "native_assignment_fraction": 0.1667480762796922,
+          "native_count_occurrences": 29737528.0,
+          "supported_native_count_occurrences": 8618592.0,
+          "native_count_occurrence_fraction": 0.28982207263495474,
+          "policy": "Conceptual c/v pairs counted once; occurrence coverage uses positive native count keys only"
+        },
+        "families": {
+          "2": {
+            "implemented_dimensions": 217,
+            "codebook_dimensions": 228,
+            "native_count_occurrences": 8721713.0,
+            "supported_native_count_occurrences": 8458038.0,
+            "native_assignment_fraction": 0.9676527758232479,
+            "count_wape": 0.36041337246297545,
+            "density_mae_percentage_points": 0.9272171422444124,
+            "median_count_pearson_supported": 0.8487737583189,
+            "presence": {
+              "true_positives": 406738,
+              "predicted": 427579,
+              "reference": 440073,
+              "precision": 0.9512581300765472,
+              "recall": 0.9242512037775551,
+              "f1": 0.9375602199960352,
+              "exact_document_match": 0.9077728163372312
+            }
+          },
+          "3": {
+            "implemented_dimensions": 4,
+            "codebook_dimensions": 4,
+            "native_count_occurrences": 160554.0,
+            "supported_native_count_occurrences": 160554.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.38925221420830375,
+            "density_mae_percentage_points": 1.1675346571350482,
+            "median_count_pearson_supported": 0.8592947692438635,
+            "presence": {
+              "true_positives": 5679,
+              "predicted": 5804,
+              "reference": 5815,
+              "precision": 0.9784631288766368,
+              "recall": 0.9766122098022356,
+              "f1": 0.9775367931835787,
+              "exact_document_match": 0.9758958256372368
+            }
+          },
+          "26": {
+            "implemented_dimensions": 1,
+            "codebook_dimensions": 1,
+            "native_count_occurrences": 0,
+            "supported_native_count_occurrences": 0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": null,
+            "density_mae_percentage_points": null,
+            "median_count_pearson_supported": null,
+            "presence": {
+              "true_positives": 0,
+              "predicted": 0,
+              "reference": 0,
+              "precision": null,
+              "recall": null,
+              "f1": null,
+              "exact_document_match": null
+            }
+          }
+        },
+        "values": {
+          "v26.1": {
+            "paired_articles": 2679,
+            "value_mae": 0.2121038608844339,
+            "value_bias": -0.07018821763852225,
+            "pearson": 0.8847249245225872,
+            "sign_agreement": 0.9227323628219485,
+            "audit": {
+              "reference_match_count_unreported": 2681,
+              "local_matches_only": 23,
+              "both_no_matches": 3,
+              "reference_matches_only": 2
+            }
+          }
+        }
+      },
+      "benchmark": {
+        "coverage": {
+          "codebook_sha256": "2020a257f0b9d977d60cbfe076ef35db8b04507393adbc8f50d1024a06b8364f",
+          "codebook_dimensions": 2888,
+          "implemented_dimensions": 222,
+          "implemented_outside_codebook": [],
+          "dimension_fraction": 0.07686980609418283,
+          "native_observed_dimensions": 2398,
+          "supported_native_observed_dimensions": 222,
+          "native_document_dimension_assignments": 2585131,
+          "supported_native_document_dimension_assignments": 431469,
+          "native_assignment_fraction": 0.16690411433695237,
+          "native_count_occurrences": 29197809.0,
+          "supported_native_count_occurrences": 8456309.0,
+          "native_count_occurrence_fraction": 0.28962135480782136,
+          "policy": "Conceptual c/v pairs counted once; occurrence coverage uses positive native count keys only"
+        },
+        "families": {
+          "2": {
+            "implemented_dimensions": 217,
+            "codebook_dimensions": 228,
+            "native_count_occurrences": 8556835.0,
+            "supported_native_count_occurrences": 8298830.0,
+            "native_assignment_fraction": 0.9674125947647139,
+            "count_wape": 0.3779756905491497,
+            "density_mae_percentage_points": 0.928773104847812,
+            "median_count_pearson_supported": 0.8102996933137907,
+            "presence": {
+              "true_positives": 390486,
+              "predicted": 411582,
+              "reference": 423273,
+              "precision": 0.9487441141740892,
+              "recall": 0.9225393540339214,
+              "f1": 0.9354582532296027,
+              "exact_document_match": 0.9054422102968893
+            }
+          },
+          "3": {
+            "implemented_dimensions": 4,
+            "codebook_dimensions": 4,
+            "native_count_occurrences": 157479.0,
+            "supported_native_count_occurrences": 157479.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.4008915474444212,
+            "density_mae_percentage_points": 1.1619478799556406,
+            "median_count_pearson_supported": 0.7951394111372372,
+            "presence": {
+              "true_positives": 5449,
+              "predicted": 5582,
+              "reference": 5600,
+              "precision": 0.9761734145467574,
+              "recall": 0.9730357142857143,
+              "f1": 0.9746020389912359,
+              "exact_document_match": 0.9729626808834729
+            }
+          },
+          "26": {
+            "implemented_dimensions": 1,
+            "codebook_dimensions": 1,
+            "native_count_occurrences": 0,
+            "supported_native_count_occurrences": 0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": null,
+            "density_mae_percentage_points": null,
+            "median_count_pearson_supported": null,
+            "presence": {
+              "true_positives": 0,
+              "predicted": 0,
+              "reference": 0,
+              "precision": null,
+              "recall": null,
+              "f1": null,
+              "exact_document_match": null
+            }
+          }
+        },
+        "values": {
+          "v26.1": {
+            "paired_articles": 2592,
+            "value_mae": 0.21020137481304757,
+            "value_bias": -0.06978205412376223,
+            "pearson": 0.8979428918002489,
+            "sign_agreement": 0.9274691358024691,
+            "audit": {
+              "reference_match_count_unreported": 2596,
+              "local_matches_only": 22,
+              "both_no_matches": 8,
+              "reference_matches_only": 4
+            }
+          }
+        }
+      }
+    },
+    {
+      "index": 2,
+      "name": "roget",
+      "development_report": "gcam-expansion-2-development.json",
+      "benchmark_report": "gcam-expansion-2-benchmark.json",
+      "profile_sha256": "8173051018ff41c120ddf95fdade26121bc6e513e4f1b4a539fc2ac4dd3d80a7",
+      "development": {
+        "coverage": {
+          "codebook_sha256": "2020a257f0b9d977d60cbfe076ef35db8b04507393adbc8f50d1024a06b8364f",
+          "codebook_dimensions": 2888,
+          "implemented_dimensions": 1264,
+          "implemented_outside_codebook": [],
+          "dimension_fraction": 0.4376731301939058,
+          "native_observed_dimensions": 2401,
+          "supported_native_observed_dimensions": 1262,
+          "native_document_dimension_assignments": 2690100,
+          "supported_native_document_dimension_assignments": 1616652,
+          "native_assignment_fraction": 0.6009635329541653,
+          "native_count_occurrences": 29737528.0,
+          "supported_native_count_occurrences": 13183941.0,
+          "native_count_occurrence_fraction": 0.4433435422070052,
+          "policy": "Conceptual c/v pairs counted once; occurrence coverage uses positive native count keys only"
+        },
+        "families": {
+          "2": {
+            "implemented_dimensions": 217,
+            "codebook_dimensions": 228,
+            "native_count_occurrences": 8721713.0,
+            "supported_native_count_occurrences": 8458038.0,
+            "native_assignment_fraction": 0.9676527758232479,
+            "count_wape": 0.36041337246297545,
+            "density_mae_percentage_points": 0.9272171422444124,
+            "median_count_pearson_supported": 0.8487737583189,
+            "presence": {
+              "true_positives": 406738,
+              "predicted": 427579,
+              "reference": 440073,
+              "precision": 0.9512581300765472,
+              "recall": 0.9242512037775551,
+              "f1": 0.9375602199960352,
+              "exact_document_match": 0.9077728163372312
+            }
+          },
+          "3": {
+            "implemented_dimensions": 4,
+            "codebook_dimensions": 4,
+            "native_count_occurrences": 160554.0,
+            "supported_native_count_occurrences": 160554.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.38925221420830375,
+            "density_mae_percentage_points": 1.1675346571350482,
+            "median_count_pearson_supported": 0.8592947692438635,
+            "presence": {
+              "true_positives": 5679,
+              "predicted": 5804,
+              "reference": 5815,
+              "precision": 0.9784631288766368,
+              "recall": 0.9766122098022356,
+              "f1": 0.9775367931835787,
+              "exact_document_match": 0.9758958256372368
+            }
+          },
+          "9": {
+            "implemented_dimensions": 1042,
+            "codebook_dimensions": 1042,
+            "native_count_occurrences": 4565349.0,
+            "supported_native_count_occurrences": 4565349.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.6475662649230103,
+            "density_mae_percentage_points": 0.20013553117237504,
+            "median_count_pearson_supported": 0.7490128788016613,
+            "presence": {
+              "true_positives": 1049940,
+              "predicted": 1347059,
+              "reference": 1168083,
+              "precision": 0.7794313389391259,
+              "recall": 0.8988573585952369,
+              "f1": 0.8348952067119868,
+              "exact_document_match": 0.8527802023190038
+            }
+          },
+          "26": {
+            "implemented_dimensions": 1,
+            "codebook_dimensions": 1,
+            "native_count_occurrences": 0,
+            "supported_native_count_occurrences": 0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": null,
+            "density_mae_percentage_points": null,
+            "median_count_pearson_supported": null,
+            "presence": {
+              "true_positives": 0,
+              "predicted": 0,
+              "reference": 0,
+              "precision": null,
+              "recall": null,
+              "f1": null,
+              "exact_document_match": null
+            }
+          }
+        },
+        "values": {
+          "v26.1": {
+            "paired_articles": 2679,
+            "value_mae": 0.2121038608844339,
+            "value_bias": -0.07018821763852225,
+            "pearson": 0.8847249245225872,
+            "sign_agreement": 0.9227323628219485,
+            "audit": {
+              "reference_match_count_unreported": 2681,
+              "local_matches_only": 23,
+              "both_no_matches": 3,
+              "reference_matches_only": 2
+            }
+          }
+        }
+      },
+      "benchmark": {
+        "coverage": {
+          "codebook_sha256": "2020a257f0b9d977d60cbfe076ef35db8b04507393adbc8f50d1024a06b8364f",
+          "codebook_dimensions": 2888,
+          "implemented_dimensions": 1264,
+          "implemented_outside_codebook": [],
+          "dimension_fraction": 0.4376731301939058,
+          "native_observed_dimensions": 2398,
+          "supported_native_observed_dimensions": 1260,
+          "native_document_dimension_assignments": 2585131,
+          "supported_native_document_dimension_assignments": 1550858,
+          "native_assignment_fraction": 0.5999146658331822,
+          "native_count_occurrences": 29197809.0,
+          "supported_native_count_occurrences": 12937570.0,
+          "native_count_occurrence_fraction": 0.4431007134816177,
+          "policy": "Conceptual c/v pairs counted once; occurrence coverage uses positive native count keys only"
+        },
+        "families": {
+          "2": {
+            "implemented_dimensions": 217,
+            "codebook_dimensions": 228,
+            "native_count_occurrences": 8556835.0,
+            "supported_native_count_occurrences": 8298830.0,
+            "native_assignment_fraction": 0.9674125947647139,
+            "count_wape": 0.3779756905491497,
+            "density_mae_percentage_points": 0.928773104847812,
+            "median_count_pearson_supported": 0.8102996933137907,
+            "presence": {
+              "true_positives": 390486,
+              "predicted": 411582,
+              "reference": 423273,
+              "precision": 0.9487441141740892,
+              "recall": 0.9225393540339214,
+              "f1": 0.9354582532296027,
+              "exact_document_match": 0.9054422102968893
+            }
+          },
+          "3": {
+            "implemented_dimensions": 4,
+            "codebook_dimensions": 4,
+            "native_count_occurrences": 157479.0,
+            "supported_native_count_occurrences": 157479.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.4008915474444212,
+            "density_mae_percentage_points": 1.1619478799556406,
+            "median_count_pearson_supported": 0.7951394111372372,
+            "presence": {
+              "true_positives": 5449,
+              "predicted": 5582,
+              "reference": 5600,
+              "precision": 0.9761734145467574,
+              "recall": 0.9730357142857143,
+              "f1": 0.9746020389912359,
+              "exact_document_match": 0.9729626808834729
+            }
+          },
+          "9": {
+            "implemented_dimensions": 1042,
+            "codebook_dimensions": 1042,
+            "native_count_occurrences": 4481261.0,
+            "supported_native_count_occurrences": 4481261.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.672535252912071,
+            "density_mae_percentage_points": 0.20280440112631684,
+            "median_count_pearson_supported": 0.7426616139291862,
+            "presence": {
+              "true_positives": 1004826,
+              "predicted": 1291834,
+              "reference": 1119389,
+              "precision": 0.7778290399540498,
+              "recall": 0.8976557747128121,
+              "f1": 0.8334575441591259,
+              "exact_document_match": 0.8532426363852981
+            }
+          },
+          "26": {
+            "implemented_dimensions": 1,
+            "codebook_dimensions": 1,
+            "native_count_occurrences": 0,
+            "supported_native_count_occurrences": 0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": null,
+            "density_mae_percentage_points": null,
+            "median_count_pearson_supported": null,
+            "presence": {
+              "true_positives": 0,
+              "predicted": 0,
+              "reference": 0,
+              "precision": null,
+              "recall": null,
+              "f1": null,
+              "exact_document_match": null
+            }
+          }
+        },
+        "values": {
+          "v26.1": {
+            "paired_articles": 2592,
+            "value_mae": 0.21020137481304757,
+            "value_bias": -0.06978205412376223,
+            "pearson": 0.8979428918002489,
+            "sign_agreement": 0.9274691358024691,
+            "audit": {
+              "reference_match_count_unreported": 2596,
+              "local_matches_only": 22,
+              "both_no_matches": 8,
+              "reference_matches_only": 4
+            }
+          }
+        }
+      }
+    },
+    {
+      "index": 3,
+      "name": "wordnet-lexical",
+      "development_report": "gcam-expansion-3-development.json",
+      "benchmark_report": "gcam-expansion-3-benchmark.json",
+      "profile_sha256": "c4b854804e806041cd98896ab4278e506402705ce93e8d20d758950381821a64",
+      "development": {
+        "coverage": {
+          "codebook_sha256": "2020a257f0b9d977d60cbfe076ef35db8b04507393adbc8f50d1024a06b8364f",
+          "codebook_dimensions": 2888,
+          "implemented_dimensions": 1308,
+          "implemented_outside_codebook": [],
+          "dimension_fraction": 0.45290858725761773,
+          "native_observed_dimensions": 2401,
+          "supported_native_observed_dimensions": 1306,
+          "native_document_dimension_assignments": 2690100,
+          "supported_native_document_dimension_assignments": 1725846,
+          "native_assignment_fraction": 0.6415545890487343,
+          "native_count_occurrences": 29737528.0,
+          "supported_native_count_occurrences": 16362343.0,
+          "native_count_occurrence_fraction": 0.5502253919693662,
+          "policy": "Conceptual c/v pairs counted once; occurrence coverage uses positive native count keys only"
+        },
+        "families": {
+          "2": {
+            "implemented_dimensions": 217,
+            "codebook_dimensions": 228,
+            "native_count_occurrences": 8721713.0,
+            "supported_native_count_occurrences": 8458038.0,
+            "native_assignment_fraction": 0.9676527758232479,
+            "count_wape": 0.36041337246297545,
+            "density_mae_percentage_points": 0.9272171422444124,
+            "median_count_pearson_supported": 0.8487737583189,
+            "presence": {
+              "true_positives": 406738,
+              "predicted": 427579,
+              "reference": 440073,
+              "precision": 0.9512581300765472,
+              "recall": 0.9242512037775551,
+              "f1": 0.9375602199960352,
+              "exact_document_match": 0.9077728163372312
+            }
+          },
+          "3": {
+            "implemented_dimensions": 4,
+            "codebook_dimensions": 4,
+            "native_count_occurrences": 160554.0,
+            "supported_native_count_occurrences": 160554.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.38925221420830375,
+            "density_mae_percentage_points": 1.1675346571350482,
+            "median_count_pearson_supported": 0.8592947692438635,
+            "presence": {
+              "true_positives": 5679,
+              "predicted": 5804,
+              "reference": 5815,
+              "precision": 0.9784631288766368,
+              "recall": 0.9766122098022356,
+              "f1": 0.9775367931835787,
+              "exact_document_match": 0.9758958256372368
+            }
+          },
+          "9": {
+            "implemented_dimensions": 1042,
+            "codebook_dimensions": 1042,
+            "native_count_occurrences": 4565349.0,
+            "supported_native_count_occurrences": 4565349.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.6475662649230103,
+            "density_mae_percentage_points": 0.20013553117237504,
+            "median_count_pearson_supported": 0.7490128788016613,
+            "presence": {
+              "true_positives": 1049940,
+              "predicted": 1347059,
+              "reference": 1168083,
+              "precision": 0.7794313389391259,
+              "recall": 0.8988573585952369,
+              "f1": 0.8348952067119868,
+              "exact_document_match": 0.8527802023190038
+            }
+          },
+          "17": {
+            "implemented_dimensions": 44,
+            "codebook_dimensions": 44,
+            "native_count_occurrences": 3178402.0,
+            "supported_native_count_occurrences": 3178402.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.7038555852909733,
+            "density_mae_percentage_points": 2.9303330569572608,
+            "median_count_pearson_supported": 0.7918646716135098,
+            "presence": {
+              "true_positives": 107356,
+              "predicted": 112780,
+              "reference": 109194,
+              "precision": 0.9519063663770172,
+              "recall": 0.9831675733098888,
+              "f1": 0.9672844567381765,
+              "exact_document_match": 0.9390301239211472
+            }
+          },
+          "26": {
+            "implemented_dimensions": 1,
+            "codebook_dimensions": 1,
+            "native_count_occurrences": 0,
+            "supported_native_count_occurrences": 0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": null,
+            "density_mae_percentage_points": null,
+            "median_count_pearson_supported": null,
+            "presence": {
+              "true_positives": 0,
+              "predicted": 0,
+              "reference": 0,
+              "precision": null,
+              "recall": null,
+              "f1": null,
+              "exact_document_match": null
+            }
+          }
+        },
+        "values": {
+          "v26.1": {
+            "paired_articles": 2679,
+            "value_mae": 0.2121038608844339,
+            "value_bias": -0.07018821763852225,
+            "pearson": 0.8847249245225872,
+            "sign_agreement": 0.9227323628219485,
+            "audit": {
+              "reference_match_count_unreported": 2681,
+              "local_matches_only": 23,
+              "both_no_matches": 3,
+              "reference_matches_only": 2
+            }
+          }
+        }
+      },
+      "benchmark": {
+        "coverage": {
+          "codebook_sha256": "2020a257f0b9d977d60cbfe076ef35db8b04507393adbc8f50d1024a06b8364f",
+          "codebook_dimensions": 2888,
+          "implemented_dimensions": 1308,
+          "implemented_outside_codebook": [],
+          "dimension_fraction": 0.45290858725761773,
+          "native_observed_dimensions": 2398,
+          "supported_native_observed_dimensions": 1304,
+          "native_document_dimension_assignments": 2585131,
+          "supported_native_document_dimension_assignments": 1656244,
+          "native_assignment_fraction": 0.6406808784545155,
+          "native_count_occurrences": 29197809.0,
+          "supported_native_count_occurrences": 16068476.0,
+          "native_count_occurrence_fraction": 0.5503315676871507,
+          "policy": "Conceptual c/v pairs counted once; occurrence coverage uses positive native count keys only"
+        },
+        "families": {
+          "2": {
+            "implemented_dimensions": 217,
+            "codebook_dimensions": 228,
+            "native_count_occurrences": 8556835.0,
+            "supported_native_count_occurrences": 8298830.0,
+            "native_assignment_fraction": 0.9674125947647139,
+            "count_wape": 0.3779756905491497,
+            "density_mae_percentage_points": 0.928773104847812,
+            "median_count_pearson_supported": 0.8102996933137907,
+            "presence": {
+              "true_positives": 390486,
+              "predicted": 411582,
+              "reference": 423273,
+              "precision": 0.9487441141740892,
+              "recall": 0.9225393540339214,
+              "f1": 0.9354582532296027,
+              "exact_document_match": 0.9054422102968893
+            }
+          },
+          "3": {
+            "implemented_dimensions": 4,
+            "codebook_dimensions": 4,
+            "native_count_occurrences": 157479.0,
+            "supported_native_count_occurrences": 157479.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.4008915474444212,
+            "density_mae_percentage_points": 1.1619478799556406,
+            "median_count_pearson_supported": 0.7951394111372372,
+            "presence": {
+              "true_positives": 5449,
+              "predicted": 5582,
+              "reference": 5600,
+              "precision": 0.9761734145467574,
+              "recall": 0.9730357142857143,
+              "f1": 0.9746020389912359,
+              "exact_document_match": 0.9729626808834729
+            }
+          },
+          "9": {
+            "implemented_dimensions": 1042,
+            "codebook_dimensions": 1042,
+            "native_count_occurrences": 4481261.0,
+            "supported_native_count_occurrences": 4481261.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.672535252912071,
+            "density_mae_percentage_points": 0.20280440112631684,
+            "median_count_pearson_supported": 0.7426616139291862,
+            "presence": {
+              "true_positives": 1004826,
+              "predicted": 1291834,
+              "reference": 1119389,
+              "precision": 0.7778290399540498,
+              "recall": 0.8976557747128121,
+              "f1": 0.8334575441591259,
+              "exact_document_match": 0.8532426363852981
+            }
+          },
+          "17": {
+            "implemented_dimensions": 44,
+            "codebook_dimensions": 44,
+            "native_count_occurrences": 3130906.0,
+            "supported_native_count_occurrences": 3130906.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.7305051636810559,
+            "density_mae_percentage_points": 2.9552895055148793,
+            "median_count_pearson_supported": 0.7689329814286322,
+            "presence": {
+              "true_positives": 103628,
+              "predicted": 109286,
+              "reference": 105386,
+              "precision": 0.9482275863331077,
+              "recall": 0.9833184673486042,
+              "f1": 0.9654542744279645,
+              "exact_document_match": 0.9358166585889358
+            }
+          },
+          "26": {
+            "implemented_dimensions": 1,
+            "codebook_dimensions": 1,
+            "native_count_occurrences": 0,
+            "supported_native_count_occurrences": 0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": null,
+            "density_mae_percentage_points": null,
+            "median_count_pearson_supported": null,
+            "presence": {
+              "true_positives": 0,
+              "predicted": 0,
+              "reference": 0,
+              "precision": null,
+              "recall": null,
+              "f1": null,
+              "exact_document_match": null
+            }
+          }
+        },
+        "values": {
+          "v26.1": {
+            "paired_articles": 2592,
+            "value_mae": 0.21020137481304757,
+            "value_bias": -0.06978205412376223,
+            "pearson": 0.8979428918002489,
+            "sign_agreement": 0.9274691358024691,
+            "audit": {
+              "reference_match_count_unreported": 2596,
+              "local_matches_only": 22,
+              "both_no_matches": 8,
+              "reference_matches_only": 4
+            }
+          }
+        }
+      }
+    },
+    {
+      "index": 4,
+      "name": "wordnet-affect",
+      "development_report": "gcam-expansion-4-development.json",
+      "benchmark_report": "gcam-expansion-4-benchmark.json",
+      "profile_sha256": "9ba6bb9d7254bc1683f0f0d9a6b16a6653adc26c0bc2acf09e06bd091476bb33",
+      "development": {
+        "coverage": {
+          "codebook_sha256": "2020a257f0b9d977d60cbfe076ef35db8b04507393adbc8f50d1024a06b8364f",
+          "codebook_dimensions": 2888,
+          "implemented_dimensions": 1588,
+          "implemented_outside_codebook": [],
+          "dimension_fraction": 0.5498614958448753,
+          "native_observed_dimensions": 2401,
+          "supported_native_observed_dimensions": 1585,
+          "native_document_dimension_assignments": 2690100,
+          "supported_native_document_dimension_assignments": 1824603,
+          "native_assignment_fraction": 0.6782658637225382,
+          "native_count_occurrences": 29737528.0,
+          "supported_native_count_occurrences": 16557344.0,
+          "native_count_occurrence_fraction": 0.556782796471852,
+          "policy": "Conceptual c/v pairs counted once; occurrence coverage uses positive native count keys only"
+        },
+        "families": {
+          "2": {
+            "implemented_dimensions": 217,
+            "codebook_dimensions": 228,
+            "native_count_occurrences": 8721713.0,
+            "supported_native_count_occurrences": 8458038.0,
+            "native_assignment_fraction": 0.9676527758232479,
+            "count_wape": 0.36041337246297545,
+            "density_mae_percentage_points": 0.9272171422444124,
+            "median_count_pearson_supported": 0.8487737583189,
+            "presence": {
+              "true_positives": 406738,
+              "predicted": 427579,
+              "reference": 440073,
+              "precision": 0.9512581300765472,
+              "recall": 0.9242512037775551,
+              "f1": 0.9375602199960352,
+              "exact_document_match": 0.9077728163372312
+            }
+          },
+          "3": {
+            "implemented_dimensions": 4,
+            "codebook_dimensions": 4,
+            "native_count_occurrences": 160554.0,
+            "supported_native_count_occurrences": 160554.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.38925221420830375,
+            "density_mae_percentage_points": 1.1675346571350482,
+            "median_count_pearson_supported": 0.8592947692438635,
+            "presence": {
+              "true_positives": 5679,
+              "predicted": 5804,
+              "reference": 5815,
+              "precision": 0.9784631288766368,
+              "recall": 0.9766122098022356,
+              "f1": 0.9775367931835787,
+              "exact_document_match": 0.9758958256372368
+            }
+          },
+          "9": {
+            "implemented_dimensions": 1042,
+            "codebook_dimensions": 1042,
+            "native_count_occurrences": 4565349.0,
+            "supported_native_count_occurrences": 4565349.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.6472576357251111,
+            "density_mae_percentage_points": 0.2000718636152826,
+            "median_count_pearson_supported": 0.7491845487163475,
+            "presence": {
+              "true_positives": 1049889,
+              "predicted": 1346676,
+              "reference": 1168083,
+              "precision": 0.779615141281199,
+              "recall": 0.8988136973143176,
+              "f1": 0.8349818014370363,
+              "exact_document_match": 0.8528798231924484
+            }
+          },
+          "15": {
+            "implemented_dimensions": 280,
+            "codebook_dimensions": 280,
+            "native_count_occurrences": 195001.0,
+            "supported_native_count_occurrences": 195001.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.9205645099255901,
+            "density_mae_percentage_points": 0.04481461305422883,
+            "median_count_pearson_supported": 0.27921484710873423,
+            "presence": {
+              "true_positives": 20519,
+              "predicted": 28378,
+              "reference": 98757,
+              "precision": 0.7230601169920361,
+              "recall": 0.20777261358688498,
+              "f1": 0.3227907342588587,
+              "exact_document_match": 0.8864095730645417
+            }
+          },
+          "17": {
+            "implemented_dimensions": 44,
+            "codebook_dimensions": 44,
+            "native_count_occurrences": 3178402.0,
+            "supported_native_count_occurrences": 3178402.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.7029938314914225,
+            "density_mae_percentage_points": 2.927162173584993,
+            "median_count_pearson_supported": 0.7918611124903715,
+            "presence": {
+              "true_positives": 107350,
+              "predicted": 112764,
+              "reference": 109194,
+              "precision": 0.9519882231917988,
+              "recall": 0.9831126252358188,
+              "f1": 0.9673001198424928,
+              "exact_document_match": 0.9390637068878664
+            }
+          },
+          "26": {
+            "implemented_dimensions": 1,
+            "codebook_dimensions": 1,
+            "native_count_occurrences": 0,
+            "supported_native_count_occurrences": 0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": null,
+            "density_mae_percentage_points": null,
+            "median_count_pearson_supported": null,
+            "presence": {
+              "true_positives": 0,
+              "predicted": 0,
+              "reference": 0,
+              "precision": null,
+              "recall": null,
+              "f1": null,
+              "exact_document_match": null
+            }
+          }
+        },
+        "values": {
+          "v26.1": {
+            "paired_articles": 2679,
+            "value_mae": 0.2121038608844339,
+            "value_bias": -0.07018821763852225,
+            "pearson": 0.8847249245225872,
+            "sign_agreement": 0.9227323628219485,
+            "audit": {
+              "reference_match_count_unreported": 2681,
+              "local_matches_only": 23,
+              "both_no_matches": 3,
+              "reference_matches_only": 2
+            }
+          }
+        }
+      },
+      "benchmark": {
+        "coverage": {
+          "codebook_sha256": "2020a257f0b9d977d60cbfe076ef35db8b04507393adbc8f50d1024a06b8364f",
+          "codebook_dimensions": 2888,
+          "implemented_dimensions": 1588,
+          "implemented_outside_codebook": [],
+          "dimension_fraction": 0.5498614958448753,
+          "native_observed_dimensions": 2398,
+          "supported_native_observed_dimensions": 1582,
+          "native_document_dimension_assignments": 2585131,
+          "supported_native_document_dimension_assignments": 1752116,
+          "native_assignment_fraction": 0.6777668133645839,
+          "native_count_occurrences": 29197809.0,
+          "supported_native_count_occurrences": 16262299.0,
+          "native_count_occurrence_fraction": 0.5569698397574969,
+          "policy": "Conceptual c/v pairs counted once; occurrence coverage uses positive native count keys only"
+        },
+        "families": {
+          "2": {
+            "implemented_dimensions": 217,
+            "codebook_dimensions": 228,
+            "native_count_occurrences": 8556835.0,
+            "supported_native_count_occurrences": 8298830.0,
+            "native_assignment_fraction": 0.9674125947647139,
+            "count_wape": 0.3779756905491497,
+            "density_mae_percentage_points": 0.928773104847812,
+            "median_count_pearson_supported": 0.8102996933137907,
+            "presence": {
+              "true_positives": 390486,
+              "predicted": 411582,
+              "reference": 423273,
+              "precision": 0.9487441141740892,
+              "recall": 0.9225393540339214,
+              "f1": 0.9354582532296027,
+              "exact_document_match": 0.9054422102968893
+            }
+          },
+          "3": {
+            "implemented_dimensions": 4,
+            "codebook_dimensions": 4,
+            "native_count_occurrences": 157479.0,
+            "supported_native_count_occurrences": 157479.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.4008915474444212,
+            "density_mae_percentage_points": 1.1619478799556406,
+            "median_count_pearson_supported": 0.7951394111372372,
+            "presence": {
+              "true_positives": 5449,
+              "predicted": 5582,
+              "reference": 5600,
+              "precision": 0.9761734145467574,
+              "recall": 0.9730357142857143,
+              "f1": 0.9746020389912359,
+              "exact_document_match": 0.9729626808834729
+            }
+          },
+          "9": {
+            "implemented_dimensions": 1042,
+            "codebook_dimensions": 1042,
+            "native_count_occurrences": 4481261.0,
+            "supported_native_count_occurrences": 4481261.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.6722380151479684,
+            "density_mae_percentage_points": 0.202737363369511,
+            "median_count_pearson_supported": 0.7432550526748742,
+            "presence": {
+              "true_positives": 1004768,
+              "predicted": 1291484,
+              "reference": 1119389,
+              "precision": 0.7779949267664176,
+              "recall": 0.8976039607321494,
+              "f1": 0.8335304265301408,
+              "exact_document_match": 0.8533281535742531
+            }
+          },
+          "15": {
+            "implemented_dimensions": 280,
+            "codebook_dimensions": 280,
+            "native_count_occurrences": 193823.0,
+            "supported_native_count_occurrences": 193823.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.9227594248360618,
+            "density_mae_percentage_points": 0.04570332986099514,
+            "median_count_pearson_supported": 0.29321100706907144,
+            "presence": {
+              "true_positives": 20337,
+              "predicted": 27910,
+              "reference": 95872,
+              "precision": 0.7286635614475099,
+              "recall": 0.212126585447263,
+              "f1": 0.32859381816419186,
+              "exact_document_match": 0.886970949842237
+            }
+          },
+          "17": {
+            "implemented_dimensions": 44,
+            "codebook_dimensions": 44,
+            "native_count_occurrences": 3130906.0,
+            "supported_native_count_occurrences": 3130906.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.7297200874123976,
+            "density_mae_percentage_points": 2.9525073601565976,
+            "median_count_pearson_supported": 0.7686768702768672,
+            "presence": {
+              "true_positives": 103625,
+              "predicted": 109270,
+              "reference": 105386,
+              "precision": 0.9483389768463439,
+              "recall": 0.9832900005693356,
+              "f1": 0.9654982856290996,
+              "exact_document_match": 0.9359032057051859
+            }
+          },
+          "26": {
+            "implemented_dimensions": 1,
+            "codebook_dimensions": 1,
+            "native_count_occurrences": 0,
+            "supported_native_count_occurrences": 0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": null,
+            "density_mae_percentage_points": null,
+            "median_count_pearson_supported": null,
+            "presence": {
+              "true_positives": 0,
+              "predicted": 0,
+              "reference": 0,
+              "precision": null,
+              "recall": null,
+              "f1": null,
+              "exact_document_match": null
+            }
+          }
+        },
+        "values": {
+          "v26.1": {
+            "paired_articles": 2592,
+            "value_mae": 0.21020137481304757,
+            "value_bias": -0.06978205412376223,
+            "pearson": 0.8979428918002489,
+            "sign_agreement": 0.9274691358024691,
+            "audit": {
+              "reference_match_count_unreported": 2596,
+              "local_matches_only": 22,
+              "both_no_matches": 8,
+              "reference_matches_only": 4
+            }
+          }
+        }
+      }
+    },
+    {
+      "index": 5,
+      "name": "wordnet-domains",
+      "development_report": "gcam-expansion-5-development.json",
+      "benchmark_report": "gcam-expansion-5-benchmark.json",
+      "profile_sha256": "29fe65b8e3f5a4c5b353a89cc08bfa5868e02f5d6b4ae78803755512a9973de2",
+      "development": {
+        "coverage": {
+          "codebook_sha256": "2020a257f0b9d977d60cbfe076ef35db8b04507393adbc8f50d1024a06b8364f",
+          "codebook_dimensions": 2888,
+          "implemented_dimensions": 1756,
+          "implemented_outside_codebook": [],
+          "dimension_fraction": 0.6080332409972299,
+          "native_observed_dimensions": 2401,
+          "supported_native_observed_dimensions": 1753,
+          "native_document_dimension_assignments": 2690100,
+          "supported_native_document_dimension_assignments": 2155525,
+          "native_assignment_fraction": 0.8012806215382328,
+          "native_count_occurrences": 29737528.0,
+          "supported_native_count_occurrences": 23041623.0,
+          "native_count_occurrence_fraction": 0.7748331670339242,
+          "policy": "Conceptual c/v pairs counted once; occurrence coverage uses positive native count keys only"
+        },
+        "families": {
+          "2": {
+            "implemented_dimensions": 217,
+            "codebook_dimensions": 228,
+            "native_count_occurrences": 8721713.0,
+            "supported_native_count_occurrences": 8458038.0,
+            "native_assignment_fraction": 0.9676527758232479,
+            "count_wape": 0.36041337246297545,
+            "density_mae_percentage_points": 0.9272171422444124,
+            "median_count_pearson_supported": 0.8487737583189,
+            "presence": {
+              "true_positives": 406738,
+              "predicted": 427579,
+              "reference": 440073,
+              "precision": 0.9512581300765472,
+              "recall": 0.9242512037775551,
+              "f1": 0.9375602199960352,
+              "exact_document_match": 0.9077728163372312
+            }
+          },
+          "3": {
+            "implemented_dimensions": 4,
+            "codebook_dimensions": 4,
+            "native_count_occurrences": 160554.0,
+            "supported_native_count_occurrences": 160554.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.38925221420830375,
+            "density_mae_percentage_points": 1.1675346571350482,
+            "median_count_pearson_supported": 0.8592947692438635,
+            "presence": {
+              "true_positives": 5679,
+              "predicted": 5804,
+              "reference": 5815,
+              "precision": 0.9784631288766368,
+              "recall": 0.9766122098022356,
+              "f1": 0.9775367931835787,
+              "exact_document_match": 0.9758958256372368
+            }
+          },
+          "9": {
+            "implemented_dimensions": 1042,
+            "codebook_dimensions": 1042,
+            "native_count_occurrences": 4565349.0,
+            "supported_native_count_occurrences": 4565349.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.6472576357251111,
+            "density_mae_percentage_points": 0.2000718636152826,
+            "median_count_pearson_supported": 0.7491845487163475,
+            "presence": {
+              "true_positives": 1049889,
+              "predicted": 1346676,
+              "reference": 1168083,
+              "precision": 0.779615141281199,
+              "recall": 0.8988136973143176,
+              "f1": 0.8349818014370363,
+              "exact_document_match": 0.8528798231924484
+            }
+          },
+          "15": {
+            "implemented_dimensions": 280,
+            "codebook_dimensions": 280,
+            "native_count_occurrences": 195001.0,
+            "supported_native_count_occurrences": 195001.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.9205645099255901,
+            "density_mae_percentage_points": 0.04481461305422883,
+            "median_count_pearson_supported": 0.27921484710873423,
+            "presence": {
+              "true_positives": 20519,
+              "predicted": 28378,
+              "reference": 98757,
+              "precision": 0.7230601169920361,
+              "recall": 0.20777261358688498,
+              "f1": 0.3227907342588587,
+              "exact_document_match": 0.8864095730645417
+            }
+          },
+          "16": {
+            "implemented_dimensions": 168,
+            "codebook_dimensions": 168,
+            "native_count_occurrences": 6484279.0,
+            "supported_native_count_occurrences": 6484279.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.5902650086462967,
+            "density_mae_percentage_points": 1.594065097879462,
+            "median_count_pearson_supported": 0.5900317094669961,
+            "presence": {
+              "true_positives": 242800,
+              "predicted": 257680,
+              "reference": 330922,
+              "precision": 0.9422539583980131,
+              "recall": 0.7337076410755404,
+              "f1": 0.8250056914519489,
+              "exact_document_match": 0.773510475486833
+            }
+          },
+          "17": {
+            "implemented_dimensions": 44,
+            "codebook_dimensions": 44,
+            "native_count_occurrences": 3178402.0,
+            "supported_native_count_occurrences": 3178402.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.7029938314914225,
+            "density_mae_percentage_points": 2.927162173584993,
+            "median_count_pearson_supported": 0.7918611124903715,
+            "presence": {
+              "true_positives": 107350,
+              "predicted": 112764,
+              "reference": 109194,
+              "precision": 0.9519882231917988,
+              "recall": 0.9831126252358188,
+              "f1": 0.9673001198424928,
+              "exact_document_match": 0.9390637068878664
+            }
+          },
+          "26": {
+            "implemented_dimensions": 1,
+            "codebook_dimensions": 1,
+            "native_count_occurrences": 0,
+            "supported_native_count_occurrences": 0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": null,
+            "density_mae_percentage_points": null,
+            "median_count_pearson_supported": null,
+            "presence": {
+              "true_positives": 0,
+              "predicted": 0,
+              "reference": 0,
+              "precision": null,
+              "recall": null,
+              "f1": null,
+              "exact_document_match": null
+            }
+          }
+        },
+        "values": {
+          "v26.1": {
+            "paired_articles": 2679,
+            "value_mae": 0.2121038608844339,
+            "value_bias": -0.07018821763852225,
+            "pearson": 0.8847249245225872,
+            "sign_agreement": 0.9227323628219485,
+            "audit": {
+              "reference_match_count_unreported": 2681,
+              "local_matches_only": 23,
+              "both_no_matches": 3,
+              "reference_matches_only": 2
+            }
+          }
+        }
+      },
+      "benchmark": {
+        "coverage": {
+          "codebook_sha256": "2020a257f0b9d977d60cbfe076ef35db8b04507393adbc8f50d1024a06b8364f",
+          "codebook_dimensions": 2888,
+          "implemented_dimensions": 1756,
+          "implemented_outside_codebook": [],
+          "dimension_fraction": 0.6080332409972299,
+          "native_observed_dimensions": 2398,
+          "supported_native_observed_dimensions": 1750,
+          "native_document_dimension_assignments": 2585131,
+          "supported_native_document_dimension_assignments": 2070617,
+          "native_assignment_fraction": 0.8009717882768803,
+          "native_count_occurrences": 29197809.0,
+          "supported_native_count_occurrences": 22631820.0,
+          "native_count_occurrence_fraction": 0.7751204893490468,
+          "policy": "Conceptual c/v pairs counted once; occurrence coverage uses positive native count keys only"
+        },
+        "families": {
+          "2": {
+            "implemented_dimensions": 217,
+            "codebook_dimensions": 228,
+            "native_count_occurrences": 8556835.0,
+            "supported_native_count_occurrences": 8298830.0,
+            "native_assignment_fraction": 0.9674125947647139,
+            "count_wape": 0.3779756905491497,
+            "density_mae_percentage_points": 0.928773104847812,
+            "median_count_pearson_supported": 0.8102996933137907,
+            "presence": {
+              "true_positives": 390486,
+              "predicted": 411582,
+              "reference": 423273,
+              "precision": 0.9487441141740892,
+              "recall": 0.9225393540339214,
+              "f1": 0.9354582532296027,
+              "exact_document_match": 0.9054422102968893
+            }
+          },
+          "3": {
+            "implemented_dimensions": 4,
+            "codebook_dimensions": 4,
+            "native_count_occurrences": 157479.0,
+            "supported_native_count_occurrences": 157479.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.4008915474444212,
+            "density_mae_percentage_points": 1.1619478799556406,
+            "median_count_pearson_supported": 0.7951394111372372,
+            "presence": {
+              "true_positives": 5449,
+              "predicted": 5582,
+              "reference": 5600,
+              "precision": 0.9761734145467574,
+              "recall": 0.9730357142857143,
+              "f1": 0.9746020389912359,
+              "exact_document_match": 0.9729626808834729
+            }
+          },
+          "9": {
+            "implemented_dimensions": 1042,
+            "codebook_dimensions": 1042,
+            "native_count_occurrences": 4481261.0,
+            "supported_native_count_occurrences": 4481261.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.6722380151479684,
+            "density_mae_percentage_points": 0.202737363369511,
+            "median_count_pearson_supported": 0.7432550526748742,
+            "presence": {
+              "true_positives": 1004768,
+              "predicted": 1291484,
+              "reference": 1119389,
+              "precision": 0.7779949267664176,
+              "recall": 0.8976039607321494,
+              "f1": 0.8335304265301408,
+              "exact_document_match": 0.8533281535742531
+            }
+          },
+          "15": {
+            "implemented_dimensions": 280,
+            "codebook_dimensions": 280,
+            "native_count_occurrences": 193823.0,
+            "supported_native_count_occurrences": 193823.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.9227594248360618,
+            "density_mae_percentage_points": 0.04570332986099514,
+            "median_count_pearson_supported": 0.29321100706907144,
+            "presence": {
+              "true_positives": 20337,
+              "predicted": 27910,
+              "reference": 95872,
+              "precision": 0.7286635614475099,
+              "recall": 0.212126585447263,
+              "f1": 0.32859381816419186,
+              "exact_document_match": 0.886970949842237
+            }
+          },
+          "16": {
+            "implemented_dimensions": 168,
+            "codebook_dimensions": 168,
+            "native_count_occurrences": 6369521.0,
+            "supported_native_count_occurrences": 6369521.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.5991605962206578,
+            "density_mae_percentage_points": 1.6013429195938143,
+            "median_count_pearson_supported": 0.599073802084966,
+            "presence": {
+              "true_positives": 232471,
+              "predicted": 247338,
+              "reference": 318501,
+              "precision": 0.9398919696932942,
+              "recall": 0.729890957956176,
+              "f1": 0.8216860272975175,
+              "exact_document_match": 0.7712957422115838
+            }
+          },
+          "17": {
+            "implemented_dimensions": 44,
+            "codebook_dimensions": 44,
+            "native_count_occurrences": 3130906.0,
+            "supported_native_count_occurrences": 3130906.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.7297200874123976,
+            "density_mae_percentage_points": 2.9525073601565976,
+            "median_count_pearson_supported": 0.7686768702768672,
+            "presence": {
+              "true_positives": 103625,
+              "predicted": 109270,
+              "reference": 105386,
+              "precision": 0.9483389768463439,
+              "recall": 0.9832900005693356,
+              "f1": 0.9654982856290996,
+              "exact_document_match": 0.9359032057051859
+            }
+          },
+          "26": {
+            "implemented_dimensions": 1,
+            "codebook_dimensions": 1,
+            "native_count_occurrences": 0,
+            "supported_native_count_occurrences": 0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": null,
+            "density_mae_percentage_points": null,
+            "median_count_pearson_supported": null,
+            "presence": {
+              "true_positives": 0,
+              "predicted": 0,
+              "reference": 0,
+              "precision": null,
+              "recall": null,
+              "f1": null,
+              "exact_document_match": null
+            }
+          }
+        },
+        "values": {
+          "v26.1": {
+            "paired_articles": 2592,
+            "value_mae": 0.21020137481304757,
+            "value_bias": -0.06978205412376223,
+            "pearson": 0.8979428918002489,
+            "sign_agreement": 0.9274691358024691,
+            "audit": {
+              "reference_match_count_unreported": 2596,
+              "local_matches_only": 22,
+              "both_no_matches": 8,
+              "reference_matches_only": 4
+            }
+          }
+        }
+      }
+    },
+    {
+      "index": 6,
+      "name": "themes",
+      "development_report": "gcam-expansion-6-development.json",
+      "benchmark_report": "gcam-expansion-6-benchmark.json",
+      "profile_sha256": "47e49344d1f75beb4ae6120010047f9177dbffda7e9a6a268a1c2625e017bf61",
+      "development": {
+        "coverage": {
+          "codebook_sha256": "2020a257f0b9d977d60cbfe076ef35db8b04507393adbc8f50d1024a06b8364f",
+          "codebook_dimensions": 2888,
+          "implemented_dimensions": 1855,
+          "implemented_outside_codebook": [],
+          "dimension_fraction": 0.6423130193905817,
+          "native_observed_dimensions": 2401,
+          "supported_native_observed_dimensions": 1852,
+          "native_document_dimension_assignments": 2690100,
+          "supported_native_document_dimension_assignments": 2176332,
+          "native_assignment_fraction": 0.8090152782424446,
+          "native_count_occurrences": 29737528.0,
+          "supported_native_count_occurrences": 23129097.0,
+          "native_count_occurrence_fraction": 0.7777747027257949,
+          "policy": "Conceptual c/v pairs counted once; occurrence coverage uses positive native count keys only"
+        },
+        "families": {
+          "2": {
+            "implemented_dimensions": 217,
+            "codebook_dimensions": 228,
+            "native_count_occurrences": 8721713.0,
+            "supported_native_count_occurrences": 8458038.0,
+            "native_assignment_fraction": 0.9676527758232479,
+            "count_wape": 0.36041337246297545,
+            "density_mae_percentage_points": 0.9272171422444124,
+            "median_count_pearson_supported": 0.8487737583189,
+            "presence": {
+              "true_positives": 406738,
+              "predicted": 427579,
+              "reference": 440073,
+              "precision": 0.9512581300765472,
+              "recall": 0.9242512037775551,
+              "f1": 0.9375602199960352,
+              "exact_document_match": 0.9077728163372312
+            }
+          },
+          "3": {
+            "implemented_dimensions": 4,
+            "codebook_dimensions": 4,
+            "native_count_occurrences": 160554.0,
+            "supported_native_count_occurrences": 160554.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.38925221420830375,
+            "density_mae_percentage_points": 1.1675346571350482,
+            "median_count_pearson_supported": 0.8592947692438635,
+            "presence": {
+              "true_positives": 5679,
+              "predicted": 5804,
+              "reference": 5815,
+              "precision": 0.9784631288766368,
+              "recall": 0.9766122098022356,
+              "f1": 0.9775367931835787,
+              "exact_document_match": 0.9758958256372368
+            }
+          },
+          "9": {
+            "implemented_dimensions": 1042,
+            "codebook_dimensions": 1042,
+            "native_count_occurrences": 4565349.0,
+            "supported_native_count_occurrences": 4565349.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.6472576357251111,
+            "density_mae_percentage_points": 0.2000718636152826,
+            "median_count_pearson_supported": 0.7491845487163475,
+            "presence": {
+              "true_positives": 1049889,
+              "predicted": 1346676,
+              "reference": 1168083,
+              "precision": 0.779615141281199,
+              "recall": 0.8988136973143176,
+              "f1": 0.8349818014370363,
+              "exact_document_match": 0.8528798231924484
+            }
+          },
+          "15": {
+            "implemented_dimensions": 280,
+            "codebook_dimensions": 280,
+            "native_count_occurrences": 195001.0,
+            "supported_native_count_occurrences": 195001.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.9205645099255901,
+            "density_mae_percentage_points": 0.04481461305422883,
+            "median_count_pearson_supported": 0.27921484710873423,
+            "presence": {
+              "true_positives": 20519,
+              "predicted": 28378,
+              "reference": 98757,
+              "precision": 0.7230601169920361,
+              "recall": 0.20777261358688498,
+              "f1": 0.3227907342588587,
+              "exact_document_match": 0.8864095730645417
+            }
+          },
+          "16": {
+            "implemented_dimensions": 168,
+            "codebook_dimensions": 168,
+            "native_count_occurrences": 6484279.0,
+            "supported_native_count_occurrences": 6484279.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.5902650086462967,
+            "density_mae_percentage_points": 1.594065097879462,
+            "median_count_pearson_supported": 0.5900317094669961,
+            "presence": {
+              "true_positives": 242800,
+              "predicted": 257680,
+              "reference": 330922,
+              "precision": 0.9422539583980131,
+              "recall": 0.7337076410755404,
+              "f1": 0.8250056914519489,
+              "exact_document_match": 0.773510475486833
+            }
+          },
+          "17": {
+            "implemented_dimensions": 44,
+            "codebook_dimensions": 44,
+            "native_count_occurrences": 3178402.0,
+            "supported_native_count_occurrences": 3178402.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.7029938314914225,
+            "density_mae_percentage_points": 2.927162173584993,
+            "median_count_pearson_supported": 0.7918611124903715,
+            "presence": {
+              "true_positives": 107350,
+              "predicted": 112764,
+              "reference": 109194,
+              "precision": 0.9519882231917988,
+              "recall": 0.9831126252358188,
+              "f1": 0.9673001198424928,
+              "exact_document_match": 0.9390637068878664
+            }
+          },
+          "18": {
+            "implemented_dimensions": 99,
+            "codebook_dimensions": 368,
+            "native_count_occurrences": 93210.0,
+            "supported_native_count_occurrences": 87474.0,
+            "native_assignment_fraction": 0.8766378765536128,
+            "count_wape": 0.6568237419118824,
+            "density_mae_percentage_points": 0.04531789022627949,
+            "median_count_pearson_supported": 0.7801299738324449,
+            "presence": {
+              "true_positives": 12937,
+              "predicted": 16063,
+              "reference": 20807,
+              "precision": 0.8053912718670236,
+              "recall": 0.6217619070505118,
+              "f1": 0.7017629509085977,
+              "exact_document_match": 0.9589690775505331
+            }
+          },
+          "26": {
+            "implemented_dimensions": 1,
+            "codebook_dimensions": 1,
+            "native_count_occurrences": 0,
+            "supported_native_count_occurrences": 0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": null,
+            "density_mae_percentage_points": null,
+            "median_count_pearson_supported": null,
+            "presence": {
+              "true_positives": 0,
+              "predicted": 0,
+              "reference": 0,
+              "precision": null,
+              "recall": null,
+              "f1": null,
+              "exact_document_match": null
+            }
+          }
+        },
+        "values": {
+          "v26.1": {
+            "paired_articles": 2679,
+            "value_mae": 0.2121038608844339,
+            "value_bias": -0.07018821763852225,
+            "pearson": 0.8847249245225872,
+            "sign_agreement": 0.9227323628219485,
+            "audit": {
+              "reference_match_count_unreported": 2681,
+              "local_matches_only": 23,
+              "both_no_matches": 3,
+              "reference_matches_only": 2
+            }
+          }
+        }
+      },
+      "benchmark": {
+        "coverage": {
+          "codebook_sha256": "2020a257f0b9d977d60cbfe076ef35db8b04507393adbc8f50d1024a06b8364f",
+          "codebook_dimensions": 2888,
+          "implemented_dimensions": 1855,
+          "implemented_outside_codebook": [],
+          "dimension_fraction": 0.6423130193905817,
+          "native_observed_dimensions": 2398,
+          "supported_native_observed_dimensions": 1848,
+          "native_document_dimension_assignments": 2585131,
+          "supported_native_document_dimension_assignments": 2090683,
+          "native_assignment_fraction": 0.8087338707400128,
+          "native_count_occurrences": 29197809.0,
+          "supported_native_count_occurrences": 22719447.0,
+          "native_count_occurrence_fraction": 0.7781216391955985,
+          "policy": "Conceptual c/v pairs counted once; occurrence coverage uses positive native count keys only"
+        },
+        "families": {
+          "2": {
+            "implemented_dimensions": 217,
+            "codebook_dimensions": 228,
+            "native_count_occurrences": 8556835.0,
+            "supported_native_count_occurrences": 8298830.0,
+            "native_assignment_fraction": 0.9674125947647139,
+            "count_wape": 0.3779756905491497,
+            "density_mae_percentage_points": 0.928773104847812,
+            "median_count_pearson_supported": 0.8102996933137907,
+            "presence": {
+              "true_positives": 390486,
+              "predicted": 411582,
+              "reference": 423273,
+              "precision": 0.9487441141740892,
+              "recall": 0.9225393540339214,
+              "f1": 0.9354582532296027,
+              "exact_document_match": 0.9054422102968893
+            }
+          },
+          "3": {
+            "implemented_dimensions": 4,
+            "codebook_dimensions": 4,
+            "native_count_occurrences": 157479.0,
+            "supported_native_count_occurrences": 157479.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.4008915474444212,
+            "density_mae_percentage_points": 1.1619478799556406,
+            "median_count_pearson_supported": 0.7951394111372372,
+            "presence": {
+              "true_positives": 5449,
+              "predicted": 5582,
+              "reference": 5600,
+              "precision": 0.9761734145467574,
+              "recall": 0.9730357142857143,
+              "f1": 0.9746020389912359,
+              "exact_document_match": 0.9729626808834729
+            }
+          },
+          "9": {
+            "implemented_dimensions": 1042,
+            "codebook_dimensions": 1042,
+            "native_count_occurrences": 4481261.0,
+            "supported_native_count_occurrences": 4481261.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.6722380151479684,
+            "density_mae_percentage_points": 0.202737363369511,
+            "median_count_pearson_supported": 0.7432550526748742,
+            "presence": {
+              "true_positives": 1004768,
+              "predicted": 1291484,
+              "reference": 1119389,
+              "precision": 0.7779949267664176,
+              "recall": 0.8976039607321494,
+              "f1": 0.8335304265301408,
+              "exact_document_match": 0.8533281535742531
+            }
+          },
+          "15": {
+            "implemented_dimensions": 280,
+            "codebook_dimensions": 280,
+            "native_count_occurrences": 193823.0,
+            "supported_native_count_occurrences": 193823.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.9227594248360618,
+            "density_mae_percentage_points": 0.04570332986099514,
+            "median_count_pearson_supported": 0.29321100706907144,
+            "presence": {
+              "true_positives": 20337,
+              "predicted": 27910,
+              "reference": 95872,
+              "precision": 0.7286635614475099,
+              "recall": 0.212126585447263,
+              "f1": 0.32859381816419186,
+              "exact_document_match": 0.886970949842237
+            }
+          },
+          "16": {
+            "implemented_dimensions": 168,
+            "codebook_dimensions": 168,
+            "native_count_occurrences": 6369521.0,
+            "supported_native_count_occurrences": 6369521.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.5991605962206578,
+            "density_mae_percentage_points": 1.6013429195938143,
+            "median_count_pearson_supported": 0.599073802084966,
+            "presence": {
+              "true_positives": 232471,
+              "predicted": 247338,
+              "reference": 318501,
+              "precision": 0.9398919696932942,
+              "recall": 0.729890957956176,
+              "f1": 0.8216860272975175,
+              "exact_document_match": 0.7712957422115838
+            }
+          },
+          "17": {
+            "implemented_dimensions": 44,
+            "codebook_dimensions": 44,
+            "native_count_occurrences": 3130906.0,
+            "supported_native_count_occurrences": 3130906.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.7297200874123976,
+            "density_mae_percentage_points": 2.9525073601565976,
+            "median_count_pearson_supported": 0.7686768702768672,
+            "presence": {
+              "true_positives": 103625,
+              "predicted": 109270,
+              "reference": 105386,
+              "precision": 0.9483389768463439,
+              "recall": 0.9832900005693356,
+              "f1": 0.9654982856290996,
+              "exact_document_match": 0.9359032057051859
+            }
+          },
+          "18": {
+            "implemented_dimensions": 99,
+            "codebook_dimensions": 368,
+            "native_count_occurrences": 93325.0,
+            "supported_native_count_occurrences": 87627.0,
+            "native_assignment_fraction": 0.8767039496679483,
+            "count_wape": 0.6484416903465827,
+            "density_mae_percentage_points": 0.04547369277921661,
+            "median_count_pearson_supported": 0.7713781514600329,
+            "presence": {
+              "true_positives": 12567,
+              "predicted": 15482,
+              "reference": 20066,
+              "precision": 0.8117168324505878,
+              "recall": 0.6262832652247583,
+              "f1": 0.7070439968493305,
+              "exact_document_match": 0.9599421480609599
+            }
+          },
+          "26": {
+            "implemented_dimensions": 1,
+            "codebook_dimensions": 1,
+            "native_count_occurrences": 0,
+            "supported_native_count_occurrences": 0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": null,
+            "density_mae_percentage_points": null,
+            "median_count_pearson_supported": null,
+            "presence": {
+              "true_positives": 0,
+              "predicted": 0,
+              "reference": 0,
+              "precision": null,
+              "recall": null,
+              "f1": null,
+              "exact_document_match": null
+            }
+          }
+        },
+        "values": {
+          "v26.1": {
+            "paired_articles": 2592,
+            "value_mae": 0.21020137481304757,
+            "value_bias": -0.06978205412376223,
+            "pearson": 0.8979428918002489,
+            "sign_agreement": 0.9274691358024691,
+            "audit": {
+              "reference_match_count_unreported": 2596,
+              "local_matches_only": 22,
+              "both_no_matches": 8,
+              "reference_matches_only": 4
+            }
+          }
+        }
+      }
+    },
+    {
+      "index": 7,
+      "name": "packaged",
+      "development_report": "gcam-expansion-7-development.json",
+      "benchmark_report": "gcam-expansion-7-benchmark.json",
+      "profile_sha256": "144ca04d49ab09168678ec6a5ea4e0437578d8eb0eac761dfcf0b5bf2e36c4cd",
+      "development": {
+        "coverage": {
+          "codebook_sha256": "2020a257f0b9d977d60cbfe076ef35db8b04507393adbc8f50d1024a06b8364f",
+          "codebook_dimensions": 2888,
+          "implemented_dimensions": 809,
+          "implemented_outside_codebook": [],
+          "dimension_fraction": 0.2801246537396122,
+          "native_observed_dimensions": 2401,
+          "supported_native_observed_dimensions": 808,
+          "native_document_dimension_assignments": 2690100,
+          "supported_native_document_dimension_assignments": 1002434,
+          "native_assignment_fraction": 0.3726381918887774,
+          "native_count_occurrences": 29737528.0,
+          "supported_native_count_occurrences": 18403194.0,
+          "native_count_occurrence_fraction": 0.6188541966232028,
+          "policy": "Conceptual c/v pairs counted once; occurrence coverage uses positive native count keys only"
+        },
+        "families": {
+          "2": {
+            "implemented_dimensions": 217,
+            "codebook_dimensions": 228,
+            "native_count_occurrences": 8721713.0,
+            "supported_native_count_occurrences": 8458038.0,
+            "native_assignment_fraction": 0.9676527758232479,
+            "count_wape": 0.36041337246297545,
+            "density_mae_percentage_points": 0.9272171422444124,
+            "median_count_pearson_supported": 0.8487737583189,
+            "presence": {
+              "true_positives": 406738,
+              "predicted": 427579,
+              "reference": 440073,
+              "precision": 0.9512581300765472,
+              "recall": 0.9242512037775551,
+              "f1": 0.9375602199960352,
+              "exact_document_match": 0.9077728163372312
+            }
+          },
+          "15": {
+            "implemented_dimensions": 280,
+            "codebook_dimensions": 280,
+            "native_count_occurrences": 195001.0,
+            "supported_native_count_occurrences": 195001.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.9205645099255901,
+            "density_mae_percentage_points": 0.04481461305422883,
+            "median_count_pearson_supported": 0.27921484710873423,
+            "presence": {
+              "true_positives": 20519,
+              "predicted": 28378,
+              "reference": 98757,
+              "precision": 0.7230601169920361,
+              "recall": 0.20777261358688498,
+              "f1": 0.3227907342588587,
+              "exact_document_match": 0.8864095730645417
+            }
+          },
+          "16": {
+            "implemented_dimensions": 168,
+            "codebook_dimensions": 168,
+            "native_count_occurrences": 6484279.0,
+            "supported_native_count_occurrences": 6484279.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.5902650086462967,
+            "density_mae_percentage_points": 1.594065097879462,
+            "median_count_pearson_supported": 0.5900317094669961,
+            "presence": {
+              "true_positives": 242800,
+              "predicted": 257680,
+              "reference": 330922,
+              "precision": 0.9422539583980131,
+              "recall": 0.7337076410755404,
+              "f1": 0.8250056914519489,
+              "exact_document_match": 0.773510475486833
+            }
+          },
+          "17": {
+            "implemented_dimensions": 44,
+            "codebook_dimensions": 44,
+            "native_count_occurrences": 3178402.0,
+            "supported_native_count_occurrences": 3178402.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.7029938314914225,
+            "density_mae_percentage_points": 2.927162173584993,
+            "median_count_pearson_supported": 0.7918611124903715,
+            "presence": {
+              "true_positives": 107350,
+              "predicted": 112764,
+              "reference": 109194,
+              "precision": 0.9519882231917988,
+              "recall": 0.9831126252358188,
+              "f1": 0.9673001198424928,
+              "exact_document_match": 0.9390637068878664
+            }
+          },
+          "18": {
+            "implemented_dimensions": 99,
+            "codebook_dimensions": 368,
+            "native_count_occurrences": 93210.0,
+            "supported_native_count_occurrences": 87474.0,
+            "native_assignment_fraction": 0.8766378765536128,
+            "count_wape": 0.6568237419118824,
+            "density_mae_percentage_points": 0.04531789022627949,
+            "median_count_pearson_supported": 0.7801299738324449,
+            "presence": {
+              "true_positives": 12937,
+              "predicted": 16063,
+              "reference": 20807,
+              "precision": 0.8053912718670236,
+              "recall": 0.6217619070505118,
+              "f1": 0.7017629509085977,
+              "exact_document_match": 0.9589690775505331
+            }
+          },
+          "26": {
+            "implemented_dimensions": 1,
+            "codebook_dimensions": 1,
+            "native_count_occurrences": 0,
+            "supported_native_count_occurrences": 0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": null,
+            "density_mae_percentage_points": null,
+            "median_count_pearson_supported": null,
+            "presence": {
+              "true_positives": 0,
+              "predicted": 0,
+              "reference": 0,
+              "precision": null,
+              "recall": null,
+              "f1": null,
+              "exact_document_match": null
+            }
+          }
+        },
+        "values": {
+          "v26.1": {
+            "paired_articles": 2679,
+            "value_mae": 0.2121038608844339,
+            "value_bias": -0.07018821763852225,
+            "pearson": 0.8847249245225872,
+            "sign_agreement": 0.9227323628219485,
+            "audit": {
+              "reference_match_count_unreported": 2681,
+              "local_matches_only": 23,
+              "both_no_matches": 3,
+              "reference_matches_only": 2
+            }
+          }
+        }
+      },
+      "benchmark": {
+        "coverage": {
+          "codebook_sha256": "2020a257f0b9d977d60cbfe076ef35db8b04507393adbc8f50d1024a06b8364f",
+          "codebook_dimensions": 2888,
+          "implemented_dimensions": 809,
+          "implemented_outside_codebook": [],
+          "dimension_fraction": 0.2801246537396122,
+          "native_observed_dimensions": 2398,
+          "supported_native_observed_dimensions": 806,
+          "native_document_dimension_assignments": 2585131,
+          "supported_native_document_dimension_assignments": 965694,
+          "native_assignment_fraction": 0.37355708472800797,
+          "native_count_occurrences": 29197809.0,
+          "supported_native_count_occurrences": 18080707.0,
+          "native_count_occurrence_fraction": 0.6192487593846511,
+          "policy": "Conceptual c/v pairs counted once; occurrence coverage uses positive native count keys only"
+        },
+        "families": {
+          "2": {
+            "implemented_dimensions": 217,
+            "codebook_dimensions": 228,
+            "native_count_occurrences": 8556835.0,
+            "supported_native_count_occurrences": 8298830.0,
+            "native_assignment_fraction": 0.9674125947647139,
+            "count_wape": 0.3779756905491497,
+            "density_mae_percentage_points": 0.928773104847812,
+            "median_count_pearson_supported": 0.8102996933137907,
+            "presence": {
+              "true_positives": 390486,
+              "predicted": 411582,
+              "reference": 423273,
+              "precision": 0.9487441141740892,
+              "recall": 0.9225393540339214,
+              "f1": 0.9354582532296027,
+              "exact_document_match": 0.9054422102968893
+            }
+          },
+          "15": {
+            "implemented_dimensions": 280,
+            "codebook_dimensions": 280,
+            "native_count_occurrences": 193823.0,
+            "supported_native_count_occurrences": 193823.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.9227594248360618,
+            "density_mae_percentage_points": 0.04570332986099514,
+            "median_count_pearson_supported": 0.29321100706907144,
+            "presence": {
+              "true_positives": 20337,
+              "predicted": 27910,
+              "reference": 95872,
+              "precision": 0.7286635614475099,
+              "recall": 0.212126585447263,
+              "f1": 0.32859381816419186,
+              "exact_document_match": 0.886970949842237
+            }
+          },
+          "16": {
+            "implemented_dimensions": 168,
+            "codebook_dimensions": 168,
+            "native_count_occurrences": 6369521.0,
+            "supported_native_count_occurrences": 6369521.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.5991605962206578,
+            "density_mae_percentage_points": 1.6013429195938143,
+            "median_count_pearson_supported": 0.599073802084966,
+            "presence": {
+              "true_positives": 232471,
+              "predicted": 247338,
+              "reference": 318501,
+              "precision": 0.9398919696932942,
+              "recall": 0.729890957956176,
+              "f1": 0.8216860272975175,
+              "exact_document_match": 0.7712957422115838
+            }
+          },
+          "17": {
+            "implemented_dimensions": 44,
+            "codebook_dimensions": 44,
+            "native_count_occurrences": 3130906.0,
+            "supported_native_count_occurrences": 3130906.0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": 0.7297200874123976,
+            "density_mae_percentage_points": 2.9525073601565976,
+            "median_count_pearson_supported": 0.7686768702768672,
+            "presence": {
+              "true_positives": 103625,
+              "predicted": 109270,
+              "reference": 105386,
+              "precision": 0.9483389768463439,
+              "recall": 0.9832900005693356,
+              "f1": 0.9654982856290996,
+              "exact_document_match": 0.9359032057051859
+            }
+          },
+          "18": {
+            "implemented_dimensions": 99,
+            "codebook_dimensions": 368,
+            "native_count_occurrences": 93325.0,
+            "supported_native_count_occurrences": 87627.0,
+            "native_assignment_fraction": 0.8767039496679483,
+            "count_wape": 0.6484416903465827,
+            "density_mae_percentage_points": 0.04547369277921661,
+            "median_count_pearson_supported": 0.7713781514600329,
+            "presence": {
+              "true_positives": 12567,
+              "predicted": 15482,
+              "reference": 20066,
+              "precision": 0.8117168324505878,
+              "recall": 0.6262832652247583,
+              "f1": 0.7070439968493305,
+              "exact_document_match": 0.9599421480609599
+            }
+          },
+          "26": {
+            "implemented_dimensions": 1,
+            "codebook_dimensions": 1,
+            "native_count_occurrences": 0,
+            "supported_native_count_occurrences": 0,
+            "native_assignment_fraction": 1.0,
+            "count_wape": null,
+            "density_mae_percentage_points": null,
+            "median_count_pearson_supported": null,
+            "presence": {
+              "true_positives": 0,
+              "predicted": 0,
+              "reference": 0,
+              "precision": null,
+              "recall": null,
+              "f1": null,
+              "exact_document_match": null
+            }
+          }
+        },
+        "values": {
+          "v26.1": {
+            "paired_articles": 2592,
+            "value_mae": 0.21020137481304757,
+            "value_bias": -0.06978205412376223,
+            "pearson": 0.8979428918002489,
+            "sign_agreement": 0.9274691358024691,
+            "audit": {
+              "reference_match_count_unreported": 2596,
+              "local_matches_only": 22,
+              "both_no_matches": 8,
+              "reference_matches_only": 4
+            }
+          }
+        }
+      }
+    }
+  ],
+  "source_format_correction": {
+    "reference": "https://wordnet.princeton.edu/documentation/wndb5wn",
+    "benchmark_replayed": true,
+    "comparison": {
+      "17": {
+        "initial": {
+          "implemented_dimensions": 44,
+          "codebook_dimensions": 44,
+          "native_count_occurrences": 3130906.0,
+          "supported_native_count_occurrences": 3130906.0,
+          "native_assignment_fraction": 1.0,
+          "count_wape": 0.7346997961612389,
+          "density_mae_percentage_points": 2.999854930875777,
+          "median_count_pearson_supported": 0.7686768702768672,
+          "presence": {
+            "true_positives": 103625,
+            "predicted": 109270,
+            "reference": 105386,
+            "precision": 0.9483389768463439,
+            "recall": 0.9832900005693356,
+            "f1": 0.9654982856290996,
+            "exact_document_match": 0.9359032057051859
+          }
+        },
+        "corrected": {
+          "implemented_dimensions": 44,
+          "codebook_dimensions": 44,
+          "native_count_occurrences": 3130906.0,
+          "supported_native_count_occurrences": 3130906.0,
+          "native_assignment_fraction": 1.0,
+          "count_wape": 0.7297200874123976,
+          "density_mae_percentage_points": 2.9525073601565976,
+          "median_count_pearson_supported": 0.7686768702768672,
+          "presence": {
+            "true_positives": 103625,
+            "predicted": 109270,
+            "reference": 105386,
+            "precision": 0.9483389768463439,
+            "recall": 0.9832900005693356,
+            "f1": 0.9654982856290996,
+            "exact_document_match": 0.9359032057051859
+          }
+        }
+      },
+      "15": {
+        "initial": {
+          "implemented_dimensions": 280,
+          "codebook_dimensions": 280,
+          "native_count_occurrences": 193823.0,
+          "supported_native_count_occurrences": 193823.0,
+          "native_assignment_fraction": 1.0,
+          "count_wape": 0.9170377096629398,
+          "density_mae_percentage_points": 0.04542117148909346,
+          "median_count_pearson_supported": 0.29766834779784224,
+          "presence": {
+            "true_positives": 19935,
+            "predicted": 26769,
+            "reference": 95872,
+            "precision": 0.7447046957301356,
+            "recall": 0.20793349465954605,
+            "f1": 0.325095196549278,
+            "exact_document_match": 0.8874292786421499
+          }
+        },
+        "corrected": {
+          "implemented_dimensions": 280,
+          "codebook_dimensions": 280,
+          "native_count_occurrences": 193823.0,
+          "supported_native_count_occurrences": 193823.0,
+          "native_assignment_fraction": 1.0,
+          "count_wape": 0.9227594248360618,
+          "density_mae_percentage_points": 0.04570332986099514,
+          "median_count_pearson_supported": 0.29321100706907144,
+          "presence": {
+            "true_positives": 20337,
+            "predicted": 27910,
+            "reference": 95872,
+            "precision": 0.7286635614475099,
+            "recall": 0.212126585447263,
+            "f1": 0.32859381816419186,
+            "exact_document_match": 0.886970949842237
+          }
+        }
+      },
+      "16": {
+        "initial": {
+          "implemented_dimensions": 168,
+          "codebook_dimensions": 168,
+          "native_count_occurrences": 6369521.0,
+          "supported_native_count_occurrences": 6369521.0,
+          "native_assignment_fraction": 1.0,
+          "count_wape": 0.5996121215394375,
+          "density_mae_percentage_points": 1.6031522152605773,
+          "median_count_pearson_supported": 0.599073802084966,
+          "presence": {
+            "true_positives": 232193,
+            "predicted": 246852,
+            "reference": 318501,
+            "precision": 0.9406162396901787,
+            "recall": 0.7290181192523728,
+            "f1": 0.8214089250432915,
+            "exact_document_match": 0.7711370724984586
+          }
+        },
+        "corrected": {
+          "implemented_dimensions": 168,
+          "codebook_dimensions": 168,
+          "native_count_occurrences": 6369521.0,
+          "supported_native_count_occurrences": 6369521.0,
+          "native_assignment_fraction": 1.0,
+          "count_wape": 0.5991605962206578,
+          "density_mae_percentage_points": 1.6013429195938143,
+          "median_count_pearson_supported": 0.599073802084966,
+          "presence": {
+            "true_positives": 232471,
+            "predicted": 247338,
+            "reference": 318501,
+            "precision": 0.9398919696932942,
+            "recall": 0.729890957956176,
+            "f1": 0.8216860272975175,
+            "exact_document_match": 0.7712957422115838
+          }
+        }
+      }
+    },
+    "policy": "Parsing follows documented source syntax. Initial reports retained; final metrics use the corrected parser. No matching convention changed from benchmark errors."
+  }
+}

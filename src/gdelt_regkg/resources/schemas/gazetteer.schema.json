@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GKG reference gazetteer",
+  "type": "object",
+  "required": ["name", "places"],
+  "properties": {
+    "name": {"type": "string", "minLength": 1},
+    "places": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["geo_type", "full_name", "country_code", "adm1_code", "latitude", "longitude", "feature_id"],
+        "properties": {
+          "geo_type": {"enum": ["1", "2", "3", "4", "5"]},
+          "full_name": {"type": "string", "minLength": 1},
+          "country_code": {"type": "string", "pattern": "^[A-Z]{2}$"},
+          "adm1_code": {"type": "string"},
+          "adm2_code": {"type": "string"},
+          "latitude": {"type": "string", "minLength": 1},
+          "longitude": {"type": "string", "minLength": 1},
+          "feature_id": {"type": "string", "minLength": 1},
+          "aliases": {"type": "array", "items": {"type": "string", "minLength": 1}},
+          "frequency": {"type": "integer", "minimum": 1}
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Reconstruct GKG theme rules v1",
+  "description": "Editor and structural validation. Load with the library for semantic validation, including unique rule IDs and phrase compilation.",
+  "type": "object",
+  "required": [
+    "schema",
+    "name",
+    "rules"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Optional editor schema reference."
+    },
+    "schema": {
+      "const": "reconstruct-gkg/theme-rules/v1"
+    },
+    "name": {
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/rule"
+      }
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "rule": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind",
+        "expression",
+        "labels",
+        "status"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "enum": [
+            "literal"
+          ]
+        },
+        "expression": {
+          "type": "string",
+          "pattern": "^(?=[\\s\\S]*\\S)[^\\t\\r\\n]+$"
+        },
+        "labels": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9_-]*$"
+          }
+        },
+        "status": {
+          "enum": [
+            "enabled",
+            "needs_review",
+            "disabled"
+          ]
+        },
+        "provenance": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": true,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "enabled"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "expression": {
+                "type": "string",
+                "pattern": "^(?=[\\s\\S]*\\S)[^{}\\t\\r\\n]+$"
+              },
+              "aliases": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^(?=[\\s\\S]*\\S)[^{}\\t\\r\\n]+$"
+                }
+              },
+              "requires_all": {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "string",
+                    "pattern": "^(?=[\\s\\S]*\\S)[^{}\\t\\r\\n]+$"
+                  }
+                }
+              },
+              "exclude_any": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^(?=[\\s\\S]*\\S)[^{}\\t\\r\\n]+$"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GKG entity name rules",
+  "type": "object",
+  "required": ["name"],
+  "properties": {
+    "$schema": {"type": "string"},
+    "schema": {"const": "reconstruct-gkg/name-rules/v1"},
+    "name": {"type": "string", "minLength": 1},
+    "strip_person_titles": {"type": "boolean"},
+    "strip_person_initials": {"type": "boolean"},
+    "strip_person_suffixes": {"type": "boolean"},
+    "organization_blocklist": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "person_aliases": {"type": "object", "additionalProperties": {"type": "string", "minLength": 1}},
+    "organization_aliases": {"type": "object", "additionalProperties": {"type": "string", "minLength": 1}},
+    "organization_weights": {"type": "object", "additionalProperties": {"type": "number"}},
+    "organization_intercept": {"type": "number"},
+    "organization_threshold": {"type": ["number", "null"]},
+    "evaluation": {"type": "object"}
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,4348 @@
+{
+  "$schema": "../schemas/theme-rules.schema.json",
+  "schema": "reconstruct-gkg/theme-rules/v1",
+  "name": "authored-news-themes-v1",
+  "description": "Explicit English news-theme approximations; production triggers, aliases and parent emission are unverified",
+  "sources": [
+    {
+      "resource": "authored-news-themes-v1",
+      "type": "locally_authored_approximation"
+    },
+    {
+      "resource": "GDELT World Bank taxonomy adoption",
+      "url": "https://blog.gdeltproject.org/world-bank-group-topical-taxonomy-now-in-gkg/"
+    },
+    {
+      "resource": "GDELT EPU narrative query",
+      "url": "https://blog.gdeltproject.org/a-simple-narrative-measure-of-economic-uncertainty-and-economic-policy-uncertainty/"
+    },
+    {
+      "resource": "GDELT UNGP adoption",
+      "url": "https://blog.gdeltproject.org/un-my-world-survey-topics-added-to-gkg-2-0/"
+    }
+  ],
+  "rules": [
+    {
+      "id": "news-8195b200d2a2587f",
+      "kind": "literal",
+      "expression": "president",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_PRESIDENT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-6f68ec268d3dae04",
+      "kind": "literal",
+      "expression": "presidents",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_PRESIDENTS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-c042a576a7515015",
+      "kind": "literal",
+      "expression": "police",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_POLICE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-72065df9da6a4e5f",
+      "kind": "literal",
+      "expression": "minister",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_MINISTER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-18444c5865379518",
+      "kind": "literal",
+      "expression": "ministers",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_MINISTERS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-41f9e4439718bc76",
+      "kind": "literal",
+      "expression": "chief",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_CHIEF"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-b999713ae017362b",
+      "kind": "literal",
+      "expression": "officials",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_OFFICIALS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-5f030d78beccaf0f",
+      "kind": "literal",
+      "expression": "official",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_OFFICIAL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-da5b0152bc6b267c",
+      "kind": "literal",
+      "expression": "director",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_DIRECTOR"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-6ac55e11d58eae18",
+      "kind": "literal",
+      "expression": "directors",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_DIRECTORS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-e6a7f69d479a9f39",
+      "kind": "literal",
+      "expression": "children",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_CHILDREN"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-8acb22c1a7259e21",
+      "kind": "literal",
+      "expression": "executive",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_EXECUTIVE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-c41ecbe676000f34",
+      "kind": "literal",
+      "expression": "executives",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_EXECUTIVES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-5bfbbcdac1a4584e",
+      "kind": "literal",
+      "expression": "leader",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_LEADER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-d2677038eeac1add",
+      "kind": "literal",
+      "expression": "authorities",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_AUTHORITIES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-3546fd08c6109136",
+      "kind": "literal",
+      "expression": "man",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_MAN"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-b024f236e8bbff0f",
+      "kind": "literal",
+      "expression": "leaders",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_LEADERS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-eb13e756e55dc321",
+      "kind": "literal",
+      "expression": "prime minister",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_PRIME_MINISTER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      },
+      "aliases": [
+        "premier"
+      ]
+    },
+    {
+      "id": "news-8485c70bd8f09137",
+      "kind": "literal",
+      "expression": "officer",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_OFFICER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-40ad8c07c4a98779",
+      "kind": "literal",
+      "expression": "woman",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_WOMAN"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-bd58b056721adb66",
+      "kind": "literal",
+      "expression": "women",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_WOMEN"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-c62f0da088608046",
+      "kind": "literal",
+      "expression": "secretary",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_SECRETARY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-0b211c9371d957f4",
+      "kind": "literal",
+      "expression": "spokesperson",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_SPOKESPERSON"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-c48a5a1e7b92d506",
+      "kind": "literal",
+      "expression": "judge",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_JUDGE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-143b89656a00a606",
+      "kind": "literal",
+      "expression": "judges",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_JUDGES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-c12677cc0a63d81d",
+      "kind": "literal",
+      "expression": "officers",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_OFFICERS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-cae6b145ef62a482",
+      "kind": "literal",
+      "expression": "criminal",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_CRIMINAL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-dd84459f745935de",
+      "kind": "literal",
+      "expression": "criminals",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_CRIMINALS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-039770b008b39332",
+      "kind": "literal",
+      "expression": "ceo",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_CEO"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      },
+      "aliases": [
+        "chief executive officer"
+      ]
+    },
+    {
+      "id": "news-d473b7f68af44deb",
+      "kind": "literal",
+      "expression": "child",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_CHILD"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-dc8b5cc230b1f1d8",
+      "kind": "literal",
+      "expression": "students",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_STUDENTS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-084c1a13c598547f",
+      "kind": "literal",
+      "expression": "workers",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_WORKERS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-7986e4b3e5a993fc",
+      "kind": "literal",
+      "expression": "deputy",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_DEPUTY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-f01e28307f39f743",
+      "kind": "literal",
+      "expression": "attorney",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_ATTORNEY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-c1a272003f8f7a22",
+      "kind": "literal",
+      "expression": "attorneys",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_ATTORNEYS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-8992a190f147a914",
+      "kind": "literal",
+      "expression": "manager",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_MANAGER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-8618abd4f8ee5ed6",
+      "kind": "literal",
+      "expression": "managers",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_MANAGERS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-7e5f7d22a3ef87ed",
+      "kind": "literal",
+      "expression": "citizens",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_CITIZENS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-74aea22dbde75925",
+      "kind": "literal",
+      "expression": "citizen",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_CITIZEN"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-7882e901d8b810ce",
+      "kind": "literal",
+      "expression": "analyst",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_ANALYST"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-ffc340778c7f16a8",
+      "kind": "literal",
+      "expression": "employees",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_EMPLOYEES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-b11edd203966da83",
+      "kind": "literal",
+      "expression": "employee",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_EMPLOYEE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-e10015521b5887d2",
+      "kind": "literal",
+      "expression": "victims",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_VICTIMS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-f4ff68bad7fc8cb2",
+      "kind": "literal",
+      "expression": "father",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_FATHER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-efe06c68bbe13898",
+      "kind": "literal",
+      "expression": "professor",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_PROFESSOR"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-e07dba022b1c30ac",
+      "kind": "literal",
+      "expression": "professors",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_PROFESSORS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-9573d62313ca4ad6",
+      "kind": "literal",
+      "expression": "student",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_STUDENT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-bc0b38dde579824e",
+      "kind": "literal",
+      "expression": "governor",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_GOVERNOR"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-dc015702140e1237",
+      "kind": "literal",
+      "expression": "guard",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_GUARD"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      },
+      "aliases": [
+        "guards"
+      ]
+    },
+    {
+      "id": "news-cb1b0be66c578107",
+      "kind": "literal",
+      "expression": "victim",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_VICTIM"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-8ba75371b1507533",
+      "kind": "literal",
+      "expression": "chief executive",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_CHIEF_EXECUTIVE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-d1deb6e2c8dbc510",
+      "kind": "literal",
+      "expression": "analysts",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_ANALYSTS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-c279bb0af5604e29",
+      "kind": "literal",
+      "expression": "king",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_KING"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-4f5fb12d47b3e6d8",
+      "kind": "literal",
+      "expression": "queen",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_QUEEN"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-42711461cb80501f",
+      "kind": "literal",
+      "expression": "driver",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_DRIVER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-acb613345549cb0f",
+      "kind": "literal",
+      "expression": "drivers",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_DRIVERS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-fa3e0e063e2bbcbf",
+      "kind": "literal",
+      "expression": "representatives",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_REPRESENTATIVES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-0ad9edf667ae5f17",
+      "kind": "literal",
+      "expression": "investor",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_INVESTOR"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      },
+      "aliases": [
+        "investors"
+      ]
+    },
+    {
+      "id": "news-af137d6f59978640",
+      "kind": "literal",
+      "expression": "mayor",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_MAYOR"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-0e19a9961ee512c8",
+      "kind": "literal",
+      "expression": "chairman",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_CHAIRMAN"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      },
+      "aliases": [
+        "chairperson"
+      ]
+    },
+    {
+      "id": "news-5ac98c74e26b1d98",
+      "kind": "literal",
+      "expression": "founder",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_FOUNDER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-bd5e8f3d43dfc6a9",
+      "kind": "literal",
+      "expression": "vice president",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_VICE_PRESIDENT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-3c514d5de245e877",
+      "kind": "literal",
+      "expression": "troops",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_TROOPS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-068fb2667cf0d0fa",
+      "kind": "literal",
+      "expression": "spokesman",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_SPOKESMAN"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-e1bc76d4da79e78a",
+      "kind": "literal",
+      "expression": "spokeswoman",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_SPOKESWOMAN"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-2b1afc2081fbf002",
+      "kind": "literal",
+      "expression": "commissioner",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_COMMISSIONER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-15a90552a2334c16",
+      "kind": "literal",
+      "expression": "lawmakers",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_LAWMAKERS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-9c429a626e19e23f",
+      "kind": "literal",
+      "expression": "candidate",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_CANDIDATE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-3f93d1edd7ac0638",
+      "kind": "literal",
+      "expression": "author",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_AUTHOR"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-5330eb45795ac98d",
+      "kind": "literal",
+      "expression": "representative",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_REPRESENTATIVE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-7fc0d9121b3aaff9",
+      "kind": "literal",
+      "expression": "assistant",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_ASSISTANT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-188abb6c2cd72862",
+      "kind": "literal",
+      "expression": "pilot",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_PILOT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-04c2b5313a74c6e9",
+      "kind": "literal",
+      "expression": "actor",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_ACTOR"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-d79ba5e2f381d327",
+      "kind": "literal",
+      "expression": "actress",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_ACTRESS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-0ca81b32b840270e",
+      "kind": "literal",
+      "expression": "candidates",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_CANDIDATES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-43af0a520cb778d7",
+      "kind": "literal",
+      "expression": "teacher",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_TEACHER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      },
+      "aliases": [
+        "teachers"
+      ]
+    },
+    {
+      "id": "news-d3247cc4d681c794",
+      "kind": "literal",
+      "expression": "doctor",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_DOCTOR"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-05703aee2dcb7014",
+      "kind": "literal",
+      "expression": "doctors",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_DOCTORS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-fe257fb518b8fdab",
+      "kind": "literal",
+      "expression": "nurse",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_NURSE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-c9a6294abe5e3cb3",
+      "kind": "literal",
+      "expression": "nurses",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_NURSES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-6aef24f58d66d7e4",
+      "kind": "literal",
+      "expression": "lawyer",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_LAWYER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-3a4b8665f01a8c9c",
+      "kind": "literal",
+      "expression": "lawyers",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_LAWYERS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-c8db6cd5aa15c414",
+      "kind": "literal",
+      "expression": "soldier",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_SOLDIER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-e3b36bf74b28a1b1",
+      "kind": "literal",
+      "expression": "soldiers",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_SOLDIERS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-9103c8e9d0185777",
+      "kind": "literal",
+      "expression": "farmer",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_FARMER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-623722cfd4761c39",
+      "kind": "literal",
+      "expression": "farmers",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_FARMERS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-c7861ba1fe9f6151",
+      "kind": "literal",
+      "expression": "engineer",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_ENGINEER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-d53592424ac4218b",
+      "kind": "literal",
+      "expression": "engineers",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_ENGINEERS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      }
+    },
+    {
+      "id": "news-3ecda49271c5942e",
+      "kind": "literal",
+      "expression": "researcher",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_RESEARCHER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      },
+      "aliases": [
+        "researchers"
+      ]
+    },
+    {
+      "id": "news-d2d0666d657eaefb",
+      "kind": "literal",
+      "expression": "journalist",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_JOURNALIST"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      },
+      "aliases": [
+        "journalists"
+      ]
+    },
+    {
+      "id": "news-7adfd208a3f93cb7",
+      "kind": "literal",
+      "expression": "reporter",
+      "labels": [
+        "TAX_FNCACT",
+        "TAX_FNCACT_REPORTER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "explicit_role_and_parent_mapping"
+      },
+      "aliases": [
+        "reporters"
+      ]
+    },
+    {
+      "id": "news-ad9cce1bb6e44cb8",
+      "kind": "literal",
+      "expression": "government",
+      "labels": [
+        "EPU_POLICY",
+        "EPU_POLICY_GOVERNMENT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "published_epu_query_inspired"
+      },
+      "aliases": [
+        "governments"
+      ]
+    },
+    {
+      "id": "news-8e975ebb3c5b58e4",
+      "kind": "literal",
+      "expression": "law",
+      "labels": [
+        "EPU_POLICY",
+        "EPU_POLICY_LAW"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "published_epu_query_inspired"
+      },
+      "aliases": [
+        "laws"
+      ]
+    },
+    {
+      "id": "news-226acb799c28c4b1",
+      "kind": "literal",
+      "expression": "policy",
+      "labels": [
+        "EPU_POLICY",
+        "EPU_POLICY_POLICY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "published_epu_query_inspired"
+      },
+      "aliases": [
+        "policies"
+      ]
+    },
+    {
+      "id": "news-69619dd608907bc0",
+      "kind": "literal",
+      "expression": "political",
+      "labels": [
+        "EPU_POLICY",
+        "EPU_POLICY_POLITICAL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "published_epu_query_inspired"
+      }
+    },
+    {
+      "id": "news-a89bd7c2573b456d",
+      "kind": "literal",
+      "expression": "authorities",
+      "labels": [
+        "EPU_POLICY",
+        "EPU_POLICY_AUTHORITIES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "published_epu_query_inspired"
+      }
+    },
+    {
+      "id": "news-f2d48214ac1860f4",
+      "kind": "literal",
+      "expression": "spending",
+      "labels": [
+        "EPU_POLICY",
+        "EPU_POLICY_SPENDING"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "published_epu_query_inspired"
+      }
+    },
+    {
+      "id": "news-2e420ba26126c0b9",
+      "kind": "literal",
+      "expression": "congress",
+      "labels": [
+        "EPU_POLICY",
+        "EPU_POLICY_CONGRESS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "published_epu_query_inspired"
+      }
+    },
+    {
+      "id": "news-fd13404136151c0d",
+      "kind": "literal",
+      "expression": "tax",
+      "labels": [
+        "EPU_POLICY",
+        "EPU_POLICY_TAX"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "published_epu_query_inspired"
+      },
+      "aliases": [
+        "taxes"
+      ]
+    },
+    {
+      "id": "news-b491481006dd9ebb",
+      "kind": "literal",
+      "expression": "budget",
+      "labels": [
+        "EPU_POLICY",
+        "EPU_POLICY_BUDGET"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "published_epu_query_inspired"
+      },
+      "aliases": [
+        "budgets"
+      ]
+    },
+    {
+      "id": "news-bb88432048aead05",
+      "kind": "literal",
+      "expression": "regulatory",
+      "labels": [
+        "EPU_POLICY",
+        "EPU_POLICY_REGULATORY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "published_epu_query_inspired"
+      }
+    },
+    {
+      "id": "news-191f6207754b47e6",
+      "kind": "literal",
+      "expression": "white house",
+      "labels": [
+        "EPU_POLICY",
+        "EPU_POLICY_WHITE_HOUSE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "published_epu_query_inspired"
+      }
+    },
+    {
+      "id": "news-b13d1162ba30024b",
+      "kind": "literal",
+      "expression": "legislation",
+      "labels": [
+        "EPU_POLICY",
+        "EPU_POLICY_LEGISLATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "published_epu_query_inspired"
+      }
+    },
+    {
+      "id": "news-45fb6e32b818d3a5",
+      "kind": "literal",
+      "expression": "lawmakers",
+      "labels": [
+        "EPU_POLICY",
+        "EPU_POLICY_LAWMAKERS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "published_epu_query_inspired"
+      }
+    },
+    {
+      "id": "news-b29eee9eef634b62",
+      "kind": "literal",
+      "expression": "reform",
+      "labels": [
+        "EPU_POLICY",
+        "EPU_POLICY_REFORM"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "published_epu_query_inspired"
+      },
+      "aliases": [
+        "reforms"
+      ]
+    },
+    {
+      "id": "news-7e273b2ad3dce4ae",
+      "kind": "literal",
+      "expression": "regulation",
+      "labels": [
+        "EPU_POLICY",
+        "EPU_POLICY_REGULATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "published_epu_query_inspired"
+      },
+      "aliases": [
+        "regulations"
+      ]
+    },
+    {
+      "id": "news-4c7cda28fee08f57",
+      "kind": "literal",
+      "expression": "congressional",
+      "labels": [
+        "EPU_POLICY",
+        "EPU_POLICY_CONGRESSIONAL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "published_epu_query_inspired"
+      }
+    },
+    {
+      "id": "news-5f8cfc256f6b94e1",
+      "kind": "literal",
+      "expression": "interest rates",
+      "labels": [
+        "EPU_POLICY",
+        "EPU_POLICY_INTEREST_RATES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "published_epu_query_inspired"
+      }
+    },
+    {
+      "id": "news-fe9fae5b9df76b32",
+      "kind": "literal",
+      "expression": "central bank",
+      "labels": [
+        "EPU_POLICY",
+        "EPU_POLICY_CENTRAL_BANK"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "published_epu_query_inspired"
+      },
+      "aliases": [
+        "central banks"
+      ]
+    },
+    {
+      "id": "news-49f6af83971c6f2a",
+      "kind": "literal",
+      "expression": "federal reserve",
+      "labels": [
+        "EPU_POLICY",
+        "EPU_POLICY_FEDERAL_RESERVE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "published_epu_query_inspired"
+      }
+    },
+    {
+      "id": "news-d34b9cda878f7ef2",
+      "kind": "literal",
+      "expression": "policymakers",
+      "labels": [
+        "EPU_POLICY",
+        "EPU_POLICY_POLICYMAKERS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "published_epu_query_inspired"
+      }
+    },
+    {
+      "id": "news-50eab08320114d9e",
+      "kind": "literal",
+      "expression": "interest rate",
+      "labels": [
+        "EPU_POLICY",
+        "EPU_POLICY_INTEREST_RATE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "published_epu_query_inspired"
+      }
+    },
+    {
+      "id": "news-7024e681a9a2e21d",
+      "kind": "literal",
+      "expression": "monetary policy",
+      "labels": [
+        "EPU_POLICY",
+        "EPU_POLICY_MONETARY_POLICY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "published_epu_query_inspired"
+      }
+    },
+    {
+      "id": "news-81e24ec13baa3af3",
+      "kind": "literal",
+      "expression": "ministry of finance",
+      "labels": [
+        "EPU_POLICY",
+        "EPU_POLICY_MINISTRY_OF_FINANCE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "published_epu_query_inspired"
+      }
+    },
+    {
+      "id": "news-9d6e23d1b8a48bca",
+      "kind": "literal",
+      "expression": "fiscal policy",
+      "labels": [
+        "EPU_POLICY",
+        "EPU_POLICY_FISCAL_POLICY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "published_epu_query_inspired"
+      }
+    },
+    {
+      "id": "news-a5978ab5d489c162",
+      "kind": "literal",
+      "expression": "world trade organization",
+      "labels": [
+        "EPU_POLICY",
+        "EPU_POLICY_WORLD_TRADE_ORGANIZATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "published_epu_query_inspired"
+      }
+    },
+    {
+      "id": "news-4f673cf6c10ff67a",
+      "kind": "literal",
+      "expression": "public investment",
+      "labels": [
+        "EPU_POLICY",
+        "EPU_POLICY_PUBLIC_INVESTMENT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "published_epu_query_inspired"
+      }
+    },
+    {
+      "id": "news-8ef5c9e5f8180328",
+      "kind": "literal",
+      "expression": "blue house",
+      "labels": [
+        "EPU_POLICY",
+        "EPU_POLICY_BLUE_HOUSE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "published_epu_query_inspired"
+      },
+      "requires_all": [
+        [
+          "korea",
+          "korea's",
+          "koreaвЂ™s",
+          "korean",
+          "seoul"
+        ]
+      ]
+    },
+    {
+      "id": "news-871fd3b9dca8a5f1",
+      "kind": "literal",
+      "expression": "bank of japan",
+      "labels": [
+        "EPU_POLICY",
+        "EPU_POLICY_BANK_OF_JAPAN"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "published_epu_query_inspired"
+      }
+    },
+    {
+      "id": "news-b81b4c8d4d61d8ee",
+      "kind": "literal",
+      "expression": "people's bank of china",
+      "labels": [
+        "EPU_POLICY",
+        "EPU_POLICY_PEOPLE_BANK_OF_CHINA"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "published_epu_query_inspired"
+      }
+    },
+    {
+      "id": "news-1e8b3ca856df6228",
+      "kind": "literal",
+      "expression": "deficit",
+      "labels": [
+        "EPU_POLICY",
+        "EPU_POLICY_DEFICIT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "deficits"
+      ],
+      "requires_all": [
+        [
+          "budget",
+          "fiscal",
+          "government",
+          "public debt"
+        ]
+      ]
+    },
+    {
+      "id": "news-99eb84134a13902f",
+      "kind": "literal",
+      "expression": "economy",
+      "labels": [
+        "EPU_ECONOMY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "economic",
+        "economies"
+      ]
+    },
+    {
+      "id": "news-90737841ad4e9643",
+      "kind": "literal",
+      "expression": "uncertainty",
+      "labels": [
+        "EPU_UNCERTAINTY",
+        "USPEC_UNCERTAINTY1"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "uncertain",
+        "uncertainties"
+      ]
+    },
+    {
+      "id": "news-f0bb80da725fd87a",
+      "kind": "literal",
+      "expression": "economy",
+      "labels": [
+        "EPU_ECONOMY_HISTORIC"
+      ],
+      "status": "needs_review",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "native_historic_label_semantics_unresolved"
+      },
+      "aliases": [
+        "economic"
+      ]
+    },
+    {
+      "id": "news-199c6db6aa634900",
+      "kind": "literal",
+      "expression": "national security",
+      "labels": [
+        "EPU_CATS_NATIONAL_SECURITY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "homeland security",
+        "national defense",
+        "national defence"
+      ]
+    },
+    {
+      "id": "news-811348b22003b09f",
+      "kind": "literal",
+      "expression": "regulation",
+      "labels": [
+        "EPU_CATS_REGULATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "regulations",
+        "regulatory"
+      ]
+    },
+    {
+      "id": "news-bad30dc50bad9dce",
+      "kind": "literal",
+      "expression": "tax",
+      "labels": [
+        "EPU_CATS_TAXES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "taxes",
+        "taxation"
+      ]
+    },
+    {
+      "id": "news-790cd6fb3f94afc8",
+      "kind": "literal",
+      "expression": "healthcare",
+      "labels": [
+        "EPU_CATS_HEALTHCARE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "health care",
+        "health insurance"
+      ]
+    },
+    {
+      "id": "news-d347568ef5490266",
+      "kind": "literal",
+      "expression": "social security",
+      "labels": [
+        "EPU_CATS_ENTITLEMENT_PROGRAMS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "medicare",
+        "medicaid",
+        "unemployment benefits",
+        "welfare benefits"
+      ]
+    },
+    {
+      "id": "news-b487b50261d671f5",
+      "kind": "literal",
+      "expression": "monetary policy",
+      "labels": [
+        "EPU_CATS_MONETARY_POLICY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "interest rate",
+        "interest rates",
+        "federal reserve",
+        "central bank"
+      ]
+    },
+    {
+      "id": "news-9feb8ef9b2d0aa1a",
+      "kind": "literal",
+      "expression": "financial regulation",
+      "labels": [
+        "EPU_CATS_FINANCIAL_REGULATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "banking regulation",
+        "banking supervision",
+        "financial supervision"
+      ]
+    },
+    {
+      "id": "news-6b2cfd37e8ad3dae",
+      "kind": "literal",
+      "expression": "fiscal policy",
+      "labels": [
+        "EPU_CATS_FISCAL_POLICY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "fiscal stimulus",
+        "public spending",
+        "government spending"
+      ]
+    },
+    {
+      "id": "news-cfba80c0e533e9ee",
+      "kind": "literal",
+      "expression": "trade policy",
+      "labels": [
+        "EPU_CATS_TRADE_POLICY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "tariff",
+        "tariffs",
+        "import duty",
+        "trade agreement",
+        "trade agreements"
+      ]
+    },
+    {
+      "id": "news-d6a302a8e004b7c4",
+      "kind": "literal",
+      "expression": "sovereign debt",
+      "labels": [
+        "EPU_CATS_SOVEREIGN_DEBT_CURRENCY_CRISES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "currency crisis",
+        "sovereign default",
+        "debt crisis"
+      ]
+    },
+    {
+      "id": "news-aa142d260cc07e57",
+      "kind": "literal",
+      "expression": "debt ceiling",
+      "labels": [
+        "EPU_CATS_DEBT_CEILING_GOV_SHUTDOWN"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "government shutdown"
+      ]
+    },
+    {
+      "id": "news-2290c6be9af12408",
+      "kind": "literal",
+      "expression": "fear",
+      "labels": [
+        "EPU_CATS_MIGRATION_FEAR_FEAR"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "fears",
+        "fearful"
+      ]
+    },
+    {
+      "id": "news-9144581c4c52855e",
+      "kind": "literal",
+      "expression": "public sector",
+      "labels": [
+        "WB_696_PUBLIC_SECTOR_MANAGEMENT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "public sector management",
+        "civil service",
+        "public administration"
+      ]
+    },
+    {
+      "id": "news-79632225c502b9af",
+      "kind": "literal",
+      "expression": "armed conflict",
+      "labels": [
+        "WB_2432_FRAGILITY_CONFLICT_AND_VIOLENCE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "civil war",
+        "political violence",
+        "violent conflict",
+        "state fragility"
+      ]
+    },
+    {
+      "id": "news-6773087f1bd1454a",
+      "kind": "literal",
+      "expression": "public health",
+      "labels": [
+        "WB_621_HEALTH_NUTRITION_AND_POPULATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "healthcare",
+        "health care",
+        "nutrition",
+        "malnutrition",
+        "population health"
+      ]
+    },
+    {
+      "id": "news-c577db4e17ba2895",
+      "kind": "literal",
+      "expression": "information technology",
+      "labels": [
+        "WB_133_INFORMATION_AND_COMMUNICATION_TECHNOLOGIES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "communication technology",
+        "telecommunications",
+        "internet",
+        "broadband"
+      ]
+    },
+    {
+      "id": "news-ff3366ae042f4385",
+      "kind": "literal",
+      "expression": "digital government",
+      "labels": [
+        "WB_678_DIGITAL_GOVERNMENT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "e-government",
+        "government portal",
+        "online government services"
+      ]
+    },
+    {
+      "id": "news-e37b36206c84e759",
+      "kind": "literal",
+      "expression": "justice",
+      "labels": [
+        "WB_840_JUSTICE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "judicial",
+        "judiciary",
+        "courts"
+      ]
+    },
+    {
+      "id": "news-1426f8cee78510be",
+      "kind": "literal",
+      "expression": "armed conflict",
+      "labels": [
+        "WB_2433_CONFLICT_AND_VIOLENCE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "civil war",
+        "political violence",
+        "violent conflict"
+      ]
+    },
+    {
+      "id": "news-3afdeeb8e269027a",
+      "kind": "literal",
+      "expression": "broadcast",
+      "labels": [
+        "WB_694_BROADCAST_AND_MEDIA"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "broadcasting",
+        "news media",
+        "television",
+        "radio"
+      ]
+    },
+    {
+      "id": "news-bff5623d5c6709db",
+      "kind": "literal",
+      "expression": "transport",
+      "labels": [
+        "WB_135_TRANSPORT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "transportation",
+        "railway",
+        "railways",
+        "airport",
+        "airports"
+      ]
+    },
+    {
+      "id": "news-039d89b41881bd90",
+      "kind": "literal",
+      "expression": "jobs",
+      "labels": [
+        "WB_2670_JOBS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "employment",
+        "unemployment",
+        "job creation"
+      ]
+    },
+    {
+      "id": "news-b4aeed4d206ff028",
+      "kind": "literal",
+      "expression": "governance",
+      "labels": [
+        "WB_831_GOVERNANCE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "government accountability",
+        "government transparency"
+      ]
+    },
+    {
+      "id": "news-805b33a823b039ae",
+      "kind": "literal",
+      "expression": "criminal justice",
+      "labels": [
+        "WB_1014_CRIMINAL_JUSTICE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "criminal court",
+        "criminal trial",
+        "criminal investigation"
+      ]
+    },
+    {
+      "id": "news-6f46a9a4761c5094",
+      "kind": "literal",
+      "expression": "education",
+      "labels": [
+        "WB_470_EDUCATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "schools",
+        "school",
+        "university",
+        "universities",
+        "college",
+        "colleges"
+      ]
+    },
+    {
+      "id": "news-d5a90c22931fd871",
+      "kind": "literal",
+      "expression": "disease",
+      "labels": [
+        "WB_1406_DISEASES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "diseases",
+        "epidemic",
+        "pandemic",
+        "infection",
+        "infections"
+      ]
+    },
+    {
+      "id": "news-273ef834a08e4ad5",
+      "kind": "literal",
+      "expression": "corruption",
+      "labels": [
+        "WB_832_ANTI_CORRUPTION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "anti-corruption",
+        "anticorruption",
+        "bribery"
+      ]
+    },
+    {
+      "id": "news-0627963ea8d432e8",
+      "kind": "literal",
+      "expression": "international trade",
+      "labels": [
+        "WB_698_TRADE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "imports",
+        "exports",
+        "trade agreement",
+        "tariffs"
+      ]
+    },
+    {
+      "id": "news-2d96d3d3c332195f",
+      "kind": "literal",
+      "expression": "peacekeeping",
+      "labels": [
+        "WB_2470_PEACE_OPERATIONS_AND_CONFLICT_MANAGEMENT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "peacekeepers",
+        "peace talks",
+        "ceasefire",
+        "cease-fire",
+        "peace negotiations"
+      ]
+    },
+    {
+      "id": "news-69217744830974fa",
+      "kind": "literal",
+      "expression": "private sector",
+      "labels": [
+        "WB_1921_PRIVATE_SECTOR_DEVELOPMENT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "small business",
+        "small businesses",
+        "business development",
+        "entrepreneurship"
+      ]
+    },
+    {
+      "id": "news-92fde01c10220915",
+      "kind": "literal",
+      "expression": "anti-corruption agency",
+      "labels": [
+        "WB_2024_ANTI_CORRUPTION_AUTHORITIES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "anti-corruption commission",
+        "anti-corruption bureau",
+        "anticorruption commission"
+      ]
+    },
+    {
+      "id": "news-1b7953e2a5aba992",
+      "kind": "literal",
+      "expression": "cancer",
+      "labels": [
+        "WB_1427_NON_COMMUNICABLE_DISEASE_AND_INJURY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "diabetes",
+        "heart disease",
+        "stroke",
+        "injury",
+        "injuries"
+      ]
+    },
+    {
+      "id": "news-67250e73424a61b9",
+      "kind": "literal",
+      "expression": "railway",
+      "labels": [
+        "WB_1803_TRANSPORT_INFRASTRUCTURE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "railways",
+        "airport",
+        "airports",
+        "highway",
+        "highways",
+        "road construction"
+      ]
+    },
+    {
+      "id": "news-909390e59f91d721",
+      "kind": "literal",
+      "expression": "investigation",
+      "labels": [
+        "WB_2025_INVESTIGATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "investigations",
+        "investigating",
+        "investigated"
+      ]
+    },
+    {
+      "id": "news-40638955a4f94146",
+      "kind": "literal",
+      "expression": "water",
+      "labels": [
+        "WB_137_WATER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "drinking water",
+        "groundwater",
+        "wastewater"
+      ]
+    },
+    {
+      "id": "news-c5854314009dc508",
+      "kind": "literal",
+      "expression": "energy",
+      "labels": [
+        "WB_507_ENERGY_AND_EXTRACTIVES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "oil",
+        "natural gas",
+        "mining",
+        "electricity",
+        "coal"
+      ]
+    },
+    {
+      "id": "news-53b590c0f93cad62",
+      "kind": "literal",
+      "expression": "public administration",
+      "labels": [
+        "WB_723_PUBLIC_ADMINISTRATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "civil service",
+        "public servants",
+        "government administration"
+      ]
+    },
+    {
+      "id": "news-5011be5405e1fd7a",
+      "kind": "literal",
+      "expression": "public health",
+      "labels": [
+        "WB_635_PUBLIC_HEALTH"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "vaccination",
+        "vaccinations",
+        "epidemic",
+        "pandemic",
+        "disease prevention"
+      ]
+    },
+    {
+      "id": "news-d54260a4c8419456",
+      "kind": "literal",
+      "expression": "digital services",
+      "labels": [
+        "WB_652_ICT_APPLICATIONS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "software",
+        "online platform",
+        "online platforms",
+        "information systems"
+      ]
+    },
+    {
+      "id": "news-9ac991c708c365a5",
+      "kind": "literal",
+      "expression": "enterprise software",
+      "labels": [
+        "WB_658_ENTERPRISE_APPLICATIONS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "enterprise applications",
+        "enterprise resource planning",
+        "business software"
+      ]
+    },
+    {
+      "id": "news-281b84556851d5fc",
+      "kind": "literal",
+      "expression": "national security",
+      "labels": [
+        "WB_2490_NATIONAL_PROTECTION_AND_SECURITY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "homeland security",
+        "border security"
+      ]
+    },
+    {
+      "id": "news-f30b8099e4b4cd2b",
+      "kind": "literal",
+      "expression": "civil service",
+      "labels": [
+        "WB_724_HUMAN_RESOURCES_FOR_PUBLIC_SECTOR"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "civil servants",
+        "public servants",
+        "government employees"
+      ]
+    },
+    {
+      "id": "news-cf3a510f631ad78f",
+      "kind": "literal",
+      "expression": "compensation",
+      "labels": [
+        "WB_2048_COMPENSATION_CAREERS_AND_INCENTIVES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "employee benefits",
+        "wage",
+        "wages",
+        "salary",
+        "salaries"
+      ]
+    },
+    {
+      "id": "news-2b6148fd04b83460",
+      "kind": "literal",
+      "expression": "agriculture",
+      "labels": [
+        "WB_435_AGRICULTURE_AND_FOOD_SECURITY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "agricultural",
+        "farming",
+        "food security",
+        "food insecurity",
+        "crop",
+        "crops"
+      ]
+    },
+    {
+      "id": "news-868025566a0baa36",
+      "kind": "literal",
+      "expression": "social media",
+      "labels": [
+        "WB_662_SOCIAL_MEDIA"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "facebook",
+        "instagram",
+        "tiktok",
+        "twitter"
+      ]
+    },
+    {
+      "id": "news-52f732fed5fdc8a8",
+      "kind": "literal",
+      "expression": "medical technology",
+      "labels": [
+        "WB_1331_HEALTH_TECHNOLOGIES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "medical technologies",
+        "medical device",
+        "medical devices",
+        "diagnostic test",
+        "diagnostic tests"
+      ]
+    },
+    {
+      "id": "news-f8c6d33e3f760f2e",
+      "kind": "literal",
+      "expression": "pharmaceutical",
+      "labels": [
+        "WB_1350_PHARMACEUTICALS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "pharmaceuticals",
+        "medication",
+        "medications",
+        "prescription drugs"
+      ]
+    },
+    {
+      "id": "news-8c2fdae8574f8ffb",
+      "kind": "literal",
+      "expression": "social protection",
+      "labels": [
+        "WB_697_SOCIAL_PROTECTION_AND_LABOR"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "social insurance",
+        "labor market",
+        "labour market",
+        "unemployment benefits",
+        "social security"
+      ]
+    },
+    {
+      "id": "news-03160e997a72103e",
+      "kind": "literal",
+      "expression": "financial sector",
+      "labels": [
+        "WB_1920_FINANCIAL_SECTOR_DEVELOPMENT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "banking sector",
+        "financial inclusion",
+        "capital markets"
+      ]
+    },
+    {
+      "id": "news-0db06f9317e7ca1d",
+      "kind": "literal",
+      "expression": "education for all",
+      "labels": [
+        "WB_1467_EDUCATION_FOR_ALL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "universal education",
+        "access to education",
+        "inclusive education"
+      ]
+    },
+    {
+      "id": "news-ef419fca64ae6529",
+      "kind": "literal",
+      "expression": "vocational education",
+      "labels": [
+        "WB_1484_EDUCATION_SKILLS_DEVELOPMENT_AND_LABOR_MARKET"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "vocational training",
+        "skills development",
+        "job training"
+      ]
+    },
+    {
+      "id": "news-65123469c327f64f",
+      "kind": "literal",
+      "expression": "job creation",
+      "labels": [
+        "WB_2769_JOBS_STRATEGIES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "employment strategy",
+        "employment strategies",
+        "jobs strategy"
+      ]
+    },
+    {
+      "id": "news-72151016fb0542f2",
+      "kind": "literal",
+      "expression": "employability",
+      "labels": [
+        "WB_2131_EMPLOYABILITY_SKILLS_AND_JOBS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "job skills",
+        "workforce development",
+        "vocational training"
+      ]
+    },
+    {
+      "id": "news-7ae404b79ef7f39f",
+      "kind": "literal",
+      "expression": "organized crime",
+      "labels": [
+        "WB_2453_ORGANIZED_CRIME"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "organised crime",
+        "criminal gang",
+        "criminal gangs",
+        "crime syndicate"
+      ]
+    },
+    {
+      "id": "news-ff11e98e90aa0433",
+      "kind": "literal",
+      "expression": "jobs diagnostic",
+      "labels": [
+        "WB_2689_JOBS_DIAGNOSTICS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "employment statistics",
+        "labor market analysis",
+        "labour market analysis"
+      ]
+    },
+    {
+      "id": "news-3ad91fd347d5e4e3",
+      "kind": "literal",
+      "expression": "social development",
+      "labels": [
+        "WB_134_SOCIAL_DEVELOPMENT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "social inclusion",
+        "community development"
+      ]
+    },
+    {
+      "id": "news-1cac0ca09e46b4cf",
+      "kind": "literal",
+      "expression": "poverty",
+      "labels": [
+        "WB_695_POVERTY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "poor households",
+        "extreme poverty",
+        "poverty reduction"
+      ]
+    },
+    {
+      "id": "news-fe4bb53c8ec71349",
+      "kind": "literal",
+      "expression": "environment",
+      "labels": [
+        "WB_566_ENVIRONMENT_AND_NATURAL_RESOURCES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "environmental",
+        "natural resources",
+        "conservation",
+        "biodiversity"
+      ]
+    },
+    {
+      "id": "news-60a4e2ddd98d4d68",
+      "kind": "literal",
+      "expression": "sovereign debt",
+      "labels": [
+        "WB_1104_MACROECONOMIC_VULNERABILITY_AND_DEBT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "public debt",
+        "debt crisis",
+        "macroeconomic vulnerability"
+      ]
+    },
+    {
+      "id": "news-8ded314a3ee19fde",
+      "kind": "literal",
+      "expression": "industrial competitiveness",
+      "labels": [
+        "WB_346_COMPETITIVE_INDUSTRIES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "manufacturing",
+        "competitive industries",
+        "industrial development"
+      ]
+    },
+    {
+      "id": "news-4394369b4f6b4db6",
+      "kind": "literal",
+      "expression": "war",
+      "labels": [
+        "WB_2462_POLITICAL_VIOLENCE_AND_WAR"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "civil war",
+        "political violence",
+        "armed conflict"
+      ]
+    },
+    {
+      "id": "news-021d75e2185b8678",
+      "kind": "literal",
+      "expression": "immigration policy",
+      "labels": [
+        "WB_2836_MIGRATION_POLICIES_AND_JOBS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "migration policy",
+        "migrant workers",
+        "foreign workers"
+      ]
+    },
+    {
+      "id": "news-7a87598b23ee1f98",
+      "kind": "literal",
+      "expression": "injury",
+      "labels": [
+        "WB_1428_INJURY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "injuries",
+        "injured",
+        "wounded"
+      ]
+    },
+    {
+      "id": "news-17d8747933210738",
+      "kind": "literal",
+      "expression": "industrial policy",
+      "labels": [
+        "WB_818_INDUSTRY_POLICY_AND_REAL_SECTORS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "industrial development",
+        "manufacturing sector"
+      ]
+    },
+    {
+      "id": "news-dae015a6962cc2b9",
+      "kind": "literal",
+      "expression": "mining",
+      "labels": [
+        "WB_895_MINING_SYSTEMS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "mine",
+        "mines",
+        "mineral extraction"
+      ]
+    },
+    {
+      "id": "news-1bc2c11274a77c58",
+      "kind": "literal",
+      "expression": "narcotics",
+      "labels": [
+        "WB_2456_DRUGS_AND_NARCOTICS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "drug trafficking",
+        "cocaine",
+        "heroin",
+        "fentanyl",
+        "methamphetamine"
+      ]
+    },
+    {
+      "id": "news-75c2f6de749b7e8b",
+      "kind": "literal",
+      "expression": "social cohesion",
+      "labels": [
+        "WB_738_SOCIAL_COHESION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "social inclusion",
+        "social integration"
+      ]
+    },
+    {
+      "id": "news-7ff4d967b1594a45",
+      "kind": "literal",
+      "expression": "airport",
+      "labels": [
+        "WB_1804_AIRPORTS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "airports",
+        "airfield",
+        "airfields"
+      ]
+    },
+    {
+      "id": "news-a0a85e54babf327a",
+      "kind": "literal",
+      "expression": "business climate",
+      "labels": [
+        "WB_405_BUSINESS_CLIMATE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "investment climate",
+        "business environment"
+      ]
+    },
+    {
+      "id": "news-59cd2473ed978787",
+      "kind": "literal",
+      "expression": "prison",
+      "labels": [
+        "WB_2495_DETENTION_PRISON_AND_CORRECTIONS_REFORM"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "prisons",
+        "prisoner",
+        "prisoners",
+        "detention",
+        "correctional facility"
+      ]
+    },
+    {
+      "id": "news-02fa3d8ca1634b10",
+      "kind": "literal",
+      "expression": "health promotion",
+      "labels": [
+        "WB_1458_HEALTH_PROMOTION_AND_DISEASE_PREVENTION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "disease prevention",
+        "vaccination",
+        "vaccinations",
+        "preventive care"
+      ]
+    },
+    {
+      "id": "news-b2bef026dd35ae12",
+      "kind": "literal",
+      "expression": "iron ore",
+      "labels": [
+        "WB_1699_METAL_ORE_MINING"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_topical_aliases_for_native_world_bank_codes"
+      },
+      "aliases": [
+        "copper mine",
+        "gold mine",
+        "silver mine",
+        "ore mining"
+      ]
+    },
+    {
+      "id": "news-21bf9b5b70c0df51",
+      "kind": "literal",
+      "expression": "government",
+      "labels": [
+        "GENERAL_GOVERNMENT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "governments",
+        "parliament",
+        "congress",
+        "ministry",
+        "ministries"
+      ]
+    },
+    {
+      "id": "news-503260f35081773d",
+      "kind": "literal",
+      "expression": "health",
+      "labels": [
+        "GENERAL_HEALTH"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "healthcare",
+        "health care",
+        "medical",
+        "medicine",
+        "hospital",
+        "hospitals"
+      ]
+    },
+    {
+      "id": "news-279ac50553653680",
+      "kind": "literal",
+      "expression": "medical",
+      "labels": [
+        "MEDICAL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "medicine",
+        "hospital",
+        "hospitals",
+        "doctor",
+        "doctors",
+        "nurse",
+        "nurses",
+        "patient",
+        "patients"
+      ]
+    },
+    {
+      "id": "news-62853e584fce5e9d",
+      "kind": "literal",
+      "expression": "education",
+      "labels": [
+        "EDUCATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "school",
+        "schools",
+        "university",
+        "universities",
+        "college",
+        "colleges",
+        "teacher",
+        "teachers"
+      ]
+    },
+    {
+      "id": "news-6eb473d4cdc750f7",
+      "kind": "literal",
+      "expression": "leader",
+      "labels": [
+        "LEADER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "leaders",
+        "leadership"
+      ]
+    },
+    {
+      "id": "news-f876f40286e96e2a",
+      "kind": "literal",
+      "expression": "legislation",
+      "labels": [
+        "LEGISLATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "legislative",
+        "lawmakers",
+        "bill passed",
+        "act passed"
+      ]
+    },
+    {
+      "id": "news-a1117f75f3612e4d",
+      "kind": "literal",
+      "expression": "police",
+      "labels": [
+        "SECURITY_SERVICES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "policing",
+        "law enforcement",
+        "security forces",
+        "security services"
+      ]
+    },
+    {
+      "id": "news-9611c9362da5ec0c",
+      "kind": "literal",
+      "expression": "social media",
+      "labels": [
+        "MEDIA_SOCIAL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "facebook",
+        "instagram",
+        "tiktok",
+        "twitter"
+      ]
+    },
+    {
+      "id": "news-9d49176a7d60086a",
+      "kind": "literal",
+      "expression": "newspaper",
+      "labels": [
+        "MEDIA_MSM"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "newspapers",
+        "news media",
+        "news outlet",
+        "news outlets",
+        "broadcast",
+        "television"
+      ]
+    },
+    {
+      "id": "news-d05fd43161feeee3",
+      "kind": "literal",
+      "expression": "science",
+      "labels": [
+        "SCIENCE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "scientific",
+        "scientist",
+        "scientists",
+        "research",
+        "researcher",
+        "researchers"
+      ]
+    },
+    {
+      "id": "news-3df4f58c0991cd30",
+      "kind": "literal",
+      "expression": "election",
+      "labels": [
+        "ELECTION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "elections",
+        "electoral",
+        "ballot",
+        "ballots"
+      ]
+    },
+    {
+      "id": "news-15605ac84fbe59cf",
+      "kind": "literal",
+      "expression": "military",
+      "labels": [
+        "MILITARY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "armed forces",
+        "army",
+        "navy",
+        "air force",
+        "soldier",
+        "soldiers",
+        "troops"
+      ]
+    },
+    {
+      "id": "news-d65103d93f26eed4",
+      "kind": "literal",
+      "expression": "agriculture",
+      "labels": [
+        "AGRICULTURE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "agricultural",
+        "farming",
+        "farmer",
+        "farmers",
+        "crop",
+        "crops"
+      ]
+    },
+    {
+      "id": "news-1556c60639174c36",
+      "kind": "literal",
+      "expression": "earthquake",
+      "labels": [
+        "NATURAL_DISASTER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "earthquakes",
+        "flood",
+        "floods",
+        "hurricane",
+        "hurricanes",
+        "tsunami",
+        "wildfire",
+        "wildfires"
+      ]
+    },
+    {
+      "id": "news-b650b72049ba8147",
+      "kind": "literal",
+      "expression": "stock market",
+      "labels": [
+        "ECON_STOCKMARKET"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "stock markets",
+        "stock exchange",
+        "stock exchanges",
+        "share prices",
+        "equity markets"
+      ]
+    },
+    {
+      "id": "news-640213c8191aeb58",
+      "kind": "literal",
+      "expression": "tax",
+      "labels": [
+        "ECON_TAXATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "taxes",
+        "taxation",
+        "income tax",
+        "corporate tax"
+      ]
+    },
+    {
+      "id": "news-895aaee45276a08d",
+      "kind": "literal",
+      "expression": "crude oil",
+      "labels": [
+        "ENV_OIL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "oil production",
+        "oil prices",
+        "oil drilling",
+        "oil refinery"
+      ]
+    },
+    {
+      "id": "news-7acf5af6fa87f409",
+      "kind": "literal",
+      "expression": "price",
+      "labels": [
+        "TAX_ECON_PRICE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "prices",
+        "pricing"
+      ]
+    },
+    {
+      "id": "news-cf57deeed6ee50a6",
+      "kind": "literal",
+      "expression": "maritime",
+      "labels": [
+        "MARITIME"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "shipping",
+        "seaport",
+        "seaports",
+        "cargo ship",
+        "cargo ships"
+      ]
+    },
+    {
+      "id": "news-367c2348147bfc16",
+      "kind": "literal",
+      "expression": "innovation",
+      "labels": [
+        "SOC_INNOVATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "innovative",
+        "innovations"
+      ]
+    },
+    {
+      "id": "news-9d9e5a761f54006a",
+      "kind": "literal",
+      "expression": "transparency",
+      "labels": [
+        "TRANSPARENCY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "transparent",
+        "disclosure",
+        "disclosures"
+      ]
+    },
+    {
+      "id": "news-a7bf7036dfd0f489",
+      "kind": "literal",
+      "expression": "politics",
+      "labels": [
+        "USPEC_POLITICS_GENERAL1"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "political",
+        "election",
+        "elections",
+        "parliament",
+        "senate",
+        "congress"
+      ]
+    },
+    {
+      "id": "news-d24df927343f596b",
+      "kind": "literal",
+      "expression": "policy",
+      "labels": [
+        "USPEC_POLICY1"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "policies",
+        "legislation",
+        "regulation",
+        "regulations",
+        "government spending"
+      ]
+    },
+    {
+      "id": "news-61b17e1f5cbdacdf",
+      "kind": "literal",
+      "expression": "trial",
+      "labels": [
+        "TRIAL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "trials"
+      ],
+      "exclude_any": [
+        "clinical trial",
+        "clinical trials",
+        "trial version",
+        "free trial",
+        "trial period"
+      ]
+    },
+    {
+      "id": "news-c84cafa634ecf9f0",
+      "kind": "literal",
+      "expression": "school",
+      "labels": [
+        "SOC_POINTSOFINTEREST",
+        "SOC_POINTSOFINTEREST_SCHOOL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      }
+    },
+    {
+      "id": "news-85522eb0d044f996",
+      "kind": "literal",
+      "expression": "schools",
+      "labels": [
+        "SOC_POINTSOFINTEREST",
+        "SOC_POINTSOFINTEREST_SCHOOLS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      }
+    },
+    {
+      "id": "news-33de01b4095f8c36",
+      "kind": "literal",
+      "expression": "university",
+      "labels": [
+        "SOC_POINTSOFINTEREST",
+        "SOC_POINTSOFINTEREST_UNIVERSITY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      }
+    },
+    {
+      "id": "news-e6867218d64244b7",
+      "kind": "literal",
+      "expression": "universities",
+      "labels": [
+        "SOC_POINTSOFINTEREST",
+        "SOC_POINTSOFINTEREST_UNIVERSITIES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      }
+    },
+    {
+      "id": "news-424fc24f161282fe",
+      "kind": "literal",
+      "expression": "hospital",
+      "labels": [
+        "SOC_POINTSOFINTEREST",
+        "SOC_POINTSOFINTEREST_HOSPITAL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      }
+    },
+    {
+      "id": "news-570cdcff5d4f1d14",
+      "kind": "literal",
+      "expression": "hospitals",
+      "labels": [
+        "SOC_POINTSOFINTEREST",
+        "SOC_POINTSOFINTEREST_HOSPITALS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      }
+    },
+    {
+      "id": "news-eb4a2942e63a77f1",
+      "kind": "literal",
+      "expression": "airport",
+      "labels": [
+        "SOC_POINTSOFINTEREST",
+        "SOC_POINTSOFINTEREST_AIRPORT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      }
+    },
+    {
+      "id": "news-2ebbcd5ec52786ae",
+      "kind": "literal",
+      "expression": "airports",
+      "labels": [
+        "SOC_POINTSOFINTEREST",
+        "SOC_POINTSOFINTEREST_AIRPORTS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      }
+    },
+    {
+      "id": "news-e7e8deed821da7ec",
+      "kind": "literal",
+      "expression": "college",
+      "labels": [
+        "SOC_POINTSOFINTEREST",
+        "SOC_POINTSOFINTEREST_COLLEGE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      }
+    },
+    {
+      "id": "news-c000591811af6bb6",
+      "kind": "literal",
+      "expression": "colleges",
+      "labels": [
+        "SOC_POINTSOFINTEREST",
+        "SOC_POINTSOFINTEREST_COLLEGES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      }
+    },
+    {
+      "id": "news-a8cada56a7fc41a2",
+      "kind": "literal",
+      "expression": "prison",
+      "labels": [
+        "SOC_POINTSOFINTEREST",
+        "SOC_POINTSOFINTEREST_PRISON"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      }
+    },
+    {
+      "id": "news-a8d1b343993d9858",
+      "kind": "literal",
+      "expression": "prisons",
+      "labels": [
+        "SOC_POINTSOFINTEREST",
+        "SOC_POINTSOFINTEREST_PRISONS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      }
+    },
+    {
+      "id": "news-df1209e6f224dfc3",
+      "kind": "literal",
+      "expression": "police station",
+      "labels": [
+        "SOC_POINTSOFINTEREST",
+        "SOC_POINTSOFINTEREST_POLICE_STATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_news_vocabulary"
+      },
+      "aliases": [
+        "police stations"
+      ]
+    },
+    {
+      "id": "news-c6e8fbf414b08652",
+      "kind": "literal",
+      "expression": "forest",
+      "labels": [
+        "UNGP_FORESTS_RIVERS_OCEANS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_subset_of_published_ungp_topic_concepts"
+      },
+      "aliases": [
+        "forests",
+        "river",
+        "rivers",
+        "ocean",
+        "oceans",
+        "deforestation",
+        "marine conservation"
+      ]
+    },
+    {
+      "id": "news-a31e732caa2c1402",
+      "kind": "literal",
+      "expression": "quality education",
+      "labels": [
+        "UNGP_EDUCATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_subset_of_published_ungp_topic_concepts"
+      },
+      "aliases": [
+        "access to education",
+        "education for all",
+        "school fees",
+        "tuition fees"
+      ]
+    },
+    {
+      "id": "news-80c0888b0cc8d3bb",
+      "kind": "literal",
+      "expression": "healthcare",
+      "labels": [
+        "UNGP_HEALTHCARE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_subset_of_published_ungp_topic_concepts"
+      },
+      "aliases": [
+        "health care",
+        "health insurance",
+        "access to healthcare"
+      ]
+    },
+    {
+      "id": "news-2816b7fcc311ced1",
+      "kind": "literal",
+      "expression": "clean water",
+      "labels": [
+        "UNGP_CLEAN_WATER_SANITATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_subset_of_published_ungp_topic_concepts"
+      },
+      "aliases": [
+        "drinking water",
+        "sanitation",
+        "water supply"
+      ]
+    },
+    {
+      "id": "news-098b6dfa75577484",
+      "kind": "literal",
+      "expression": "climate change",
+      "labels": [
+        "UNGP_CLIMATE_CHANGE_ACTION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_subset_of_published_ungp_topic_concepts"
+      },
+      "aliases": [
+        "global warming",
+        "climate action",
+        "carbon emissions"
+      ]
+    },
+    {
+      "id": "news-9a29719c7adc02cf",
+      "kind": "literal",
+      "expression": "food security",
+      "labels": [
+        "UNGP_AFFORDABLE_NUTRITIOUS_FOOD"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_subset_of_published_ungp_topic_concepts"
+      },
+      "aliases": [
+        "food insecurity",
+        "malnutrition",
+        "nutritious food",
+        "food prices"
+      ]
+    },
+    {
+      "id": "news-f6a1c5a153b87abd",
+      "kind": "literal",
+      "expression": "job opportunities",
+      "labels": [
+        "UNGP_JOB_OPPORTUNITIES_EMPLOYMENT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_subset_of_published_ungp_topic_concepts"
+      },
+      "aliases": [
+        "job creation",
+        "employment opportunities",
+        "unemployment"
+      ]
+    },
+    {
+      "id": "news-e1f2495796b3b5de",
+      "kind": "literal",
+      "expression": "working conditions",
+      "labels": [
+        "UNGP_JOB_OPPORTUNITIES_WORKING_CONDITIONS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_subset_of_published_ungp_topic_concepts"
+      },
+      "aliases": [
+        "workplace safety",
+        "workers rights",
+        "labor rights",
+        "labour rights"
+      ]
+    },
+    {
+      "id": "news-c6b9a88d9ae9ee02",
+      "kind": "literal",
+      "expression": "public transport",
+      "labels": [
+        "UNGP_TRANSPORTATION_ROADS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_subset_of_published_ungp_topic_concepts"
+      },
+      "aliases": [
+        "public transportation",
+        "road construction",
+        "transport infrastructure"
+      ]
+    },
+    {
+      "id": "news-b1e91ef6a47c9580",
+      "kind": "literal",
+      "expression": "gender equality",
+      "labels": [
+        "UNGP_GENDER_EQUALITY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_subset_of_published_ungp_topic_concepts"
+      },
+      "aliases": [
+        "gender inequality",
+        "equal pay",
+        "women's rights"
+      ]
+    },
+    {
+      "id": "news-a85322c5da162d6c",
+      "kind": "literal",
+      "expression": "discrimination",
+      "labels": [
+        "UNGP_FREEDOM_FROM_DISCRIMINATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_subset_of_published_ungp_topic_concepts"
+      },
+      "aliases": [
+        "racial discrimination",
+        "religious discrimination",
+        "equal rights"
+      ]
+    },
+    {
+      "id": "news-3af9efc61e034991",
+      "kind": "literal",
+      "expression": "crime",
+      "labels": [
+        "UNGP_CRIME_VIOLENCE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_subset_of_published_ungp_topic_concepts"
+      },
+      "aliases": [
+        "criminal",
+        "violence",
+        "violent crime"
+      ]
+    },
+    {
+      "id": "news-93a9664eb84eda39",
+      "kind": "literal",
+      "expression": "disability benefits",
+      "labels": [
+        "UNGP_SUPPORT_FOR_PEOPLE_WHO_CANT_WORK"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_subset_of_published_ungp_topic_concepts"
+      },
+      "aliases": [
+        "social security",
+        "social protection"
+      ]
+    },
+    {
+      "id": "news-450ce4b9ba490d0d",
+      "kind": "literal",
+      "expression": "political freedom",
+      "labels": [
+        "UNGP_POLITICAL_FREEDOMS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "authored-news-themes-v1",
+        "evidence_status": "authored_approximation",
+        "basis": "authored_subset_of_published_ungp_topic_concepts"
+      },
+      "aliases": [
+        "political freedoms",
+        "freedom of speech",
+        "freedom of expression"
+      ]
+    }
+  ]
+}

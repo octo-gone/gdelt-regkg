@@ -1,0 +1,171 @@
+{
+  "schema": "reconstruct-gkg/resource-recipe/v1",
+  "sources": {
+    "general-inquirer": {
+      "filename": "inqtabs.txt",
+      "url": "https://inquirer.sites.fas.harvard.edu/inqtabs.txt",
+      "sha256": "73fa21f8923c0c69bb3c694b4de453e9ede4e53e5e4b758b494468f99c3e9640"
+    },
+    "vader": {
+      "filename": "vader_lexicon.txt",
+      "url": "https://files.pythonhosted.org/packages/76/fc/310e16254683c1ed35eeb97386986d6c00bc29df17ce280aed64d55537e9/vaderSentiment-3.3.2-py2.py3-none-any.whl",
+      "archive_sha256": "3bf1d243b98b1afad575b9f22bc2cb1e212b94ff89ca74f8a23a588d024ea311",
+      "archive_member": "vaderSentiment/vader_lexicon.txt",
+      "sha256": "1ec9c6e9ee19aade328f8beb393a6afa71a5bb3acf7d3cc22d4ef568df374bf5"
+    },
+    "crisislex": {
+      "filename": "CrisisLexRec.txt",
+      "url": "https://raw.githubusercontent.com/sajao/CrisisLex/master/data/CrisisLexLexicon/CrisisLexRec.txt",
+      "sha256": "3445bd7cdb85e102e7c6d565b6b0079007286fef6c71700ea0f3e906da9b11ff"
+    },
+    "codebook": {
+      "filename": "GCAM-MASTER-CODEBOOK.TXT",
+      "url": "http://data.gdeltproject.org/documentation/GCAM-MASTER-CODEBOOK.TXT",
+      "sha256": "2020a257f0b9d977d60cbfe076ef35db8b04507393adbc8f50d1024a06b8364f"
+    },
+    "wordnet-31": {
+      "filename": "wn3.1.dict.tar.gz",
+      "url": "https://wordnetcode.princeton.edu/wn3.1.dict.tar.gz",
+      "sha256": "3f7d8be8ef6ecc7167d39b10d66954ec734280b5bdcd57f7d9eafe429d11c22a"
+    },
+    "wordnet-20": {
+      "filename": "wn2.0.tar.gz",
+      "url": "https://wordnetcode.princeton.edu/2.0/WordNet-2.0.tar.gz",
+      "sha256": "081ad1b47b9489b25532fe2e546244480a03932792c218596b848d6f8d2c42bb"
+    },
+    "wordnet-16": {
+      "filename": "wn1.6.tar.gz",
+      "url": "https://wordnetcode.princeton.edu/1.6/wn16.unix.tar.gz",
+      "sha256": "9fc5cbd1bc358d793364dc4659e239bb91bfdcdf9ff5e30bac76e7bb317c438d"
+    },
+    "wordnet-annotations": {
+      "filename": "wndomains-mirror.zip",
+      "url": "https://codeload.github.com/larsmans/wordnet-domains-sentiwords/zip/refs/heads/master",
+      "sha256": "5e0fa52937568bafff9bf03438ed03fddbdc59eb08fd9b61825303f56a0bc80a"
+    },
+    "roget": {
+      "filename": "Roget.zip",
+      "url": "https://provalisresearch.com/Download/Roget.zip",
+      "sha256": "f335bf78518bef820d4a18f5e5dcd0d7bca6a274c14972ccb5cab31c02331aae"
+    },
+    "lexicoder": {
+      "filename": "LSDaug2015.zip",
+      "url": "https://www.snsoroka.com/s/LSDaug2015.zip",
+      "sha256": "07416e15df7d04b3a3e0ff553a704fb16d25340ce045eda2a7ddecb53fe18907"
+    }
+  },
+  "outputs": {
+    "tone.v1.json": {
+      "semantic_sha256": "14142e9e4f26d3e98e4477671d0de06800a6b3bff152e7df63a4a5bd2b8da999"
+    },
+    "tone.v2.json": {
+      "semantic_sha256": "ae4f476342ba77230949597256fcb278b9df43ec7f4aa212de2a38bf865e1a34"
+    },
+    "tone.v3.json": {
+      "semantic_sha256": "8cba956adb685188fcfcae8ace8f26531c462cf0340362c54ed78e934c7fc8da"
+    },
+    "themes.v1.json": {
+      "semantic_sha256": "774cd1e975ebe9a7b653a675bf310c7dec9e3fb1914c30441de49106e75ae0e1"
+    },
+    "themes.v2.json": {
+      "semantic_sha256": "8b6dca6b17e90a46f83d63e5a2012813ee96909803b9a2e341ff71e6062933e5"
+    },
+    "themes.v3.json": {
+      "semantic_sha256": "889bc98194e59efa0554badb443b34e34cdbe17d32e2c74a9e34a55396e8766b"
+    },
+    "gcam.v1.json": {
+      "semantic_sha256": "bbdf25e7cd9ddd1eb5a3bef5d9dcfeb0572d7d5896ca2940f060fb199ee16386"
+    },
+    "gcam.v2.json": {
+      "semantic_sha256": "7f2a1d39d505fd84e31e0cb1a2db870ae8501cd5cb251dcecd8c566869c938d7"
+    },
+    "gcam.v3.json.gz": {
+      "semantic_sha256": "3a7688b17b5bba86bba947fe20958feedb079d260bd35827964bd96ceb293a08"
+    },
+    "locations.v1.json.gz": {
+      "semantic_sha256": "21cda057d1d15b01ac75f248413ead3ae96f81579029d52b31b8299e2df678c1"
+    }
+  },
+  "gazetteer_sources": [
+    {
+      "url": "http://data.gdeltproject.org/gdeltv2/20150312000000.gkg.csv.zip",
+      "sha256": "72fd4b1e919e73ce0cb64ca08aa6d6fcb71c0610da38267bc321887b8a6e678c"
+    },
+    {
+      "url": "http://data.gdeltproject.org/gdeltv2/20150418060000.gkg.csv.zip",
+      "sha256": "20e4433c87f5a06776b8c9903d2ddb044bd5a9518f244bc0de74f9edd6087be7"
+    },
+    {
+      "url": "http://data.gdeltproject.org/gdeltv2/20150724180000.gkg.csv.zip",
+      "sha256": "511a9cc562f1b3c5958c750cdfacba90a47acae0c60396fe9ddb817a3986388a"
+    },
+    {
+      "url": "http://data.gdeltproject.org/gdeltv2/20151003120000.gkg.csv.zip",
+      "sha256": "34b9d419528e83dd0232e522ea983197df417cd5134206f2bca4188e450ecbb9"
+    },
+    {
+      "url": "http://data.gdeltproject.org/gdeltv2/20160112000000.gkg.csv.zip",
+      "sha256": "5356ea5c29387adaedd2feb10ccc9eb7236e21a7d1594be21521a69a5abcff9c"
+    },
+    {
+      "url": "http://data.gdeltproject.org/gdeltv2/20160418060000.gkg.csv.zip",
+      "sha256": "c45e33669083a232e387026b9ce9149001f03599ad20982c2325301f58a4c4a1"
+    },
+    {
+      "url": "http://data.gdeltproject.org/gdeltv2/20160724180000.gkg.csv.zip",
+      "sha256": "01e1b6aa1fbbb7f36c1773c8f041faf2c2cb2890a395ced7f0a99d12a90cfe38"
+    },
+    {
+      "url": "http://data.gdeltproject.org/gdeltv2/20161003120000.gkg.csv.zip",
+      "sha256": "961aadd381f4578a9d5b01724d11b47054043fc0634bd4ab143ef5cee37fcd6c"
+    },
+    {
+      "url": "http://data.gdeltproject.org/gdeltv2/20170112000000.gkg.csv.zip",
+      "sha256": "5cd056b0c59fe02f14661c970dcf0cc01cd0cedf12f0a34fb891667f3a57ddc0"
+    },
+    {
+      "url": "http://data.gdeltproject.org/gdeltv2/20170418060000.gkg.csv.zip",
+      "sha256": "71d95fe1fe95c470477fa03b36d57931c42cc3869f7e9085535f03efa1c8ddac"
+    },
+    {
+      "url": "http://data.gdeltproject.org/gdeltv2/20170724180000.gkg.csv.zip",
+      "sha256": "ac4bace50e78f84a9e1a472cac0ddb056b85eaaf39014802b96639b4df89d9cd"
+    },
+    {
+      "url": "http://data.gdeltproject.org/gdeltv2/20171003120000.gkg.csv.zip",
+      "sha256": "4f12ffd04562da62e0a51d331d0c77f1d0b7decc6447fd5f073229606910a8ba"
+    },
+    {
+      "url": "http://data.gdeltproject.org/gdeltv2/20180112000000.gkg.csv.zip",
+      "sha256": "9ba78e8e2e96b1fd5535f64465793b035337faef9deaf9fe8e94e2e9ff3e6149"
+    },
+    {
+      "url": "http://data.gdeltproject.org/gdeltv2/20180418060000.gkg.csv.zip",
+      "sha256": "83f9cda158a9a32cb1aa7e84a489ebf7729c4bd07c63c8a9d18e49bfc9e584a0"
+    },
+    {
+      "url": "http://data.gdeltproject.org/gdeltv2/20180724180000.gkg.csv.zip",
+      "sha256": "96745fbed0ac9650965e3ba94bf5c8f54752afe5b3f410246f1245804fe94fb6"
+    },
+    {
+      "url": "http://data.gdeltproject.org/gdeltv2/20181003120000.gkg.csv.zip",
+      "sha256": "e0dddd6b64705d95e87bbd257c0ff8bce1bd33047c9341ce580dd1b8057711a7"
+    },
+    {
+      "url": "http://data.gdeltproject.org/gdeltv2/20190112000000.gkg.csv.zip",
+      "sha256": "d398e29da4a4b9da37b5ec92dbce85556fc24c9ec9446522391c8be1c898db66"
+    },
+    {
+      "url": "http://data.gdeltproject.org/gdeltv2/20190418060000.gkg.csv.zip",
+      "sha256": "90fb471b097a2c8e6f28e5f9cb7510ed33d30c4f8af28d4b9a903456baca9a72"
+    },
+    {
+      "url": "http://data.gdeltproject.org/gdeltv2/20190724180000.gkg.csv.zip",
+      "sha256": "ec2de9949dfa3a0b869263ce0f429b35997ac0d9439b413ea95bbb3a69eb6749"
+    },
+    {
+      "url": "http://data.gdeltproject.org/gdeltv2/20191003120000.gkg.csv.zip",
+      "sha256": "bf74d4d892ec1577265a2881658960cfdae8d01cdcf0e286cec750ad0a796226"
+    }
+  ]
+}

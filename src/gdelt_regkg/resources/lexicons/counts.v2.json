@@ -1,0 +1,1692 @@
+{
+  "$schema": "../schemas/count-rules.schema.json",
+  "schema": "reconstruct-gkg/count-rules/v1",
+  "name": "gdelt-count-refinement-v2",
+  "settings": {
+    "object_nouns": [
+      "people",
+      "person",
+      "persons",
+      "men",
+      "man",
+      "women",
+      "woman",
+      "children",
+      "child",
+      "civilians",
+      "civilian",
+      "soldiers",
+      "soldier",
+      "officers",
+      "officer",
+      "police",
+      "policemen",
+      "policeman",
+      "protesters",
+      "protester",
+      "demonstrators",
+      "demonstrator",
+      "suspects",
+      "suspect",
+      "militants",
+      "militant",
+      "rebels",
+      "rebel",
+      "fighters",
+      "fighter",
+      "hostages",
+      "hostage",
+      "passengers",
+      "passenger",
+      "workers",
+      "worker",
+      "students",
+      "student",
+      "patients",
+      "patient",
+      "residents",
+      "resident",
+      "villagers",
+      "villager",
+      "migrants",
+      "migrant",
+      "refugees",
+      "refugee",
+      "inmates",
+      "inmate",
+      "prisoners",
+      "prisoner",
+      "jihadists",
+      "jihadist",
+      "missionaries",
+      "missionary",
+      "tourists",
+      "tourist",
+      "journalists",
+      "journalist",
+      "reporters",
+      "reporter",
+      "attackers",
+      "attacker",
+      "adults",
+      "adult",
+      "babies",
+      "baby"
+    ],
+    "auxiliaries": [
+      "were",
+      "was",
+      "are",
+      "is",
+      "have been",
+      "has been",
+      "had been"
+    ],
+    "unsafe_phrases": [
+      "no",
+      "not",
+      "never",
+      "neither",
+      "without",
+      "could",
+      "would",
+      "may",
+      "might",
+      "will",
+      "should",
+      "if",
+      "denied",
+      "denies",
+      "deny",
+      "between"
+    ],
+    "unsafe_suffixes": [
+      "n't"
+    ],
+    "bad_object_words": [
+      "and",
+      "or",
+      "not",
+      "no",
+      "other",
+      "more",
+      "fewer",
+      "remaining",
+      "another"
+    ],
+    "max_object_modifiers": 3,
+    "context_words": 10,
+    "allow_bare_active": true
+  },
+  "rules": [
+    {
+      "id": "active_predicate-8190a7f6a9930d74",
+      "kind": "active_predicate",
+      "expression": "abducted",
+      "labels": [
+        "KIDNAP"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KIDNAP",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-a7a74dfa8f503e23",
+      "kind": "active_predicate",
+      "expression": "affected",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "AFFECT",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-9041911f272e24aa",
+      "kind": "active_predicate",
+      "expression": "arrested",
+      "labels": [
+        "ARREST",
+        "CRISISLEX_C07_SAFETY",
+        "SOC_GENERALCRIME"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "ARREST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "CRISISLEX_C07_SAFETY",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ],
+        "calibration": {
+          "id": "active_predicate-9041911f272e24aa",
+          "expression": "arrested",
+          "before": [
+            "ARREST",
+            "CRISISLEX_C07_SAFETY"
+          ],
+          "after": [
+            "ARREST",
+            "CRISISLEX_C07_SAFETY",
+            "SOC_GENERALCRIME"
+          ],
+          "training_matches": 12,
+          "training_reference_counts": {
+            "ARREST": 10,
+            "CRISISLEX_C07_SAFETY": 9,
+            "SOC_GENERALCRIME": 9,
+            "CRISISLEX_T03_DEAD": 1,
+            "KILL": 1,
+            "CRISISLEX_CRISISLEXREC": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "active_predicate-baabe7de7c4d7ac7",
+      "kind": "active_predicate",
+      "expression": "assassinated",
+      "labels": [
+        "ASSASSINATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "ASSASSINATION",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-83a21eec526f6df4",
+      "kind": "active_predicate",
+      "expression": "charged",
+      "labels": [
+        "ARREST",
+        "CRISISLEX_C07_SAFETY",
+        "SOC_GENERALCRIME"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "ARREST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "CRISISLEX_C07_SAFETY",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "SOC_GENERALCRIME",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-16409c50f6a6780f",
+      "kind": "active_predicate",
+      "expression": "confiscated",
+      "labels": [
+        "SEIZE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "SEIZE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-40be2b767ae546bc",
+      "kind": "active_predicate",
+      "expression": "convicted",
+      "labels": [
+        "SOC_GENERALCRIME"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "SOC_GENERALCRIME",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "predicate-c4636d5bc8dd5a51",
+      "kind": "predicate",
+      "expression": "dead",
+      "labels": [
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T03_DEAD",
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_CRISISLEXREC",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "CRISISLEX_T03_DEAD",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "predicate-3ab9f66c6417592f",
+      "kind": "predicate",
+      "expression": "demonstrated",
+      "labels": [
+        "PROTEST"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "PROTEST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-ebaa3aee1add5884",
+      "kind": "active_predicate",
+      "expression": "detained",
+      "labels": [
+        "ARREST",
+        "CRISISLEX_C07_SAFETY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "ARREST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "CRISISLEX_C07_SAFETY",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "predicate-cc994c01e7a453e4",
+      "kind": "predicate",
+      "expression": "died",
+      "labels": [
+        "CRISISLEX_T03_DEAD",
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T03_DEAD",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-50929ba926879bb5",
+      "kind": "active_predicate",
+      "expression": "displaced",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T09_DISPLACEDRELOCATEDEVACUATED",
+        "DISPLACED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T09_DISPLACEDRELOCATEDEVACUATED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "DISPLACED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "predicate-c71052dc667dbbca",
+      "kind": "predicate",
+      "expression": "drowned",
+      "labels": [
+        "NATURAL_DISASTER_DROWNED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "NATURAL_DISASTER_DROWNED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-fef526dcc00cac77",
+      "kind": "active_predicate",
+      "expression": "evacuated",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T09_DISPLACEDRELOCATEDEVACUATED",
+        "EVACUATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T09_DISPLACEDRELOCATEDEVACUATED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "EVACUATION",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-62610d3a8992c5ae",
+      "kind": "active_predicate",
+      "expression": "executed",
+      "labels": [
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-c83f25a345f652a4",
+      "kind": "active_predicate",
+      "expression": "hospitalized",
+      "labels": [
+        "CRISISLEX_C03_WELLBEING_HEALTH",
+        "SICKENED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "SICKENED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-380c9ea24bf46d42",
+      "kind": "active_predicate",
+      "expression": "hurt",
+      "labels": [
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T02_INJURED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "WOUND",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-9d1d2b1e8adfa7fa",
+      "kind": "active_predicate",
+      "expression": "imprisoned",
+      "labels": [
+        "ARREST",
+        "SOC_POINTSOFINTEREST_JAIL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "ARREST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "SOC_POINTSOFINTEREST_JAIL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-c00d7203b6064f3d",
+      "kind": "active_predicate",
+      "expression": "infected",
+      "labels": [
+        "SICKENED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "SICKENED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-ae0dc7d36a11b55c",
+      "kind": "active_predicate",
+      "expression": "injured",
+      "labels": [
+        "CRISISLEX_C03_WELLBEING_HEALTH",
+        "CRISISLEX_CRISISLEXREC",
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T02_INJURED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "WOUND",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-015fa820834d84ff",
+      "kind": "active_predicate",
+      "expression": "jailed",
+      "labels": [
+        "ARREST",
+        "SOC_POINTSOFINTEREST_JAIL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "ARREST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "SOC_POINTSOFINTEREST_JAIL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-5eb2e4b1a7371e5e",
+      "kind": "active_predicate",
+      "expression": "kidnapped",
+      "labels": [
+        "KIDNAP"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KIDNAP",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-efd0b5af9398e93f",
+      "kind": "active_predicate",
+      "expression": "killed",
+      "labels": [
+        "CRISISLEX_T03_DEAD",
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T03_DEAD",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "predicate-f571dd61a4873a88",
+      "kind": "predicate",
+      "expression": "missing",
+      "labels": [
+        "CRISISLEX_T08_MISSINGFOUNDTRAPPEDPEOPLE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T08_MISSINGFOUNDTRAPPEDPEOPLE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "predicate-2ae70ef0c622706a",
+      "kind": "predicate",
+      "expression": "perished",
+      "labels": [
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "predicate-db57dd250b62b388",
+      "kind": "predicate",
+      "expression": "protested",
+      "labels": [
+        "PROTEST"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "PROTEST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-cb723fc75cd2cd3c",
+      "kind": "active_predicate",
+      "expression": "rescued",
+      "labels": [
+        "CRISISLEX_T08_MISSINGFOUNDTRAPPEDPEOPLE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T08_MISSINGFOUNDTRAPPEDPEOPLE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "predicate-4d7da4fecfe97292",
+      "kind": "predicate",
+      "expression": "rioted",
+      "labels": [
+        "PROTEST"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "PROTEST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-6e2c640ce85ac1d2",
+      "kind": "active_predicate",
+      "expression": "seized",
+      "labels": [
+        "SEIZE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "SEIZE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-e7c890b2346a4c92",
+      "kind": "active_predicate",
+      "expression": "sickened",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_C03_WELLBEING_HEALTH",
+        "SICKENED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "SICKENED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "predicate-0fdaea55b59737c5",
+      "kind": "predicate",
+      "expression": "slain",
+      "labels": [
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "predicate-68c1e59721f24860",
+      "kind": "predicate",
+      "expression": "stranded",
+      "labels": [
+        "AFFECT",
+        "CRISISLEX_C04_LOGISTICS_TRANSPORT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "AFFECT",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "CRISISLEX_C04_LOGISTICS_TRANSPORT",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "predicate-5864cd84c997baa0",
+      "kind": "predicate",
+      "expression": "trapped",
+      "labels": [
+        "CRISISLEX_T08_MISSINGFOUNDTRAPPEDPEOPLE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T08_MISSINGFOUNDTRAPPEDPEOPLE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "active_predicate-45ade80843fbbe7e",
+      "kind": "active_predicate",
+      "expression": "wounded",
+      "labels": [
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T02_INJURED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "WOUND",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-3950176da398",
+      "kind": "template",
+      "expression": "death toll of {number}",
+      "labels": [
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-1cedc2db978f",
+      "kind": "template",
+      "expression": "death toll rises to {number}",
+      "labels": [
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-beb07e850e22",
+      "kind": "template",
+      "expression": "death toll rose to {number}",
+      "labels": [
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-73ad4bd3fc21",
+      "kind": "template",
+      "expression": "protest drew {number}",
+      "labels": [
+        "PROTEST"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "PROTEST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-5d6ed26ef16f",
+      "kind": "template",
+      "expression": "released {number} hostages",
+      "labels": [
+        "RELEASE_HOSTAGE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "RELEASE_HOSTAGE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-88199171339f",
+      "kind": "template",
+      "expression": "{number} activist",
+      "labels": [
+        "TAX_FNCACT_ACTIVIST"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "TAX_FNCACT_ACTIVIST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-464320c44cb4",
+      "kind": "template",
+      "expression": "{number} activists",
+      "labels": [
+        "MOVEMENT_GENERAL",
+        "TAX_FNCACT_ACTIVISTS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "MOVEMENT_GENERAL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "TAX_FNCACT_ACTIVISTS",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-5bcaeb744445",
+      "kind": "template",
+      "expression": "{number} arrests",
+      "labels": [
+        "ARREST",
+        "CRISISLEX_C07_SAFETY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "ARREST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "CRISISLEX_C07_SAFETY",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-9d05cb4d8771",
+      "kind": "template",
+      "expression": "{number} confirmed dead",
+      "labels": [
+        "CRISISLEX_T03_DEAD"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T03_DEAD",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-7e7ec56c1cea",
+      "kind": "template",
+      "expression": "{number} criminal charges",
+      "labels": [
+        "SOC_GENERALCRIME"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "SOC_GENERALCRIME",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-33acb8e9d170",
+      "kind": "template",
+      "expression": "{number} deaths",
+      "labels": [
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-5cf2a85f9b71",
+      "kind": "template",
+      "expression": "{number} demonstrators",
+      "labels": [
+        "MOVEMENT_GENERAL",
+        "PROTEST",
+        "TAX_FNCACT_DEMONSTRATORS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "MOVEMENT_GENERAL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "PROTEST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "TAX_FNCACT_DEMONSTRATORS",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-54a84c25f476",
+      "kind": "template",
+      "expression": "{number} displaced people",
+      "labels": [
+        "DISPLACED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "DISPLACED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-6c05082073a4",
+      "kind": "template",
+      "expression": "{number} drowning deaths",
+      "labels": [
+        "NATURAL_DISASTER_DROWNED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "NATURAL_DISASTER_DROWNED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-5aeeb960a8c5",
+      "kind": "template",
+      "expression": "{number} evacuees",
+      "labels": [
+        "EVACUATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "EVACUATION",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-f9542c44f082",
+      "kind": "template",
+      "expression": "{number} fatalities",
+      "labels": [
+        "KILL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KILL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-480895d8dce1",
+      "kind": "template",
+      "expression": "{number} homeless",
+      "labels": [
+        "CRISISLEX_C05_NEED_OF_SHELTERS",
+        "POVERTY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_C05_NEED_OF_SHELTERS",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "POVERTY",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-5a285d909271",
+      "kind": "template",
+      "expression": "{number} hostages",
+      "labels": [
+        "KIDNAP"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "KIDNAP",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-b2c5701efc43",
+      "kind": "template",
+      "expression": "{number} hostages released",
+      "labels": [
+        "RELEASE_HOSTAGE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "RELEASE_HOSTAGE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-2447ca889f32",
+      "kind": "template",
+      "expression": "{number} injuries",
+      "labels": [
+        "CRISISLEX_T02_INJURED",
+        "WOUND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T02_INJURED",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "WOUND",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-fc6fa67c56a4",
+      "kind": "template",
+      "expression": "{number} inmates",
+      "labels": [
+        "SOC_POINTSOFINTEREST_JAIL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "SOC_POINTSOFINTEREST_JAIL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-cef9b8684762",
+      "kind": "template",
+      "expression": "{number} killed in combat",
+      "labels": [
+        "ARMEDCONFLICT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "ARMEDCONFLICT",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-db4461af7b95",
+      "kind": "template",
+      "expression": "{number} killed in fighting",
+      "labels": [
+        "ARMEDCONFLICT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "ARMEDCONFLICT",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-a5170f268ef4",
+      "kind": "template",
+      "expression": "{number} marchers",
+      "labels": [
+        "MOVEMENT_GENERAL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "MOVEMENT_GENERAL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-653750b30958",
+      "kind": "template",
+      "expression": "{number} migrants",
+      "labels": [
+        "EPU_CATS_MIGRATION_FEAR_MIGRATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "EPU_CATS_MIGRATION_FEAR_MIGRATION",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-4973e7678e6a",
+      "kind": "template",
+      "expression": "{number} patients",
+      "labels": [
+        "CRISISLEX_C03_WELLBEING_HEALTH"
+      ],
+      "status": "disabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_C03_WELLBEING_HEALTH",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ],
+        "calibration": {
+          "id": "candidate-4973e7678e6a",
+          "expression": "{number} patients",
+          "before": [
+            "CRISISLEX_C03_WELLBEING_HEALTH"
+          ],
+          "after": [],
+          "training_matches": 6,
+          "training_reference_counts": {}
+        }
+      }
+    },
+    {
+      "id": "candidate-857b9e937b75",
+      "kind": "template",
+      "expression": "{number} people affected",
+      "labels": [
+        "AFFECT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "AFFECT",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-04231f9a83ac",
+      "kind": "template",
+      "expression": "{number} people in poverty",
+      "labels": [
+        "POVERTY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "POVERTY",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-1ef851edba3a",
+      "kind": "template",
+      "expression": "{number} people protested",
+      "labels": [
+        "PROTEST"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "PROTEST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-f05b34a6df61",
+      "kind": "template",
+      "expression": "{number} people rioted",
+      "labels": [
+        "VIOLENT_UNREST"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "VIOLENT_UNREST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-f2c3d60b001e",
+      "kind": "template",
+      "expression": "{number} people warned",
+      "labels": [
+        "CRISISLEX_T01_CAUTION_ADVICE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T01_CAUTION_ADVICE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-cac7630b1602",
+      "kind": "template",
+      "expression": "{number} prisoners",
+      "labels": [
+        "SOC_POINTSOFINTEREST_JAIL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "SOC_POINTSOFINTEREST_JAIL",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-a56414827bd8",
+      "kind": "template",
+      "expression": "{number} protesters",
+      "labels": [
+        "PROTEST"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "PROTEST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-43afda0b41ea",
+      "kind": "template",
+      "expression": "{number} refugee families",
+      "labels": [
+        "REFUGEES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "REFUGEES",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-32d728482d8a",
+      "kind": "template",
+      "expression": "{number} refugees",
+      "labels": [
+        "EPU_CATS_MIGRATION_FEAR_MIGRATION",
+        "REFUGEES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "EPU_CATS_MIGRATION_FEAR_MIGRATION",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "REFUGEES",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-e667263165a5",
+      "kind": "template",
+      "expression": "{number} residents warned",
+      "labels": [
+        "CRISISLEX_T01_CAUTION_ADVICE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_T01_CAUTION_ADVICE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-9e236cb4cfe8",
+      "kind": "template",
+      "expression": "{number} rioters",
+      "labels": [
+        "VIOLENT_UNREST"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "VIOLENT_UNREST",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-33aaf8499e50",
+      "kind": "template",
+      "expression": "{number} shelters",
+      "labels": [
+        "CRISISLEX_C05_NEED_OF_SHELTERS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_C05_NEED_OF_SHELTERS",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-2e5346241f30",
+      "kind": "template",
+      "expression": "{number} stranded passengers",
+      "labels": [
+        "CRISISLEX_C04_LOGISTICS_TRANSPORT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "CRISISLEX_C04_LOGISTICS_TRANSPORT",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-b3d153af1eb2",
+      "kind": "template",
+      "expression": "{number} strikers",
+      "labels": [
+        "STRIKE",
+        "TAX_FNCACT_STRIKERS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "STRIKE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          },
+          {
+            "label": "TAX_FNCACT_STRIKERS",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-dc8b2814de36",
+      "kind": "template",
+      "expression": "{number} terrorists",
+      "labels": [
+        "TERROR"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "TERROR",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    },
+    {
+      "id": "candidate-b942120cdc6d",
+      "kind": "template",
+      "expression": "{number} workers on strike",
+      "labels": [
+        "STRIKE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "evidence": [
+          {
+            "label": "STRIKE",
+            "source": "count_seeds.json",
+            "evidence_status": "experimental_authored_rule"
+          }
+        ]
+      }
+    }
+  ],
+  "evaluation": {
+    "training_dates": [
+      "20260922",
+      "20260924",
+      "20260926",
+      "20260928"
+    ],
+    "validation_date": "20261002",
+    "development_test_date": "20261003",
+    "training_articles": 796,
+    "validation_articles": 211,
+    "method": "Training-only calibration of label emissions at accepted numeric spans; validation selection. Quantity grammar unchanged.",
+    "reference": "CHANGELOG.md#count-rule-calibration"
+  }
+}

@@ -1,0 +1,39 @@
+name: Extraction difference
+description: Report unexpected field extraction or disagreement with native GKG.
+body:
+  - type: markdown
+    attributes:
+      value: Retrieved article bodies can differ from the text GDELT originally processed. Include the analyzed body or a permitted minimal excerpt so the difference can be reproduced.
+  - type: input
+    id: field
+    attributes:
+      label: GKG field
+      placeholder: V1COUNTS, V2GCAM, V1LOCATIONS, etc.
+    validations:
+      required: true
+  - type: textarea
+    id: configuration
+    attributes:
+      label: Extraction configuration
+      description: Package version or commit, model, name policy, resource revisions, custom overrides and translation settings.
+    validations:
+      required: true
+  - type: textarea
+    id: input
+    attributes:
+      label: Input and reproduction
+      description: Include runnable code and the analyzed English body or a minimal permitted excerpt. State if the source text was translated.
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Actual and expected GKG cells
+      description: Paste both encoded cells. If comparing against GDELT, include the original record ID, URL and archive name. Explain why the expected extraction applies to this input.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Additional evidence
+      description: Optional diagnostic mentions, rejected candidates or independent evaluation results. State whether these articles were used to develop rules.

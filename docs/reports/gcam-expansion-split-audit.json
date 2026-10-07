@@ -1,0 +1,11 @@
+{
+  "counts": {
+    "development_articles": 2707,
+    "benchmark_input_articles": 2626,
+    "benchmark_retained_articles": 2626
+  },
+  "development_sha256": "e7e4d5a4d2c2c4f4afa62008dc3ce3df8c16a89e0d646d99008bf74a87c3038e",
+  "benchmark_input_sha256": "3336c295d4c2bc39ae32620d3bd6a4998b172f85bd1f861e36960d811c7b07fe",
+  "selection": "URL and normalized-token exact/64-bit SimHash distance <=3 against all development bodies and within benchmark; no reference scores examined",
+  "retained_sha256": "3336c295d4c2bc39ae32620d3bd6a4998b172f85bd1f861e36960d811c7b07fe"
+}
