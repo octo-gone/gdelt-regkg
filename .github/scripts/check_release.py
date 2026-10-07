@@ -86,9 +86,20 @@ def main():
             f"gdelt_regkg-{project['version']}-py3-none-any.whl",
             f"gdelt_regkg-{project['version']}.tar.gz",
         }
-        paths = list(args.dist.iterdir())
-        if {path.name for path in paths} != expected:
-            raise ValueError(f"Expected only {sorted(expected)} in {args.dist}")
+        # uv build marks its output directory as ignored by Git. This marker
+        # is not a distribution; every other entry must match the release.
+        paths = [
+            path
+            for path in args.dist.iterdir()
+            if not (path.name == ".gitignore" and path.is_file())
+        ]
+        actual = {path.name for path in paths}
+        if actual != expected:
+            raise ValueError(
+                f"Expected only {sorted(expected)} in {args.dist}; "
+                f"found {sorted(actual)}; missing {sorted(expected - actual)}; "
+                f"unexpected {sorted(actual - expected)}"
+            )
         for path in sorted(paths):
             check_archive(path, project)
     print(f"Release metadata OK for {project['name']} {project['version']}")
