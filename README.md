@@ -131,13 +131,7 @@ See the [field documentation](docs/README.md) for implementation status, researc
 
 ## Contributing
 
-Use the GitHub issue forms to report bugs, extraction differences or feature requests. [Contributing](CONTRIBUTING.md) describes local checks, pull requests and evaluation on data separate from rule development.
-
-## Security
-
-Report vulnerabilities through the repository's **Security → Report a vulnerability** form rather than a public issue. Include the affected version, a minimal reproduction and impact. Do not include credentials or article bodies you cannot share. If private reporting is unavailable, use a private contact listed on the maintainer's GitHub profile.
-
-Security fixes target the latest release. Ordinary extraction disagreements and model errors belong in the issue forms.
+Use the GitHub issue forms to report bugs, extraction differences or feature requests. [Contributing](CONTRIBUTING.md) describes local checks, pull requests and evaluation on data separate from rule development. Please follow the [code of conduct](CODE_OF_CONDUCT.md). Report vulnerabilities privately as described in the [security policy](SECURITY.md).
 
 ## Disclaimer
 

@@ -1,6 +1,6 @@
 [project]
 name = "gdelt-regkg"
-version = "1.0.1"
+version = "1.0.2"
 description = "GDELT GKG reconstruction from article text and metadata"
 readme = "README.md"
 license = "MIT"
@@ -98,6 +98,8 @@ include = [
     "/src/gdelt_regkg",
     "/scripts",
     "/docs",
+    "/SECURITY.md",
+    "/CODE_OF_CONDUCT.md",
     "/tests",
     "/README.md",
     "/CHANGELOG.md",

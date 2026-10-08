@@ -11,7 +11,7 @@ From a checkout, prefix commands with `uv run` to use the project's virtual envi
 | `gdelt-regkg-build-gcam` | Build General Inquirer counts, VADER means and optional licensed Lexicoder input |
 | `gdelt-regkg-expand-gcam` | Add General Inquirer, Roget, WordNet and GCAM theme dimensions using native keys |
 | `gdelt-regkg-benchmark-fields` | Compare locations, dates, amounts, broad names, quotations and GCAM on saved bodies |
-| `gdelt-regkg-benchmark-samples` | Collect fixed development/benchmark samples across seasonal months and daily windows |
+| `gdelt-regkg-benchmark-samples` | Collect fixed development/benchmark samples across selected months and daily windows |
 | `gdelt-regkg-benchmark-tone` | Compare tone against original GDELT records and article bodies |
 | `gdelt-regkg-benchmark-extraction` | Compare NER, counts, and themes on one fixed article sample |
 | `gdelt-regkg-benchmark-ner` | Compare raw and normalized person/organization names |

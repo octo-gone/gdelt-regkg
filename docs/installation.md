@@ -173,7 +173,7 @@ Select the model explicitly. Installing a larger model does not change the defau
 ner = SpacyNER.from_model("en_core_web_lg", resources_dir="local-resources")
 ```
 
-A larger model does not improve every field. On the reserved English sample, person F1 is 67.01% with the large model, but organization F1 is slightly higher with the small one (44.02% versus 42.77%). See [Version 0.7.0](../CHANGELOG.md#seasonal-benchmark).
+A larger model does not improve every field. On the reserved English sample, person F1 is 0.6701 with the large model, but organization F1 is slightly higher with the small one (0.4402 versus 0.4277). See [Version 0.7.0](../CHANGELOG.md#seasonal-benchmark).
 
 ### Broader GCAM coverage
 

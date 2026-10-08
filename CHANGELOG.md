@@ -21,7 +21,7 @@ Training articles are used to fit rules; validation articles select among candid
 
 Archive timestamps identify processing batches, not publication times. Sampling only the start of a UTC day can miss publishers in other time zones and topics covered during business hours or scheduled events. Early checks used a few batches; the seasonal comparison uses six windows across each sampled day and several months. Source caps and retrieval failures can still change the topic mix, so the samples do not represent all GDELT output.
 
-F1 summarizes precision and recall; higher is better. MAE is average absolute error, and bias is local minus native output. Count WAPE is total absolute count error divided by total native counts; lower is better. Correlation measures whether values vary together, not whether they match. Vocabulary coverage counts supported labels or dimensions; occurrence coverage weights them by their frequency. Neither is extraction accuracy. Tone sign comparisons treat values within ±0.5 points as neutral. `pp` means percentage points.
+F1 summarizes precision and recall; higher is better. MAE is average absolute error, and bias is local minus native output. Count WAPE is total absolute count error divided by total native counts, expressed as a percentage; lower is better. Correlation measures whether values vary together, not whether they match. Vocabulary coverage counts supported labels or dimensions; occurrence coverage weights them by their frequency. Neither is extraction accuracy. Tone sign comparisons treat values within ±0.5 points as neutral. `pp` means percentage points.
 
 Resource revision numbers such as tone v3 are independent of package versions. Historical profiles can now be rebuilt locally using [Installation and setup](docs/installation.md); external vocabularies and model weights are not shipped with the current package.
 
@@ -292,17 +292,17 @@ The first matched count, theme and NER benchmark used the six-day corpus from [v
 
 | Measurement | Precision | Recall | F1 |
 | --- | ---: | ---: | ---: |
-| Themes, complete native vocabulary | 63.75% | 33.97% | 44.32% |
-| Themes, supported labels only | 63.75% | 56.84% | 60.09% |
-| Count labels | 66.67% | 25.49% | 36.88% |
-| Count label + quantity, multiset | 46.00% | 15.97% | 23.71% |
-| Count label + quantity, deduplicated | 45.83% | 16.67% | 24.44% |
-| Count label + quantity + normalized object | 34.00% | 11.81% | 17.53% |
-| Full count tuple including geography | 0% | 0% | 0% |
-| Persons, small model, normalized names | 35.79% | 70.55% | 47.49% |
-| Persons, medium model, normalized names | 39.70% | 74.72% | 51.85% |
-| Organizations, small model, normalized names | 8.19% | 28.54% | 12.72% |
-| Organizations, medium model, normalized names | 8.66% | 29.37% | 13.37% |
+| Themes, complete native vocabulary | 0.6375 | 0.3397 | 0.4432 |
+| Themes, supported labels only | 0.6375 | 0.5684 | 0.6009 |
+| Count labels | 0.6667 | 0.2549 | 0.3688 |
+| Count label + quantity, multiset | 0.4600 | 0.1597 | 0.2371 |
+| Count label + quantity, deduplicated | 0.4583 | 0.1667 | 0.2444 |
+| Count label + quantity + normalized object | 0.3400 | 0.1181 | 0.1753 |
+| Full count tuple including geography | 0.0000 | 0.0000 | 0.0000 |
+| Persons, small model, normalized names | 0.3579 | 0.7055 | 0.4749 |
+| Persons, medium model, normalized names | 0.3970 | 0.7472 | 0.5185 |
+| Organizations, small model, normalized names | 0.0819 | 0.2854 | 0.1272 |
+| Organizations, medium model, normalized names | 0.0866 | 0.2937 | 0.1337 |
 
 Theme recall was limited both by unsupported labels and by missed matches within the supported vocabulary. Counts had weak recall, while missing geography prevented complete tuple matches. Count evidence was sparse: only 51 scored articles contained native counts. Medium NER improved person agreement slightly but did little for organizations.
 
@@ -334,9 +334,9 @@ NER compared source spelling with two native-style formatting policies on the sa
 
 | Development validation measurement | Baseline F1 | Selected F1 |
 | --- | ---: | ---: |
-| Themes, all native labels | 42.33% | 61.08% |
-| Persons, medium model | 48.20% | 65.22% |
-| Organizations, medium model | 12.98% | 30.05% |
+| Themes, all native labels | 0.4233 | 0.6108 |
+| Persons, medium model | 0.4820 | 0.6522 |
+| Organizations, medium model | 0.1298 | 0.3005 |
 
 Theme expansion and name normalization improved validation agreement. These are candidate-selection scores; the following independent comparison measures the frozen choices.
 
@@ -348,9 +348,9 @@ Training evidence instead supported two narrow changes: numeric `arrested` match
 
 | Count label/quantity validation | F1 |
 | --- | ---: |
-| Existing rules | 27.52% |
-| Broad candidate | 25.64% |
-| Selected narrow changes | 30.09% |
+| Existing rules | 0.2752 |
+| Broad candidate | 0.2564 |
+| Selected narrow changes | 0.3009 |
 
 Adding grammar indiscriminately can introduce more false matches than useful detections. The narrow changes were frozen with themes and NER before the independent comparison.
 
@@ -367,17 +367,17 @@ Frozen theme, count and NER choices were evaluated on newly collected archive da
 
 | Measurement | Baseline F1 | Current precision | Current recall | Current F1 |
 | --- | ---: | ---: | ---: | ---: |
-| Themes, all native labels | 43.49% | 67.85% | 58.20% | 62.65% |
-| Themes, enabled labels only | 60.06% | 67.85% | 74.97% | 71.23% |
-| Count labels | 44.44% | 65.77% | 36.50% | 46.95% |
-| Count label + quantity, multiset | 37.50% | 62.41% | 29.63% | 40.18% |
-| Count label + quantity, deduplicated | 38.86% | 61.83% | 31.27% | 41.54% |
-| Count label + quantity + normalized object | 24.07% | 40.43% | 19.19% | 26.03% |
-| Full count tuple including geography | 0% | 0% | 0% | 0% |
-| Persons, small model | 45.40% | 54.93% | 71.63% | 62.18% |
-| Persons, medium model | 49.96% | 59.58% | 75.59% | 66.63% |
-| Organizations, small model | 11.02% | 21.61% | 43.77% | 28.94% |
-| Organizations, medium model | 11.55% | 21.51% | 43.26% | 28.73% |
+| Themes, all native labels | 0.4349 | 0.6785 | 0.5820 | 0.6265 |
+| Themes, enabled labels only | 0.6006 | 0.6785 | 0.7497 | 0.7123 |
+| Count labels | 0.4444 | 0.6577 | 0.3650 | 0.4695 |
+| Count label + quantity, multiset | 0.3750 | 0.6241 | 0.2963 | 0.4018 |
+| Count label + quantity, deduplicated | 0.3886 | 0.6183 | 0.3127 | 0.4154 |
+| Count label + quantity + normalized object | 0.2407 | 0.4043 | 0.1919 | 0.2603 |
+| Full count tuple including geography | 0.0000 | 0.0000 | 0.0000 | 0.0000 |
+| Persons, small model | 0.4540 | 0.5493 | 0.7163 | 0.6218 |
+| Persons, medium model | 0.4996 | 0.5958 | 0.7559 | 0.6663 |
+| Organizations, small model | 0.1102 | 0.2161 | 0.4377 | 0.2894 |
+| Organizations, medium model | 0.1155 | 0.2151 | 0.4326 | 0.2873 |
 
 The comparison uses themes v2/counts v1/source-spelling NER versus themes v3/counts v2/`gdelt-full-names`. Counts retain repeated occurrences unless marked deduplicated. Theme and person agreement improved, but organizations remained weak. Count recall was still limited, and full tuples could not match without geographic resolution.
 
@@ -388,8 +388,8 @@ The comparison uses themes v2/counts v1/source-spelling NER versus themes v3/cou
 
 | Current subset | Articles | Theme F1, all labels | Count label/quantity F1 | Person F1, medium | Organization F1, medium |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Sources absent from every earlier usable-body sample | 440 | 62.45% | 28.09% | 67.34% | 30.17% |
-| Word count within 10% of GDELT | 395 | 64.37% | 41.08% | 72.74% | 33.02% |
+| Sources absent from every earlier usable-body sample | 440 | 0.6245 | 0.2809 | 0.6734 | 0.3017 |
+| Word count within 10% of GDELT | 395 | 0.6437 | 0.4108 | 0.7274 | 0.3302 |
 
 | Tone diagnostic on the same articles | v1 | v2 |
 | --- | ---: | ---: |
@@ -436,12 +436,12 @@ Name rules remove leading person titles. Organization filtering uses a fixed log
 | --- | ---: | ---: | ---: |
 | Tone MAE, points | 1.951 | 1.691 | -0.260 |
 | Tone bias, points | 0.543 | 0.123 | -0.420 |
-| Counts label/quantity F1 | 30.53% | 37.32% | +6.78 pp |
-| Counts including object F1 | 13.99% | 20.71% | +6.71 pp |
-| Person F1, medium | 64.77% | 65.41% | +0.64 pp |
-| Organization F1, medium | 29.64% | 44.35% | +14.71 pp |
-| Person F1, large | 66.52% | 67.16% | +0.64 pp |
-| Organization F1, large | 30.09% | 44.18% | +14.09 pp |
+| Counts label/quantity F1 | 0.3053 | 0.3732 | +0.0678 |
+| Counts including object F1 | 0.1399 | 0.2071 | +0.0671 |
+| Person F1, medium | 0.6477 | 0.6541 | +0.0064 |
+| Organization F1, medium | 0.2964 | 0.4435 | +0.1471 |
+| Person F1, large | 0.6652 | 0.6716 | +0.0064 |
+| Organization F1, large | 0.3009 | 0.4418 | +0.1409 |
 
 The selected profiles are tone v3, counts v3, unchanged themes v3 and name rules v1. Organization filtering improves precision at the cost of recall; person changes are small. These are validation results, and all choices were frozen before the benchmark.
 
@@ -467,17 +467,17 @@ Retrieval, language and translation failures are excluded from scoring and are n
 
 | Field and model | Baseline F1 | Current precision | Current recall | Current F1 | Difference |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Themes, all labels | 62.38% | 67.43% | 58.04% | 62.38% | +0.00 pp |
-| Themes, enabled labels | 70.87% | 67.43% | 74.69% | 70.87% | +0.00 pp |
-| Counts, label/quantity | 27.52% | 45.95% | 23.68% | 31.26% | +3.74 pp |
-| Counts, including object | 13.53% | 25.83% | 13.31% | 17.57% | +4.03 pp |
-| Counts, full tuples | 0.67% | 1.65% | 0.85% | 1.12% | +0.45 pp |
-| Persons, small | 61.16% | 53.72% | 71.62% | 61.39% | +0.23 pp |
-| Persons, medium | 65.22% | 58.11% | 75.35% | 65.61% | +0.40 pp |
-| Persons, large | 66.55% | 59.77% | 76.24% | 67.01% | +0.46 pp |
-| Organizations, small | 29.06% | 51.92% | 38.21% | 44.02% | +14.96 pp |
-| Organizations, medium | 28.87% | 50.29% | 37.46% | 42.94% | +14.07 pp |
-| Organizations, large | 29.07% | 49.94% | 37.41% | 42.77% | +13.71 pp |
+| Themes, all labels | 0.6238 | 0.6743 | 0.5804 | 0.6238 | +0.0000 |
+| Themes, enabled labels | 0.7087 | 0.6743 | 0.7469 | 0.7087 | +0.0000 |
+| Counts, label/quantity | 0.2752 | 0.4595 | 0.2368 | 0.3126 | +0.0374 |
+| Counts, including object | 0.1353 | 0.2583 | 0.1331 | 0.1757 | +0.0403 |
+| Counts, full tuples | 0.0067 | 0.0165 | 0.0085 | 0.0112 | +0.0045 |
+| Persons, small | 0.6116 | 0.5372 | 0.7162 | 0.6139 | +0.0023 |
+| Persons, medium | 0.6522 | 0.5811 | 0.7535 | 0.6561 | +0.0040 |
+| Persons, large | 0.6655 | 0.5977 | 0.7624 | 0.6701 | +0.0046 |
+| Organizations, small | 0.2906 | 0.5192 | 0.3821 | 0.4402 | +0.1496 |
+| Organizations, medium | 0.2887 | 0.5029 | 0.3746 | 0.4294 | +0.1407 |
+| Organizations, large | 0.2907 | 0.4994 | 0.3741 | 0.4277 | +0.1371 |
 
 The comparison uses tone/counts v2 without name rules versus tone/counts v3 with name rules; themes v3 is unchanged. Person and organization scores compare normalized per-article names. Count metrics preserve multiplicity, and themes compare per-article label sets. Organizations gain most from the new filter; the large model gives the strongest person agreement, while the small model is slightly better for organizations. Count recall remains weak, especially when object equality is required.
 
@@ -489,17 +489,17 @@ Source-language bodies from original translation records were translated with ca
 
 | Field and model | Baseline F1 | Current precision | Current recall | Current F1 | Difference |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Themes, all labels | 44.46% | 59.85% | 35.37% | 44.46% | +0.00 pp |
-| Themes, enabled labels | 50.41% | 59.85% | 43.55% | 50.41% | +0.00 pp |
-| Counts, label/quantity | 14.29% | 23.81% | 9.80% | 13.89% | -0.40 pp |
-| Counts, including object | 8.57% | 14.29% | 5.88% | 8.33% | -0.24 pp |
-| Counts, full tuples | 8.57% | 14.29% | 5.88% | 8.33% | -0.24 pp |
-| Persons, small | 7.63% | 5.54% | 12.22% | 7.63% | +0.00 pp |
-| Persons, medium | 6.53% | 4.67% | 10.86% | 6.53% | +0.00 pp |
-| Persons, large | 7.15% | 5.14% | 11.76% | 7.15% | +0.00 pp |
-| Organizations, small | 2.24% | 4.56% | 2.36% | 3.11% | +0.87 pp |
-| Organizations, medium | 2.39% | 4.94% | 2.36% | 3.19% | +0.81 pp |
-| Organizations, large | 2.02% | 4.60% | 2.16% | 2.94% | +0.92 pp |
+| Themes, all labels | 0.4446 | 0.5985 | 0.3537 | 0.4446 | +0.0000 |
+| Themes, enabled labels | 0.5041 | 0.5985 | 0.4355 | 0.5041 | +0.0000 |
+| Counts, label/quantity | 0.1429 | 0.2381 | 0.0980 | 0.1389 | -0.0040 |
+| Counts, including object | 0.0857 | 0.1429 | 0.0588 | 0.0833 | -0.0024 |
+| Counts, full tuples | 0.0857 | 0.1429 | 0.0588 | 0.0833 | -0.0024 |
+| Persons, small | 0.0763 | 0.0554 | 0.1222 | 0.0763 | +0.0000 |
+| Persons, medium | 0.0653 | 0.0467 | 0.1086 | 0.0653 | +0.0000 |
+| Persons, large | 0.0715 | 0.0514 | 0.1176 | 0.0715 | +0.0000 |
+| Organizations, small | 0.0224 | 0.0456 | 0.0236 | 0.0311 | +0.0087 |
+| Organizations, medium | 0.0239 | 0.0494 | 0.0236 | 0.0319 | +0.0081 |
+| Organizations, large | 0.0202 | 0.0460 | 0.0216 | 0.0294 | +0.0092 |
 
 English-derived name rules do not reproduce native translated entity outputs well. Counts also remain weak, with few count-positive articles supporting the estimate. No multilingual improvement was inferred from these results, and no candidate was changed afterward.
 
@@ -518,9 +518,9 @@ Tone improves on both cohorts through vocabulary changes, without numerical bias
 
 | Current English subset | Articles | Theme F1 | Count label/quantity F1 | Person F1, large | Organization F1, large |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Sources absent from every earlier usable-body sample | 777 | 61.24% | 29.23% | 67.25% | 38.85% |
-| Source-hash group excluded from training | 522 | 63.34% | 37.77% | 66.34% | 43.48% |
-| Word count within 10% of native GKG | 1,296 | 65.16% | 32.56% | 73.38% | 46.75% |
+| Sources absent from every earlier usable-body sample | 777 | 0.6124 | 0.2923 | 0.6725 | 0.3885 |
+| Source-hash group excluded from training | 522 | 0.6334 | 0.3777 | 0.6634 | 0.4348 |
+| Word count within 10% of native GKG | 1,296 | 0.6516 | 0.3256 | 0.7338 | 0.4675 |
 
 The benchmark is month-disjoint but not fully source-disjoint. New-source count improvement is negligible despite the aggregate gain; organization gains are larger, and person changes remain small. Novel-source tone MAE improves from 2.106 to 1.838 points. Six windows leave most processing batches unsampled, and successful retrieval can alter topic coverage. Similar body lengths do not verify identical text. The [report](docs/reports/benchmark-results.json) retains per-month/window results, per-label scores, split audits and checksums.
 
@@ -547,10 +547,10 @@ A 96-article development check selected equal numbers of English articles per mo
 
 | Field | Native identities | Predicted identities | Matches | Precision | Recall | F1 |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| Location feature identity | 350 | 361 | 220 | 60.94% | 62.86% | 61.88% |
-| Calendar date | 94 | 237 | 83 | 35.02% | 88.30% | 50.15% |
-| Broad surface name | 929 | 3,540 | 434 | 12.26% | 46.72% | 19.42% |
-| Numeric value and object | 338 | 899 | 136 | 15.13% | 40.24% | 21.99% |
+| Location feature identity | 350 | 361 | 220 | 0.6094 | 0.6286 | 0.6188 |
+| Calendar date | 94 | 237 | 83 | 0.3502 | 0.8830 | 0.5015 |
+| Broad surface name | 929 | 3,540 | 434 | 0.1226 | 0.4672 | 0.1942 |
+| Numeric value and object | 338 | 899 | 136 | 0.1513 | 0.4024 | 0.2199 |
 
 Geographic identity has the strongest agreement in this check. Dates find many native references but also extra years and calendar expressions. Broad names and amount objects have low precision. Unresolved and ambiguous place names show that geographic coverage needs checking separately from NER recognition.
 
@@ -650,9 +650,9 @@ General Inquirer expands to 217 of its 228 native categories. Mapping uses sourc
 
 | Metric | Development | Benchmark | Difference |
 | --- | ---: | ---: | ---: |
-| Presence precision | 95.13% | 94.87% | -0.25 pp |
-| Presence recall | 92.43% | 92.25% | -0.17 pp |
-| Presence F1 | 93.76% | 93.55% | -0.21 pp |
+| Presence precision | 0.9513 | 0.9487 | -0.0025 |
+| Presence recall | 0.9243 | 0.9225 | -0.0017 |
+| Presence F1 | 0.9376 | 0.9355 | -0.0021 |
 | Count WAPE | 36.04% | 37.80% | +1.76 pp |
 | Density MAE, pp | 0.9272 | 0.9288 | +0.0016 |
 | Median count Pearson | 0.8488 | 0.8103 | -0.0385 |
@@ -673,9 +673,9 @@ The converted Roget 1911 dictionary maps all 1,042 native category paths. Mappin
 
 | Metric | Development | Benchmark | Difference |
 | --- | ---: | ---: | ---: |
-| Presence precision | 77.96% | 77.80% | -0.16 pp |
-| Presence recall | 89.88% | 89.76% | -0.12 pp |
-| Presence F1 | 83.50% | 83.35% | -0.15 pp |
+| Presence precision | 0.7796 | 0.7780 | -0.0016 |
+| Presence recall | 0.8988 | 0.8976 | -0.0012 |
+| Presence F1 | 0.8350 | 0.8335 | -0.0015 |
 | Count WAPE | 64.73% | 67.22% | +2.50 pp |
 | Density MAE, pp | 0.2001 | 0.2027 | +0.0027 |
 | Median count Pearson | 0.7492 | 0.7433 | -0.0059 |
@@ -694,9 +694,9 @@ WordNet 3.1 supplies all 44 native lexical categories. The importer maps file na
 
 | Metric | Development | Benchmark | Difference |
 | --- | ---: | ---: | ---: |
-| Presence precision | 95.20% | 94.83% | -0.36 pp |
-| Presence recall | 98.31% | 98.33% | +0.02 pp |
-| Presence F1 | 96.73% | 96.55% | -0.18 pp |
+| Presence precision | 0.9520 | 0.9483 | -0.0036 |
+| Presence recall | 0.9831 | 0.9833 | +0.0002 |
+| Presence F1 | 0.9673 | 0.9655 | -0.0018 |
 | Count WAPE | 70.30% | 72.97% | +2.67 pp |
 | Density MAE, pp | 2.9272 | 2.9525 | +0.0253 |
 | Median count Pearson | 0.7919 | 0.7687 | -0.0232 |
@@ -717,15 +717,15 @@ Development compared matching direct labels with adding ancestor categories, acr
 
 | Affect matching | Development presence F1 | Development count WAPE |
 | --- | ---: | ---: |
-| All POS with ancestors | 40.25% | 96.42% |
-| All POS with direct labels | 32.19% | 91.62% |
-| Nouns with direct labels | 10.94% | 97.54% |
+| All POS with ancestors | 0.4025 | 96.42% |
+| All POS with direct labels | 0.3219 | 91.62% |
+| Nouns with direct labels | 0.1094 | 97.54% |
 
 | Metric | Development | Benchmark | Difference |
 | --- | ---: | ---: | ---: |
-| Presence precision | 72.31% | 72.87% | +0.56 pp |
-| Presence recall | 20.78% | 21.21% | +0.44 pp |
-| Presence F1 | 32.28% | 32.86% | +0.58 pp |
+| Presence precision | 0.7231 | 0.7287 | +0.0056 |
+| Presence recall | 0.2078 | 0.2121 | +0.0044 |
+| Presence F1 | 0.3228 | 0.3286 | +0.0058 |
 | Count WAPE | 92.06% | 92.28% | +0.22 pp |
 | Density MAE, pp | 0.0448 | 0.0457 | +0.0009 |
 | Median count Pearson | 0.2792 | 0.2932 | +0.0140 |
@@ -744,9 +744,9 @@ WordNet Domains adds all 168 native domain labels using WordNet 2.0. Source anno
 
 | Metric | Development | Benchmark | Difference |
 | --- | ---: | ---: | ---: |
-| Presence precision | 94.23% | 93.99% | -0.24 pp |
-| Presence recall | 73.37% | 72.99% | -0.38 pp |
-| Presence F1 | 82.50% | 82.17% | -0.33 pp |
+| Presence precision | 0.9423 | 0.9399 | -0.0024 |
+| Presence recall | 0.7337 | 0.7299 | -0.0038 |
+| Presence F1 | 0.8250 | 0.8217 | -0.0033 |
 | Count WAPE | 59.03% | 59.92% | +0.89 pp |
 | Density MAE, pp | 1.5941 | 1.6013 | +0.0073 |
 | Median count Pearson | 0.5900 | 0.5991 | +0.0090 |
@@ -766,9 +766,9 @@ The existing theme engine supplies 99 of GCAM's 368 theme dimensions. GCAM count
 
 | Metric | Development | Benchmark | Difference |
 | --- | ---: | ---: | ---: |
-| Presence precision | 80.54% | 81.17% | +0.63 pp |
-| Presence recall | 62.18% | 62.63% | +0.45 pp |
-| Presence F1 | 70.18% | 70.70% | +0.53 pp |
+| Presence precision | 0.8054 | 0.8117 | +0.0063 |
+| Presence recall | 0.6218 | 0.6263 | +0.0045 |
+| Presence F1 | 0.7018 | 0.7070 | +0.0053 |
 | Count WAPE | 65.68% | 64.84% | -0.84 pp |
 | Density MAE, pp | 0.0453 | 0.0455 | +0.0002 |
 | Median count Pearson | 0.7801 | 0.7714 | -0.0088 |
@@ -806,9 +806,9 @@ This correction follows source syntax, not benchmark article errors. Development
 
 | Family | Initial presence F1 | Corrected presence F1 | Difference | Initial count WAPE | Corrected count WAPE | Difference |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| WordNet lexical | 96.55% | 96.55% | +0.00 pp | 73.47% | 72.97% | -0.50 pp |
-| WordNet Affect | 32.51% | 32.86% | +0.35 pp | 91.70% | 92.28% | +0.57 pp |
-| WordNet Domains | 82.14% | 82.17% | +0.03 pp | 59.96% | 59.92% | -0.05 pp |
+| WordNet lexical | 0.9655 | 0.9655 | +0.0000 | 73.47% | 72.97% | -0.50 pp |
+| WordNet Affect | 0.3251 | 0.3286 | +0.0035 | 91.70% | 92.28% | +0.57 pp |
+| WordNet Domains | 0.8214 | 0.8217 | +0.0003 | 59.96% | 59.92% | -0.05 pp |
 
 Coverage is unchanged. Correct source parsing can add both matching and nonmatching occurrences, so it does not guarantee a lower error against native output. [Initial full benchmark](docs/reports/gcam-expansion-6-initial-benchmark.json), [corrected full benchmark](docs/reports/gcam-expansion-6-benchmark.json) and [aggregate results](docs/reports/gcam-expansion-results.json) preserve the comparison.
 
@@ -831,13 +831,13 @@ Metrics compare per-document identity sets, ignoring offsets and repetition. Dat
 
 | Identity | Native-positive articles | Precision | Recall | F1 | 95% F1 interval |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Location feature identity | 2,063 | 72.19% | 61.76% | 66.57% | 65.10–67.96% |
-| Calendar date | 983 | 30.41% | 82.01% | 44.37% | 42.20–46.42% |
-| Broad surface name | 2,502 | 16.15% | 50.75% | 24.50% | 23.65–25.36% |
-| Numeric value and object | 2,004 | 14.33% | 35.64% | 20.44% | 18.72–21.99% |
-| Numeric value alone | 2,004 | 28.58% | 72.29% | 40.96% | 37.69–43.72% |
-| Quotation content | 605 | 4.40% | 52.63% | 8.11% | 7.16–9.12% |
-| Quotation content and verb | 605 | 2.60% | 31.26% | 4.80% | 4.11–5.57% |
+| Location feature identity | 2,063 | 0.7219 | 0.6176 | 0.6657 | 0.6510–0.6796 |
+| Calendar date | 983 | 0.3041 | 0.8201 | 0.4437 | 0.4220–0.4642 |
+| Broad surface name | 2,502 | 0.1615 | 0.5075 | 0.2450 | 0.2365–0.2536 |
+| Numeric value and object | 2,004 | 0.1433 | 0.3564 | 0.2044 | 0.1872–0.2199 |
+| Numeric value alone | 2,004 | 0.2858 | 0.7229 | 0.4096 | 0.3769–0.4372 |
+| Quotation content | 605 | 0.0440 | 0.5263 | 0.0811 | 0.0716–0.0912 |
+| Quotation content and verb | 605 | 0.0260 | 0.3126 | 0.0480 | 0.0411–0.0557 |
 
 Intervals use document-bootstrap resampling. They describe sampling uncertainty within the retrieved corpus, excluding source clustering and uncertainty about native bodies. Empty-document agreement is retained in reports but is not a headline score.
 
@@ -847,11 +847,11 @@ The following diagnostic restricts bodies to within 10% of native word count. Hi
 
 | Identity | All English F1 | Similar-length F1 | Difference |
 | --- | ---: | ---: | ---: |
-| Location feature identity | 66.57% | 71.69% | +5.13 pp |
-| Calendar date | 44.37% | 50.26% | +5.88 pp |
-| Broad surface name | 24.50% | 28.37% | +3.87 pp |
-| Numeric value and object | 20.44% | 24.32% | +3.87 pp |
-| Quotation content | 8.11% | 9.26% | +1.15 pp |
+| Location feature identity | 0.6657 | 0.7169 | +0.0513 |
+| Calendar date | 0.4437 | 0.5026 | +0.0588 |
+| Broad surface name | 0.2450 | 0.2837 | +0.0387 |
+| Numeric value and object | 0.2044 | 0.2432 | +0.0387 |
+| Quotation content | 0.0811 | 0.0926 | +0.0115 |
 
 The [English report](docs/reports/extraction-fields-benchmark.json) includes month and novel-source results.
 
@@ -861,13 +861,13 @@ Saved M2M100 English bodies are reused without retranslating. The articles diffe
 
 | Identity | English F1 | Translated F1 | Native-positive translated articles | Difference |
 | --- | ---: | ---: | ---: | ---: |
-| Location feature identity | 66.57% | 54.59% | 251 | -11.98 pp |
-| Calendar date | 44.37% | 1.21% | 8 | -43.16 pp |
-| Broad surface name | 24.50% | 1.80% | 305 | -22.70 pp |
-| Numeric value and object | 20.44% | 2.98% | 173 | -17.46 pp |
-| Numeric value alone | 40.96% | 19.21% | 173 | -21.75 pp |
-| Quotation content | 8.11% | — | 0 | — |
-| Quotation content and verb | 4.80% | — | 0 | — |
+| Location feature identity | 0.6657 | 0.5459 | 251 | -11.98 pp |
+| Calendar date | 0.4437 | 0.0121 | 8 | -43.16 pp |
+| Broad surface name | 0.2450 | 0.0180 | 305 | -22.70 pp |
+| Numeric value and object | 0.2044 | 0.0298 | 173 | -17.46 pp |
+| Numeric value alone | 0.4096 | 0.1921 | 173 | -21.75 pp |
+| Quotation content | 0.0811 | — | 0 | — |
+| Quotation content and verb | 0.0480 | — | 0 | — |
 
 Native dates are sparse in this cohort, making that score uncertain. No native quotation references occur, so positive quotation recall cannot be estimated; zero-reference set scores do not establish successful quotation replication. The [translated report](docs/reports/extraction-fields-benchmark-translated.json) retains precision, recall, intervals and exclusions.
 

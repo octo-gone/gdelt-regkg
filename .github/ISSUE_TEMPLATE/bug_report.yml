@@ -3,7 +3,7 @@ description: Report an installation, API, formatting or runtime problem.
 body:
   - type: markdown
     attributes:
-      value: For vulnerabilities, follow the Security section in README.md. Share only minimal text and files you are allowed to publish.
+      value: For vulnerabilities, follow SECURITY.md. Share only minimal text and files you are allowed to publish.
   - type: textarea
     id: environment
     attributes:

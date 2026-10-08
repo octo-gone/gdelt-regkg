@@ -29,6 +29,6 @@ For extraction changes, report the model, resource revisions and relevant precis
 
 Commit code, original rules, schemas and reproducible build recipes. Keep downloaded dictionaries, source-derived profiles, model weights, article corpora, credentials and generated outputs out of the repository and distributions. Small test fixtures must be authored or permitted for redistribution; identify the source and terms of any contributed third-party material.
 
-Contributions to this project's code and original rules are submitted under its [MIT license](LICENSE). External inputs retain their own terms. Communicate respectfully and keep reviews focused on the change.
+Contributions to this project's code and original rules are submitted under its [MIT license](LICENSE). External inputs retain their own terms. Follow the [code of conduct](CODE_OF_CONDUCT.md) and keep reviews focused on the change.
 
-Report vulnerabilities privately using [the security policy](README.md#security).
+Report vulnerabilities privately using [the security policy](SECURITY.md).
