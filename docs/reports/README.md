@@ -4,6 +4,7 @@ Detailed JSON evidence is retained in the repository and excluded from wheel and
 
 | Files | Contents |
 | --- | --- |
+| [`paper-study-agreement.json`](paper-study-agreement.json) | Latest 265,413-article English study: full and restricted cohorts, field agreement, GCAM calibration, source-bootstrap intervals, retention sensitivity and configuration provenance |
 | `benchmark-results.json` | Seasonal English and Translingual field comparisons, split audits and checksums |
 | `benchmark-results-previous.json` | Earlier benchmark retained for historical comparison |
 | `extraction-fields-development.json` | Initial locations, dates, amounts, all names and GCAM development check |
@@ -20,7 +21,5 @@ Detailed JSON evidence is retained in the repository and excluded from wheel and
 | `*-initial-*.json` | Measurements before the WordNet adjective-format correction |
 
 Stages are 0 baseline, 1 General Inquirer, 2 Roget, 3 lexical categories, 4 Affect, 5 Domains, 6 GCAM themes and 7 the packaged default. Initial reports preserve the evidence before benchmark replay; they are historical results, not additional independent samples.
-
-Report contents are unchanged. Historical paths inside JSON identify the files used at evaluation time; the sample plan has since moved to the tools directory.
 
 The reusable [sample plan](../../scripts/benchmark-plan.json) ships with the maintained tools. These reports are evaluation outputs, not extraction resources. External extraction dictionaries are [prepared locally](../installation.md); authored rules and schemas remain in `gdelt_regkg.resources`.

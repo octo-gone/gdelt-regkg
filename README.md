@@ -4,7 +4,7 @@
 [![PyPI](https://img.shields.io/pypi/v/gdelt-regkg)](https://pypi.org/project/gdelt-regkg/)
 [![Python](https://img.shields.io/badge/python-3.12%2B-blue)](https://pypi.org/project/gdelt-regkg/)
 [![License](https://img.shields.io/github/license/octo-gone/gdelt-regkg)](https://github.com/octo-gone/gdelt-regkg/blob/master/LICENSE)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23314745.svg)](https://doi.org/10.5281/zenodo.23314745)
+[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.23314745-blue)](https://doi.org/10.5281/zenodo.23314745)
 
 Package for reconstructing GDELT GKG files from article text and metadata.
 
@@ -26,7 +26,7 @@ gdelt-regkg-build-resources --sources-dir downloads/resources --download-sources
 
 [Installation and setup](docs/installation.md) explains what is downloaded, how to run your first extraction, and how to add larger models, GCAM dictionaries or translation.
 
-> [!NOTE]
+> [!TIP]
 > You can improve extraction quality and expand GCAM coverage by following the [best supported setup](docs/installation.md#best-supported-setup). It explains how to select the larger English NER model, add optional GCAM dictionaries, and check language and translate non-English bodies before extraction. Results vary by field; see [measured agreement](docs/README.md#agreement-with-gdelt).
 
 ## Usage

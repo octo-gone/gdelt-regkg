@@ -1,0 +1,860 @@
+{
+  "schema": "gdelt-regkg/paper-study-agreement/v1",
+  "description": "Documentation summary of saved 2018-2025 study results; no retrieval, extraction or model fitting was rerun.",
+  "metric_units": {
+    "f1": "proportion",
+    "precision": "proportion",
+    "recall": "proportion",
+    "wape": "proportion; multiply by 100 for percent",
+    "sign_agreement": "proportion",
+    "tone_mae": "tone points",
+    "predicted_native_ratio": "dimensionless aggregate count ratio"
+  },
+  "population": {
+    "years": [
+      2018,
+      2025
+    ],
+    "retained_english_articles": 265413,
+    "sources": 10531,
+    "attempted_urls": 885193,
+    "retained_fraction": 0.2998363068844873,
+    "restricted_definition": "Exact normalized titles and local/native word-count ratio within [0.9, 1.1]; 2020-2025.",
+    "historical_bodies_verified": false,
+    "translated_articles_evaluated": false,
+    "enhanced_offsets_evaluated": false
+  },
+  "configuration": {
+    "model": "en_core_web_lg",
+    "name_policy": "gdelt-full-names",
+    "recorded_engines": {
+      "gdelt-regkg": "0.1.0",
+      "spacy": "3.8.16",
+      "en-core-web-lg": "3.8.0",
+      "numpy": "2.5.3"
+    },
+    "resources": [
+      {
+        "name": "tone.v3.json",
+        "sha256": "cf74f893836744c086f905ca07efd5aa393bf7de85f23eb910bb50073722855f"
+      },
+      {
+        "name": "counts.v3.json",
+        "sha256": "6c884b337cb80847a6216f91908f98766a308b5557bc9a5d4302d207c09a4c42"
+      },
+      {
+        "name": "themes.v3.json",
+        "sha256": "7fd080beb520d2471428c96786c91789b687f3555c0684bd182fe644acf8b968"
+      },
+      {
+        "name": "names.v1.json",
+        "sha256": "2e0657f5c3d692b89b525f01241748ee64dd4bce2a2f957cf42e605e15b50f76"
+      },
+      {
+        "name": "locations.v1.json.gz",
+        "sha256": "d7d5abf9e6d68b4aa51a0d0363f6e243639e9373dcaddc42b236e2dd88cdf911"
+      },
+      {
+        "name": "gcam.v3.json.gz",
+        "sha256": "948716d473de630f75468dd3b1dbb711b3924554a5fcb5a042cdcd7c3f10bac2"
+      },
+      {
+        "name": "gcam-full.json",
+        "sha256": "ed4f5ff4513bffed902183893179f8397c2d811163a62f006238adf4106453cc"
+      }
+    ],
+    "implementation_source_sha256": {
+      "__init__.py": "de0eb5a5d89587066af95c2adbd0b4cfb6bd092f23ffffc0f470737017c80f19",
+      "amounts.py": "286a67d91b6dd4e6d25e7f8521483964481ab94cbf66b4858e43e4746ff642a9",
+      "config.py": "ff93a8846426411becabf8cbd539b09fcc9015656b762d5397d7402188e4bbb9",
+      "counts.py": "154be41347ea1a3509cfb848ecb47f9db8b3e1835ac857089417b72d03237def",
+      "dates.py": "6e7ed708190da55f92ab1553098becbc500b7fce9a729094996b6a8e509e901c",
+      "extras.py": "b487c51e8b9f2ccb98249e3d838be86bbf609221e91f741ba406dea6f19b25de",
+      "fields.py": "130f4d095fd29d6177e9102c97e33f3b0b2429cc9711d6d57618dba999b5f8c9",
+      "gcam.py": "9ea19b1b3b3a3a59921f59b8293de119244eaaaca5abc2b7a7b9d660bbb84e2d",
+      "language.py": "2d1fa95e26f3313eba6d958bdf22722191dfd402ba085443ef1b17e451be31d8",
+      "locations.py": "86da9924d4eb8edf56cb20a0c14bbb60047d7d7f5c667994332a1fc718ba24ef",
+      "names.py": "268ee1e91bb35fdece35f59d8429f55480aacb42f7b867b38010ddea3c1c9d90",
+      "ner.py": "bd57380fc1eef77d12026dd831e3749a5b3f9df489e837a2ee14093c512f39df",
+      "pipeline.py": "27d06dfb2f0f7655905cbf7d9324ff54e406daecb79dbdb2a4a0b9b9dae7a3ca",
+      "quotations.py": "04c0475a65de742e29a70a3efdc1d6b858cac9e3b5331ffb01375fe8cf83877e",
+      "rule_inputs.py": "1fdfe860c082c7f6a2f5446a3b1467f4aa61adae0a8b78330b87baac9152cdfd",
+      "scripts\\__init__.py": "2cb33e7338ce151fec3a8142d82781b4136b65d9bcb05a0a606bf57cce09d3f1",
+      "scripts\\benchmark_counts.py": "c0cf3d90f5948195d266911534ffb66b1bf0445f1f64ef0f7e1c64f10eaa4e0b",
+      "scripts\\benchmark_extraction.py": "6cbc6ef779ed78fd21dcccd450c12932f0e945f4dfbe9b8cde5c9b6905e5e64a",
+      "scripts\\benchmark_fields.py": "57c53e609582706639e57ebc7411259c1d6ce205b658250a345ccaea8fa5d1ae",
+      "scripts\\benchmark_ner.py": "3793fe4fd0acd313b6c8214b1e8d8a51b6de773ab7fb2332eae4732298c9afb2",
+      "scripts\\benchmark_samples.py": "d7f9fc5c4c828701b834d8787c3e74b7307504978b7b2f9ec788950b651b950a",
+      "scripts\\benchmark_themes.py": "0bbd78bfc801c465abedb545b36dec84396a2043b6b886ed45b24857365827f6",
+      "scripts\\benchmark_tone.py": "2f4dec72fcb20dd143c8672f5439166039a8a37092b52b2cb570c11c324e0cae",
+      "scripts\\build_gazetteer.py": "cf92cc9c5dd69172667830adc3202bc4155f7e8732d4c6079ebb68da1ad2b93a",
+      "scripts\\build_gcam_expansion.py": "dc2e9f608b4392e8d81dbbdd5a42bdf04a40f6901d0c8c4a322d9e47796735b1",
+      "scripts\\build_gcam_lexicon.py": "6bd556594bd82eab2654766fbbc5baddf995bf9edd8f2b2174639a21e4035656",
+      "scripts\\build_resources.py": "d72dfbe041302fca495c110b5a19390e3f0af40177a44b4328e792efb38b02b2",
+      "scripts\\build_theme_lexicon.py": "0fb515bada09efdc5a4703bc5bfda48a34fecb6a252c6da17034d60f56af9010",
+      "scripts\\build_theme_profile.py": "f2ba0e16c66aac518580ec2ab197e3e2e97d4c75e242e5e04afb1cdc966bb013",
+      "scripts\\build_tone_lexicon.py": "f86930750f5165232226b80d22679d8e9a975723ca5439d126c147d789f86c6d",
+      "scripts\\refine_tone_lexicon.py": "97e611bc7eec3c09a8b866fc9681e0e7ceb775138cd43a59a6a550cf269c904c",
+      "themes.py": "14da77aa68ebedeba71ad53a0c0dec65e922991cdf369019d6ba9cbf55a01b20",
+      "tone.py": "391d4bb9ed652c9f63df8151c00d38d275e9e901ef53a2d885b7c39d93b27fb6",
+      "translation.py": "e79b2eee4f037cca1ac26b060906996a0f9506de7801937386016ff984fa99c9",
+      "utils.py": "7ae9a33487f84ff3de3676301293957eab996533c8fafa624ed982ad46ca8391",
+      "wire.py": "3aaa32367c49c36af3e00514bf7a95c55ec9d0baf6b0b289a3844a85dfdc4162"
+    },
+    "release_note": "The recorded experimental engine label is not the current package release; source and resource hashes identify the evaluated configuration."
+  },
+  "source_artifacts": {
+    "review-results.json": {
+      "sha256": "3352e0f0058b23c0cdce60ccff26f3c6ebb91964ea5c0d65af4c166763c208e2"
+    },
+    "results.json": {
+      "sha256": "888d649ce348a1401aec8b3ecfdeb5fd85b66bd1fdf0e7572bc0bc03c89f6ce6"
+    },
+    "manifest.json": {
+      "sha256": "fd44434fd0b2d1c3b4de711d3d50c76d10cda9d999f3bb22a98da4af1ed1a55d"
+    }
+  },
+  "gcam_coverage": {
+    "native_dimensions": 2888,
+    "standard_supported_dimensions": 809,
+    "full_supported_dimensions": 1855,
+    "full_native_assignment_share": 0.8102181463370697,
+    "full_native_count_occurrence_share": 0.7832927755073374,
+    "family_names": {
+      "2": "General Inquirer V1.02 (IV-4 Harvard Psychosocial Dictionary / NamenWirth & Weber's Lasswell Dictionary)",
+      "3": "Lexicoder Sentiment Dictionary",
+      "9": "Roget's Thesaurus 1911 Edition",
+      "15": "WordNet Affect 1.1",
+      "16": "WordNet Domains 3.2",
+      "17": "WordNet 3.1 Lexical Categories",
+      "18": "GDELT GKG Themes",
+      "26": "VADER Sentiment Lexicon (Bag of Words Mode)"
+    }
+  },
+  "cohorts": {
+    "all": {
+      "name": "All retained",
+      "articles": 265413,
+      "tone": {
+        "n": 265413,
+        "mae": 1.7952725471085398,
+        "rmse": 2.511424264245696,
+        "bias": 0.22900447877055385,
+        "pearson": 0.7646843118016207,
+        "ccc": 0.7455760995915164,
+        "within_1": 0.3949919559328292
+      },
+      "fields": {
+        "persons.normalized": {
+          "n": 265413,
+          "precision": 0.5715119304830545,
+          "recall": 0.741640791369115,
+          "f1": 0.645555620982918
+        },
+        "organizations.normalized": {
+          "n": 265413,
+          "precision": 0.4928804001208419,
+          "recall": 0.3582639445779174,
+          "f1": 0.41492674527475465
+        },
+        "locations": {
+          "n": 265340,
+          "precision": 0.6921055818610929,
+          "recall": 0.6108096553324218,
+          "f1": 0.6489213723846128
+        },
+        "persons.mentions": {
+          "n": 265413,
+          "precision": 0.535442993786218,
+          "recall": 0.6690193984787935,
+          "f1": 0.5948242999084397
+        },
+        "organizations.mentions": {
+          "n": 265413,
+          "precision": 0.444553511135245,
+          "recall": 0.2777061421342976,
+          "f1": 0.3418583330545053
+        },
+        "all_names": {
+          "n": 265413,
+          "precision": 0.1500102279984389,
+          "recall": 0.4936658806788381,
+          "f1": 0.23009998450264657
+        },
+        "counts.label_quantity": {
+          "n": 265413,
+          "precision": 0.4061345055437339,
+          "recall": 0.22401278705233735,
+          "f1": 0.2887557356000358
+        },
+        "counts.object": {
+          "n": 265413,
+          "precision": 0.2304569380669728,
+          "recall": 0.12711380167714237,
+          "f1": 0.1638515362947775
+        },
+        "counts.full_geography": {
+          "n": 265413,
+          "precision": 0.09173759659536342,
+          "recall": 0.05059997220206014,
+          "f1": 0.06522409897580349
+        },
+        "themes.all": {
+          "n": 265413,
+          "precision": 0.6637592508012407,
+          "recall": 0.5718290352314169,
+          "f1": 0.6143742479629976
+        },
+        "themes.supported": {
+          "n": 265413,
+          "precision": 0.6637592508012407,
+          "recall": 0.7327252549728198,
+          "f1": 0.6965392945972217
+        },
+        "dates": {
+          "n": 265413,
+          "precision": 0.29576684541851245,
+          "recall": 0.7778126594200055,
+          "f1": 0.4285685327754872
+        },
+        "amounts.object": {
+          "n": 265413,
+          "precision": 0.13941680118548153,
+          "recall": 0.33754424855082865,
+          "f1": 0.1973299053141995
+        },
+        "amounts.value": {
+          "n": 265413,
+          "precision": 0.2850355774984871,
+          "recall": 0.7017620652658701,
+          "f1": 0.4054066342907831
+        },
+        "quotations.content": {
+          "n": 265413,
+          "precision": 0.03647128533276475,
+          "recall": 0.4212057136229401,
+          "f1": 0.0671299357423894
+        },
+        "quotations.verb": {
+          "n": 265413,
+          "precision": 0.020489691414388476,
+          "recall": 0.2380468046001624,
+          "f1": 0.037731659890401274
+        }
+      },
+      "gcam": {
+        "2": {
+          "presence_f1": 0.9267920693485049,
+          "wape": 0.4120258638765527,
+          "predicted_native_ratio": 0.8660423693473036
+        },
+        "3": {
+          "presence_f1": 0.9702263779527559,
+          "wape": 0.43121860532564554,
+          "predicted_native_ratio": 0.7424739183247917
+        },
+        "9": {
+          "presence_f1": 0.8168873198532893,
+          "wape": 0.7073006166662203,
+          "predicted_native_ratio": 1.1830016026260033
+        },
+        "15": {
+          "presence_f1": 0.3186527647321813,
+          "wape": 0.9319239152161682,
+          "predicted_native_ratio": 0.259362225244725
+        },
+        "16": {
+          "presence_f1": 0.8143410486791175,
+          "wape": 0.6309129676787492,
+          "predicted_native_ratio": 0.6535821751856102
+        },
+        "17": {
+          "presence_f1": 0.9621136679199885,
+          "wape": 0.7587130793258914,
+          "predicted_native_ratio": 1.4716617916551156
+        },
+        "18": {
+          "presence_f1": 0.6893259852604903,
+          "wape": 0.6704916870145531,
+          "predicted_native_ratio": 0.6249050874085281
+        }
+      },
+      "vader": {
+        "n": 262295,
+        "mae": 0.24155733901977164,
+        "pearson": 0.8729665193004841,
+        "ccc": 0.8705687872277277,
+        "sign_agreement": 0.9094149716921787
+      }
+    },
+    "reference_2020": {
+      "name": "2020–2025, titles available",
+      "articles": 193100,
+      "tone": {
+        "n": 193100,
+        "mae": 1.7864337469999962,
+        "rmse": 2.4967364815247577,
+        "bias": 0.2166858381937311,
+        "pearson": 0.7694408854673183,
+        "ccc": 0.7492508150994924,
+        "within_1": 0.395712066286898
+      },
+      "fields": {
+        "persons.normalized": {
+          "n": 193100,
+          "precision": 0.5710044294310551,
+          "recall": 0.7454630835169564,
+          "f1": 0.6466741009237871
+        },
+        "organizations.normalized": {
+          "n": 193100,
+          "precision": 0.49206572024950257,
+          "recall": 0.3617238447543694,
+          "f1": 0.4169456069650391
+        },
+        "locations": {
+          "n": 193052,
+          "precision": 0.6957580148083994,
+          "recall": 0.6175134160446555,
+          "f1": 0.6543048121981969
+        },
+        "persons.mentions": {
+          "n": 193100,
+          "precision": 0.5347145878185455,
+          "recall": 0.6686894869435603,
+          "f1": 0.5942443288806449
+        },
+        "organizations.mentions": {
+          "n": 193100,
+          "precision": 0.4428686428639076,
+          "recall": 0.2804587498481879,
+          "f1": 0.34343061572399963
+        },
+        "all_names": {
+          "n": 193100,
+          "precision": 0.15039744826883347,
+          "recall": 0.49673903114437984,
+          "f1": 0.23088880048112437
+        },
+        "counts.label_quantity": {
+          "n": 193100,
+          "precision": 0.3948832662882063,
+          "recall": 0.22288830650723085,
+          "f1": 0.2849430642875067
+        },
+        "counts.object": {
+          "n": 193100,
+          "precision": 0.2301214331365841,
+          "recall": 0.1298899723073985,
+          "f1": 0.1660528868000027
+        },
+        "counts.full_geography": {
+          "n": 193100,
+          "precision": 0.09165758111207188,
+          "recall": 0.05173529692622733,
+          "f1": 0.06613901944427489
+        },
+        "themes.all": {
+          "n": 193100,
+          "precision": 0.6630089338846429,
+          "recall": 0.576753029928271,
+          "f1": 0.6168803732474977
+        },
+        "themes.supported": {
+          "n": 193100,
+          "precision": 0.6630089338846429,
+          "recall": 0.7377426171386916,
+          "f1": 0.6983821587961847
+        },
+        "dates": {
+          "n": 193100,
+          "precision": 0.29028629267644945,
+          "recall": 0.7924817378457498,
+          "f1": 0.42492312149645817
+        },
+        "amounts.object": {
+          "n": 193100,
+          "precision": 0.13959580007156164,
+          "recall": 0.3421987451210494,
+          "f1": 0.19829825009562976
+        },
+        "amounts.value": {
+          "n": 193100,
+          "precision": 0.28453599376207256,
+          "recall": 0.7079780480658708,
+          "f1": 0.40592924427980304
+        },
+        "quotations.content": {
+          "n": 193100,
+          "precision": 0.03727530375268352,
+          "recall": 0.41684705228674945,
+          "f1": 0.06843133920079508
+        },
+        "quotations.verb": {
+          "n": 193100,
+          "precision": 0.020998096414055666,
+          "recall": 0.23622220421581452,
+          "f1": 0.03856784714984044
+        }
+      },
+      "gcam": {
+        "2": {
+          "presence_f1": 0.926988899593351,
+          "wape": 0.41003689464398924,
+          "predicted_native_ratio": 0.8735925786414892
+        },
+        "3": {
+          "presence_f1": 0.9708471937580958,
+          "wape": 0.4270411301400792,
+          "predicted_native_ratio": 0.7469538599017972
+        },
+        "9": {
+          "presence_f1": 0.8176548052685982,
+          "wape": 0.7078489294834969,
+          "predicted_native_ratio": 1.1919128030393968
+        },
+        "15": {
+          "presence_f1": 0.32053053662988557,
+          "wape": 0.931332172901064,
+          "predicted_native_ratio": 0.2609716993181335
+        },
+        "16": {
+          "presence_f1": 0.8153611131707633,
+          "wape": 0.6285618006701337,
+          "predicted_native_ratio": 0.6573338309403014
+        },
+        "17": {
+          "presence_f1": 0.9618779941849832,
+          "wape": 0.7595275714823534,
+          "predicted_native_ratio": 1.4791532549881377
+        },
+        "18": {
+          "presence_f1": 0.6915051945667368,
+          "wape": 0.669853784665271,
+          "predicted_native_ratio": 0.6366163615564671
+        }
+      },
+      "vader": {
+        "n": 190694,
+        "mae": 0.2394279472258979,
+        "pearson": 0.8722970225363669,
+        "ccc": 0.8697095505640557,
+        "sign_agreement": 0.9106212046524799
+      }
+    },
+    "exact_2020": {
+      "name": "2020–2025, exact titles",
+      "articles": 117217,
+      "tone": {
+        "n": 117217,
+        "mae": 1.7654948160327197,
+        "rmse": 2.458598232371441,
+        "bias": 0.21737119905185157,
+        "pearson": 0.7795170734060656,
+        "ccc": 0.7594541015164181,
+        "within_1": 0.39775800438502945
+      },
+      "fields": {
+        "persons.normalized": {
+          "n": 117217,
+          "precision": 0.5897278211036153,
+          "recall": 0.7607781226871696,
+          "f1": 0.6644206590846473
+        },
+        "organizations.normalized": {
+          "n": 117217,
+          "precision": 0.5140185052245354,
+          "recall": 0.3763450279590615,
+          "f1": 0.4345378073347325
+        },
+        "locations": {
+          "n": 117190,
+          "precision": 0.7157204269196561,
+          "recall": 0.6314814814814815,
+          "f1": 0.6709672732785467
+        },
+        "persons.mentions": {
+          "n": 117217,
+          "precision": 0.5567960219220605,
+          "recall": 0.6881745881461845,
+          "f1": 0.6155532828949972
+        },
+        "organizations.mentions": {
+          "n": 117217,
+          "precision": 0.46496963221888027,
+          "recall": 0.2963839368330146,
+          "f1": 0.36201191064604404
+        },
+        "all_names": {
+          "n": 117217,
+          "precision": 0.15498448837601733,
+          "recall": 0.49984353528619435,
+          "f1": 0.2366056179182457
+        },
+        "counts.label_quantity": {
+          "n": 117217,
+          "precision": 0.4112086644450141,
+          "recall": 0.2249745801339364,
+          "f1": 0.2908328611898017
+        },
+        "counts.object": {
+          "n": 117217,
+          "precision": 0.23689438605485774,
+          "recall": 0.12960625504014586,
+          "f1": 0.16754674220963173
+        },
+        "counts.full_geography": {
+          "n": 117217,
+          "precision": 0.09145091002307101,
+          "recall": 0.05003330879001437,
+          "f1": 0.06467988668555241
+        },
+        "themes.all": {
+          "n": 117217,
+          "precision": 0.6828471327820231,
+          "recall": 0.5840583145667891,
+          "f1": 0.6296011218738199
+        },
+        "themes.supported": {
+          "n": 117217,
+          "precision": 0.6828471327820231,
+          "recall": 0.7460353644367583,
+          "f1": 0.7130440894212056
+        },
+        "dates": {
+          "n": 117217,
+          "precision": 0.3001561498522384,
+          "recall": 0.8055901911886949,
+          "f1": 0.4373568171490355
+        },
+        "amounts.object": {
+          "n": 117217,
+          "precision": 0.14510406247248744,
+          "recall": 0.3503312598116672,
+          "f1": 0.205211403883801
+        },
+        "amounts.value": {
+          "n": 117217,
+          "precision": 0.2936268548739646,
+          "recall": 0.7188340552349443,
+          "f1": 0.4169424828307299
+        },
+        "quotations.content": {
+          "n": 117217,
+          "precision": 0.039932617210446504,
+          "recall": 0.3952943281445697,
+          "f1": 0.07253749915865956
+        },
+        "quotations.verb": {
+          "n": 117217,
+          "precision": 0.02243978014946673,
+          "recall": 0.22338522096976204,
+          "f1": 0.040782794462555616
+        }
+      },
+      "gcam": {
+        "2": {
+          "presence_f1": 0.9285000757695838,
+          "wape": 0.39510461353165505,
+          "predicted_native_ratio": 0.8612373212367807
+        },
+        "3": {
+          "presence_f1": 0.9721261836489397,
+          "wape": 0.41673552731429725,
+          "predicted_native_ratio": 0.7332919609929809
+        },
+        "9": {
+          "presence_f1": 0.8200943196748213,
+          "wape": 0.6871328136151729,
+          "predicted_native_ratio": 1.1701893095743066
+        },
+        "15": {
+          "presence_f1": 0.32083532642850116,
+          "wape": 0.9275785052692849,
+          "predicted_native_ratio": 0.25942623935663195
+        },
+        "16": {
+          "presence_f1": 0.8143555065911324,
+          "wape": 0.6213693416432173,
+          "predicted_native_ratio": 0.6448084024356389
+        },
+        "17": {
+          "presence_f1": 0.9620851848581534,
+          "wape": 0.7351744162121058,
+          "predicted_native_ratio": 1.450800255614911
+        },
+        "18": {
+          "presence_f1": 0.7020596588691949,
+          "wape": 0.6483586080340444,
+          "predicted_native_ratio": 0.638233825841399
+        }
+      },
+      "vader": {
+        "n": 115707,
+        "mae": 0.2315847953869609,
+        "pearson": 0.8810968031054693,
+        "ccc": 0.8782207048137083,
+        "sign_agreement": 0.9125549880301106
+      }
+    },
+    "exact_length_2020": {
+      "name": "Exact titles and length ±10%",
+      "articles": 54609,
+      "tone": {
+        "n": 54609,
+        "mae": 1.4754798650898793,
+        "rmse": 1.94485013913192,
+        "bias": 0.21546033491592437,
+        "pearson": 0.8467968831588837,
+        "ccc": 0.8298621191020302,
+        "within_1": 0.44023878847808967
+      },
+      "fields": {
+        "persons.normalized": {
+          "n": 54609,
+          "precision": 0.7040766269508028,
+          "recall": 0.7983971714790807,
+          "f1": 0.7482763267479184
+        },
+        "organizations.normalized": {
+          "n": 54609,
+          "precision": 0.6027069498656663,
+          "recall": 0.40334629241384923,
+          "f1": 0.4832738535578119
+        },
+        "locations": {
+          "n": 54593,
+          "precision": 0.8257303771102829,
+          "recall": 0.6467169657422512,
+          "f1": 0.725341855650248
+        },
+        "persons.mentions": {
+          "n": 54609,
+          "precision": 0.6895170357250345,
+          "recall": 0.7287731537342138,
+          "f1": 0.7086018198721219
+        },
+        "organizations.mentions": {
+          "n": 54609,
+          "precision": 0.5530330158275443,
+          "recall": 0.3170225480223154,
+          "f1": 0.4030177912829672
+        },
+        "all_names": {
+          "n": 54609,
+          "precision": 0.1941082626572325,
+          "recall": 0.5207132527189767,
+          "f1": 0.28279715328568855
+        },
+        "counts.label_quantity": {
+          "n": 54609,
+          "precision": 0.5155605287083013,
+          "recall": 0.23304776657288276,
+          "f1": 0.32099625533397197
+        },
+        "counts.object": {
+          "n": 54609,
+          "precision": 0.292817679558011,
+          "recall": 0.1323617740966712,
+          "f1": 0.1823129844117391
+        },
+        "counts.full_geography": {
+          "n": 54609,
+          "precision": 0.11049723756906077,
+          "recall": 0.04994783928176272,
+          "f1": 0.06879735260820342
+        },
+        "themes.all": {
+          "n": 54609,
+          "precision": 0.7627647792379939,
+          "recall": 0.600459329665769,
+          "f1": 0.6719500118028464
+        },
+        "themes.supported": {
+          "n": 54609,
+          "precision": 0.7627647792379939,
+          "recall": 0.7706115237273705,
+          "f1": 0.7666680744151801
+        },
+        "dates": {
+          "n": 54609,
+          "precision": 0.36282675988946067,
+          "recall": 0.8390010387029762,
+          "f1": 0.5065817728180622
+        },
+        "amounts.object": {
+          "n": 54609,
+          "precision": 0.18433831479765214,
+          "recall": 0.3673555766113711,
+          "f1": 0.24549014944178296
+        },
+        "amounts.value": {
+          "n": 54609,
+          "precision": 0.36538826185760087,
+          "recall": 0.7493060540799235,
+          "f1": 0.4912335745955051
+        },
+        "quotations.content": {
+          "n": 54609,
+          "precision": 0.04575422248107164,
+          "recall": 0.534712768853798,
+          "f1": 0.0842954633246062
+        },
+        "quotations.verb": {
+          "n": 54609,
+          "precision": 0.02517758092557331,
+          "recall": 0.29571000738983316,
+          "f1": 0.046404179610969036
+        }
+      },
+      "gcam": {
+        "2": {
+          "presence_f1": 0.9565616737587496,
+          "wape": 0.2730067297989717,
+          "predicted_native_ratio": 0.774462558975737
+        },
+        "3": {
+          "presence_f1": 0.9882639253120739,
+          "wape": 0.34116259186583103,
+          "predicted_native_ratio": 0.6632602530948368
+        },
+        "9": {
+          "presence_f1": 0.8710189131292767,
+          "wape": 0.5078359007504056,
+          "predicted_native_ratio": 1.061249260431576
+        },
+        "15": {
+          "presence_f1": 0.34116360378598815,
+          "wape": 0.886135745662383,
+          "predicted_native_ratio": 0.23180381809863146
+        },
+        "16": {
+          "presence_f1": 0.827061858865881,
+          "wape": 0.5445667745575995,
+          "predicted_native_ratio": 0.5780934375370919
+        },
+        "17": {
+          "presence_f1": 0.9775773282563016,
+          "wape": 0.5435343165261549,
+          "predicted_native_ratio": 1.3138132386167112
+        },
+        "18": {
+          "presence_f1": 0.7460259744652475,
+          "wape": 0.562451152963986,
+          "predicted_native_ratio": 0.5673496554906967
+        }
+      },
+      "vader": {
+        "n": 54518,
+        "mae": 0.1386123791602075,
+        "pearson": 0.9571660744454425,
+        "ccc": 0.9515165533734058,
+        "sign_agreement": 0.9391577093803881
+      }
+    }
+  },
+  "source_bootstrap": {
+    "replicates": 2000,
+    "full_corpus_intervals": {
+      "tone_mae": {
+        "ci95": [
+          1.767415838497123,
+          1.8284611054570952
+        ],
+        "defined_replicates": 2000
+      },
+      "tone_sign": {
+        "ci95": [
+          0.7569236802299208,
+          0.766033955367837
+        ],
+        "defined_replicates": 2000
+      },
+      "persons.normalized": {
+        "ci95": [
+          0.6370651449528811,
+          0.6545204462418445
+        ],
+        "defined_replicates": 2000
+      },
+      "organizations.normalized": {
+        "ci95": [
+          0.4092025074697598,
+          0.4203812346811918
+        ],
+        "defined_replicates": 2000
+      },
+      "locations": {
+        "ci95": [
+          0.6410474536848882,
+          0.6564978215790755
+        ],
+        "defined_replicates": 2000
+      },
+      "gcam_2": {
+        "ci95": [
+          0.39844779549984094,
+          0.42731705816531373
+        ],
+        "defined_replicates": 2000
+      },
+      "gcam_3": {
+        "ci95": [
+          0.42041632161770787,
+          0.4426271029746229
+        ],
+        "defined_replicates": 2000
+      },
+      "gcam_9": {
+        "ci95": [
+          0.6886696266793673,
+          0.7284602343407252
+        ],
+        "defined_replicates": 2000
+      },
+      "gcam_15": {
+        "ci95": [
+          0.9276148404182215,
+          0.9364320821629754
+        ],
+        "defined_replicates": 2000
+      },
+      "gcam_16": {
+        "ci95": [
+          0.6222094319570641,
+          0.640994032817889
+        ],
+        "defined_replicates": 2000
+      },
+      "gcam_17": {
+        "ci95": [
+          0.7381305583396537,
+          0.7824660522092496
+        ],
+        "defined_replicates": 2000
+      },
+      "gcam_18": {
+        "ci95": [
+          0.6604251172493304,
+          0.6810441856368232
+        ],
+        "defined_replicates": 2000
+      }
+    }
+  },
+  "retention_sensitivity": {
+    "status": "Exploratory selection sensitivity, not a validated population correction.",
+    "estimates": {
+      "uncapped": {
+        "tone_mae": 2.0627504803027055,
+        "effective_sample_size": 9033.161307804616,
+        "maximum_inverse_probability_weight": null
+      },
+      "cap20": {
+        "tone_mae": 1.887732914864828,
+        "effective_sample_size": 94700.51089490186,
+        "maximum_inverse_probability_weight": 20
+      }
+    }
+  }
+}
