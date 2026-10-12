@@ -4,6 +4,7 @@
 [![PyPI](https://img.shields.io/pypi/v/gdelt-regkg)](https://pypi.org/project/gdelt-regkg/)
 [![Python](https://img.shields.io/badge/python-3.12%2B-blue)](https://pypi.org/project/gdelt-regkg/)
 [![License](https://img.shields.io/github/license/octo-gone/gdelt-regkg)](https://github.com/octo-gone/gdelt-regkg/blob/master/LICENSE)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23314745.svg)](https://doi.org/10.5281/zenodo.23314745)
 
 Package for reconstructing GDELT GKG files from article text and metadata.
 
