@@ -903,48 +903,49 @@ The comparison covers all columns, with identical empty media/extra inputs, froz
 
 The release keeps the evaluated extraction choices and resource profiles. There is no additional fitting or new accuracy benchmark in this release. English and translated agreement is reported in [version 0.7.0](#070-seasonal-evaluation-and-revised-extraction); remaining-field results are in [version 0.18.0](#0180-remaining-field-benchmarks); GCAM coverage is in [version 0.16.0](#0160-gcam-theme-counts). Metadata formatting follows supplied inputs, while text-derived fields remain approximations to native extraction. Offset agreement and human-reviewed NLP accuracy are still unmeasured.
 
-## Reproducing the benchmarks
+## 1.0.2 Large-scale agreement baseline
 
-The inventory measurements above describe research samples and frequency priorities. Theme/count resources can be rebuilt from their maintained mappings without fitting against article bodies:
+### Research
 
-```shell
-gdelt-regkg-build-resources --fields themes counts --output built-resources
-```
+`gdelt-regkg` 1.0.2 was tested against native GKG outputs to assess agreement across extracted fields. Tone, VADER lexical means and selected dictionary categories agree most closely with native GKG. Persons, locations and themes are partially recovered. Organizations, detailed counts, amount objects, broad names and quotations remain weak.
 
-Defaults are themes v3, counts v3, tone v3 and name rules v1. The builder validates input rules and emits versioned dictionaries and schemas. See the [resource guide](src/gdelt_regkg/resources/README.md) and [field documentation](docs/README.md) for configuration and extraction behavior.
+#### Field agreement
 
-Install the package's `benchmark` extra and the medium English model, then prepare local resources using [Installation and setup](docs/installation.md#best-supported-setup). Historical comparisons must explicitly select their earlier profiles; defaults now use later revisions. The following collection selects tone v1:
+“Closer inputs” means exact normalized title agreement and library word counts are within 10% of GDELT processed counts. Higher F1 and concordance correlation (CCC) are better; lower MAE is better.
 
-```powershell
-$dates = '20260922', '20260924', '20260926', '20260928', '20261002', '20261003'
-$batches = foreach ($day in $dates) { foreach ($hour in '03', '12', '21') { "$($day)$($hour)0000" } }
-gdelt-regkg-benchmark-tone --batches $batches --output benchmark-results --per-day 400 --per-source 2 --seed 42 --workers 8 --timeout 25 --lexicon local-resources/tone.v1.json
-```
+| Field / metric | Overall | Closer inputs | Finding |
+| --- | ---: | ---: | --- |
+| Tone, MAE / CCC | 1.795 / 0.746 | 1.475 / 0.830 | Among the strongest fields, but individual article scores can still differ substantially. |
+| Persons, F1 | 0.646 | 0.748 | Moderate recovery, improves substantially with closer inputs. |
+| Locations, F1 | 0.649 | 0.725 | Moderate recovery. |
+| Organizations, F1 | 0.415 | 0.483 | Weak even with closer inputs, selection and normalization need work. |
+| Themes, all labels / supported labels F1 | 0.614 / 0.697 | 0.672 / 0.767 | Useful partial recovery, both missing vocabulary and matching errors limit agreement. |
+| Counts, label and quantity F1 | 0.289 | 0.321 | Weak quantity/event recovery. |
+| Counts, with object / full geography F1 | 0.164 / 0.065 | 0.182 / 0.069 | Object and location attachment are major weaknesses. |
+| Dates, F1 | 0.429 | 0.507 | Partial agreement, still far from native equivalence. |
+| Amounts, value / value and object F1 | 0.405 / 0.197 | 0.491 / 0.246 | Numeric values agree better than their attached objects. |
+| All names, F1 | 0.230 | 0.283 | Broad name selection remains weak. |
+| Quotations, content F1 | 0.067 | 0.084 | Very weak, native span selection and boundaries are poorly reproduced. |
 
-`--per-day` overrides `--sample-size`. Add `--offline` to replay cached HTML; fresh live fetches can produce different bodies. With the General Inquirer source TSV at `downloads/resources/inqtabs.txt`, run:
+#### GCAM agreement
 
-```shell
-gdelt-regkg-refine-tone --results benchmark-results/results.jsonl --train-dates 20260922 20260924 20260926 20260928 --validation-date 20261002 --test-date 20261003 --gi-source downloads/resources/inqtabs.txt --output tone-revision --check-language
-```
+GCAM contains dictionary category counts and lexical mean scores, including VADER. High category-presence agreement does not guarantee correct occurrence counts. Presence F1 below uses articles with native and local titles available; count WAPE compares overall results with the closer-input subset. Lower WAPE is better.
 
-Outputs include the candidate lexicon, split audit, training token edits, validation comparisons, held-out metrics, and per-article test comparisons. Changing candidates after inspecting the final test requires a new test date. See [maintained benchmark tools](scripts/README.md#tone-benchmark-against-original-articles).
+| Family | Presence F1 | Count WAPE, overall → closer inputs | Finding |
+| --- | ---: | ---: | --- |
+| General Inquirer | 0.927 | 41.20% → 27.30% | Strong category recovery, comparatively better counts. |
+| Lexicoder | 0.971 | 43.12% → 34.12% | Strong category recovery, but counts remain underestimated. |
+| Roget | 0.818 | 70.73% → 50.78% | Reasonable category recovery, substantial count error and aggregate overcounting. |
+| WordNet lexical categories | 0.962 | 75.87% → 54.35% | Strong presence agreement masks inflated counts. |
+| WordNet Domains | 0.815 | 63.09% → 54.46% | Reasonable category recovery, counts remain underestimated. |
+| WordNet Affect | 0.321 | 93.19% → 88.61% | Weak presence and counts, closer inputs do little to resolve the gap. |
+| Theme occurrence counts | 0.692 | 67.05% → 56.25% | Partial category recovery, repeated-match counts remain inaccurate. |
 
-The historical independent comparison used tone v2, counts v2, themes v3, and canonical NER without name rules. To collect its dates with current defaults:
+VADER lexical means show strong agreement: overall MAE is 0.242 and CCC is 0.871, improving to 0.139 and 0.952 with closer inputs. These scores evaluate matched-word lexical means, not the complete VADER sentiment algorithm.
 
-```powershell
-$dates = '20260910', '20260912', '20260914'
-$batches = foreach ($day in $dates) { foreach ($hour in '03', '12', '21') { "$($day)$($hour)0000" } }
-gdelt-regkg-benchmark-extraction --batches $batches --output independent-results --per-day 400 --per-source 2 --seed 42 --workers 16 --timeout 20 --ner-model en_core_web_md
-```
+## 1.0.3 Zenodo integration and citation
 
-For the baseline, use the saved corpus and archives with `--offline`, `--ner-name-policy surface`, `--count-rules local-resources/counts.v1.json`, and `--theme-lexicon local-resources/themes.v2.json`. Raw collection includes duplicate bodies; the reported 775-article analysis excludes known URLs and normalized-token exact/SimHash near duplicates against earlier bodies and within the new sample. Fresh page downloads can change body text and retrieval success.
+### Changes
 
-## Further work
-
-- Counts — improve quantity recall and object attachment on new count-positive development articles.
-- Organizations — improve recall while retaining the precision gain.
-- Themes — add frequent unsupported labels and improve existing matches.
-- Translation — compare engines on fresh multilingual development articles.
-- Names amounts and quotations — improve precision, objects and quotation selection.
-- GCAM — improve Affect matching and occurrence counts.
-- Evaluation — reserve a new benchmark before tuning; obtain matching native bodies before scoring offsets.
+- Added Zenodo integration for release archiving and citation.
+- Added `CITATION.cff` with software citation metadata.

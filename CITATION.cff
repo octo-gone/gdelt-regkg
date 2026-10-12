@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use this software in your research, please cite it using the metadata provided here."
+type: software
+title: "gdelt-regkg"
+version: 1.0.3
+license: MIT
+abstract: >-
+  A Python library for reconstructing GDELT Global Knowledge Graph
+  (GKG) records from article text and metadata. It supports the
+  generation of complete GKG records and the extraction of individual
+  fields, including themes, entities, locations, counts, tone, and
+  other structured information. The library can be used to reconstruct
+  gaps in GKG coverage and process custom news datasets.
+authors:
+  - given-names: Nikita
+    family-names: Klimin
+    orcid: "https://orcid.org/0009-0009-6756-0866"
+repository-code: "https://github.com/octo-gone/gdelt-regkg"
+repository-artifact: "https://pypi.org/project/gdelt-regkg/"
+url: "https://github.com/octo-gone/gdelt-regkg"
+keywords:
+  - GDELT
+  - Global Knowledge Graph
+  - GKG
+  - natural language processing
+  - information extraction
+  - named entity recognition
+  - news analysis
+  - text mining
+  - Python

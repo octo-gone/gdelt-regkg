@@ -44,4 +44,14 @@ repos:
         pass_filenames: false
         always_run: true
         require_serial: true
+
+  - repo: https://github.com/citation-file-format/cffconvert
+    rev: 054bda51dbe278b3e86f27c890e3f3ac877d616c
+    hooks:
+      - id: validate-cff
+        name: cffconvert
+        description: "Validate CITATION.cff file"
+        args: ["--validate"]
+        files: CITATION.cff
+
 exclude: ^(tmp|data|data2|output[^/]*|dist|build)/
