@@ -1,22 +1,14 @@
-"""Build the local approximation from the General Inquirer basic TSV.
-
-Download https://inquirer.sites.fas.harvard.edu/inqtabs.txt separately, then run:
-    gdelt-regkg-build-resources --fields tone --tone-source inqtabs.txt --output ./local-resources
-
-Source terms: https://inquirer.sites.fas.harvard.edu/spreadsheet_guide.htm
-See docs/installation.md#source-terms before using the categories.
-"""
+"""Compile General Inquirer tone profiles and replay recorded revisions."""
 
 from __future__ import annotations
 
-import argparse
+import copy
 import csv
 import hashlib
 import json
 import re
-from pathlib import Path
 
-from gdelt_regkg.tone import ToneLexicon, tokenize_tone
+from gdelt_regkg.tone import ToneLexicon, _parse_lexicon, tokenize_tone
 
 
 def build_lexicon(input_path):
@@ -66,17 +58,27 @@ def build_lexicon(input_path):
     return payload
 
 
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("input", type=Path)
-    parser.add_argument("--output", type=Path, required=True)
-    args = parser.parse_args()
-    payload = build_lexicon(args.input)
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(
-        json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-    )
-
-
-if __name__ == "__main__":
-    main()
+def revise_tone(baseline, edits):
+    """Replay the recorded revision without fitting against benchmark bodies."""
+    if baseline.get("source_sha256") != edits["base_source_sha256"]:
+        raise ValueError("Tone source checksum differs from the recorded revision")
+    if (
+        "base_dictionary_sha256" in edits
+        and hashlib.sha256(json.dumps(baseline, sort_keys=True).encode()).hexdigest()
+        != edits["base_dictionary_sha256"]
+    ):
+        raise ValueError("Tone dictionary checksum differs from the recorded revision")
+    result = copy.deepcopy(edits["metadata"])
+    for category, changes in edits["changes"].items():
+        words = set(baseline[category])
+        removals = set(changes.get("remove", ()))
+        by_hash = {hashlib.sha256(word.encode()).hexdigest(): word for word in words}
+        for digest in changes.get("remove_sha256", ()):
+            if digest not in by_hash:
+                raise ValueError(f"Revision removes unknown {category} term hash")
+            removals.add(by_hash[digest])
+        if not removals <= words:
+            raise ValueError(f"Revision removes unknown {category} terms")
+        result[category] = sorted((words - removals) | set(changes["add"]))
+    _parse_lexicon(json.dumps(result))
+    return result

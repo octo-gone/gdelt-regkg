@@ -1,20 +1,15 @@
-import importlib.util
 import json
 import unittest
 from pathlib import Path
 
-from gdelt_regkg import ExtractionConfig, analyze_counts, analyze_themes, load_theme_lexicon
+from gdelt_regkg import ExtractionConfig, analyze_counts, analyze_themes
+from gdelt_regkg.builders import themes as builder
 from gdelt_regkg.rule_inputs import THEME_SCHEMA, theme_lexicon_from_input
 from gdelt_regkg.themes import ThemeRule
 from gdelt_regkg.utils import read_resource_json, resource_path
 
 ROOT = Path(__file__).resolve().parents[1]
 LEXICONS = ROOT / "src/gdelt_regkg/resources/lexicons"
-spec = importlib.util.spec_from_file_location(
-    "build_theme_profile", ROOT / "src/gdelt_regkg/scripts/build_theme_profile.py"
-)
-builder = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(builder)
 
 
 class ThemeExpansionTests(unittest.TestCase):

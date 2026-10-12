@@ -16,8 +16,9 @@ import statistics
 from collections import Counter, defaultdict
 from pathlib import Path
 
+from gdelt_regkg.builders.tone import build_lexicon
 from gdelt_regkg.scripts.benchmark_tone import FIELDS, summarize
-from gdelt_regkg.tone import ToneLexicon, baseline_tone_lexicon, tokenize_tone
+from gdelt_regkg.tone import ToneLexicon, tokenize_tone
 
 CATEGORIES = ("positive", "negative", "activity", "self_group")
 SCORE_KEYS = dict(
@@ -328,7 +329,10 @@ def main():
     if len(train) < 100:
         parser.error("Need at least 100 reasonably aligned training bodies")
     validation, test = splits["validation"], splits["test"]
-    base = baseline_tone_lexicon()
+    baseline = build_lexicon(args.gi_source)
+    base = ToneLexicon(
+        name=baseline["name"], **{key: frozenset(baseline[key]) for key in CATEGORIES}
+    )
     vocab_docs = Counter(word for row in train for word in row["counts"])
     observed = {word for word, n in vocab_docs.items() if n >= 8}
     verbs = gi_verbs(args.gi_source)

@@ -3,8 +3,12 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from gdelt_regkg.builders.themes import revise_themes
+from gdelt_regkg.builders.tone import revise_tone
+from gdelt_regkg.cli.build import publish
+from gdelt_regkg.cli.inputs import resolve_inputs
+from gdelt_regkg.cli.profiles import compile_profiles
 from gdelt_regkg.ner import NameRules, default_name_rules
-from gdelt_regkg.scripts.build_resources import build_resources, revise_themes, revise_tone
 from gdelt_regkg.tone import benchmark_tone_lexicon, default_tone_lexicon
 from gdelt_regkg.utils import read_resource_json
 
@@ -53,10 +57,32 @@ class ResourceTests(unittest.TestCase):
             source = Path("downloads/resources")
             if not (source / "CrisisLexRec.txt").is_file():
                 self.skipTest("Requires source inputs from the resource setup")
-            built = build_resources(
-                root,
-                fields=("themes", "counts", "ner"),
-                crisislex_source=Path(source) / "CrisisLexRec.txt",
+            built = {}
+            # Historical profiles are separate, explicitly requested builds.
+            for recipe in ("v1", "v2", "v3"):
+                inputs = resolve_inputs(
+                    root,
+                    targets=("themes", "counts"),
+                    use=recipe,
+                    sources={"crisislex": source / "CrisisLexRec.txt"},
+                )
+                artifacts, defaults = compile_profiles(inputs)
+                publish(root, artifacts, defaults)
+                built.update(
+                    {
+                        artifact.path.removeprefix("lexicons/"): artifact.payload
+                        for artifact in artifacts
+                        if artifact.path.startswith("lexicons/")
+                    }
+                )
+            artifacts, defaults = compile_profiles(resolve_inputs(root, targets=("ner",)))
+            publish(root, artifacts, defaults)
+            built.update(
+                {
+                    artifact.path.removeprefix("lexicons/"): artifact.payload
+                    for artifact in artifacts
+                    if artifact.path.startswith("lexicons/")
+                }
             )
             for name in (
                 "themes.v2.json",

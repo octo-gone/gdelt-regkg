@@ -1,15 +1,15 @@
 # Maintained tools
 
-These commands ship with the package and are available after installation or `uv sync`. Each tool can also be run with `python -m gdelt_regkg.scripts.<module>`. Imports and normal extraction never run maintenance tools or download resources.
+These commands ship with the package and are available after installation or `uv sync`. Run the resource CLI with `gdelt-regkg-cli` or `python -m gdelt_regkg`. Imports and normal extraction never run maintenance tools or download resources.
 
 From a checkout, prefix commands with `uv run` to use the project's virtual environment.
 
+All resource construction uses `gdelt-regkg-cli build`. Reusable converters live
+in `gdelt_regkg.builders`; the `scripts` package contains benchmark and development tools.
+
 | Installed command | Purpose |
 | --- | --- |
-| `gdelt-regkg-build-resources` | Build local tone/theme/count/name/GCAM/geographic profiles from source inputs |
-| `gdelt-regkg-build-gazetteer` | Compile geographic references from supplied GKG archives |
-| `gdelt-regkg-build-gcam` | Build General Inquirer counts, VADER means and optional licensed Lexicoder input |
-| `gdelt-regkg-expand-gcam` | Add General Inquirer, Roget, WordNet and GCAM theme dimensions using native keys |
+| `gdelt-regkg-cli build` | Resolve source inputs and build local extraction resources |
 | `gdelt-regkg-benchmark-fields` | Compare locations, dates, amounts, broad names, quotations and GCAM on saved bodies |
 | `gdelt-regkg-benchmark-samples` | Collect fixed development/benchmark samples across selected months and daily windows |
 | `gdelt-regkg-benchmark-tone` | Compare tone against original GDELT records and article bodies |
@@ -21,11 +21,123 @@ From a checkout, prefix commands with `uv run` to use the project's virtual envi
 
 ## Resource arguments
 
+The `build` subcommand uses positional targets and repeatable named source inputs.
+
+```shell
+gdelt-regkg-cli build all --sources-dir downloads/resources --download-sources --output local-resources
+gdelt-regkg-cli build counts ner --output local-resources
+gdelt-regkg-cli build themes --authored-themes-only --output local-resources
+gdelt-regkg-cli build tone --source general-inquirer=downloads/resources/inqtabs.txt --output local-resources
+```
+
+Use `gdelt-regkg-cli build --help` for all build options. From a checkout, use
+`uv run gdelt-regkg-cli build ...` or `python -m gdelt_regkg build ...` in an
+environment where the package is installed.
+
+Choose the targets explicitly, or use `all`; output defaults to `local-resources/`.
+The resolver selects inputs required by the targets, including GCAM's theme
+dependencies. Explicit `--source NAME=PATH` inputs take precedence over files discovered in
+`--sources-dir`; discovered files are checked against the recorded recipe.
+Downloads require `--download-sources`. Counts and name rules need no external
+sources; `--authored-themes-only` also removes the CrisisLex requirement for themes
+and their use within GCAM. Use `--gazetteer-archives` for explicit location-reference
+inputs; the recorded gazetteer recipe is unchanged.
+
+Each selected target produces exactly one profile. The default `--use best`
+selects the current supported recipe, and partial builds preserve unrelated
+`defaults.json` selections. Previous files remain available when you build another
+recipe into the same directory; only the newly built profile becomes selected.
+
+Build progress appears immediately on stderr: source checks and downloads, each
+target and GCAM component, and output preparation and publication. The final
+`Built ...` summary is written to stdout.
+
+Builds also compare recorded output hashes from `recipes.json` with the compiled
+JSON, independently of `--suffix` or filename overrides. A mismatch prints a
+warning and the build continues; custom inputs or options may legitimately differ.
+Matching hashes appear in progress output. Custom recipes without a recorded hash
+are not compared. Hashes cover parsed JSON, including metadata and array order,
+and do not depend on indentation, object key order, or gzip compression.
+
+### Recipes and filenames
+
+`--use` determines the contents. `--suffix` changes only the filename label,
+preserving the resource stem and `.json` or `.json.gz` extension. For example,
+`build tone --use v1 --suffix experiment` writes `lexicons/tone.experiment.json`
+using the v1 recipe. Labeling a current build `v1` does not turn it into the v1 recipe.
+
+| Target | Default recipe | Other recipes |
+| --- | --- | --- |
+| `tone` | `v3` | `v1`, `v2` |
+| `themes` | `v3` | `v1`, `v2`, `authored` |
+| `counts` | `v3` | `v1`, `v2` |
+| `ner` | `v1` | — |
+| `locations` | `v1` | — |
+| `gcam` | `v3` | `v1`, `v2`, `full` |
+
+Rebuild the historical profiles explicitly (the source directory must contain
+the recorded input files; add `--download-sources` to fetch missing inputs):
+
+```shell
+gdelt-regkg-cli build tone themes counts gcam --use v1 --suffix v1 --sources-dir downloads/resources
+gdelt-regkg-cli build tone themes counts gcam --use v2 --suffix v2 --sources-dir downloads/resources
+gdelt-regkg-cli build tone themes counts gcam --use v3 --suffix v3 --sources-dir downloads/resources
+```
+
+Or request one resource and one recipe:
+
+```shell
+gdelt-regkg-cli build counts --use v1 --suffix baseline
+gdelt-regkg-cli build tone --suffix experiment --sources-dir downloads/resources
+gdelt-regkg-cli build themes --use authored --suffix custom
+```
+
+Tone v1 imports General Inquirer; v2 and v3 replay the recorded edits in order.
+Theme v1 restores the original candidates and CrisisLex; v2 adds the seed rules;
+v3 applies the evaluated revision. Count recipes select the corresponding authored
+rule file. Earlier stages may be needed to compute a recipe, but only the requested
+result is written. `--use` applies to every target in that invocation; incompatible
+target/recipe combinations are rejected before downloading.
+
 [Installation and setup](../docs/installation.md) is the guide for preparing dictionaries and models, selecting a basic or full profile, and obtaining benchmark/development inputs. Extraction and benchmark commands select prepared profiles with `--resources-dir` (default `local-resources`); explicit per-file overrides take precedence. Build commands select raw files with `--sources-dir` or individual source flags and write to `--output`.
 
-The importers accept separately supplied sources and do not fit against article bodies. `gdelt-regkg-build-gcam` builds General Inquirer, VADER and optional Lexicoder profiles; `gdelt-regkg-expand-gcam` adds categories. `gdelt-regkg-build-gazetteer` accepts GKG ZIP archives and JSON/gzip output. Use each command's `--help` for its arguments.
+### GCAM profiles and expansion
 
-`gdelt-regkg-expand-gcam --download-roget` and `--download-lexicoder` request checksum-verified downloads to `--sources-dir` (default `downloads/resources`). Review [Lexicoder's agreement](https://www.snsoroka.com/s/LSDagreement.pdf) before using its dictionary. Without download flags, the command uses only supplied local sources.
+GCAM `--use v1` builds the General Inquirer subset; `v2` adds VADER.
+`v3` (the default) also includes full General Inquirer categories, WordNet and themes.
+`--use full` adds Roget and Lexicoder. Review [Lexicoder's agreement](https://www.snsoroka.com/s/LSDagreement.pdf)
+before using its dictionary.
+
+```shell
+gdelt-regkg-cli build gcam --use full --sources-dir downloads/resources --download-sources
+gdelt-regkg-cli build gcam --use v2 --gcam-add lexicoder --source general-inquirer=downloads/resources/inqtabs.txt --source vader=downloads/resources/vader_lexicon.txt --source lexicoder=downloads/resources/LSDaug2015.zip --suffix custom
+gdelt-regkg-cli build gcam --gcam-baseline local-resources/lexicons/gcam.v3.json.gz --gcam-add roget lexicoder --sources-dir downloads/resources --suffix full
+```
+
+`--gcam-add` adds or replaces selected components. It accepts `general-inquirer`,
+`vader`, `roget`, `wordnet-lexical`, `wordnet-affect`, `wordnet-domains`, `themes`
+and `lexicoder`. A baseline needs only the sources for the selected additions.
+Use `--affect-propagate-hierarchy` and `--affect-nouns-only` for experimental
+WordNet Affect variants. `--source wordnet-annotations=PATH` supplies both Affect
+and Domains; separate inputs use `--source wordnet-affect=PATH` and
+`--source wordnet-domains=PATH`.
+
+Default filenames are `gcam.v1.json`, `gcam.v2.json`, `gcam.v3.json.gz`,
+`gcam.full.json.gz` and `gcam.custom.json.gz` for customized builds.
+`--suffix` overrides the label; `--gcam-filename` accepts a complete basename
+when you also need to choose JSON versus gzip. All profiles go into `--output/lexicons/` and become selected in
+`defaults.json`. Converters use the supplied dictionaries without fitting to articles.
+
+### Custom gazetteer
+
+```shell
+gdelt-regkg-cli build locations --gazetteer-archives reference/first.gkg.csv.zip reference/second.gkg.csv.zip --gazetteer-name my-places --suffix custom --output local-resources
+```
+
+Use `--gazetteer-name` to name the profile and `--suffix` to label its filename.
+`--gazetteer-filename` accepts a complete basename when you need JSON instead of
+gzip. Complete GCAM and gazetteer filenames accept `.json` or `.json.gz`; use
+either a complete filename or a suffix.
 
 ## Field benchmark
 
@@ -145,7 +257,17 @@ geographic resolution are unavailable. See the [changelog results](../CHANGELOG.
 gdelt-regkg-refine-tone --results ./benchmark-results/results.jsonl --train-dates 20260922 20260924 20260926 20260928 --validation-date 20261002 --test-date 20261003 --gi-source inqtabs.txt --output ./tone-revision --check-language
 ```
 
-The tool starts from tone v1, fits candidate word edits on training records, selects on validation, and evaluates on the held-out test date. It writes the candidate dictionary, token edits, split audit, and comparisons. A candidate does not become the library default automatically; review its changes and independent measurements before recording a new numbered revision.
+This development tool learns candidate dictionary changes from saved benchmark
+article bodies and their original GDELT scores. It derives the tone v1 baseline
+from `--gi-source`, fits additions/removals on training dates, chooses variants
+using a separate validation date, and evaluates the frozen choices on a held-out
+test date. It excludes duplicate bodies across splits and reserves a subset of
+publishers for testing. It needs no previously built tone profiles.
+
+The output contains `lexicon.json`, `training_edits.json`, `split_audit.jsonl`,
+`report.json` and `test_comparison.csv`. The candidate does not become the default
+automatically. Use `build` to reproduce existing recipes; use refinement to
+experiment with a new revision and review its independent evaluation.
 
 ## Formatting
 

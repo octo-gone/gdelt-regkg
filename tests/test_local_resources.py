@@ -19,10 +19,14 @@ from gdelt_regkg import (
     default_gcam_lexicon,
     generate_gkg,
 )
+from gdelt_regkg.builders.tone import revise_tone
+from gdelt_regkg.cli.build import publish
+from gdelt_regkg.cli.inputs import resolve_inputs
+from gdelt_regkg.cli.profiles import compile_profiles
+from gdelt_regkg.cli.sources import download_source
 from gdelt_regkg.counts import default_count_rules
 from gdelt_regkg.locations import Gazetteer, default_gazetteer
 from gdelt_regkg.ner import default_name_rules
-from gdelt_regkg.scripts.build_resources import build_resources, download_source, revise_tone
 from gdelt_regkg.themes import default_theme_lexicon
 from gdelt_regkg.tone import default_tone_lexicon
 from gdelt_regkg.utils import packaged_resource_path, resource_directory, resource_path
@@ -61,7 +65,7 @@ class LocalResourceTests(unittest.TestCase):
             ):
                 with (
                     self.subTest(loader=loader.__name__),
-                    self.assertRaisesRegex(ResourceUnavailableError, "gdelt-regkg-build-resources"),
+                    self.assertRaisesRegex(ResourceUnavailableError, "gdelt-regkg-cli build"),
                 ):
                     loader(resources_dir=directory)
             self.assertIn(
@@ -134,7 +138,8 @@ class LocalResourceTests(unittest.TestCase):
         text = "Good news."
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            build_resources(root, fields=("counts", "ner"))
+            artifacts, defaults = compile_profiles(resolve_inputs(root, targets=("counts", "ner")))
+            publish(root, artifacts, defaults)
             profiles = {
                 "tone.json": {
                     "name": "custom-tone",
@@ -183,9 +188,17 @@ class LocalResourceTests(unittest.TestCase):
 
     def test_authored_profiles_build_without_sources_and_override_defaults(self):
         with tempfile.TemporaryDirectory() as directory:
-            built = build_resources(
-                directory, fields=("themes", "counts", "ner"), authored_themes_only=True
+            artifacts, defaults = compile_profiles(
+                resolve_inputs(
+                    directory, targets=("themes", "counts", "ner"), authored_themes_only=True
+                )
             )
+            publish(Path(directory), artifacts, defaults)
+            built = {
+                artifact.path.removeprefix("lexicons/"): artifact.payload
+                for artifact in artifacts
+                if artifact.path.startswith("lexicons/")
+            }
             self.assertNotIn("themes.v3.json", built)
             self.assertEqual(built["themes.authored.json"]["sources"], [])
             self.assertNotIn("external_rule_ids", built["themes.authored.json"])
@@ -229,9 +242,7 @@ class LocalResourceTests(unittest.TestCase):
         }
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "dictionary.txt"
-            with patch(
-                "gdelt_regkg.scripts.build_resources.urlopen", return_value=io.BytesIO(raw)
-            ) as fetch:
+            with patch("gdelt_regkg.cli.sources.urlopen", return_value=io.BytesIO(raw)) as fetch:
                 download_source(path, entry)
                 download_source(path, entry)
                 self.assertEqual(fetch.call_count, 1)
@@ -244,7 +255,7 @@ class LocalResourceTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "source.txt"
             with patch(
-                "gdelt_regkg.scripts.build_resources.urlopen",
+                "gdelt_regkg.cli.sources.urlopen",
                 return_value=io.BytesIO(b"changed"),
             ):
                 with self.assertRaisesRegex(ValueError, "checksum"):

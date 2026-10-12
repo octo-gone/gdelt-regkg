@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import argparse
 import copy
 import csv
 import hashlib
@@ -228,33 +227,3 @@ def extend_gcam_lexicon(baseline, *, vader_source=None, lexicoder_source=None):
     result["name"] = "general-inquirer-" + "-".join(additions) + "-gcam-v2"
     _load(result)
     return result
-
-
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("input", type=Path)
-    parser.add_argument("--vader-source", type=Path, help="Published vader_lexicon.txt (MIT)")
-    parser.add_argument(
-        "--lexicoder-source",
-        type=Path,
-        help="Your licensed original ZIP, LC3 directory or JSON export",
-    )
-    parser.add_argument("--output", type=Path, required=True)
-    args = parser.parse_args()
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(
-        json.dumps(
-            extend_gcam_lexicon(
-                build_gcam_lexicon(args.input),
-                vader_source=args.vader_source,
-                lexicoder_source=args.lexicoder_source,
-            ),
-            indent=2,
-        )
-        + "\n",
-        encoding="utf-8",
-    )
-
-
-if __name__ == "__main__":
-    main()

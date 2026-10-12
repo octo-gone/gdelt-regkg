@@ -6,7 +6,6 @@ Roget is supplied separately because redistribution terms are not established.
 
 from __future__ import annotations
 
-import argparse
 import copy
 import csv
 import hashlib
@@ -18,13 +17,12 @@ import zipfile
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from gdelt_regkg.gcam import _load, _order, read_gcam_json
+from gdelt_regkg.gcam import _load, _order
 from gdelt_regkg.themes import default_theme_lexicon
 from gdelt_regkg.tone import tokenize_tone
 from gdelt_regkg.utils import read_resource_json
 
-from .build_gcam_lexicon import CATEGORIES, extend_gcam_lexicon
-from .build_resources import download_source
+from .gcam_lexicon import CATEGORIES
 
 GI_ALIASES = {
     "Acad": "Academ",
@@ -588,143 +586,3 @@ def add_themes(baseline, codebook, lexicon=None):
         },
         codebook,
     )
-
-
-def prepare_expansion_downloads(args):
-    """Download only explicitly requested dictionaries, checking recipe hashes."""
-    if not (args.download_roget or args.download_lexicoder):
-        return
-    recipe = read_resource_json("recipes.json")
-    for source in ("roget", "lexicoder"):
-        if not getattr(args, f"download_{source}"):
-            continue
-        entry = recipe["sources"][source]
-        argument = f"{source}_source"
-        path = getattr(args, argument) or args.sources_dir / entry["filename"]
-        if path.is_dir():
-            raise ValueError(f"--download-{source} requires a ZIP file path, not a directory")
-        download_source(path, entry)
-        setattr(args, argument, path)
-
-
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        "--resources-dir",
-        type=Path,
-        default=Path("local-resources"),
-        help="Directory containing prepared profiles and defaults.json",
-    )
-    parser.add_argument(
-        "--baseline", type=Path, help="GCAM JSON; defaults to the selected local profile"
-    )
-    parser.add_argument(
-        "--codebook",
-        type=Path,
-        help="Master codebook TSV; defaults to the locally prepared snapshot",
-    )
-    parser.add_argument("--general-inquirer", type=Path)
-    parser.add_argument(
-        "--sources-dir",
-        type=Path,
-        default=Path("downloads/resources"),
-        help="Destination for requested source downloads (default: downloads/resources)",
-    )
-    parser.add_argument(
-        "--download-roget",
-        action="store_true",
-        help="Download the recorded Roget ZIP and verify its checksum",
-    )
-    parser.add_argument(
-        "--download-lexicoder",
-        action="store_true",
-        help="Download the recorded Lexicoder ZIP; review https://www.snsoroka.com/s/LSDagreement.pdf before use",
-    )
-    parser.add_argument(
-        "--lexicoder-source",
-        type=Path,
-        help="Your original Lexicoder ZIP, LC3 directory or category JSON",
-    )
-    parser.add_argument(
-        "--roget-source", type=Path, help="Separately obtained Roget ZIP or directory"
-    )
-    parser.add_argument("--wordnet-31", type=Path, help="WordNet 3.1 dict TAR or directory")
-    parser.add_argument("--wordnet-lexical", action="store_true")
-    parser.add_argument("--wordnet-domains", type=Path, help="Domains 3.2 ZIP or directory")
-    parser.add_argument("--wordnet-20", type=Path)
-    parser.add_argument("--wordnet-affect", type=Path, help="Affect 1.1 ZIP or directory")
-    parser.add_argument("--wordnet-16", type=Path)
-    parser.add_argument(
-        "--affect-propagate-hierarchy",
-        action="store_true",
-        help="Include ancestor labels for an explicit comparison",
-    )
-    parser.add_argument(
-        "--affect-nouns-only",
-        action="store_true",
-        help="Restrict Affect to its noun synsets for an explicit comparison",
-    )
-    parser.add_argument(
-        "--themes",
-        action="store_true",
-        help="Reuse the selected local theme matcher for native GCAM keys",
-    )
-    parser.add_argument("--output", type=Path, required=True)
-    args = parser.parse_args()
-    for selected, required, flag in (
-        (
-            args.roget_source or args.download_roget or args.wordnet_lexical,
-            args.wordnet_31,
-            "--wordnet-31",
-        ),
-        (args.wordnet_domains, args.wordnet_20, "--wordnet-20"),
-        (args.wordnet_affect, args.wordnet_16, "--wordnet-16"),
-    ):
-        if selected and not required:
-            parser.error(f"Selected expansion requires {flag}")
-    try:
-        prepare_expansion_downloads(args)
-    except (OSError, ValueError) as exc:
-        parser.error(str(exc))
-    result = (
-        read_gcam_json(args.baseline)
-        if args.baseline
-        else read_resource_json(
-            "lexicons",
-            read_resource_json("defaults.json", resources_dir=args.resources_dir)["gcam"],
-            resources_dir=args.resources_dir,
-        )
-    )
-    codebook = read_codebook(args.codebook, resources_dir=args.resources_dir)
-    if args.general_inquirer:
-        result = add_general_inquirer(result, args.general_inquirer, codebook)
-    if args.roget_source:
-        result = add_roget(result, args.roget_source, args.wordnet_31, codebook)
-    if args.wordnet_lexical:
-        result = add_wordnet_lexical(result, args.wordnet_31, codebook)
-    if args.wordnet_affect:
-        result = add_wordnet_affect(
-            result,
-            args.wordnet_affect,
-            args.wordnet_16,
-            codebook,
-            propagate_hierarchy=args.affect_propagate_hierarchy,
-            nouns_only=args.affect_nouns_only,
-        )
-    if args.wordnet_domains:
-        result = add_wordnet_domains(result, args.wordnet_domains, args.wordnet_20, codebook)
-    if args.themes:
-        result = add_themes(result, codebook, default_theme_lexicon(args.resources_dir))
-    if args.lexicoder_source:
-        name = result["name"]
-        result = extend_gcam_lexicon(result, lexicoder_source=args.lexicoder_source)
-        result["name"] = name + "-lexicoder-custom"
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(
-        json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-    )
-    print(json.dumps({"name": result["name"], "dimensions": len(_load(result).dimensions)}))
-
-
-if __name__ == "__main__":
-    main()

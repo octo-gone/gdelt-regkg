@@ -6,10 +6,7 @@ Names, FIPS codes, GNIS/GNS IDs and GAUL ADM2 values retain their source metadat
 
 from __future__ import annotations
 
-import argparse
-import gzip
 import hashlib
-import json
 import zipfile
 from collections import Counter, defaultdict
 from dataclasses import asdict
@@ -83,19 +80,3 @@ def build_gazetteer(archives, *, name="gkg-reference-gazetteer-v1"):
     places.sort(key=lambda p: (p.identity, p.full_name))
     Gazetteer(name, tuple(places))
     return {"name": name, "sources": sources, "places": [asdict(p) for p in places]}
-
-
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("archives", nargs="+", type=Path)
-    parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--name", default="gkg-reference-gazetteer-v1")
-    args = parser.parse_args()
-    result = build_gazetteer(args.archives, name=args.name)
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    raw = (json.dumps(result, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
-    args.output.write_bytes(gzip.compress(raw, mtime=0) if args.output.suffix == ".gz" else raw)
-
-
-if __name__ == "__main__":
-    main()

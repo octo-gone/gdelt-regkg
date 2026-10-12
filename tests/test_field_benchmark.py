@@ -7,6 +7,8 @@ from pathlib import Path
 from unittest.mock import Mock, patch
 
 from gdelt_regkg import EntityMention, NERResult
+from gdelt_regkg.builders.gazetteer import build_gazetteer
+from gdelt_regkg.cli.inputs import resolve_inputs
 from gdelt_regkg.gcam import GCAMLexicon
 from gdelt_regkg.scripts.benchmark_fields import (
     benchmark_fields,
@@ -15,8 +17,6 @@ from gdelt_regkg.scripts.benchmark_fields import (
     parse_references,
     score_sets,
 )
-from gdelt_regkg.scripts.build_gazetteer import build_gazetteer
-from gdelt_regkg.scripts.build_resources import build_resources
 from gdelt_regkg.utils import read_resource_json, resource_path
 
 
@@ -237,8 +237,8 @@ class FieldBenchmarkTests(unittest.TestCase):
             validator = Draft202012Validator(read_resource_json("schemas", schema))
             validator.validate(data)
         with tempfile.TemporaryDirectory() as directory:
-            with self.assertRaisesRegex(ValueError, "Required source inputs"):
-                build_resources(directory, fields=("locations", "gcam"))
+            with self.assertRaisesRegex(ValueError, "Missing build inputs"):
+                resolve_inputs(directory, targets=("locations", "gcam"))
             self.assertFalse((Path(directory) / "lexicons").exists())
 
 

@@ -21,7 +21,7 @@ Requires Python 3.12 or newer. Install the library and its English model, then p
 ```shell
 python -m pip install gdelt-regkg
 python -m spacy download en_core_web_sm
-gdelt-regkg-build-resources --sources-dir downloads/resources --download-sources --output local-resources
+gdelt-regkg-cli build all --sources-dir downloads/resources --download-sources --output local-resources
 ```
 
 [Installation and setup](docs/installation.md) explains what is downloaded, how to run your first extraction, and how to add larger models, GCAM dictionaries or translation.

@@ -1,5 +1,4 @@
 import csv
-import importlib.util
 import io
 import tempfile
 import unittest
@@ -19,6 +18,7 @@ from gdelt_regkg import (
     generate_gkg,
     serialize_gkg,
 )
+from gdelt_regkg.builders.themes import build_profile
 from gdelt_regkg.config import ExtractionConfig
 from gdelt_regkg.themes import default_theme_lexicon
 
@@ -247,12 +247,6 @@ class IntegrationTests(unittest.TestCase):
             )
 
     def test_importer_excludes_templates_and_unmapped_codes(self):
-        path = (
-            Path(__file__).resolve().parents[1] / "src/gdelt_regkg/scripts/build_theme_lexicon.py"
-        )
-        spec = importlib.util.spec_from_file_location("build_theme_lexicon", path)
-        module = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(module)
         stream = io.StringIO()
         writer = csv.writer(stream)
         writer.writerow(["Term", "Category Code"])
@@ -269,7 +263,7 @@ class IntegrationTests(unittest.TestCase):
             archive = Path(directory) / "terms.zip"
             with zipfile.ZipFile(archive, "w") as z:
                 z.writestr("EMTerms-1.0.csv", stream.getvalue())
-            result = module.build_profile(emterms=archive, name="test")
+            result = build_profile(emterms=archive, name="test")
         self.assertEqual(
             result["themes"],
             {"CRISISLEX_T02_INJURED": ["injured"], "CRISISLEX_T03_DEAD": ["injured"]},

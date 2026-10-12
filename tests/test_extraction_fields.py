@@ -19,7 +19,6 @@ from gdelt_regkg import (
     analyze_locations,
     analyze_names,
     default_gazetteer,
-    default_gcam_lexicon,
     fields,
     generate_gkg,
     serialize_gkg,
@@ -223,7 +222,6 @@ class NamesAndGCAMTests(unittest.TestCase):
         self.assertEqual(analyze_gcam("unknown", lexicon=lexicon).to_gkg(), "wc:1")
         self.assertEqual(analyze_gcam("", lexicon=lexicon).to_gkg(), "wc:0")
         self.assertEqual(fields.extract_gcam("hand", lexicon=lexicon), "wc:1,c2.21:1")
-        self.assertEqual(len(default_gcam_lexicon().dimensions), 809)
         with self.assertRaises(ValueError):
             GCAMLexicon("bad", {"v2.21": frozenset({"hand"})})
         with self.assertRaises(TypeError):

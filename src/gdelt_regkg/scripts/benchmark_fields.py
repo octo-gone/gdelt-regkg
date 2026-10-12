@@ -28,13 +28,13 @@ from gdelt_regkg import (
     analyze_names,
     analyze_quotations,
 )
+from gdelt_regkg.builders.gcam_expansion import read_codebook
 from gdelt_regkg.gcam import GCAMLexicon, default_gcam_lexicon
 from gdelt_regkg.locations import default_gazetteer
 from gdelt_regkg.tone import tokenize_tone
 from gdelt_regkg.utils import read_resource_json, resource_path
 
 from .benchmark_extraction import normalize_name
-from .build_gcam_expansion import read_codebook
 
 
 def parse_gcam(value):

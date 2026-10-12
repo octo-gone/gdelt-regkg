@@ -41,12 +41,12 @@ General Inquirer uses exact normalized token frequencies with categories allowed
 
 ## Options
 
-The [broader GCAM setup](../installation.md#broader-gcam-coverage) creates `gcam-full.json`. `GCAMLexicon.from_json` loads this profile for the standalone analyzer’s `lexicon=` argument or the generator’s `gcam_lexicon=` argument.
+The [broader GCAM setup](../installation.md#broader-gcam-coverage) creates `lexicons/gcam.full.json.gz` and selects it in `defaults.json`. `GCAMLexicon.from_json` also loads this profile for the standalone analyzer’s `lexicon=` argument or the generator’s `gcam_lexicon=` argument.
 
 ```python
 from gdelt_regkg import GCAMLexicon, analyze_gcam
 
-lexicon = GCAMLexicon.from_json("local-resources/gcam-full.json")
+lexicon = GCAMLexicon.from_json("local-resources/lexicons/gcam.full.json.gz")
 result = analyze_gcam("Good good bad.", lexicon=lexicon)
 assert result.word_count == 3
 ```

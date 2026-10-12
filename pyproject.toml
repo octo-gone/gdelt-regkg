@@ -1,6 +1,6 @@
 [project]
 name = "gdelt-regkg"
-version = "1.0.3"
+version = "1.1.0"
 description = "GDELT GKG reconstruction from article text and metadata"
 readme = "README.md"
 license = "MIT"
@@ -110,10 +110,7 @@ include = [
 ]
 
 [project.scripts]
-gdelt-regkg-build-resources = "gdelt_regkg.scripts.build_resources:main"
-gdelt-regkg-build-gazetteer = "gdelt_regkg.scripts.build_gazetteer:main"
-gdelt-regkg-build-gcam = "gdelt_regkg.scripts.build_gcam_lexicon:main"
-gdelt-regkg-expand-gcam = "gdelt_regkg.scripts.build_gcam_expansion:main"
+gdelt-regkg-cli = "gdelt_regkg.cli:main"
 gdelt-regkg-benchmark-fields = "gdelt_regkg.scripts.benchmark_fields:main"
 gdelt-regkg-benchmark-tone = "gdelt_regkg.scripts.benchmark_tone:main"
 gdelt-regkg-benchmark-extraction = "gdelt_regkg.scripts.benchmark_extraction:main"

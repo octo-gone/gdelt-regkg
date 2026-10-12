@@ -80,10 +80,14 @@ The second command installs spaCy's compatible small English model. The measured
 Choose a directory for the generated profiles (here, `local-resources`). The following command downloads the recorded source files, verifies their SHA-256 hashes, and builds the dictionaries used for tone, themes, GCAM and geographic resolution:
 
 ```shell
-gdelt-regkg-build-resources --sources-dir downloads/resources --download-sources --output local-resources
+gdelt-regkg-cli build all --sources-dir downloads/resources --download-sources --output local-resources
 ```
 
-> **Before you run this:** review the [third-party terms](#third-party-terms). Downloaded dictionaries keep their own licenses.
+Use `gdelt-regkg-cli build counts ner --output local-resources`
+to build only the packaged count and name rules without external source files.
+
+> [!WARNING]
+> Review the [third-party terms](#third-party-terms). Downloaded dictionaries keep their own licenses.
 
 The build also downloads reference GKG archives to create the gazetteer; see [Geographic reference files](#geographic-reference-files) for their purpose and limitations.
 
@@ -99,7 +103,9 @@ The build also downloads reference GKG archives to create the gazetteer; see [Ge
 
 **What gets built**
 
-- Tone v1–v3, themes v1–v3, counts v1–v3, name rules v1 and GCAM v1–v3.
+- One current tone, theme, count, name and GCAM profile per requested target.
+  Use `--use RECIPE` for earlier recipes and `--suffix LABEL` for a custom filename;
+  see [recipe examples](../scripts/README.md#recipes-and-filenames).
 - The 17,177-record geographic profile.
 - `defaults.json` selects the measured revisions.
 
@@ -184,30 +190,39 @@ Adding two optional dictionaries expands GCAM coverage from 809 to 1,855 of 2,88
 | `Roget.zip` | [Roget download](https://provalisresearch.com/Download/Roget.zip), [dictionary information](https://www.kovcomp.co.uk/wordstat/Roget.html) | 1,042 native Roget categories |
 | `LSDaug2015.zip` | [Lexicoder publisher](https://www.snsoroka.com/data-lexicoder/) | Four native Lexicoder categories; obtain authorization for the intended use |
 
-> **Licensing:** review [Lexicoder's agreement](https://www.snsoroka.com/s/LSDagreement.pdf) before downloading it. If its terms do not fit your use, omit Lexicoder; Roget alone reaches 1,851 of 2,888 dimensions (64.09%).
+> [!WARNING]
+> Review [Lexicoder's agreement](https://www.snsoroka.com/s/LSDagreement.pdf) before downloading it. If its terms do not fit your use, omit Lexicoder; Roget alone reaches 1,851 of 2,888 dimensions (64.09%).
 
-**Option A: download automatically.** Downloads occur only when you pass the flags, and checksums are verified. WordNet 3.1 is already present from the basic setup.
+**Option A: download automatically.** The full profile includes Roget and Lexicoder. Downloads occur only with `--download-sources`; existing source files are checksum-checked and reused.
 
 ```shell
-gdelt-regkg-expand-gcam --resources-dir local-resources --sources-dir downloads/resources --download-roget --download-lexicoder --wordnet-31 downloads/resources/wn3.1.dict.tar.gz --output local-resources/gcam-full.json
+gdelt-regkg-cli build gcam --use full --sources-dir downloads/resources --download-sources --output local-resources
 ```
 
-To add Roget only, omit `--download-lexicoder`. Existing ZIPs are checksum-checked and reused.
+To add only Roget to the standard profile, use `--gcam-add roget` instead of `--use full`.
 
 **Option B: use files you already have.** Here the original ZIPs are stored under `downloads/resources/`:
 
 ```shell
-gdelt-regkg-expand-gcam --resources-dir local-resources --roget-source downloads/resources/Roget.zip --wordnet-31 downloads/resources/wn3.1.dict.tar.gz --lexicoder-source downloads/resources/LSDaug2015.zip --output local-resources/gcam-full.json
+gdelt-regkg-cli build gcam --use full --sources-dir downloads/resources --output local-resources
 ```
 
-Omit `--lexicoder-source` if you are not using Lexicoder.
+To expand an existing profile with only the extra sources:
 
-**Use the expanded profile** by loading it and passing it to the generator. The standard profile stays selected unless you override it:
+```shell
+gdelt-regkg-cli build gcam --gcam-baseline local-resources/lexicons/gcam.v3.json.gz --gcam-add roget lexicoder --sources-dir downloads/resources --suffix full --output local-resources
+```
+
+Use `--gcam-add roget` to omit Lexicoder. Explicit paths such as `--source roget=PATH`
+or `--source lexicoder=PATH` override recorded source discovery.
+
+The build selects the expanded profile in `defaults.json`, so extraction with
+`resources_dir="local-resources"` uses it automatically. You can also load it explicitly:
 
 ```python
 from gdelt_regkg import GCAMLexicon
 
-gcam = GCAMLexicon.from_json("local-resources/gcam-full.json")
+gcam = GCAMLexicon.from_json("local-resources/lexicons/gcam.full.json.gz")
 # then: generate_gkg(..., gcam_lexicon=gcam)
 ```
 
@@ -218,7 +233,7 @@ gcam = GCAMLexicon.from_json("local-resources/gcam-full.json")
 | Roget | ZIP or extracted directory |
 | WordNet | TAR or extracted dictionaries |
 | Lexicoder | ZIP, a directory containing `LSD2015.lc3` and `LSD2015_NEG.lc3`, or four-category JSON |
-| VADER | An installed VADER library can supply its vocabulary file to `--vader-source`; it does not become a runtime dependency |
+| VADER | Supply a vocabulary file with `--source vader=PATH`; the VADER library does not become a runtime dependency |
 
 Compiled GCAM and gazetteer loaders accept JSON or gzip profiles. Original source archives are not needed during extraction, which never downloads these files.
 
@@ -268,7 +283,8 @@ The reference GKG ZIPs build a **gazetteer**: a lookup of place names, country a
 
 The recorded recipe uses 20 files from **2015–2019** to reproduce the geographic profile evaluated in the research. Their age is not a requirement of GKG processing. The profile contains only places found in those files, so it can miss newer place names, administrative changes and less-covered regions. Newer and more varied reference files can expand it, but change the measured configuration.
 
-> **The default lookup is a limited reference profile, not a comprehensive worldwide gazetteer.**
+> [!NOTE]
+> The default lookup is a limited reference profile, not a comprehensive worldwide gazetteer.
 >
 > - NER can recognize other places, but a name with no matching lookup entry produces an `unknown-place` diagnostic and is omitted from both GKG location columns. Its geography is also unavailable to counts.
 > - Raw recognized spans remain available through `NERResult.locations`.
@@ -281,15 +297,15 @@ The recorded recipe uses 20 files from **2015–2019** to reproduce the geograph
 2. Build a profile (multiple archive paths are accepted):
 
    ```shell
-   gdelt-regkg-build-gazetteer reference/recent.gkg.csv.zip --output local-resources/locations-custom.json.gz
+   gdelt-regkg-cli build locations --gazetteer-archives reference/recent.gkg.csv.zip --gazetteer-name custom-places --suffix custom --output local-resources
    ```
 
-3. Pass the resulting lookup explicitly:
+3. The build selects this gazetteer in `defaults.json`. To pass the resulting lookup explicitly:
 
    ```python
    from gdelt_regkg import Gazetteer, SpacyNER, generate_gkg
 
-   places = Gazetteer.from_json("local-resources/locations-custom.json.gz")
+   places = Gazetteer.from_json("local-resources/lexicons/locations.custom.json.gz")
    ner = SpacyNER.from_model("en_core_web_sm")
    record = generate_gkg(
        "Volunteers rescued 12 people in Paris, France.",
@@ -313,7 +329,7 @@ The recorded recipe uses 20 files from **2015–2019** to reproduce the geograph
 **Build only the profiles you need.** Tone, themes, counts and names need General Inquirer and CrisisLex, with no GCAM or geographic downloads:
 
 ```shell
-gdelt-regkg-build-resources --fields tone themes counts ner --sources-dir downloads/resources --download-sources --output local-resources
+gdelt-regkg-cli build tone themes counts ner --sources-dir downloads/resources --download-sources --output local-resources
 ```
 
 This subset cannot produce default geographic or GCAM fields until their resources are added. Authored counts, name rules, dates, amounts and quotations work without external dictionaries. Standalone analyzers accept explicitly loaded profiles.
@@ -321,12 +337,12 @@ This subset cannot produce default geographic or GCAM fields until their resourc
 **Download source files manually.** Save the exact filenames listed in [Resource source files](#resource-source-files) into `downloads/resources/`, then run the build without the download flag:
 
 ```shell
-gdelt-regkg-build-resources --sources-dir downloads/resources --output local-resources
+gdelt-regkg-cli build all --sources-dir downloads/resources --output local-resources
 ```
 
 - Rename manually downloaded WordNet archives to the filenames shown in the table.
 - Files whose hashes differ from the recorded ones are rejected, to preserve the recorded configuration.
-- To use files stored elsewhere, pass explicit arguments such as `--tone-source`, `--crisislex-source`, `--wordnet-31` and `--gazetteer-archives`. Run `gdelt-regkg-build-resources --help` for the full list.
+- To use files stored elsewhere, pass `--source NAME=PATH` (repeat as needed), or `--gazetteer-archives` for GKG ZIP files. Run `gdelt-regkg-cli build --help` for all options and [build examples](../scripts/README.md#resource-arguments).
 - Downloads of GDELT archives and the codebook use HTTP.
 
 ## Complete pipeline example
@@ -362,7 +378,7 @@ output.mkdir(parents=True, exist_ok=True)
 # Pass the same resource directory to the model and row generator.
 resources_dir = Path("local-resources")
 ner = SpacyNER.from_model("en_core_web_lg", resources_dir=resources_dir)
-gcam = GCAMLexicon.from_json("local-resources/gcam-full.json")
+gcam = GCAMLexicon.from_json("local-resources/lexicons/gcam.full.json.gz")
 detector = LinguaDetector()
 translator = None  # Load the translation model only if an article needs it.
 
@@ -477,7 +493,7 @@ Benchmarks on an already saved corpus need neither retrieval nor translation wei
 ### Benchmark a saved corpus
 
 ```shell
-gdelt-regkg-benchmark-fields --resources-dir local-resources --corpus benchmark/retained-english.jsonl --archives benchmark/original.gkg.csv.zip --ner-model en_core_web_lg --gcam-lexicon local-resources/gcam-full.json --bootstrap-samples 1000 --output benchmark/fields-report.json
+gdelt-regkg-benchmark-fields --resources-dir local-resources --corpus benchmark/retained-english.jsonl --archives benchmark/original.gkg.csv.zip --ner-model en_core_web_lg --gcam-lexicon local-resources/lexicons/gcam.full.json.gz --bootstrap-samples 1000 --output benchmark/fields-report.json
 gdelt-regkg-benchmark-extraction --resources-dir local-resources --corpus benchmark/retained-english.jsonl --archives benchmark/original.gkg.csv.zip --ner-model en_core_web_lg --sample-size 1000000 --per-source 1000000 --output benchmark/extraction-report
 ```
 
@@ -536,7 +552,7 @@ You can build and evaluate custom profiles with the installed library. Keep sour
 **Build authored rules only.** This builds the authored theme, count and name rules in a separate directory, without downloading CrisisLex:
 
 ```shell
-gdelt-regkg-build-resources --fields themes counts ner --authored-themes-only --output local-resources/authored
+gdelt-regkg-cli build themes counts ner --authored-themes-only --output local-resources/authored
 ```
 
 Select the result with `resources_dir="local-resources/authored"`. Note:
@@ -547,7 +563,7 @@ Select the result with `resources_dir="local-resources/authored"`. Note:
 
 See [custom rules](usage.md#custom-resources).
 
-**Use other dictionaries.** The recorded tone and theme replay recipes require their original source editions. For other dictionaries, use the standalone importers or pass explicit `ToneLexicon`, `ThemeLexicon`, `CountRules`, `NameRules`, `Gazetteer` and `GCAMLexicon` objects. Obtain geographic development and reference archives separately from held-out articles.
+**Use other dictionaries.** The recorded tone and theme replay recipes require their original source editions. For other GCAM dictionaries, use `gdelt-regkg-cli build gcam --source NAME=PATH` with the selected profile or additions. You can also pass explicit `ToneLexicon`, `ThemeLexicon`, `CountRules`, `NameRules`, `Gazetteer` and `GCAMLexicon` objects. Obtain geographic development and reference archives separately from held-out articles.
 
 Always evaluate changed profiles on a fresh reserved sample: broader coverage does not guarantee more accurate counts.
 

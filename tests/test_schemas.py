@@ -1,5 +1,4 @@
 import copy
-import importlib.util
 import json
 import unittest
 from importlib.resources import files
@@ -112,13 +111,7 @@ class SchemaTests(unittest.TestCase):
         self.assertFalse(validator.is_valid(data))
 
     def test_theme_sources_reproduce_shipped_rules(self):
-        spec = importlib.util.spec_from_file_location(
-            "build_theme_profile", ROOT / "src/gdelt_regkg/scripts/build_theme_profile.py"
-        )
-        builder = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(builder)
-
-        from gdelt_regkg.scripts.build_resources import restore_crisislex
+        from gdelt_regkg.builders.themes import merge_inputs, restore_crisislex
 
         source = Path("downloads/resources")
         if not (source / "CrisisLexRec.txt").is_file():
@@ -131,6 +124,6 @@ class SchemaTests(unittest.TestCase):
         ]
         sources[0] = restore_crisislex(sources[0], Path(source) / "CrisisLexRec.txt")
         shipped = read_resource("lexicons", "themes.v2.json")
-        merged = builder.merge_inputs(sources, name=shipped["name"])
+        merged = merge_inputs(sources, name=shipped["name"])
         self.assertEqual(merged["rules"], shipped["rules"])
         self.assertEqual(merged["sources"], shipped["sources"])

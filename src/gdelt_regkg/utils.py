@@ -53,7 +53,7 @@ def resource_path(*parts, resources_dir=None):
         )
         if relative in _EXTERNAL_RESOURCES or external_profile:
             raise ResourceUnavailableError(
-                f"Missing local resource {local}. Run gdelt-regkg-build-resources "
+                f"Missing local resource {local}. Run gdelt-regkg-cli build all "
                 "with the source inputs described in docs/installation.md, or supply "
                 "an explicit lexicon/gazetteer. Pass resources_dir= in Python or "
                 "--resources-dir in the CLI to select the resource root."

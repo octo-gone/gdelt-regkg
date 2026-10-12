@@ -8,8 +8,7 @@ import unittest
 import zipfile
 from pathlib import Path
 
-from gdelt_regkg.gcam import _load, _pattern_regex, analyze_gcam
-from gdelt_regkg.scripts.build_gcam_expansion import (
+from gdelt_regkg.builders.gcam_expansion import (
     add_general_inquirer,
     add_roget,
     add_themes,
@@ -18,6 +17,7 @@ from gdelt_regkg.scripts.build_gcam_expansion import (
     add_wordnet_lexical,
     read_codebook,
 )
+from gdelt_regkg.gcam import _load, _pattern_regex, analyze_gcam
 from gdelt_regkg.themes import ThemeLexicon, ThemeRule
 from gdelt_regkg.tone import tokenize_tone
 from gdelt_regkg.utils import read_resource_json
