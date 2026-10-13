@@ -1,6 +1,45 @@
-# Shared API usage
+# API usage
 
-See the [gdelt-regkg README](../README.md) for row generation and installation. Field-specific behavior, research, and configuration live in the [field pages](README.md).
+Prepare the package, models and resources with the [installation guide](installation.md). This page covers Python extraction and configuration; the [CLI guide](cli/README.md) covers command-line builds and benchmarks. Field encodings and examples are documented on the [field pages](README.md#agreement-with-gdelt).
+
+## Generate a GKG record
+
+Save the following as `extract_article.py`. It analyzes one English body and writes a complete GKG row.
+
+```python
+from gdelt_regkg import SpacyNER, generate_gkg, write_gkg
+
+resources_dir = "local-resources"
+ner = SpacyNER.from_model("en_core_web_sm", resources_dir=resources_dir)
+record = generate_gkg(
+    "Volunteers rescued 12 people in Paris, France.",
+    identifier="https://example.org/story",
+    batch_time="20250101120000",
+    sequence=1,
+    resources_dir=resources_dir,
+    ner=ner,
+    sharing_image="",
+    related_images=[],
+    social_image_embeds=[],
+    social_video_embeds=[],
+    extras={},
+    strict=True,
+)
+with open("article.gkg.csv", "w", encoding="utf-8", newline="") as stream:
+    write_gkg([record], stream)
+```
+
+Run it in the environment where you installed the library:
+
+```shell
+python extract_article.py
+```
+
+### Check the result
+
+`article.gkg.csv` contains one headerless, tab-delimited record with all 27 GKG columns. The `.csv` extension follows GDELT naming conventions.
+
+When processing many articles, load the NER model and resource profiles once and reuse them.
 
 ## Independent fields and pandas
 
@@ -35,7 +74,7 @@ The structured result gives calendar components separately from offsets. Missing
 
 ## Resource and model arguments
 
-See [Installation and setup](installation.md) for installation, source downloads and model choices. Select the resource root explicitly; environment variables do not configure extraction.
+See [Installation](installation.md) for package and model setup, and [Build resources](cli/build.md) for source downloads. Select the resource root explicitly; environment variables do not configure extraction.
 
 ```python
 from gdelt_regkg import SpacyNER, default_extraction_config, generate_gkg
@@ -76,7 +115,7 @@ The generator accepts `gazetteer=Gazetteer.from_json(path)` and `gcam_lexicon=GC
 
 ## Language detection and translation
 
-The text extractors use English bodies. For other languages, follow the [full pipeline example](installation.md#complete-pipeline-example) to detect language locally, translate when needed, retain the analyzed body and extract all fields with the large NER model and full GCAM profile.
+The text extractors use English bodies. For other languages, follow the [full pipeline example](#complete-pipeline-example) to detect language locally, translate when needed, retain the analyzed body and extract all fields with the large NER model and full GCAM profile.
 
 Alternatively, pass a loaded translator through `translator=` to `generate_gkg`, with `input_language=` when known. Missing labels are detected locally; `language_check="all"` also checks supplied labels, including languages sharing the same alphabet. Translation runs before text extraction and supplies provenance automatically. See [translation options and caching](fields/translation-info.md#local-translation).
 
@@ -123,3 +162,131 @@ Standalone extractors accept `rules=config.count_rules` or `lexicon=config.theme
 To use another extractor, pass encoded results as `field_values={"V1PERSONS": "Jane Doe", "V2ENHANCEDPERSONS": "Jane Doe,0"}` to the generator. Overrides skip the corresponding built-in functions; legacy and enhanced partners must be supplied independently. Internal subfield syntax is not validated. Supply metadata through the generator's explicit arguments.
 
 `parse_counts_cell`, `parse_themes_cell`, `serialize_counts_cell`, and `serialize_themes_cell` preserve order and duplicates when handling existing count/theme cells and they do not run extraction.
+
+## Complete pipeline example
+
+This example combines language detection, optional translation, English NER and the broader GCAM profile. It assumes you have built the [full GCAM profile](cli/build.md#broader-gcam-coverage).
+
+Save it as `extract_articles.py`, and replace the example bodies, URLs, titles and timestamps with your prepared article text and real metadata.
+
+Notes on behavior:
+
+- All enhanced offsets refer to the **English body that was analyzed**.
+- Supplied titles keep their original language.
+- Detection uncertainty or translation failure raises an error. The source body is never silently processed as English.
+
+```python
+from pathlib import Path
+
+from gdelt_regkg import (
+    CachedTranslator,
+    GCAMLexicon,
+    LinguaDetector,
+    M2M100Translator,
+    SpacyNER,
+    detect_language,
+    generate_gkg,
+    translate_text,
+    write_gkg,
+)
+
+output = Path("output")
+output.mkdir(parents=True, exist_ok=True)
+
+# Pass the same resource directory to the model and row generator.
+resources_dir = Path("local-resources")
+ner = SpacyNER.from_model("en_core_web_lg", resources_dir=resources_dir)
+gcam = GCAMLexicon.from_json("local-resources/lexicons/gcam.full.json.gz")
+detector = LinguaDetector()
+translator = None  # Load the translation model only if an article needs it.
+
+articles = [
+    {
+        "url": "https://example.org/noticia",
+        "published_at": "20261001090023",
+        "title": "Ayuda para las familias afectadas",
+        "body": (
+            "El gobierno de España anunció nuevas medidas para ayudar a las "
+            "familias afectadas por las inundaciones. Las autoridades enviaron "
+            "doce camiones con alimentos y agua potable a las ciudades dañadas. "
+            "Los servicios de emergencia continúan buscando a las personas desaparecidas."
+        ),
+    },
+    {
+        "url": "https://example.org/story",
+        "published_at": "20261001090512",
+        "title": "Flood relief reaches residents",
+        "body": (
+            "The French government sent 12 trucks carrying food and drinking "
+            "water to residents affected by flooding. Emergency services are "
+            "searching for missing people and providing shelter for families."
+        ),
+    },
+]
+
+try:
+    with (output / "articles.gkg.csv").open("w", encoding="utf-8", newline="") as stream:
+        for sequence, article in enumerate(articles, start=1):
+            body = article["body"]
+            detection = detect_language(body, detector=detector)
+            print(article["url"], detection.language)
+            source_language = translation_engine = None
+
+            if detection.language != "eng":
+                if translator is None:
+                    backend = M2M100Translator.from_model(
+                        model="facebook/m2m100_418M",
+                        revision="55c2e61bbf05dfb8d7abccdc3fae6fc8512fd636",  # Evaluated weights.
+                        device="cuda",  # Use "cpu" with the CPU PyTorch build.
+                        allow_download=True,  # First run; set False after downloading.
+                        batch_size=4,
+                        num_beams=4,
+                    )
+                    translator = CachedTranslator(backend, output / "translations.sqlite")
+
+                prepared = translate_text(
+                    body,
+                    language=detection.language,
+                    translator=translator,
+                    language_detector=detector,
+                    language_check="all",
+                )
+                body = prepared.text
+                source_language = prepared.source_language
+                translation_engine = prepared.engine
+
+            # NER runs on this English body; all enhanced offsets refer to it.
+            (output / f"analyzed-body-{sequence}.txt").write_text(body, encoding="utf-8")
+            record = generate_gkg(
+                body,
+                identifier=article["url"],
+                published_at=article["published_at"],
+                batch_time="20261001091500",  # Shared GKG batch timestamp, in UTC.
+                sequence=sequence,
+                ner=ner,
+                resources_dir=resources_dir,
+                gcam_lexicon=gcam,
+                source_language=source_language,
+                translation_engine=translation_engine,
+                sharing_image="",  # Supply collected media URLs when available.
+                related_images=[],
+                social_image_embeds=[],
+                social_video_embeds=[],
+                extras={"PAGE_TITLE": article["title"]},
+                strict=True,
+            )
+            write_gkg([record], stream)
+finally:
+    if translator is not None:
+        translator.close()
+```
+
+Run it in the installed environment:
+
+```shell
+python extract_articles.py
+```
+
+**Outputs:** headerless GKG TSV (`output/articles.gkg.csv`), the analyzed English bodies, and a translation cache when translation was needed.
+
+**Adapting the example for basic English extraction:** use `en_core_web_sm`, remove the `GCAMLexicon` load and the `gcam_lexicon=` argument, and omit the translation code. The standard profile is selected through `resources_dir=`.

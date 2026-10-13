@@ -1,6 +1,14 @@
 # Documentation
 
-The library implements all 27 GKG columns from prepared article text and supplied metadata. Start with [Installation and setup](installation.md) for installation, dictionaries, models and a complete pipeline, or [API usage](usage.md) for individual functions. External vocabularies are prepared locally; recorded source recipes identify the resource profiles. [Version 0.19.0](../CHANGELOG.md#0190-locally-built-resources).
+The library implements all 27 GKG columns from prepared article text and supplied metadata.
+
+| Guide | Contents |
+| --- | --- |
+| [Installation](installation.md) | Package dependencies, English models, translation and development setup |
+| [API usage](api-usage.md) | Python extraction, field functions, configuration and complete pipeline examples |
+| [CLI](cli/README.md) | Resource builds, benchmarks and additional command-line tools |
+
+External vocabularies are prepared locally; recorded source recipes identify the resource profiles. [Version 0.19.0](../CHANGELOG.md#0190-locally-built-resources).
 
 Each field page includes runnable Python and the resulting encoded GKG cell. The [row example](../README.md#generate-and-save-a-row) combines the fields into a complete tab-delimited GKG entry, including count geography.
 
@@ -77,8 +85,8 @@ VADER is evaluated separately on mean valence among matched lexical entries, rat
 
 ## Choosing a configuration
 
-- To reproduce the latest English study's model and vocabulary configuration, use `en_core_web_lg`, the `gdelt-full-names` policy and the recorded local profiles. Follow the [best supported setup](installation.md#best-supported-setup).
+- To reproduce the latest English study's model and vocabulary configuration, use `en_core_web_lg`, the `gdelt-full-names` policy and the recorded local profiles. See [English models](installation.md#english-models) and [GCAM profiles](cli/build.md#gcam-profiles-and-expansion).
 - Add Roget and Lexicoder for the full GCAM profile; their vocabularies are supplied separately. Broader coverage does not guarantee lower count error.
-- Translate non-English bodies before English extraction and retain the analyzed text for offsets. The [full pipeline example](installation.md#complete-pipeline-example) handles detection, translation and extraction.
+- Translate non-English bodies before English extraction and retain the analyzed text for offsets. The [full pipeline example](api-usage.md#complete-pipeline-example) handles detection, translation and extraction.
 
-[Resource builders and benchmarks](../scripts/README.md) · [Detailed research reports](reports/README.md)
+[Benchmark CLI guide](cli/benchmark.md) · [Resource builders and benchmarks](cli/README.md) · [Detailed research reports](reports/README.md)

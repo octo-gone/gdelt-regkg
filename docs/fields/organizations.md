@@ -34,7 +34,7 @@ Reuse a loaded recognizer across documents. The standalone extractor loads a cac
 
 `name_policy="surface"` retains spelling and single-word organizations such as `Microsoft`. The default `gdelt-full-names` canonicalizes names, removes single-word names and applies a learned organization filter. Some genuine organizations are consequently absent from GKG cells.
 
-Use `name_policy="gdelt"` to keep single-word organizations with canonical formatting. Pass `name_rules=NameRules()` to disable the learned filter while retaining the selected policy. See [name policies](../usage.md#name-policies) and [supplied mentions](persons.md#options) for custom backends.
+Use `name_policy="gdelt"` to keep single-word organizations with canonical formatting. Pass `name_rules=NameRules()` to disable the learned filter while retaining the selected policy. See [name policies](../api-usage.md#name-policies) and [supplied mentions](persons.md#options) for custom backends.
 
 ## Limits
 

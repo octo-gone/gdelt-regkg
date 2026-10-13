@@ -38,4 +38,4 @@ The extractor does not identify speakers or indirect speech, and can include quo
 
 ## Related
 
-[Shared API usage](../usage.md) · [Current agreement](../README.md#agreement-with-gdelt) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
+[API usage](../api-usage.md) · [Current agreement](../README.md#agreement-with-gdelt) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)

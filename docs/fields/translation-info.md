@@ -95,4 +95,4 @@ M2M100 does not reproduce GDELT’s translation engine. Translation, mixed-langu
 
 ## Related
 
-[Complete pipeline](../installation.md#complete-pipeline-example) · [Record ID](record-id.md) · [Translation API](../usage.md#language-detection-and-translation) · [Current agreement](../README.md#agreement-with-gdelt)
+[Complete pipeline](../api-usage.md#complete-pipeline-example) · [Record ID](record-id.md) · [Translation API](../api-usage.md#language-detection-and-translation) · [Current agreement](../README.md#agreement-with-gdelt)

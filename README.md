@@ -12,7 +12,7 @@ Package for reconstructing GDELT GKG files from article text and metadata.
 
 The row structure, metadata formatting and field encodings are documented in [GDELT Global Knowledge Graph Codebook](https://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf). Extraction from text **approximates** GDELT's processing, so themes, counts, entities, tone and other inferred values **can differ** from native GKG results.
 
-See the [field documentation and measured agreement](docs/README.md), [resource and benchmark tools](scripts/README.md), and [changelog](CHANGELOG.md).
+See the [field documentation and measured agreement](docs/README.md), [resource and benchmark tools](docs/cli/README.md), and [changelog](CHANGELOG.md).
 
 ## Installation
 
@@ -24,10 +24,10 @@ python -m spacy download en_core_web_sm
 gdelt-regkg-cli build all --sources-dir downloads/resources --download-sources --output local-resources
 ```
 
-[Installation and setup](docs/installation.md) explains what is downloaded, how to run your first extraction, and how to add larger models, GCAM dictionaries or translation.
+[Installation](docs/installation.md) covers package dependencies and model setup. See [API usage](docs/api-usage.md) for Python examples and [Build resources](docs/cli/build.md) for dictionary profiles and source files.
 
 > [!TIP]
-> You can improve extraction quality and expand GCAM coverage by following the [best supported setup](docs/installation.md#best-supported-setup). It explains how to select the larger English NER model, add optional GCAM dictionaries, and check language and translate non-English bodies before extraction. Results vary by field; see [measured agreement](docs/README.md#agreement-with-gdelt).
+> You can improve extraction quality and expand GCAM coverage, install the [large English model](docs/installation.md#english-models) and build the [full GCAM profile](docs/cli/build.md#gcam-profiles-and-expansion). The [complete pipeline example](docs/api-usage.md#complete-pipeline-example) also handles non-English bodies. Results vary by field; see [measured agreement](docs/README.md#agreement-with-gdelt).
 
 ## Usage
 
@@ -92,7 +92,7 @@ These are three cells from the generated record. `example.gkg.csv` contains the 
 
 The generator returns a dictionary of 27 fields. This example explicitly supplies a recognizer and empty media/extras metadata, so `strict=True` verifies a complete row. Missing supplied metadata or model-dependent fields without `ner` remain `None` and produce a warning. `allow_incomplete=True` exports those unavailable values as blank cells. Output is headerless and tab-delimited, even when the filename ends in `.csv` (GDELT specifics).
 
-For non-English articles and the full GCAM profile, use the [complete pipeline example](docs/installation.md#complete-pipeline-example) in the setup guide.
+For non-English articles and the full GCAM profile, use the [complete pipeline example](docs/api-usage.md#complete-pipeline-example) in the API guide.
 
 ## Field implementation map
 
@@ -134,8 +134,14 @@ See the [field documentation](docs/README.md) for implementation status, researc
 
 Use the GitHub issue forms to report bugs, extraction differences or feature requests. [Contributing](CONTRIBUTING.md) describes local checks, pull requests and evaluation on data separate from rule development. Please follow the [code of conduct](CODE_OF_CONDUCT.md). Report vulnerabilities privately as described in the [security policy](SECURITY.md).
 
+## Benchmark
+
+Use `gdelt-regkg-cli benchmark` to compare native and reconstructed GKG fields
+and write Markdown and CSV metric tables. The [benchmark guide](docs/cli/benchmark.md)
+covers installation, input files and directories, field selection and metrics.
+
 ## Disclaimer
 
 This is an independent implementation, unaffiliated with and not endorsed by the GDELT Project. It produces approximate GKG fields, not guaranteed copies of GDELT's outputs. Results depend on article text, translation, models and dictionaries; validate them for your intended analysis. Differences from native GKG can also reflect different input bodies.
 
-The code and original rules use the [MIT license](LICENSE) and are provided without warranty. MIT does not grant rights to external dictionaries, models, article bodies or generated profiles derived from them; their [source terms](docs/installation.md#third-party-terms) still apply.
+The code and original rules use the [MIT license](LICENSE) and are provided without warranty. MIT does not grant rights to external dictionaries, models, article bodies or generated profiles derived from them; their [source terms](docs/cli/build.md#third-party-terms) still apply.

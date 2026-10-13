@@ -23,7 +23,7 @@ V1COUNTS: CRISISLEX_T08_MISSINGFOUNDTRAPPEDPEOPLE#12#people#4#Paris, France (Gen
 V2.1COUNTS: CRISISLEX_T08_MISSINGFOUNDTRAPPEDPEOPLE#12#people#4#Paris, France (General), France#FR#FR00#48.8667#2.33333#-1456928#19;
 ```
 
-The count carries Paris's location type, reference name, country and ADM1 codes, coordinates and feature ID. The enhanced entry adds `19`, the character offset of `12`. The example requires an installed English NER model and the [prepared geographic reference](../installation.md#quick-start-basic-english-setup).
+The count carries Paris's location type, reference name, country and ADM1 codes, coordinates and feature ID. The enhanced entry adds `19`, the character offset of `12`. The example requires an installed English NER model and the [prepared geographic reference](../installation.md#basic-english-setup).
 
 ## Behavior
 
@@ -55,4 +55,4 @@ The 37 labels cover all count labels observed in the statistical inventory, but 
 
 ## Related
 
-[Enhanced counts](enhanced-counts.md) · [Amounts](amounts.md) · [Custom rules](../usage.md#custom-resources) · [Current agreement](../README.md#agreement-with-gdelt) · [Count inventory](../../CHANGELOG.md#count-labels)
+[Enhanced counts](enhanced-counts.md) · [Amounts](amounts.md) · [Custom rules](../api-usage.md#custom-resources) · [Current agreement](../README.md#agreement-with-gdelt) · [Count inventory](../../CHANGELOG.md#count-labels)

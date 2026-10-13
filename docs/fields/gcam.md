@@ -41,7 +41,7 @@ General Inquirer uses exact normalized token frequencies with categories allowed
 
 ## Options
 
-The [broader GCAM setup](../installation.md#broader-gcam-coverage) creates `lexicons/gcam.full.json.gz` and selects it in `defaults.json`. `GCAMLexicon.from_json` also loads this profile for the standalone analyzer’s `lexicon=` argument or the generator’s `gcam_lexicon=` argument.
+The [broader GCAM setup](../cli/build.md#broader-gcam-coverage) creates `lexicons/gcam.full.json.gz` and selects it in `defaults.json`. `GCAMLexicon.from_json` also loads this profile for the standalone analyzer’s `lexicon=` argument or the generator’s `gcam_lexicon=` argument.
 
 ```python
 from gdelt_regkg import GCAMLexicon, analyze_gcam
@@ -51,7 +51,7 @@ result = analyze_gcam("Good good bad.", lexicon=lexicon)
 assert result.word_count == 3
 ```
 
-The same loader accepts any compatible JSON/gzip profile. External vocabularies retain their [source terms](../installation.md#third-party-terms).
+The same loader accepts any compatible JSON/gzip profile. External vocabularies retain their [source terms](../cli/build.md#third-party-terms).
 
 The [GCAM schema](../../src/gdelt_regkg/resources/schemas/gcam-lexicon.schema.json) supports count vocabularies, phrase/wildcard patterns and weighted score maps. Weighted maps automatically supply companion counts. `GCAMLexicon` also accepts a custom vocabulary directly.
 

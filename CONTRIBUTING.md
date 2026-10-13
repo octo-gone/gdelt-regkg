@@ -9,13 +9,16 @@ NER, language detection, translation and count/theme rule loaders. Its
 `__init__.py` exposes the scalar field functions. `pipeline.py` composes fields
 into GKG records. `config.py`, `utils.py` and `wire.py` provide shared configuration,
 resource lookup and serialization. Resource converters live in `builders/`, command
-handling in `cli/`, and benchmark/development tools in `scripts/`.
+handling in `cli/`, field evaluation in `benchmark/`, and additional development
+tools in `scripts/`. Documentation starts at [docs/README.md](docs/README.md), with
+separate installation, API usage and CLI guides.
 
 ## Local checks
 
-Prepare the dictionaries and small English model using [Installation and setup](docs/installation.md#quick-start-basic-english-setup). From a development checkout, install tools with `uv sync --inexact --group dev`. The full suite requires the standard dictionaries and geographic reference; source-replay checks also use the original downloaded files.
+Prepare the dictionaries and small English model using [Installation and setup](docs/installation.md#basic-english-setup). From a development checkout, install tools with `uv sync --inexact --group dev`. The full suite requires the standard dictionaries and geographic reference; source-replay checks also use the original downloaded files.
 
 ```shell
+uv run --no-sync pre-commit install
 uv run --no-sync python -m unittest discover -s tests
 uv run --no-sync pre-commit run --all-files
 ```

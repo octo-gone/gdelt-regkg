@@ -46,4 +46,4 @@ Phrase rules do not provide automatic inflection, taxonomy expansion or grammati
 
 ## Related
 
-[Enhanced themes](enhanced-themes.md) · [Installation and setup](../installation.md) · [Custom rules](../usage.md#custom-resources) · [Current agreement](../README.md#agreement-with-gdelt) · [Theme inventory](../../CHANGELOG.md#theme-dictionary)
+[Enhanced themes](enhanced-themes.md) · [Installation and setup](../installation.md) · [Custom rules](../api-usage.md#custom-resources) · [Current agreement](../README.md#agreement-with-gdelt) · [Theme inventory](../../CHANGELOG.md#theme-dictionary)

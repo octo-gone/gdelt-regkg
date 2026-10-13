@@ -24,6 +24,8 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "scipy>=1.12,<2",
+    "scikit-learn>=1.4,<2",
     "jsonschema>=4.18",
     "pre-commit>=4.3",
     "ruff>=0.14.1",
@@ -38,7 +40,7 @@ dev = [
 cpu = ["torch>=2.13", "setuptools>=83"]
 cu128 = ["torch>=2.11"]
 cu130 = ["torch>=2.13", "setuptools>=83"]
-benchmark = ["trafilatura>=2,<3"]
+benchmark = ["trafilatura>=2,<3", "scipy>=1.12,<2", "scikit-learn>=1.4,<2"]
 
 [project.urls]
 Repository = "https://github.com/octo-gone/gdelt-regkg"
@@ -144,7 +146,7 @@ follow_imports = "silent"
 ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
-module = ["dateparser.*"]
+module = ["dateparser.*", "scipy.*", "sklearn.*"]
 ignore_missing_imports = true
 
 # https://pylint.readthedocs.io/en/stable/user_guide/configuration/all-options.html

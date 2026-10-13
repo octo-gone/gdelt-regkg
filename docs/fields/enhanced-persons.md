@@ -27,4 +27,4 @@ Use `entities.to_gkg("PERSON", enhanced=True)` to share one NER result with the 
 
 ## Related
 
-[Persons](persons.md) · [Name policies](../usage.md#name-policies) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
+[Persons](persons.md) · [Name policies](../api-usage.md#name-policies) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)

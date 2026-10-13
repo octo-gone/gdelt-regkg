@@ -32,7 +32,7 @@ Load the recognizer once and reuse it. The standalone extractor uses a cached sm
 
 ## Options
 
-The example uses `name_policy="surface"` to retain spelling and single-word names. The default `gdelt-full-names` lowercases names, normalizes initials and possessives, removes configured leading titles and omits single-word person names. See [name policies](../usage.md#name-policies).
+The example uses `name_policy="surface"` to retain spelling and single-word names. The default `gdelt-full-names` lowercases names, normalizes initials and possessives, removes configured leading titles and omits single-word person names. See [name policies](../api-usage.md#name-policies).
 
 `SpacyNER.from_model("en_core_web_lg")` selects the large English model when it is installed. Existing spans can also be supplied to `analyze_entities` without loading a model.
 

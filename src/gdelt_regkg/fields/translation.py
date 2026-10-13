@@ -280,7 +280,7 @@ class M2M100Translator:
         except ImportError as error:
             raise TranslationUnavailableError(
                 "Local M2M100 translation requires PyTorch. Install a compatible CPU/CUDA "
-                "build as described in docs/installation.md#non-english-bodies"
+                "build as described in docs/installation.md#non-english-articles"
             ) from error
         try:
             import transformers

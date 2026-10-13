@@ -2,6 +2,15 @@
 
 This changelog records implementation changes and the research behind each version. Versions group the iterative work; dictionary revisions such as tone v3 are separate from package versions. Each Research section may contain the method, results and conclusions for that stage.
 
+## Unreleased
+
+- Added recursive directory inputs for benchmark reference rows, predictions and saved bodies, with deterministic discovery and overlapping-path deduplication.
+- Use SciPy for assignment and rank correlation, and scikit-learn for numeric errors and Cohen's kappa, through the `benchmark` extra.
+- Added `gdelt-regkg-cli benchmark`, with independent evaluation of all 27 GKG fields from prepared outputs or saved article bodies.
+- Added Markdown and CSV metric tables, per-field audits, input and resource hashes, optional subset reports and diagnostics.
+- Separated content, exact-offset and tolerant-offset scores; offset errors include content matches outside the tolerance window.
+- Added GCAM family reports with explicit supported-dimension coverage and weighted-score availability.
+
 ## 1.2.0 Field package reorganization
 
 ### Changes
@@ -51,7 +60,7 @@ gdelt-regkg-cli build gcam --use full --sources-dir downloads/resources --downlo
 gdelt-regkg-cli build tone --use v2 --suffix experiment --sources-dir downloads/resources
 ```
 
-See the [maintained tools guide](scripts/README.md) for recipes and build options.
+See the [maintained tools guide](docs/cli/README.md) for recipes and build options.
 
 ## 1.0.3 Zenodo integration and citation
 
@@ -189,7 +198,7 @@ Saved M2M100 English bodies are reused without retranslating. The articles diffe
 
 Native dates are sparse in this cohort, making that score uncertain. No native quotation references occur, so positive quotation recall cannot be estimated; zero-reference set scores do not establish successful quotation replication. The [translated report](docs/reports/extraction-fields-benchmark-translated.json) retains precision, recall, intervals and exclusions.
 
-The field benchmark now includes quotations, value-only amount diagnostics, per-field malformed-reference exclusions and optional bootstrap intervals. See [commands](scripts/README.md#field-benchmark). Offset accuracy and human-reviewed extraction quality remain unmeasured.
+The field benchmark now includes quotations, value-only amount diagnostics, per-field malformed-reference exclusions and optional bootstrap intervals. See [commands](docs/cli/tools.md#field-benchmark). Offset accuracy and human-reviewed extraction quality remain unmeasured.
 
 ## 0.17.0 WordNet source parsing
 
@@ -721,7 +730,7 @@ Theme recall was limited both by unsupported labels and by missed matches within
 
 NER scores compare per-article name sets after Unicode, case, whitespace and apostrophe normalization. Raw-name person F1 was zero, showing that native name formatting needed attention alongside entity recognition. Word-count similarity does not verify input equality. Once these results informed the following changes, this corpus became development data rather than an untouched benchmark.
 
-The maintained tools are `gdelt-regkg-benchmark-extraction` and the separate NER, count and theme commands. See [metric definitions and commands](scripts/README.md#ner-count-and-theme-benchmarks).
+The maintained tools are `gdelt-regkg-benchmark-extraction` and the separate NER, count and theme commands. See [metric definitions and commands](docs/cli/tools.md#ner-count-and-theme-benchmarks).
 
 ## 0.4.0 Tone dictionary refinement
 
@@ -797,7 +806,7 @@ The comparison uses identical test bodies and the same tokenizer. No numerical b
 | Sources absent from fitting and validation | 52 | 2.89 → 1.76 | 14.84 → 3.79 | 7.22 → 0.26 |
 | Word count within 10% of GDELT | 115 | 2.85 → 1.76 | 15.00 → 3.05 | 8.24 → 0.08 |
 
-Dictionary changes reduced tone error and substantially improved activity and self/group density. Word-count error did not change. The v2 profile remains reproducible for historical comparisons; the current default is v3 from [version 0.7.0](#070-seasonal-evaluation-and-revised-extraction). See [tone formulas](docs/fields/tone.md) and the [reproduction instructions](#reproducing-the-benchmarks).
+Dictionary changes reduced tone error and substantially improved activity and self/group density. Word-count error did not change. The v2 profile remains reproducible for historical comparisons; the current default is v3 from [version 0.7.0](#070-seasonal-evaluation-and-revised-extraction). See [tone formulas](docs/fields/tone.md) and the [reproduction instructions](docs/cli/tools.md#tone-benchmark-against-original-articles).
 
 #### Count labels are sufficient, themes need expansion
 
@@ -999,4 +1008,4 @@ The 287-label v2 profile was built by combining [authored crisis/count rules](sr
 | Crisis/count mappings | 446 | 37 | 8.02% | — |
 | With authored news mappings, v2 | 692 | 287 | 60.63% | +52.61 pp |
 
-The original [count profile](src/gdelt_regkg/resources/lexicons/counts.v1.json) uses quantity rules to emit the observed count labels. CrisisLexRec terms are imported separately under their [source terms](docs/installation.md#third-party-terms); EMTerms import is also supported. These inventories establish vocabulary coverage, not document-level precision or recall.
+The original [count profile](src/gdelt_regkg/resources/lexicons/counts.v1.json) uses quantity rules to emit the observed count labels. CrisisLexRec terms are imported separately under their [source terms](docs/cli/build.md#third-party-terms); EMTerms import is also supported. These inventories establish vocabulary coverage, not document-level precision or recall.

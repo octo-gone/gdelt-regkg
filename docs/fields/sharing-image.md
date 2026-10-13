@@ -28,4 +28,4 @@ Select the image and resolve relative URLs before formatting. The library does n
 
 ## Related
 
-[Related images](related-images.md) · [Shared API usage](../usage.md) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
+[Related images](related-images.md) · [API usage](../api-usage.md) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)

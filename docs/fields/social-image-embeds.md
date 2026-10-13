@@ -31,4 +31,4 @@ Identify posts containing images before formatting. Resolve relative URLs yourse
 
 ## Related
 
-[Sharing image](sharing-image.md) · [Shared API usage](../usage.md) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
+[Sharing image](sharing-image.md) · [API usage](../api-usage.md) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)

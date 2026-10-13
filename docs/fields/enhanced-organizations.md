@@ -27,4 +27,4 @@ Use `entities.to_gkg("ORG", enhanced=True)` to share one NER result with the sta
 
 ## Related
 
-[Organizations](organizations.md) · [Name policies](../usage.md#name-policies) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
+[Organizations](organizations.md) · [Name policies](../api-usage.md#name-policies) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
