@@ -16,6 +16,26 @@ with patch.object(sys, "path", [str(ROOT / "scripts"), *sys.path]):
 
 
 class ToneRefinementTests(unittest.TestCase):
+    def test_summary_preserves_errors_ranks_and_empty_samples(self):
+        self.assertEqual(refine.summarize([]), {"n": 0, "metrics": None})
+        rows = [
+            {
+                "original": dict.fromkeys(refine.FIELDS, actual),
+                "predicted": dict.fromkeys(refine.FIELDS, predicted),
+                "source": "example.org",
+                "word_count_ratio": predicted / actual,
+            }
+            for actual, predicted in ((1, 2), (1, 2), (3, 6))
+        ]
+        result = refine.summarize(rows)
+        self.assertEqual(result["n"], 3)
+        self.assertEqual(result["sources"], 1)
+        self.assertAlmostEqual(result["metrics"]["tone"]["mae"], 5 / 3)
+        self.assertEqual(result["metrics"]["tone"]["p95_absolute_error"], 3)
+        self.assertAlmostEqual(result["metrics"]["tone"]["spearman"], 1)
+        self.assertNotIn("within_1_point", result["metrics"]["word_count"])
+        self.assertEqual(result["word_count_median_relative_error"], 1)
+
     def test_rare_word_cannot_be_added_from_one_training_document(self):
         from collections import Counter
 

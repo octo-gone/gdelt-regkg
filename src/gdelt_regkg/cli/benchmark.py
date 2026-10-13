@@ -2,6 +2,8 @@
 
 import hashlib
 import logging
+import os
+import sqlite3
 from dataclasses import replace
 from importlib import import_module
 from importlib.metadata import PackageNotFoundError, version
@@ -9,9 +11,11 @@ from importlib.resources import files
 from pathlib import Path
 
 from gdelt_regkg.benchmark import BenchmarkOptions, BenchmarkReport, evaluate, write_report
-from gdelt_regkg.benchmark.corpus import generate_predictions, load_corpus
+from gdelt_regkg.benchmark.checkpoint import prediction_signature, select_device
+from gdelt_regkg.benchmark.corpus import NER_FIELDS, generate_predictions, load_corpus
 from gdelt_regkg.benchmark.engine import select_fields
 from gdelt_regkg.benchmark.inputs import align_rows, load_rows, resolve_inputs
+from gdelt_regkg.benchmark.storage import BenchmarkStore
 from gdelt_regkg.fields.gcam import GCAMLexicon, default_gcam_lexicon
 from gdelt_regkg.fields.themes import default_theme_lexicon
 from gdelt_regkg.utils import ResourceUnavailableError, read_resource_json, resource_path
@@ -77,6 +81,27 @@ def add_arguments(parser):
         help="Declare implemented dimensions; also overrides GCAM in corpus mode",
     )
     parser.add_argument("--ner-model", default="en_core_web_sm")
+    parser.add_argument(
+        "--cache",
+        type=Path,
+        help="SQLite workspace and prediction cache (default: OUTPUT/benchmark.sqlite3)",
+    )
+    parser.add_argument(
+        "--device",
+        choices=("cpu", "cuda", "auto"),
+        default="cpu",
+        help="spaCy inference device; cuda requires a working CuPy installation",
+    )
+    parser.add_argument("--gpu-id", type=int, default=0)
+    parser.add_argument(
+        "--batch-size", type=int, default=16, help="Maximum articles per NER/checkpoint batch"
+    )
+    parser.add_argument(
+        "--batch-chars",
+        type=int,
+        default=100000,
+        help="Target maximum characters per batch; longer single articles are kept intact",
+    )
     parser.add_argument(
         "--ner-cache", type=Path, help="Saved JSONL entity_mentions matching the corpus text hashes"
     )
@@ -145,6 +170,10 @@ def strata(pairs, names):
 
 
 def run(args):
+    if args.batch_size < 1 or args.batch_chars < 1 or args.gpu_id < 0:
+        raise ValueError(
+            "Batch size and character limit must be positive; GPU ID must be nonnegative"
+        )
     fields = select_fields(args.fields)
     if args.exclude:
         excluded = set(select_fields(args.exclude))
@@ -182,6 +211,15 @@ def run(args):
         args.prediction = resolve_inputs(args.prediction)
     if args.corpus is not None:
         args.corpus = resolve_inputs(args.corpus, corpus=True)
+    path = args.cache or args.output / "benchmark.sqlite3"
+    try:
+        with BenchmarkStore(path) as store:
+            return run_with_store(args, fields, options, store)
+    except sqlite3.Error as error:
+        raise ValueError(f"Benchmark cache {path}: {error}") from error
+
+
+def run_with_store(args, fields, options, store):
     report = BenchmarkReport()
     source_collections = (
         None if args.source_collections == ["all"] else tuple(args.source_collections)
@@ -191,15 +229,30 @@ def run(args):
         f"{len(args.prediction or args.corpus or [])} {'prediction' if args.prediction else 'corpus'} files"
     )
     corpus = None
+    device = "not used"
+    signature = None
     if args.corpus:
-        corpus = load_corpus(args.corpus, report=report, include_translated=args.include_translated)
+        if set(fields) & NER_FIELDS and args.ner_cache is None:
+            os.environ.setdefault(
+                "CUPY_CACHE_DIR", str(store.path.parent.resolve() / "cupy-kernels")
+            )
+            device = select_device(args.device, args.gpu_id, print_progress)
+        signature = prediction_signature(args, fields, device)
+        print_progress(f"[benchmark] Checkpoints: {store.path}")
+        corpus = load_corpus(
+            args.corpus,
+            report=report,
+            include_translated=args.include_translated,
+            destination=store.corpus(),
+        )
     reference = load_rows(
         args.reference,
         report=report,
         side="reference",
         strict=args.strict,
         source_collections=source_collections,
-        wanted_documents={r["document"] for r in corpus.values()} if corpus else None,
+        wanted_documents={key[1] for key in corpus} if corpus else None,
+        destination=store.rows("reference"),
     )
     gcam = None
     if "gcam" in fields:
@@ -229,6 +282,7 @@ def run(args):
             side="prediction",
             strict=args.strict,
             source_collections=source_collections,
+            destination=store.rows("prediction"),
         )
     else:
         prediction = generate_predictions(
@@ -242,7 +296,12 @@ def run(args):
             gcam_lexicon=gcam,
             numeric_date_order=args.numeric_date_order,
             progress=print_progress,
+            store=store,
+            signature=signature,
+            batch_size=args.batch_size,
+            batch_chars=args.batch_chars,
         )
+    store.commit()
     pairs = align_rows(reference, prediction, report=report, match=args.match)
     print_progress(
         f"[benchmark] Scoring {len(pairs)} matched documents across {len(fields)} fields"
@@ -263,6 +322,11 @@ def run(args):
             )
     report.configuration = {
         "mode": "saved bodies" if corpus else "prepared GKG rows",
+        "prediction_cache": str(store.path.resolve()),
+        "prediction_signature": signature or "prepared predictions",
+        "ner_device": device,
+        "ner_batch_size": str(args.batch_size),
+        "ner_batch_chars": str(args.batch_chars),
         "fields": ", ".join(fields),
         "match": args.match,
         "matched_documents": str(len(pairs)),

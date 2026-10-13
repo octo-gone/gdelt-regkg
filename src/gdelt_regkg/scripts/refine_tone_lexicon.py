@@ -11,6 +11,7 @@ import argparse
 import csv
 import hashlib
 import json
+import math
 import re
 import statistics
 from collections import Counter, defaultdict
@@ -18,7 +19,77 @@ from pathlib import Path
 
 from gdelt_regkg.builders.tone import build_lexicon
 from gdelt_regkg.fields.tone import ToneLexicon, tokenize_tone
-from gdelt_regkg.scripts.benchmark_tone import FIELDS, summarize
+
+FIELDS = (
+    "tone",
+    "positive",
+    "negative",
+    "polarity",
+    "activity_density",
+    "self_group_density",
+    "word_count",
+)
+
+
+def correlation(x, y):
+    if len(x) < 2:
+        return None
+    mx, my = statistics.mean(x), statistics.mean(y)
+    dx, dy = [v - mx for v in x], [v - my for v in y]
+    denom = math.sqrt(sum(v * v for v in dx) * sum(v * v for v in dy))
+    return sum(a * b for a, b in zip(dx, dy)) / denom if denom else None
+
+
+def ranks(values):
+    result = [0.0] * len(values)
+    ordered = sorted(range(len(values)), key=values.__getitem__)
+    index = 0
+    while index < len(ordered):
+        end = index + 1
+        while end < len(ordered) and values[ordered[end]] == values[ordered[index]]:
+            end += 1
+        for pos in ordered[index:end]:
+            result[pos] = (index + end - 1) / 2
+        index = end
+    return result
+
+
+def summarize(rows):
+    if not rows:
+        return {"n": 0, "metrics": None}
+    metrics = {}
+    for key in FIELDS:
+        actual = [r["original"][key] for r in rows]
+        predicted = [r["predicted"][key] for r in rows]
+        errors = [p - a for p, a in zip(predicted, actual)]
+        absolute = sorted(abs(e) for e in errors)
+        metrics[key] = {
+            "mae": statistics.mean(absolute),
+            "rmse": math.sqrt(statistics.mean(e * e for e in errors)),
+            "bias": statistics.mean(errors),
+            "median_absolute_error": statistics.median(absolute),
+            "p95_absolute_error": absolute[math.ceil(0.95 * len(absolute)) - 1],
+            "pearson": correlation(actual, predicted),
+            "spearman": correlation(ranks(actual), ranks(predicted)),
+        }
+        if key != "word_count":
+            metrics[key]["within_1_point"] = sum(v <= 1 for v in absolute) / len(rows)
+    sign = lambda v: 1 if v > 0.5 else -1 if v < -0.5 else 0
+    return {
+        "n": len(rows),
+        "sources": len({r["source"] for r in rows}),
+        "metrics": metrics,
+        "tone_sign_agreement_deadband_0_5": sum(
+            sign(r["original"]["tone"]) == sign(r["predicted"]["tone"]) for r in rows
+        )
+        / len(rows),
+        "word_count_median_relative_error": statistics.median(
+            abs(r["word_count_ratio"] - 1) for r in rows
+        ),
+        "word_count_within_10_percent": sum(abs(r["word_count_ratio"] - 1) <= 0.1 for r in rows)
+        / len(rows),
+    }
+
 
 CATEGORIES = ("positive", "negative", "activity", "self_group")
 SCORE_KEYS = dict(

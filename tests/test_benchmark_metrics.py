@@ -7,9 +7,31 @@ import unittest
 from gdelt_regkg.benchmark import BenchmarkOptions, parsers
 from gdelt_regkg.benchmark.matching import assignment, match_by_key
 from gdelt_regkg.benchmark.metrics import numeric_metrics, quantile, set_metrics
+from gdelt_regkg.benchmark.model import BenchmarkReport, GKGRow, ScoreContext
+from gdelt_regkg.benchmark.numeric import gcam
 
 
 class BenchmarkMetricTests(unittest.TestCase):
+    def test_gcam_streams_pairs_without_caching_parsed_dictionaries(self):
+        pairs = [
+            (GKGRow({"gcam": "wc:10,c2.1:2"}), GKGRow({"gcam": "wc:20,c2.1:4"})),
+            (GKGRow({"gcam": "wc:10"}), GKGRow({"gcam": "wc:20,c2.1:2"})),
+            (GKGRow({"gcam": "bad"}), GKGRow({"gcam": ""})),
+        ]
+        report = BenchmarkReport()
+        context = ScoreContext(pairs, BenchmarkOptions(gcam_keys=frozenset({"c2.1"})), report)
+        gcam(context, "gcam")
+        self.assertEqual(context._parsed, {})
+        self.assertEqual(sum(report.audit.values()), 1)
+        rows = {(r.field, r.calculation): r for r in report.rows}
+        counts = rows["GCAM / General Inquirer", "supported counts"]
+        self.assertEqual(counts.documents, 2)
+        self.assertEqual(counts.metrics["mae"], 2)
+        self.assertEqual(counts.metrics["count_wape"], 2)
+        self.assertEqual(counts.metrics["density_mae_pp"], 5)
+        presence = rows["GCAM / General Inquirer", "supported presence"]
+        self.assertAlmostEqual(presence.metrics["f1"], 2 / 3)
+
     def test_numeric_agreement_bias_ties_and_limits(self):
         result = numeric_metrics([(1, 2), (2, 4), (3, 6)])
         self.assertEqual(result["mae"], 2)

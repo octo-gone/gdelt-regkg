@@ -14,5 +14,5 @@ gdelt-regkg-cli build --help
 gdelt-regkg-cli benchmark --help
 ```
 
-[Additional tools](tools.md) cover sample collection, tone refinement and specialized evaluations.
+[Tone refinement](refine-tone.md) fits and evaluates candidate tone dictionaries on separate training, validation and test articles.
 For extraction from Python, see [API usage](../api-usage.md).

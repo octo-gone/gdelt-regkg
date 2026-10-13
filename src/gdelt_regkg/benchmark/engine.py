@@ -52,6 +52,7 @@ def evaluate(pairs, *, fields=("all",), options=None, report=None, subset="all",
         if progress is not None:
             progress(f"[benchmark {index}/{len(selected)}] {subset}: {name}")
         SCORERS[name](context, name)
+        context.clear_parsed()
     if options.diagnostics:
         from .diagnostics import evaluate_diagnostics
 

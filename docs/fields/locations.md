@@ -95,7 +95,7 @@ Load a custom JSON/gzip database with `Gazetteer.from_json(path)` and pass `gaze
 
 The standard reference contains 17,177 records across 237 country codes; it misses unobserved cities, landmarks and spellings. Matching does not implement transliteration, demonym resolution or a complete geocoder. Frequency preferences can select the wrong place, and historical reference records are not a current boundary database.
 
-This lookup was compiled from 20 GKG archives from 2015–2019. **A recognized place without a lookup entry is omitted from both GKG location columns and cannot supply geography to counts.** Its raw NER span and `unknown-place` diagnostic remain available. There is no external geocoding fallback. Use a more comprehensive compatible gazetteer when broad coverage is required; the recorded profile preserves the previous benchmark configuration.
+This lookup was compiled from 20 GKG archives from 2015–2019. **A recognized place without a lookup entry is omitted from both GKG location columns and cannot supply geography to counts.** Its raw NER span and `unknown-place` diagnostic remain available. There is no external geocoding fallback. Use a more comprehensive compatible gazetteer when broad coverage is required; the recorded profile preserves the study's geographic configuration.
 
 ## Related
 

@@ -3,6 +3,7 @@
 import hashlib
 import json
 import warnings
+from time import perf_counter
 
 from gdelt_regkg import (
     EntityMention,
@@ -16,8 +17,28 @@ from gdelt_regkg.fields.ner import default_name_rules
 from gdelt_regkg.pipeline import TEXT_EXTRACTORS
 from gdelt_regkg.utils import GKG_COLUMNS
 
+from .checkpoint import article_signature
 from .inputs import iter_lines, resolve_inputs
 from .model import FIELD_NAMES, GKGRow
+
+BODY_KEYS = {
+    "url",
+    "document",
+    "record_id",
+    "recordid",
+    "status",
+    "text",
+    "text_sha256",
+    "translated",
+    "translation_pending",
+    "translation",
+    "translation_info",
+    "sharing_image",
+    "related_images",
+    "social_image_embeds",
+    "social_video_embeds",
+    "extras_xml",
+}
 
 NER_FIELDS = {
     "counts",
@@ -32,8 +53,8 @@ NER_FIELDS = {
 }
 
 
-def load_corpus(paths, *, report, include_translated=False):
-    rows: dict[tuple, dict] = {}
+def load_corpus(paths, *, report, include_translated=False, destination=None):
+    rows = {} if destination is None else destination
     for path in resolve_inputs(paths, corpus=True):
         for origin, line, is_json in iter_lines(path):
             if not line.strip():
@@ -61,7 +82,10 @@ def load_corpus(paths, *, report, include_translated=False):
             key = row.get("record_id", row.get("recordid")), document
             if key in rows and rows[key]["text"] != row["text"]:
                 raise ValueError(f"{origin}: conflicting saved bodies for {document}")
-            rows[key] = row | {"text_sha256": checksum, "document": document}
+            rows[key] = {k: v for k, v in row.items() if k in BODY_KEYS} | {
+                "text_sha256": checksum,
+                "document": document,
+            }
     if not rows:
         raise ValueError("No usable saved article bodies")
     return rows
@@ -79,10 +103,18 @@ def generate_predictions(
     gcam_lexicon=None,
     numeric_date_order=None,
     progress=print,
+    store=None,
+    signature=None,
+    batch_size=16,
+    batch_chars=100000,
 ):
+    if store is not None and not signature:
+        raise ValueError("A prediction configuration signature is required for checkpointing")
+    if batch_size < 1 or batch_chars < 1:
+        raise ValueError("Batch size and character limit must be positive")
     selected = set(fields)
     needs_ner = bool(selected & NER_FIELDS)
-    cached: dict[tuple, dict] = {}
+    cached = {} if store is None else store.corpus("ner")
     recognizer = None
     name_rules = None
     if needs_ner:
@@ -103,21 +135,61 @@ def generate_predictions(
                     raise ValueError(f"{origin}: conflicting cached NER records")
                 cached[identity] = row
             name_rules = default_name_rules(resources_dir)
-        else:
-            progress(f"[benchmark] Loading NER model {ner_model}")
-            recognizer = SpacyNER.from_model(ner_model, resources_dir=resources_dir)
-    anonymous_bodies = {
-        document: article for (record, document), article in corpus.items() if record is None
-    }
     predictions = []
-    for index, reference in enumerate(references, 1):
-        identity = reference.get("recordid"), reference.get("document")
-        article = corpus.get(identity)
-        if article is None:
-            article = anonymous_bodies.get(identity[1])
+    started = perf_counter()
+    generated = reused = 0
+
+    def pending():
+        nonlocal reused
+        for index, reference in enumerate(references, 1):
+            identity = reference.get("recordid"), reference.get("document")
+            article = corpus.get(identity)
+            if article is None:
+                article = corpus.get((None, identity[1]))
             if article is None:
                 report.note("corpus", "alignment", "missing_body")
                 continue
+            key = article_signature(signature, reference, article) if store else None
+            saved = store.cached(key) if store else None
+            if saved is not None:
+                predictions.append(saved)
+                reused += 1
+                if reused % 1000 == 0:
+                    progress(f"[benchmark] Reused {reused} cached predictions")
+                continue
+            yield index, reference, article, key
+
+    def batches():
+        batch: list[tuple] = []
+        characters = 0
+        for item in pending():
+            length = len(item[2]["text"])
+            if batch and (len(batch) >= batch_size or characters + length > batch_chars):
+                yield batch
+                batch, characters = [], 0
+            batch.append(item)
+            characters += length
+        if batch:
+            yield batch
+
+    def prepared():
+        nonlocal recognizer
+        for batch in batches():
+            if needs_ner and ner_cache is None:
+                if recognizer is None:
+                    progress(f"[benchmark] Loading NER model {ner_model}")
+                    recognizer = SpacyNER.from_model(ner_model, resources_dir=resources_dir)
+                results = recognizer.analyze_many(
+                    [item[2]["text"] for item in batch], batch_size=batch_size
+                )
+            else:
+                results = iter([None] * len(batch))
+            yield from zip(batch, results, strict=True)
+            if store:
+                store.commit()
+
+    for (index, reference, article, key), batch_ner in prepared():
+        identity = reference.get("recordid"), reference.get("document")
         text = article["text"]
         ner = None
         broad_names = True
@@ -138,8 +210,7 @@ def generate_predictions(
                     else None,
                 )
             else:
-                assert recognizer is not None
-                ner = recognizer.analyze(text)
+                ner = batch_ner
         supplied_fields = {
             "sharing_image",
             "related_images",
@@ -204,7 +275,15 @@ def generate_predictions(
         # Translated cached bodies do not supply translation-engine provenance by inference.
         if "translation" in selected:
             values["translation"] = article.get("translation", article.get("translation_info"))
-        predictions.append(GKGRow(values, article.get("url", article["document"])))
+        row = GKGRow(values, article.get("url", article["document"]))
+        predictions.append(store.put(row, signature=key) if store else row)
+        generated += 1
         if index % 100 == 0 or index == len(references):
-            progress(f"[benchmark] Generated {index}/{len(references)} predictions")
+            elapsed = perf_counter() - started
+            progress(
+                f"[benchmark] Generated {generated}, reused {reused}; {index}/{len(references)} references ({generated / elapsed:.1f} new/s)"
+            )
+    if store:
+        store.commit()
+    progress(f"[benchmark] Predictions ready: {generated} generated, {reused} reused")
     return predictions

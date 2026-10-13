@@ -6,9 +6,10 @@ import zipfile
 from pathlib import Path
 
 from gdelt_regkg import GCAMLexicon, analyze_gcam, default_gcam_lexicon, fields
+from gdelt_regkg.benchmark import BenchmarkOptions, evaluate
+from gdelt_regkg.benchmark.model import GKGRow
 from gdelt_regkg.builders.gcam_lexicon import extend_gcam_lexicon, read_lexicoder_source
 from gdelt_regkg.fields.gcam import _load
-from gdelt_regkg.scripts.benchmark_fields import benchmark_fields
 from gdelt_regkg.utils import read_resource_json
 
 
@@ -94,51 +95,47 @@ class WeightedGCAMTests(unittest.TestCase):
             self.assertEqual(baseline["name"], "original")
             self.assertEqual(len(baseline["dimensions"]), 1)
 
-    def test_value_benchmark_excludes_undefined_means_and_audits_one_sided_matches(self):
-        with tempfile.TemporaryDirectory() as directory:
-            root = Path(directory)
-            corpus, archive = root / "corpus.jsonl", root / "original.zip"
-            rows, originals = [], []
-            cases = [
-                ("good bad", "wc:2,c26.1:2,v26.1:1"),
-                ("unknown", "wc:1,c26.1:1,v26.1:-1"),
-                ("good", "wc:1"),
-                ("unknown", "wc:1"),
-                ("good", "wc:1,c26.1:1"),
-                ("good bad", "wc:2,v26.1:0"),
-            ]
-            for i, (text, original) in enumerate(cases):
-                cells = [""] * 27
-                cells[0], cells[4], cells[17] = str(i), f"https://example.org/{i}", original
-                cells[10] = "deliberately malformed unrelated location"
-                originals.append("\t".join(cells))
-                rows.append({"record_id": str(i), "url": cells[4], "status": "ok", "text": text})
-            corpus.write_text("\n".join(map(json.dumps, rows)) + "\n", encoding="utf-8")
-            with zipfile.ZipFile(archive, "w") as stream:
-                stream.writestr("original.csv", "\n".join(originals))
-            report = benchmark_fields(
-                corpus, [archive], gcam_only=True, gcam_lexicon=self.fixture()
+    def test_weighted_evaluation_excludes_undefined_means(self):
+        cases = [
+            ("good bad", "wc:2,c26.1:2,v26.1:1"),
+            ("unknown", "wc:1,c26.1:1,v26.1:-1"),
+            ("good", "wc:1"),
+            ("unknown", "wc:1"),
+            ("good", "wc:1,c26.1:1"),
+            ("good bad", "wc:2,v26.1:0"),
+        ]
+        pairs = [
+            (
+                GKGRow({"gcam": original}),
+                GKGRow({"gcam": analyze_gcam(text, lexicon=self.fixture()).to_gkg()}),
             )
-            values = report["gcam"]["values"]["v26.1"]
-            self.assertEqual(values["paired_articles"], 2)
-            self.assertEqual(values["value_mae"], 0.5)
-            self.assertEqual(values["value_bias"], -0.5)
-            self.assertEqual(
-                values["audit"],
-                {
-                    "reference_matches_only": 1,
-                    "local_matches_only": 1,
-                    "both_no_matches": 1,
-                    "missing_reference_value": 1,
-                    "reference_match_count_unreported": 1,
-                },
-            )
-            self.assertEqual(report["metrics"], {})
-            self.assertEqual(report["audit"]["articles"], 6)
-            self.assertEqual(report["gcam"]["dimensions"]["c26.1"]["articles"], 3)
-            self.assertEqual(
-                report["gcam"]["dimensions"]["c26.1"]["excluded_unreported_native_count"], 3
-            )
+            for text, original in cases
+        ]
+        report = evaluate(
+            pairs, fields=("gcam",), options=BenchmarkOptions(gcam_keys=frozenset({"c26.1"}))
+        )
+        rows = {row.calculation: row for row in report.rows}
+        score = rows["v26.1 / weighted score"]
+        self.assertEqual(score.documents, 2)
+        self.assertEqual(score.metrics["mae"], 0.5)
+        self.assertEqual(score.metrics["bias"], -0.5)
+        coverage = rows["v26.1 / weighted-score coverage"].metrics
+        self.assertEqual(coverage["reference_support"], 3)
+        self.assertEqual(coverage["prediction_support"], 4)
+        self.assertEqual(coverage["paired_values"], 2)
+        self.assertEqual(rows["count coverage"].metrics["excluded_unreported_counts"], 1)
+
+    def test_weighted_sign_ignores_cancellation_roundoff(self):
+        pairs = [
+            (GKGRow({"gcam": "v26.1:0"}), GKGRow({"gcam": "v26.1:1e-16"})),
+            (GKGRow({"gcam": "v26.1:-1e-9"}), GKGRow({"gcam": "v26.1:1e-9"})),
+            (GKGRow({"gcam": "v26.1:0"}), GKGRow({"gcam": "v26.1:1e-8"})),
+        ]
+        report = evaluate(pairs, fields=("gcam",))
+        coverage = next(
+            r for r in report.rows if r.calculation == "v26.1 / weighted-score coverage"
+        )
+        self.assertAlmostEqual(coverage.metrics["sign_agreement"], 2 / 3)
 
     def test_original_zip_and_lc3_directory_with_authored_vocabulary(self):
         with tempfile.TemporaryDirectory() as directory:

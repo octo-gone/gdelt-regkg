@@ -9,8 +9,8 @@ NER, language detection, translation and count/theme rule loaders. Its
 `__init__.py` exposes the scalar field functions. `pipeline.py` composes fields
 into GKG records. `config.py`, `utils.py` and `wire.py` provide shared configuration,
 resource lookup and serialization. Resource converters live in `builders/`, command
-handling in `cli/`, field evaluation in `benchmark/`, and additional development
-tools in `scripts/`. Documentation starts at [docs/README.md](docs/README.md), with
+handling in `cli/`, field evaluation in `benchmark/`, and tone dictionary
+refinement in `scripts/`. Documentation starts at [docs/README.md](docs/README.md), with
 separate installation, API usage and CLI guides.
 
 ## Local checks

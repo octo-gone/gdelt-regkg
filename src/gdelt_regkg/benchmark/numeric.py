@@ -5,8 +5,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 
 from . import parsers
-from .common import add_sets
-from .metrics import numeric_metrics, quantile
+from .metrics import numeric_metrics, prf, quantile
 
 TONE_PARTS = (
     "tone",
@@ -27,6 +26,12 @@ FAMILY_NAMES = {
     "18": "Themes",
     "26": "VADER",
 }
+# Weighted means can leave tiny residuals when positive and negative scores cancel.
+WEIGHTED_ZERO_TOLERANCE = 1e-9
+
+
+def weighted_sign(value):
+    return 0 if abs(value) <= WEIGHTED_ZERO_TOLERANCE else (1 if value > 0 else -1)
 
 
 def tone(context, name):
@@ -132,35 +137,110 @@ def family(key):
     return key[1:].split(".", 1)[0]
 
 
+@dataclass
+class PresenceCounts:
+    matched: int = 0
+    reference: int = 0
+    prediction: int = 0
+    reference_positive: int = 0
+    prediction_positive: int = 0
+
+    def add(self, left, right):
+        self.matched += len(left & right)
+        self.reference += len(left)
+        self.prediction += len(right)
+        self.reference_positive += bool(left)
+        self.prediction_positive += bool(right)
+
+    def report(self, context, label, calculation, documents):
+        context.add(
+            label,
+            calculation,
+            prf(self.matched, self.prediction - self.matched, self.reference - self.matched),
+            documents,
+        )
+        context.add(
+            label,
+            calculation + " / coverage",
+            {
+                "documents": documents,
+                "reference_support": self.reference,
+                "prediction_support": self.prediction,
+                "reference_positive_documents": self.reference_positive,
+                "prediction_positive_documents": self.prediction_positive,
+            },
+            documents,
+        )
+
+
 def gcam(context, name):
-    rows = context.parsed(name, parsers.gcam)
-    observed = set().union(*(a.keys() | b.keys() for a, b in rows)) if rows else set()
-    families = sorted({family(k) for k in observed if k.startswith("c")}, key=int)
+    """Accumulate count families without retaining parsed document/dimension matrices."""
     known = context.options.gcam_keys
     count_keys = set() if known is None else {k for k in known if k.startswith("c")}
     supported = count_keys
-    all_sets = []
-    for a, b in rows:
-        unreported = {"c" + key[1:] for key in a if key.startswith("v") and "c" + key[1:] not in a}
-        all_sets.append(
-            (
-                {k for k, v in a.items() if k.startswith("c") and v > 0 and k not in unreported},
-                {k for k, v in b.items() if k.startswith("c") and v > 0 and k not in unreported},
-            )
-        )
-    add_sets(context, "GCAM", "all-native category presence", all_sets)
+    observed: set[str] = set()
+    native: set[str] = set()
+    unexpected: set[str] = set()
+    all_presence = PresenceCounts()
+    presence: dict[str, PresenceCounts] = defaultdict(PresenceCounts)
+    supported_presence: dict[str, PresenceCounts] = defaultdict(PresenceCounts)
+    statistics_by_key = {key: CountStats() for key in sorted(count_keys)}
+    exclusions: dict[str, int] = defaultdict(int)
+    paired_scores = defaultdict(list)
+    reference_scores: dict[str, int] = defaultdict(int)
+    prediction_scores: dict[str, int] = defaultdict(int)
+    documents = assignments = supported_assignments = 0
+    occurrences = supported_occurrences = 0.0
+    for left, right in context.iter_parsed(name, parsers.gcam):
+        documents += 1
+        observed.update(left)
+        observed.update(right)
+        unreported = {
+            "c" + key[1:] for key in left if key.startswith("v") and "c" + key[1:] not in left
+        }
+        a = {k for k, v in left.items() if k.startswith("c") and v > 0 and k not in unreported}
+        b = {k for k, v in right.items() if k.startswith("c") and v > 0 and k not in unreported}
+        all_presence.add(a, b)
+        native.update(a)
+        assignments += len(a)
+        supported_assignments += len(a & supported)
+        left_families, right_families = defaultdict(set), defaultdict(set)
+        for key in a:
+            left_families[family(key)].add(key)
+        for key in b:
+            right_families[family(key)].add(key)
+        for code in left_families.keys() | right_families.keys():
+            aa, bb = left_families[code], right_families[code]
+            presence[code].add(aa, bb)
+            if known is not None:
+                supported_presence[code].add(aa & supported, bb & supported)
+        for key, value in left.items():
+            if key.startswith("c"):
+                occurrences += value
+                if key in supported:
+                    supported_occurrences += value
+        if known is not None:
+            unexpected.update(key for key in right if key.startswith("c") and key not in supported)
+            for key, stats in statistics_by_key.items():
+                if key in unreported:
+                    exclusions[family(key)] += 1
+                    continue
+                stats.add(
+                    left.get(key, 0), right.get(key, 0), left.get("wc", 0), right.get("wc", 0)
+                )
+        for key in left.keys() | right.keys():
+            if key.startswith("v") or key in {"wc", "nwc"}:
+                reference_scores[key] += key in left
+                prediction_scores[key] += key in right
+                if key in left and key in right:
+                    paired_scores[key].append((left[key], right[key]))
+    all_presence.report(context, "GCAM", "all-native category presence", documents)
+    families = sorted({family(k) for k in observed if k.startswith("c")}, key=int)
     for code in families:
         label = "GCAM / " + FAMILY_NAMES.get(code, "Dictionary " + code)
-        subset = [
-            ({k for k in a if family(k) == code}, {k for k in b if family(k) == code})
-            for a, b in all_sets
-        ]
-        add_sets(context, label, "all-native presence", subset)
+        presence[code].report(context, label, "all-native presence", documents)
         if known is not None:
-            keys = {k for k in supported if family(k) == code}
-            add_sets(
-                context, label, "supported presence", [(a & keys, b & keys) for a, b in subset]
-            )
+            supported_presence[code].report(context, label, "supported presence", documents)
     if known is None:
         context.note(
             "configuration",
@@ -169,7 +249,6 @@ def gcam(context, name):
             "Supply --gcam-lexicon or prepared resources for supported count errors and coverage",
         )
     else:
-        unexpected = {key for a, b in rows for key in b if key.startswith("c")} - supported
         if unexpected:
             context.note(
                 "prediction",
@@ -178,19 +257,6 @@ def gcam(context, name):
                 "Predicted count keys exceed the declared supported inventory",
                 len(unexpected),
             )
-        statistics_by_key = {key: CountStats() for key in sorted(count_keys)}
-        exclusions: dict[str, int] = defaultdict(int)
-        for left, right in rows:
-            for key, stats in statistics_by_key.items():
-                # Native weighted means can be reported without companion counts.
-                # Their missing count is unreported, rather than a measured zero.
-                companion = "v" + key[1:]
-                if key not in left and companion in left:
-                    exclusions[family(key)] += 1
-                    continue
-                stats.add(
-                    left.get(key, 0), right.get(key, 0), left.get("wc", 0), right.get("wc", 0)
-                )
         for code in sorted({family(k) for k in count_keys}, key=int):
             items = [s for k, s in statistics_by_key.items() if family(k) == code and s.n]
             n = sum(s.n for s in items)
@@ -212,7 +278,7 @@ def gcam(context, name):
                     if density_n
                     else None,
                 },
-                len(rows),
+                documents,
                 "counts",
             )
             context.add(
@@ -223,32 +289,22 @@ def gcam(context, name):
                     "dimensions": len(items),
                     "excluded_unreported_counts": exclusions[code],
                 },
-                len(rows),
+                documents,
             )
-        native = {k for a, b in all_sets for k in a}
-        assignments = sum(len(a) for a, b in all_sets)
-        occurrences = sum(value for a, b in rows for key, value in a.items() if key.startswith("c"))
         context.add(
             "GCAM",
             "coverage",
             {
                 "dimension_coverage": len(native & supported) / len(native) if native else None,
-                "assignment_coverage": sum(len(a & supported) for a, b in all_sets) / assignments
-                if assignments
-                else None,
-                "occurrence_coverage": sum(
-                    value for a, b in rows for key, value in a.items() if key in supported
-                )
-                / occurrences
-                if occurrences
-                else None,
+                "assignment_coverage": supported_assignments / assignments if assignments else None,
+                "occurrence_coverage": supported_occurrences / occurrences if occurrences else None,
                 "supported_dimensions": len(supported),
                 "observed_native_dimensions": len(native),
             },
-            len(rows),
+            documents,
         )
     for key in sorted(k for k in observed if k.startswith("v")):
-        pairs = [(a[key], b[key]) for a, b in rows if key in a and key in b]
+        pairs = paired_scores[key]
         values = numeric_metrics(pairs)
         context.add(
             "GCAM / " + FAMILY_NAMES.get(family(key), "Dictionary " + family(key)),
@@ -262,17 +318,17 @@ def gcam(context, name):
             key + " / weighted-score coverage",
             {
                 "paired_values": len(pairs),
-                "reference_support": sum(key in a for a, b in rows),
-                "prediction_support": sum(key in b for a, b in rows),
-                "sign_agreement": sum((a > 0) - (a < 0) == (b > 0) - (b < 0) for a, b in pairs)
+                "reference_support": reference_scores[key],
+                "prediction_support": prediction_scores[key],
+                "sign_agreement": sum(weighted_sign(a) == weighted_sign(b) for a, b in pairs)
                 / len(pairs)
                 if pairs
                 else None,
             },
-            len(rows),
+            documents,
         )
     for key in ("wc", "nwc"):
-        pairs = [(a[key], b[key]) for a, b in rows if key in a and key in b]
+        pairs = paired_scores[key]
         if pairs:
             values = numeric_metrics(pairs)
             context.add(

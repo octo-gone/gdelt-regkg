@@ -101,18 +101,24 @@ class ScoreContext:
     subset: str = "all"
     _parsed: dict = field(default_factory=dict)
 
+    def clear_parsed(self):
+        """Release field-local objects before scoring the next field."""
+        self._parsed.clear()
+
     def note(self, side, field_name, issue, detail="", count=1):
         self.report.note(side, field_name, issue, detail, count, subset=self.subset)
 
     def parsed(self, field_name: str, parser: Callable) -> list[tuple]:
+        if field_name not in self._parsed:
+            self._parsed[field_name] = list(self.iter_parsed(field_name, parser))
+        return self._parsed[field_name]
+
+    def iter_parsed(self, field_name: str, parser: Callable):
         """Exclude unavailable/native-invalid fields; invalid predictions become empty.
 
         A malformed prediction must never improve a score by removing its document.
         Native-invalid values have no trustworthy reference and are audited per field.
         """
-        if field_name in self._parsed:
-            return self._parsed[field_name]
-        rows = []
         for reference, prediction in self.pairs:
             left, right = reference.get(field_name), prediction.get(field_name)
             if left is None or right is None:
@@ -129,9 +135,7 @@ class ScoreContext:
             except (ValueError, ArithmeticError) as error:
                 self.note("prediction", field_name, "malformed", str(error))
                 actual = parser("")
-            rows.append((expected, actual))
-        self._parsed[field_name] = rows
-        return rows
+            yield expected, actual
 
     def add(self, name: str, calculation: str, metrics: dict[str, Number], documents=0, unit=""):
         self.report.rows.append(ResultRow(name, calculation, metrics, documents, unit, self.subset))

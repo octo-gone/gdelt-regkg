@@ -1,6 +1,6 @@
 [project]
 name = "gdelt-regkg"
-version = "1.2.0"
+version = "1.3.0"
 description = "GDELT GKG reconstruction from article text and metadata"
 readme = "README.md"
 license = "MIT"
@@ -41,6 +41,8 @@ cpu = ["torch>=2.13", "setuptools>=83"]
 cu128 = ["torch>=2.11"]
 cu130 = ["torch>=2.13", "setuptools>=83"]
 benchmark = ["trafilatura>=2,<3", "scipy>=1.12,<2", "scikit-learn>=1.4,<2"]
+ner-cu128 = ["cupy-cuda12x[ctk]>=14,<15", "cuda-toolkit==12.8.*"]
+ner-cu130 = ["cupy-cuda13x[ctk]>=14,<15", "cuda-toolkit==13.0.*"]
 
 [project.urls]
 Repository = "https://github.com/octo-gone/gdelt-regkg"
@@ -49,7 +51,12 @@ Issues = "https://github.com/octo-gone/gdelt-regkg/issues"
 Changelog = "https://github.com/octo-gone/gdelt-regkg/blob/master/CHANGELOG.md"
 
 [tool.uv]
-conflicts = [[{ extra = "cpu" }, { extra = "cu128" }, { extra = "cu130" }]]
+conflicts = [
+    [{ extra = "cpu" }, { extra = "cu128" }, { extra = "cu130" }],
+    [{ extra = "ner-cu128" }, { extra = "ner-cu130" }],
+    [{ extra = "cu130" }, { extra = "ner-cu128" }],
+    [{ extra = "cu128" }, { extra = "ner-cu130" }],
+]
 
 [tool.uv.sources]
 torch = [
@@ -89,7 +96,6 @@ exclude = [
 
 [tool.hatch.build.targets.sdist]
 exclude = [
-    "/docs/reports",
     "/src/gdelt_regkg/resources/lexicons/tone.*.json",
     "/src/gdelt_regkg/resources/lexicons/themes.*.json",
     "/src/gdelt_regkg/resources/lexicons/gcam.*",
@@ -113,13 +119,6 @@ include = [
 
 [project.scripts]
 gdelt-regkg-cli = "gdelt_regkg.cli:main"
-gdelt-regkg-benchmark-fields = "gdelt_regkg.scripts.benchmark_fields:main"
-gdelt-regkg-benchmark-tone = "gdelt_regkg.scripts.benchmark_tone:main"
-gdelt-regkg-benchmark-extraction = "gdelt_regkg.scripts.benchmark_extraction:main"
-gdelt-regkg-benchmark-samples = "gdelt_regkg.scripts.benchmark_samples:main"
-gdelt-regkg-benchmark-ner = "gdelt_regkg.scripts.benchmark_extraction:main_ner"
-gdelt-regkg-benchmark-counts = "gdelt_regkg.scripts.benchmark_extraction:main_counts"
-gdelt-regkg-benchmark-themes = "gdelt_regkg.scripts.benchmark_extraction:main_themes"
 gdelt-regkg-refine-tone = "gdelt_regkg.scripts.refine_tone_lexicon:main"
 
 # https://coverage.readthedocs.io/en/latest/config.html
@@ -146,7 +145,7 @@ follow_imports = "silent"
 ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
-module = ["dateparser.*", "scipy.*", "sklearn.*"]
+module = ["dateparser.*", "scipy.*", "sklearn.*", "cupy.*"]
 ignore_missing_imports = true
 
 # https://pylint.readthedocs.io/en/stable/user_guide/configuration/all-options.html

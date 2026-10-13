@@ -63,6 +63,9 @@ are still evaluated, while supported count errors and coverage are unavailable.
 An omitted sparse count becomes zero only for declared implemented dimensions.
 Missing native companion counts for weighted means are excluded, including from
 presence matching. Defined zero-valued means remain valid score observations.
+Weighted-score sign agreement treats absolute values at most `1e-9` as zero to
+ignore floating-point cancellation. This does not change the scores used for
+MAE, RMSE, bias or correlation. Tone uses its separate `--tone-neutral` threshold.
 
 ## Generate predictions from saved bodies
 
@@ -89,6 +92,51 @@ gazetteer. No article retrieval, model download, resource fitting, or translatio
 runs during benchmarking. `--include-translated` accepts already translated
 saved bodies; records marked `translation_pending` remain excluded.
 `--numeric-date-order mdy` or `dmy` applies to date and amount extraction.
+
+### Checkpoints and memory
+
+Benchmark runs stage article bodies and GKG rows in `OUTPUT/benchmark.sqlite3`.
+Use `--cache path/to/benchmark.sqlite3` to choose a different workspace. Encoded
+predictions commit after every batch and are reused automatically on subsequent
+runs. After interruption, rerun the same command; only the unfinished batch and
+missing predictions need extraction again. Input files are read again and text
+hashes are checked before reuse.
+
+Checkpoint compatibility includes text hashes, supplied metadata, selected
+fields, model files, resource files, extraction code, library versions, numeric
+date settings, device and batch settings. Changes produce new entries instead
+of reusing incompatible predictions. Scoring options such as offset tolerance
+can change without regenerating otherwise compatible predictions.
+
+Bodies and encoded outputs stay on disk. RAM holds the model, dictionaries,
+small row handles and the current extraction batch or field's scoring data.
+Large runs therefore need disk space for the uncompressed bodies, references
+and predictions. The database retains compatible predictions across runs;
+delete it while idle when those checkpoints are no longer needed. Keep it
+outside input directories so directory discovery includes only input data.
+One process may use a cache at a time.
+
+### Model device and batching
+
+NER uses batches of up to 16 articles by default. `--batch-size` changes that
+limit; `--batch-chars` limits the target total character count (default 100,000).
+A single longer article is processed intact. Smaller batches reduce peak model
+memory use.
+
+```shell
+gdelt-regkg-cli benchmark --reference native --corpus articles --ner-model en_core_web_lg --device cuda --gpu-id 0 --batch-size 16 --output benchmark-bodies
+```
+
+`--device cpu` is the default. `--device cuda` requires working CUDA inference
+and fails clearly if initialization is unsuccessful. `--device auto` attempts
+CUDA and reports a CPU fallback when unavailable. The selected device is
+recorded in `run.md`. Install [spaCy GPU support](../installation.md#cuda-and-compute-backends)
+first; CUDA-enabled PyTorch alone does not enable spaCy's CuPy backend.
+Compiled CUDA kernels are cached in `cupy-kernels/` beside the SQLite workspace,
+unless `CUPY_CACHE_DIR` already selects a location.
+GPU acceleration applies to NER. Dictionary matching, count rules, geographic
+resolution and metric calculations run on CPU. CPU and GPU model predictions
+can differ, so their checkpoints are kept separate.
 
 To reuse cached NER, pass `--ner-cache cached-ner.jsonl`. Each cached record needs
 the matching `record_id`, `url`, `text_sha256`, and an `entity_mentions` list.
@@ -206,3 +254,7 @@ from the text originally processed by GDELT. Coordinate errors concern paired
 geographic identities, and GCAM supported-category scores are distinct from
 all-native coverage. Weighted scores require both values to be defined. Report
 the evaluated population and matching rules alongside accuracy claims.
+
+## Archived implementation
+
+For the previous benchmark scripts and reports, see version 1.0.2 on [PyPI](https://pypi.org/project/gdelt-regkg/1.0.2/) and the [GitHub v1.0.2 tag](https://github.com/octo-gone/gdelt-regkg/tree/v1.0.2).

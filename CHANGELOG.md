@@ -2,14 +2,18 @@
 
 This changelog records implementation changes and the research behind each version. Versions group the iterative work; dictionary revisions such as tone v3 are separate from package versions. Each Research section may contain the method, results and conclusions for that stage.
 
-## Unreleased
+## 1.3.0 Unified benchmarking
 
+- Consolidated evaluation under `gdelt-regkg-cli benchmark`; tone dictionary refinement remains a separate development command.
+- Treat floating-point residuals within `1e-9` of zero as neutral for weighted GCAM sign agreement.
 - Added recursive directory inputs for benchmark reference rows, predictions and saved bodies, with deterministic discovery and overlapping-path deduplication.
 - Use SciPy for assignment and rank correlation, and scikit-learn for numeric errors and Cohen's kappa, through the `benchmark` extra.
 - Added `gdelt-regkg-cli benchmark`, with independent evaluation of all 27 GKG fields from prepared outputs or saved article bodies.
 - Added Markdown and CSV metric tables, per-field audits, input and resource hashes, optional subset reports and diagnostics.
 - Separated content, exact-offset and tolerant-offset scores; offset errors include content matches outside the tolerance window.
 - Added GCAM family reports with explicit supported-dimension coverage and weighted-score availability.
+- Added transactional prediction checkpoints and disk-backed benchmark inputs, with automatic compatibility validation and resume.
+- Batch NER inference with explicit CPU/CUDA selection and optional `ner-gpu` dependencies.
 
 ## 1.2.0 Field package reorganization
 
@@ -137,7 +141,7 @@ All rebuilt profiles have identical parsed contents to their predecessors. Repla
 | English | 2,626 | 0 | 0 |
 | Saved translated English | 317 | 0 | 0 |
 
-The comparison covers all columns, with identical empty media/extra inputs, frozen large-model entities and saved translations. Identical predictions against the same references preserve the previous metrics. This is a packaging migration check, not a new independent accuracy benchmark, and no rules were fitted on these samples. The [parity report](docs/reports/resource-migration.json) records the check.
+The comparison covers all columns, with identical empty media/extra inputs, frozen large-model entities and saved translations. Identical predictions against the same references preserve the previous metrics. This is a packaging migration check, not a new independent accuracy benchmark, and no rules were fitted on these samples.
 
 ## 0.18.0 Remaining field benchmarks
 
@@ -150,7 +154,7 @@ The comparison covers all columns, with identical empty media/extra inputs, froz
 
 Locations, dates, amounts, all names and quotations were evaluated on the reserved seasonal cohorts from [version 0.7.0](#070-seasonal-evaluation-and-revised-extraction), using the large NER model and the reference gazetteer. These fields had not previously been benchmarked on those articles. No new articles were collected, and the results did not change rules, vocabularies or model selection.
 
-Records are joined by both record ID and URL because translated archives can reuse an ID for unrelated URLs. Duplicate exclusions remain in force. Two malformed English location cells are excluded only from location scoring. The [audit](docs/reports/extraction-fields-benchmark-audit.json) records per-field exclusions, model/resource hashes and split checks.
+Records are joined by both record ID and URL because translated archives can reuse an ID for unrelated URLs. Duplicate exclusions remain in force. Two malformed English location cells are excluded only from location scoring.
 
 Metrics compare per-document identity sets, ignoring offsets and repetition. Dates require matching calendar components and resolution. Amounts require numeric value and normalized object, with value-only matching reported separately. Quotations require complete content equality after Unicode, case, apostrophe and whitespace normalization; punctuation remains significant. Reporting verbs are checked separately. This measures agreement with GDELT's selected quotations, not correctness of every quoted span.
 
@@ -180,8 +184,6 @@ The following diagnostic restricts bodies to within 10% of native word count. Hi
 | Numeric value and object | 0.2044 | 0.2432 | +0.0387 |
 | Quotation content | 0.0811 | 0.0926 | +0.0115 |
 
-The [English report](docs/reports/extraction-fields-benchmark.json) includes month and novel-source results.
-
 #### Translated agreement
 
 Saved M2M100 English bodies are reused without retranslating. The articles differ from the English cohort, and GDELT's English translations remain unavailable, so these differences do not isolate translation quality.
@@ -196,9 +198,9 @@ Saved M2M100 English bodies are reused without retranslating. The articles diffe
 | Quotation content | 0.0811 | — | 0 | — |
 | Quotation content and verb | 0.0480 | — | 0 | — |
 
-Native dates are sparse in this cohort, making that score uncertain. No native quotation references occur, so positive quotation recall cannot be estimated; zero-reference set scores do not establish successful quotation replication. The [translated report](docs/reports/extraction-fields-benchmark-translated.json) retains precision, recall, intervals and exclusions.
+Native dates are sparse in this cohort, making that score uncertain. No native quotation references occur, so positive quotation recall cannot be estimated; zero-reference set scores do not establish successful quotation replication.
 
-The field benchmark now includes quotations, value-only amount diagnostics, per-field malformed-reference exclusions and optional bootstrap intervals. See [commands](docs/cli/tools.md#field-benchmark). Offset accuracy and human-reviewed extraction quality remain unmeasured.
+The field benchmark now includes quotations, value-only amount diagnostics, per-field malformed-reference exclusions and optional bootstrap intervals. Offset accuracy and human-reviewed extraction quality remain unmeasured.
 
 ## 0.17.0 WordNet source parsing
 
@@ -218,7 +220,7 @@ This correction follows source syntax, not benchmark article errors. Development
 | WordNet Affect | 0.3251 | 0.3286 | +0.0035 | 91.70% | 92.28% | +0.57 pp |
 | WordNet Domains | 0.8214 | 0.8217 | +0.0003 | 59.96% | 59.92% | -0.05 pp |
 
-Coverage is unchanged. Correct source parsing can add both matching and nonmatching occurrences, so it does not guarantee a lower error against native output. [Initial full benchmark](docs/reports/gcam-expansion-6-initial-benchmark.json), [corrected full benchmark](docs/reports/gcam-expansion-6-benchmark.json) and [aggregate results](docs/reports/gcam-expansion-results.json) preserve the comparison.
+Coverage is unchanged. Correct source parsing can add both matching and nonmatching occurrences, so it does not guarantee a lower error against native output.
 
 ## 0.16.0 GCAM theme counts
 
@@ -257,7 +259,7 @@ Although many theme dimensions remain unsupported, the selected categories accou
 
 Dimension coverage treats each supported category equally. Native count-occurrence coverage weights categories by their frequency in GDELT. Frequent categories make occurrence coverage higher than dimension coverage; neither measures correctly extracted counts. The standard profile omits Roget and Lexicoder, while the full profile includes them. Both are now built locally from separately obtained sources.
 
-`gdelt-regkg-expand-gcam` rebuilds selected families from their sources; the field benchmark evaluates a frozen profile without fitting. An indexed wildcard matcher was checked against the previous Lexicoder implementation and preserved its counts on development bodies and authored phrases. [Standard-profile development](docs/reports/gcam-expansion-7-development.json), [standard-profile benchmark](docs/reports/gcam-expansion-7-benchmark.json) and [full optional benchmark](docs/reports/gcam-expansion-6-benchmark.json) distinguish the configurations. [Version 0.19.0](#0190-locally-built-resources) removes the historical bundled resources while preserving these outputs.
+`gdelt-regkg-expand-gcam` rebuilds selected families from their sources; the field benchmark evaluates a frozen profile without fitting. An indexed wildcard matcher was checked against the previous Lexicoder implementation and preserved its counts on development bodies and authored phrases. [Version 0.19.0](#0190-locally-built-resources) removes the historical bundled resources while preserving these outputs.
 
 ## 0.15.0 WordNet Domains
 
@@ -278,7 +280,7 @@ WordNet Domains adds all 168 native domain labels using WordNet 2.0. Source anno
 | Density MAE, pp | 1.5941 | 1.6013 | +0.0073 |
 | Median count Pearson | 0.5900 | 0.5991 | +0.0090 |
 
-Domains contributes a substantial share of native count activity and gives useful category-presence agreement, but missed assignments and count error still limit replication. The source remains separately supplied; see [setup and source terms](docs/installation.md). [Development](docs/reports/gcam-expansion-5-development.json) and [benchmark](docs/reports/gcam-expansion-5-benchmark.json) reports retain category-level measurements.
+Domains contributes a substantial share of native count activity and gives useful category-presence agreement, but missed assignments and count error still limit replication. The source remains separately supplied; see [setup and source terms](docs/installation.md).
 
 ## 0.14.0 WordNet Affect
 
@@ -307,7 +309,7 @@ Development compared matching direct labels with adding ancestor categories, acr
 | Density MAE, pp | 0.0448 | 0.0457 | +0.0009 |
 | Median count Pearson | 0.2792 | 0.2932 | +0.0140 |
 
-Affect is the weakest added dictionary family. Complete vocabulary coverage does not imply accurate matching. Isolated and combined profiles can differ slightly because they combine morphology from different WordNet versions. See [development comparisons](docs/reports/gcam-affect-direct-all-development.json), [combined development](docs/reports/gcam-expansion-4-development.json) and [benchmark](docs/reports/gcam-expansion-4-benchmark.json). Further policy changes require fresh development data.
+Affect is the weakest added dictionary family. Complete vocabulary coverage does not imply accurate matching. Isolated and combined profiles can differ slightly because they combine morphology from different WordNet versions. Further policy changes require fresh development data.
 
 ## 0.13.0 WordNet lexical categories
 
@@ -328,7 +330,7 @@ WordNet 3.1 supplies all 44 native lexical categories. The importer maps file na
 | Density MAE, pp | 2.9272 | 2.9525 | +0.0253 |
 | Median count Pearson | 0.7919 | 0.7687 | -0.0232 |
 
-Category presence agrees strongly, but combining word senses does not reproduce native occurrence counts. [Stage development](docs/reports/gcam-expansion-3-development.json), [stage benchmark](docs/reports/gcam-expansion-3-benchmark.json) and the [corrected full-profile benchmark](docs/reports/gcam-expansion-6-benchmark.json) retain source/profile hashes and errors.
+Category presence agrees strongly, but combining word senses does not reproduce native occurrence counts.
 
 ## 0.12.0 Roget categories
 
@@ -349,7 +351,7 @@ The converted Roget 1911 dictionary maps all 1,042 native category paths. Mappin
 | Density MAE, pp | 0.2001 | 0.2027 | +0.0027 |
 | Median count Pearson | 0.7492 | 0.7433 | -0.0059 |
 
-Roget gives the largest increase in supported dimensions. Category presence agrees reasonably well, but count error remains substantial. [Stage development](docs/reports/gcam-expansion-2-development.json), [stage benchmark](docs/reports/gcam-expansion-2-benchmark.json) and [corrected full-profile benchmark](docs/reports/gcam-expansion-6-benchmark.json) retain the comparisons.
+Roget gives the largest increase in supported dimensions. Category presence agrees reasonably well, but count error remains substantial.
 
 ## 0.11.0 General Inquirer expansion
 
@@ -375,7 +377,7 @@ General Inquirer expands to 217 of its 228 native categories. Mapping uses sourc
 
 General Inquirer has strong category-presence agreement, while occurrence counts still differ. The cumulative coverage table in [version 0.16.0](#0160-gcam-theme-counts) compares the staged imports. It measures supported dimensions and native activity assigned to their keys, not correctly reproduced counts.
 
-Expanded categories cannot be compared directly with the original eight-category error average because the evaluated set changes. The [split audit](docs/reports/gcam-expansion-split-audit.json) records that no further duplicate exclusions were needed. [Aggregate results](docs/reports/gcam-expansion-results.json) and the stage's [development](docs/reports/gcam-expansion-1-development.json) and [benchmark](docs/reports/gcam-expansion-1-benchmark.json) reports preserve per-category errors. Tables in [version 0.12.0](#0120-roget-categories) through [version 0.16.0](#0160-gcam-theme-counts) use the corrected combined profile after [version 0.17.0](#0170-wordnet-source-parsing); stage reports also retain earlier results where shared morphology differs.
+Expanded categories cannot be compared directly with the original eight-category error average because the evaluated set changes. Tables in [version 0.12.0](#0120-roget-categories) through [version 0.16.0](#0160-gcam-theme-counts) use the corrected combined profile after [version 0.17.0](#0170-wordnet-source-parsing).
 
 ## 0.10.0 Lexicoder import
 
@@ -396,7 +398,7 @@ The original Lexicoder archive was imported and evaluated, replacing fixture-onl
 
 Positive and negative counts are systematically underestimated. Low error for negated categories partly reflects the many articles with no native matches, so it does not establish uniformly strong performance. Correlation describes variation in counts, not exact equality.
 
-Matching uses normalized tokens, wildcard prefixes and phrases, selecting the longest nonoverlapping match within each independent category. Lexicoder's additional punctuation, proper-name, negation and false-hit preprocessing modules are not implemented. Unknown native preprocessing and differing article bodies remain possible sources of disagreement. This establishes dictionary-level agreement, not full Lexicoder replication or an improvement to GKG tone. See [development](docs/reports/lexicoder-development.json) and [benchmark](docs/reports/lexicoder-benchmark.json) results.
+Matching uses normalized tokens, wildcard prefixes and phrases, selecting the longest nonoverlapping match within each independent category. Lexicoder's additional punctuation, proper-name, negation and false-hit preprocessing modules are not implemented. Unknown native preprocessing and differing article bodies remain possible sources of disagreement. This establishes dictionary-level agreement, not full Lexicoder replication or an improvement to GKG tone.
 
 ## 0.9.0 VADER and weighted GCAM
 
@@ -434,7 +436,7 @@ VADER mean scores agree closely with native values. The archives omit its match-
 | Virtue | 6.535 | 1.191 |
 | Weak | 4.182 | 0.720 |
 
-The count categories remain approximate, and adding VADER does not alter GKG tone. [Development](docs/reports/gcam-development.json) and [benchmark](docs/reports/gcam-benchmark.json) reports preserve the detailed results. An optional Lexicoder importer was also introduced with fixture checks; the next experiment tests the actual dictionary.
+The count categories remain approximate, and adding VADER does not alter GKG tone. An optional Lexicoder importer was also introduced with fixture checks; the next experiment tests the actual dictionary.
 
 ## 0.8.0 Remaining extraction fields
 
@@ -486,7 +488,7 @@ A recognized span can contain several comma-separated places, so these diagnosti
 | Virtue | 5.198 | 1.288 |
 | Weak | 3.708 | 0.707 |
 
-GCAM category counts are approximate. Normalizing by each document's word count helps compare different lengths but does not remove content differences; unsupported dimensions remain uncomputed. The [development report](docs/reports/extraction-fields-development.json) records the descriptive check. `gdelt-regkg-benchmark-fields` was added to evaluate these fields on saved bodies and original records without fitting or retrieval.
+GCAM category counts are approximate. Normalizing by each document's word count helps compare different lengths but does not remove content differences; unsupported dimensions remain uncomputed.
 
 ## 0.7.0 Seasonal evaluation and revised extraction
 
@@ -499,7 +501,7 @@ GCAM category counts are approximate. Normalizing by each document's word count 
 
 #### Seasonal development
 
-Two larger samples were fixed before retrieval, with different months for development and benchmarking. The [saved plan](scripts/benchmark-plan.json) defines dates, source caps and selection seeds. Each sample spans four seasonal month groups and six UTC windows per day. The months are interleaved across years, so this tests generalization across seasons rather than forecasting only future articles.
+Two larger samples were fixed before retrieval, with different months for development and benchmarking. Each sample spans four seasonal month groups and six UTC windows per day. The months are interleaved across years, so this tests generalization across seasons rather than forecasting only future articles.
 
 | Sample design | Development | Benchmark |
 | --- | --- | --- |
@@ -610,7 +612,7 @@ Tone improves on both cohorts through vocabulary changes, without numerical bias
 | Source-hash group excluded from training | 522 | 0.6334 | 0.3777 | 0.6634 | 0.4348 |
 | Word count within 10% of native GKG | 1,296 | 0.6516 | 0.3256 | 0.7338 | 0.4675 |
 
-The benchmark is month-disjoint but not fully source-disjoint. New-source count improvement is negligible despite the aggregate gain; organization gains are larger, and person changes remain small. Novel-source tone MAE improves from 2.106 to 1.838 points. Six windows leave most processing batches unsampled, and successful retrieval can alter topic coverage. Similar body lengths do not verify identical text. The [report](docs/reports/benchmark-results.json) retains per-month/window results, per-label scores, split audits and checksums.
+The benchmark is month-disjoint but not fully source-disjoint. New-source count improvement is negligible despite the aggregate gain; organization gains are larger, and person changes remain small. Novel-source tone MAE improves from 2.106 to 1.838 points. Six windows leave most processing batches unsampled, and successful retrieval can alter topic coverage. Similar body lengths do not verify identical text.
 
 ## 0.6.0 Theme count and name improvements
 
@@ -700,7 +702,7 @@ The comparison uses themes v2/counts v1/source-spelling NER versus themes v3/cou
 | Pearson correlation | 0.668 | 0.758 |
 | Within ±1 point | 20.4% | 36.5% |
 
-The unchanged tone v2 profile also improved agreement over v1 on this new sample. This supported the earlier dictionary changes without refitting them. The [report](docs/reports/benchmark-results-previous.json) retains component scores, count totals, failures and profile checksums. Further tuning needed another reserved sample.
+The unchanged tone v2 profile also improved agreement over v1 on this new sample. This supported the earlier dictionary changes without refitting them. Further tuning needed another reserved sample.
 
 ## 0.5.0 Count theme and NER benchmarks
 
@@ -729,8 +731,6 @@ The first matched count, theme and NER benchmark used the six-day corpus from [v
 Theme recall was limited both by unsupported labels and by missed matches within the supported vocabulary. Counts had weak recall, while missing geography prevented complete tuple matches. Count evidence was sparse: only 51 scored articles contained native counts. Medium NER improved person agreement slightly but did little for organizations.
 
 NER scores compare per-article name sets after Unicode, case, whitespace and apostrophe normalization. Raw-name person F1 was zero, showing that native name formatting needed attention alongside entity recognition. Word-count similarity does not verify input equality. Once these results informed the following changes, this corpus became development data rather than an untouched benchmark.
-
-The maintained tools are `gdelt-regkg-benchmark-extraction` and the separate NER, count and theme commands. See [metric definitions and commands](docs/cli/tools.md#ner-count-and-theme-benchmarks).
 
 ## 0.4.0 Tone dictionary refinement
 
@@ -806,7 +806,7 @@ The comparison uses identical test bodies and the same tokenizer. No numerical b
 | Sources absent from fitting and validation | 52 | 2.89 → 1.76 | 14.84 → 3.79 | 7.22 → 0.26 |
 | Word count within 10% of GDELT | 115 | 2.85 → 1.76 | 15.00 → 3.05 | 8.24 → 0.08 |
 
-Dictionary changes reduced tone error and substantially improved activity and self/group density. Word-count error did not change. The v2 profile remains reproducible for historical comparisons; the current default is v3 from [version 0.7.0](#070-seasonal-evaluation-and-revised-extraction). See [tone formulas](docs/fields/tone.md) and the [reproduction instructions](docs/cli/tools.md#tone-benchmark-against-original-articles).
+Dictionary changes reduced tone error and substantially improved activity and self/group density. Word-count error did not change. The v2 profile remains reproducible for historical comparisons; the current default is v3 from [version 0.7.0](#070-seasonal-evaluation-and-revised-extraction). See [tone formulas](docs/fields/tone.md).
 
 #### Count labels are sufficient, themes need expansion
 

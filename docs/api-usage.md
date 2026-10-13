@@ -113,6 +113,82 @@ Locations and all names share the same recognition pass. The tagger remains enab
 
 The generator accepts `gazetteer=Gazetteer.from_json(path)` and `gcam_lexicon=GCAMLexicon.from_json(path)` for additional resources. GCAM supports 809 of 2,888 dimensions (28.01%) using locally compiled English dictionaries from General Inquirer, WordNet, theme rules and VADER; optional Roget and Lexicoder imports raise coverage to 1,855 of 2,888 dimensions (64.23%). Both loaders accept plain JSON and gzip-compressed profiles. See [implemented and missing measures](fields/gcam.md).
 
+## GPU inference
+
+Install `ner-cu128` or `ner-cu130` and the English model using the
+[installation guide](installation.md#cuda-and-compute-backends). NER and
+translation select their devices separately.
+
+### NER with spaCy and CuPy
+
+Select the GPU before loading the recognizer:
+
+```python
+import spacy
+from gdelt_regkg import SpacyNER, generate_gkg
+
+spacy.require_gpu(0)
+resources_dir = "local-resources"
+recognizer = SpacyNER.from_model("en_core_web_lg", resources_dir=resources_dir)
+
+articles = [
+    ("https://example.org/1", "Jane Smith visited London."),
+    ("https://example.org/2", "John Doe spoke in Paris."),
+]
+texts = [text for _, text in articles]
+entities = recognizer.analyze_many(texts, batch_size=16)
+for sequence, ((url, text), ner_result) in enumerate(
+    zip(articles, entities, strict=True), start=1
+):
+    row = generate_gkg(
+        text,
+        identifier=url,
+        batch_time="20261014000000",
+        sequence=sequence,
+        resources_dir=resources_dir,
+        ner=ner_result,
+    )
+    print(row["V1PERSONS"])
+```
+
+`spacy.require_gpu(0)` fails if CUDA inference is unavailable. Use
+`spacy.prefer_gpu(0)` instead to permit a CPU fallback, or `spacy.require_cpu()`
+to select CPU explicitly. Load the recognizer once and reuse it across batches.
+The selected device accelerates NER; dictionary matching and the other rule
+extractors run on CPU. PyTorch's device selection applies separately to translation.
+
+When reusing a CUDA-enabled PyTorch installation on Windows, importing `torch`
+before `spacy` registers PyTorch's bundled CUDA DLLs for CuPy. A complete NER
+extra supplies its own CUDA runtime dependencies.
+
+### Translation with PyTorch
+
+Install a CUDA PyTorch build from the [backend installation section](installation.md#cuda-and-compute-backends).
+This example selects GPU 0 explicitly and downloads M2M100 weights on the first run:
+
+```python
+import torch
+from gdelt_regkg import M2M100Translator
+
+if not torch.cuda.is_available():
+    raise RuntimeError("CUDA translation requires a CUDA-enabled PyTorch build and GPU")
+
+translator = M2M100Translator.from_model(
+    device="cuda:0",
+    allow_download=True,  # Set False once the weights are cached.
+    batch_size=4,
+)
+english = translator.translate("El gobierno envió ayuda a Madrid.", source_language="spa")
+print(english)
+```
+
+Use `device="cpu"` for CPU translation and omit the CUDA availability check.
+Load the translator once and reuse it. When using both backends, import `torch`
+before initializing spaCy on Windows, select the spaCy device before loading
+`SpacyNER`, and pass `device="cuda:0"` when loading the translator. Translating
+first ensures that NER offsets refer to the English text; see the
+[complete pipeline](#complete-pipeline-example) for extraction and output.
+
 ## Language detection and translation
 
 The text extractors use English bodies. For other languages, follow the [full pipeline example](#complete-pipeline-example) to detect language locally, translate when needed, retain the analyzed body and extract all fields with the large NER model and full GCAM profile.

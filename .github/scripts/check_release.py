@@ -67,8 +67,6 @@ def check_archive(path, project):
             for part in parts
         ):
             raise ValueError(f"Local data leaked into {path.name}: {name}")
-        if "docs/reports/" in name:
-            raise ValueError(f"Research report leaked into {path.name}: {name}")
         if re.search(r"resources/(?:lexicons/(?:tone|themes|gcam|locations)\.|gcam/)", name):
             raise ValueError(f"External resource leaked into {path.name}: {name}")
     print(f"Checked {path.name}")

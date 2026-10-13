@@ -483,7 +483,7 @@ class BenchmarkTests(unittest.TestCase):
             all(line.count("|") == 7 for line in rendered.splitlines() if line.startswith("|"))
         )
 
-    def test_cli_writes_tables_and_strata_without_importing_legacy_scripts(self):
+    def test_cli_writes_tables_and_strata(self):
         reference = self.write_rows("reference.jsonl", [row(themes="A;")])
         prediction = self.write_rows("prediction.jsonl", [row(themes="A;B;")])
         self.invoke(
@@ -505,17 +505,6 @@ class BenchmarkTests(unittest.TestCase):
         with (self.root / "output/metrics.csv").open(encoding="utf-8", newline="") as stream:
             rows = list(csv.DictReader(stream))
         self.assertTrue(any(value["subset"] == "month/202601" for value in rows))
-        result = subprocess.run(
-            [
-                sys.executable,
-                "-c",
-                "import sys; import gdelt_regkg.cli; assert not any(n.startswith('gdelt_regkg.scripts') for n in sys.modules)",
-            ],
-            capture_output=True,
-            text=True,
-            check=False,
-        )
-        self.assertEqual(result.returncode, 0, result.stderr)
 
     def test_cli_rejects_bad_options_before_reading_inputs(self):
         for options in (
@@ -582,7 +571,7 @@ class BenchmarkTests(unittest.TestCase):
             )
         self.assertEqual(result["exact_agreement"], "1.0")
 
-    def test_saved_body_mode_uses_no_other_benchmark_and_marks_missing_broad_names(self):
+    def test_saved_body_mode_marks_missing_broad_names(self):
         reference = self.write_rows("reference.jsonl", [row(persons="Jane Doe")])
         text = "Jane Doe spoke."
         checksum = hashlib.sha256(text.encode()).hexdigest()

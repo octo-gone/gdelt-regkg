@@ -105,8 +105,9 @@ def load_rows(
     strict=False,
     source_collections=("1",),
     wanted_documents=None,
+    destination=None,
 ):
-    rows = []
+    rows = [] if destination is None else destination
     for path in resolve_inputs(paths):
         for origin, line, is_json in iter_lines(path):
             if not line.strip():

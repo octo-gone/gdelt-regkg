@@ -12,11 +12,11 @@ External vocabularies are prepared locally; recorded source recipes identify the
 
 Each field page includes runnable Python and the resulting encoded GKG cell. The [row example](../README.md#generate-and-save-a-row) combines the fields into a complete tab-delimited GKG entry, including count geography.
 
-Detailed experiment history remains in the [changelog](../CHANGELOG.md). The [latest study summary](reports/paper-study-agreement.json) supplies the English results below; older benchmarks remain available in [research reports](reports/README.md).
+Detailed experiment history remains in the [changelog](../CHANGELOG.md).
 
 ## Agreement with GDELT
 
-The latest study compares archived GKG outputs with reconstruction on **265,413 retained English articles from 2018–2025**, covering **10,531 sources**. It uses the recorded tone/count/theme profiles, expanded GCAM dictionaries and spaCy `en_core_web_lg` with the `gdelt-full-names` policy. The [summary report](reports/paper-study-agreement.json) records configuration hashes and metric denominators; its experimental engine label is separate from the current package release.
+The latest study compares archived GKG outputs with reconstruction on **265,413 retained English articles from 2018–2025**, covering **10,531 sources**. It uses the recorded tone/count/theme profiles, expanded GCAM dictionaries and spaCy `en_core_web_lg` with the `gdelt-full-names` policy.
 
 F1 measure matching outputs against GDELT; higher is better. MAE is average absolute error; lower is better. Lin's concordance correlation coefficient (CCC) measures paired-value agreement, with one denoting perfect concordance. GCAM coverage measures supported vocabulary, independently of agreement on its values. Publisher revisions and body extraction differences contribute to disagreement alongside dictionary and extraction differences.
 
@@ -89,4 +89,4 @@ VADER is evaluated separately on mean valence among matched lexical entries, rat
 - Add Roget and Lexicoder for the full GCAM profile; their vocabularies are supplied separately. Broader coverage does not guarantee lower count error.
 - Translate non-English bodies before English extraction and retain the analyzed text for offsets. The [full pipeline example](api-usage.md#complete-pipeline-example) handles detection, translation and extraction.
 
-[Benchmark CLI guide](cli/benchmark.md) · [Resource builders and benchmarks](cli/README.md) · [Detailed research reports](reports/README.md)
+[Benchmark CLI guide](cli/benchmark.md) · [Resource builders and benchmarks](cli/README.md)
