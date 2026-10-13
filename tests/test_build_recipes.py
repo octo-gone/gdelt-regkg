@@ -20,8 +20,8 @@ from gdelt_regkg.cli import main
 from gdelt_regkg.cli.gcam import GCAMOptions
 from gdelt_regkg.cli.inputs import required_sources, resolve_inputs
 from gdelt_regkg.cli.validation import semantic_sha256
-from gdelt_regkg.gcam import _load, analyze_gcam, default_gcam_lexicon, read_gcam_json
-from gdelt_regkg.rule_inputs import THEME_SCHEMA
+from gdelt_regkg.fields.gcam import _load, analyze_gcam, default_gcam_lexicon, read_gcam_json
+from gdelt_regkg.fields.rule_inputs import THEME_SCHEMA
 from gdelt_regkg.utils import read_resource_json
 
 

@@ -24,11 +24,11 @@ from gdelt_regkg.cli.build import publish
 from gdelt_regkg.cli.inputs import resolve_inputs
 from gdelt_regkg.cli.profiles import compile_profiles
 from gdelt_regkg.cli.sources import download_source
-from gdelt_regkg.counts import default_count_rules
-from gdelt_regkg.locations import Gazetteer, default_gazetteer
-from gdelt_regkg.ner import default_name_rules
-from gdelt_regkg.themes import default_theme_lexicon
-from gdelt_regkg.tone import default_tone_lexicon
+from gdelt_regkg.fields.counts import default_count_rules
+from gdelt_regkg.fields.locations import Gazetteer, default_gazetteer
+from gdelt_regkg.fields.ner import default_name_rules
+from gdelt_regkg.fields.themes import default_theme_lexicon
+from gdelt_regkg.fields.tone import default_tone_lexicon
 from gdelt_regkg.utils import packaged_resource_path, resource_directory, resource_path
 
 

@@ -112,7 +112,7 @@ class ThemeLexicon:
 
 
 def default_theme_lexicon(resources_dir=None) -> ThemeLexicon:
-    from .utils import read_resource_json, resource_path
+    from ..utils import read_resource_json, resource_path
 
     return _cached_theme_lexicon(
         resource_path(

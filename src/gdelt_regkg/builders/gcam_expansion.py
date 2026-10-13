@@ -17,9 +17,9 @@ import zipfile
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from gdelt_regkg.gcam import _load, _order
-from gdelt_regkg.themes import default_theme_lexicon
-from gdelt_regkg.tone import tokenize_tone
+from gdelt_regkg.fields.gcam import _load, _order
+from gdelt_regkg.fields.themes import default_theme_lexicon
+from gdelt_regkg.fields.tone import tokenize_tone
 from gdelt_regkg.utils import read_resource_json
 
 from .gcam_lexicon import CATEGORIES

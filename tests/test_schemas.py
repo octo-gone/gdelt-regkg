@@ -6,7 +6,7 @@ from pathlib import Path
 
 from jsonschema import Draft202012Validator
 
-from gdelt_regkg.rule_inputs import count_rules_from_input, theme_lexicon_from_input
+from gdelt_regkg.fields.rule_inputs import count_rules_from_input, theme_lexicon_from_input
 from gdelt_regkg.utils import read_resource_json, resource_path
 
 ROOT = Path(__file__).resolve().parents[1]

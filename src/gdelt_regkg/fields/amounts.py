@@ -6,9 +6,9 @@ import re
 from dataclasses import dataclass
 from decimal import Decimal
 
+from ..wire import text_component
 from .counts import _N1000, _VALUES
 from .dates import analyze_dates
-from .wire import text_component
 
 _SCALES = {"hundred": 100, "thousand": 1000, "million": 10**6, "billion": 10**9, "trillion": 10**12}
 _WORDS = rf"(?:{_N1000}(?: trillion(?: {_N1000} billion)?(?: {_N1000} million)?(?: {_N1000} thousand)?(?: (?:and )?{_N1000})?| billion(?: {_N1000} million)?(?: {_N1000} thousand)?(?: (?:and )?{_N1000})?| million(?: {_N1000} thousand)?(?: (?:and )?{_N1000})?| thousand(?: (?:and )?{_N1000})?)?)"

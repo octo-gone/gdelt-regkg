@@ -4,7 +4,7 @@ See the [gdelt-regkg README](../README.md) for row generation and installation. 
 
 ## Independent fields and pandas
 
-Functions in `gdelt_regkg.fields` accept prepared field inputs and return encoded GKG cells. NLP functions take plain article body text; metadata formatters take supplied values or collections. They work without the row generator and can be mapped over a pandas column, for example `df["themes"] = df["text"].map(extract_themes)`. Install pandas separately and normalize missing values before calling field functions.
+Functions in `gdelt_regkg.fields` package accept prepared field inputs and return encoded GKG cells. NLP functions take plain article body text; metadata formatters take supplied values or collections. They work without the row generator and can be mapped over a pandas column, for example `df["themes"] = df["text"].map(extract_themes)`. Install pandas separately and normalize missing values before calling field functions.
 
 The caller prepares body text, title, authors, publication metadata, DOI or URL, and media URLs. The generator’s `extras=` argument accepts additional data without a dedicated GKG column, including custom annotations and processing results. Titles and authors are common examples, supplied as `extras={"PAGE_TITLE": title, "PAGE_AUTHORS": ";".join(authors)}`. The [extra XML example](fields/extras-xml.md#example) includes both common metadata and application-defined elements.
 

@@ -8,8 +8,8 @@ from gdelt_regkg.builders.tone import revise_tone
 from gdelt_regkg.cli.build import publish
 from gdelt_regkg.cli.inputs import resolve_inputs
 from gdelt_regkg.cli.profiles import compile_profiles
-from gdelt_regkg.ner import NameRules, default_name_rules
-from gdelt_regkg.tone import benchmark_tone_lexicon, default_tone_lexicon
+from gdelt_regkg.fields.ner import NameRules, default_name_rules
+from gdelt_regkg.fields.tone import benchmark_tone_lexicon, default_tone_lexicon
 from gdelt_regkg.utils import read_resource_json
 
 

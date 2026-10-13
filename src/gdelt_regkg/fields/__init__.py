@@ -1,4 +1,4 @@
-"""Independent scalar field functions.
+"""Field extractors, analyzers and supporting NLP modules.
 
 Return wire-format strings from prepared text or supplied metadata.
 """
@@ -11,6 +11,7 @@ from datetime import datetime, timezone
 from numbers import Integral
 from urllib.parse import urlsplit
 
+from ..wire import text_component
 from .amounts import analyze_amounts
 from .counts import CountLocation, CountRules, analyze_counts
 from .dates import analyze_dates
@@ -22,7 +23,6 @@ from .ner import EntityMention, EntityRecognizer, NERResult, analyze_entities
 from .quotations import analyze_quotations
 from .themes import ThemeLexicon, analyze_themes
 from .tone import ToneLexicon, analyze_tone
-from .wire import text_component
 
 
 def _cell(value: str) -> str:

@@ -2,6 +2,15 @@
 
 Contributions can improve extraction, resource importers, benchmarks, documentation or installation. Use the GitHub issue forms to report a bug, propose a feature or describe a difference from native GKG output. Discuss changes to public APIs, default profiles or dependencies before implementing them.
 
+## Project structure
+
+The `src/gdelt_regkg/fields/` package contains field extractors and their analyzers,
+NER, language detection, translation and count/theme rule loaders. Its
+`__init__.py` exposes the scalar field functions. `pipeline.py` composes fields
+into GKG records. `config.py`, `utils.py` and `wire.py` provide shared configuration,
+resource lookup and serialization. Resource converters live in `builders/`, command
+handling in `cli/`, and benchmark/development tools in `scripts/`.
+
 ## Local checks
 
 Prepare the dictionaries and small English model using [Installation and setup](docs/installation.md#quick-start-basic-english-setup). From a development checkout, install tools with `uv sync --inexact --group dev`. The full suite requires the standard dictionaries and geographic reference; source-replay checks also use the original downloaded files.

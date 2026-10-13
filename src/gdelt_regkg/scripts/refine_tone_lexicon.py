@@ -17,8 +17,8 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 from gdelt_regkg.builders.tone import build_lexicon
+from gdelt_regkg.fields.tone import ToneLexicon, tokenize_tone
 from gdelt_regkg.scripts.benchmark_tone import FIELDS, summarize
-from gdelt_regkg.tone import ToneLexicon, tokenize_tone
 
 CATEGORIES = ("positive", "negative", "activity", "self_group")
 SCORE_KEYS = dict(
@@ -143,7 +143,7 @@ def prepare_rows(paths, train_dates, validation_date, test_date, check_language)
     all_rows, audit, counts = [], [], Counter[str]()
     detector = None
     if check_language:
-        from gdelt_regkg.language import LinguaDetector
+        from gdelt_regkg.fields.language import LinguaDetector
 
         detector = LinguaDetector()
     for path in paths:

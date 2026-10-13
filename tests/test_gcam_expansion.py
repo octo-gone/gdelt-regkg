@@ -17,9 +17,9 @@ from gdelt_regkg.builders.gcam_expansion import (
     add_wordnet_lexical,
     read_codebook,
 )
-from gdelt_regkg.gcam import _load, _pattern_regex, analyze_gcam
-from gdelt_regkg.themes import ThemeLexicon, ThemeRule
-from gdelt_regkg.tone import tokenize_tone
+from gdelt_regkg.fields.gcam import _load, _pattern_regex, analyze_gcam
+from gdelt_regkg.fields.themes import ThemeLexicon, ThemeRule
+from gdelt_regkg.fields.tone import tokenize_tone
 from gdelt_regkg.utils import read_resource_json
 
 
@@ -241,7 +241,7 @@ class GCAMExpansionTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "profile.json.gz"
             path.write_bytes(gzip.compress(json.dumps(payload).encode()))
-            from gdelt_regkg.gcam import GCAMLexicon
+            from gdelt_regkg.fields.gcam import GCAMLexicon
 
             self.assertEqual(GCAMLexicon.from_json(path).name, expanded.name)
 

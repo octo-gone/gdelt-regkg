@@ -5,7 +5,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 
-from .wire import text_component
+from ..wire import text_component
 
 _PAIRS = {'"': '"', "“": "”", "‘": "’", "'": "'", "«": "»"}
 _VERBS = re.compile(

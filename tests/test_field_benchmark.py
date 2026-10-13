@@ -9,7 +9,7 @@ from unittest.mock import Mock, patch
 from gdelt_regkg import EntityMention, NERResult
 from gdelt_regkg.builders.gazetteer import build_gazetteer
 from gdelt_regkg.cli.inputs import resolve_inputs
-from gdelt_regkg.gcam import GCAMLexicon
+from gdelt_regkg.fields.gcam import GCAMLexicon
 from gdelt_regkg.scripts.benchmark_fields import (
     benchmark_fields,
     bootstrap_f1,

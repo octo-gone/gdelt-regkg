@@ -30,9 +30,9 @@ from gdelt_regkg.builders.themes import (
     revise_themes,
 )
 from gdelt_regkg.builders.tone import build_lexicon, revise_tone
-from gdelt_regkg.gcam import _load, read_gcam_json
-from gdelt_regkg.ner import NameRules
-from gdelt_regkg.rule_inputs import count_rules_from_input, theme_lexicon_from_input
+from gdelt_regkg.fields.gcam import _load, read_gcam_json
+from gdelt_regkg.fields.ner import NameRules
+from gdelt_regkg.fields.rule_inputs import count_rules_from_input, theme_lexicon_from_input
 from gdelt_regkg.utils import packaged_resource_path, read_resource_json
 
 from .gcam import COMPONENT_PREFIXES, STANDARD_COMPONENTS

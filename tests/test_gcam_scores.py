@@ -7,7 +7,7 @@ from pathlib import Path
 
 from gdelt_regkg import GCAMLexicon, analyze_gcam, default_gcam_lexicon, fields
 from gdelt_regkg.builders.gcam_lexicon import extend_gcam_lexicon, read_lexicoder_source
-from gdelt_regkg.gcam import _load
+from gdelt_regkg.fields.gcam import _load
 from gdelt_regkg.scripts.benchmark_fields import benchmark_fields
 from gdelt_regkg.utils import read_resource_json
 

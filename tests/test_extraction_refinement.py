@@ -4,10 +4,10 @@ import unittest
 from dataclasses import replace
 from types import SimpleNamespace
 
-from gdelt_regkg.counts import analyze_counts
-from gdelt_regkg.ner import EntityMention, NameRules, NERResult, SpacyNER
-from gdelt_regkg.rule_inputs import count_rules_from_input
-from gdelt_regkg.themes import analyze_themes
+from gdelt_regkg.fields.counts import analyze_counts
+from gdelt_regkg.fields.ner import EntityMention, NameRules, NERResult, SpacyNER
+from gdelt_regkg.fields.rule_inputs import count_rules_from_input
+from gdelt_regkg.fields.themes import analyze_themes
 from gdelt_regkg.utils import read_resource_json
 
 

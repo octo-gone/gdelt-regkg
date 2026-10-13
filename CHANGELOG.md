@@ -2,6 +2,57 @@
 
 This changelog records implementation changes and the research behind each version. Versions group the iterative work; dictionary revisions such as tone v3 are separate from package versions. Each Research section may contain the method, results and conclusions for that stage.
 
+## 1.2.0 Field package reorganization
+
+### Changes
+
+- Converted `gdelt_regkg.fields` from a single module into a package containing field extractors and analyzers.
+- Moved amounts, counts, dates, extra XML, GCAM, locations, names, quotations and tone/theme extraction into `fields/`, together with NER, language detection, translation and count/theme rule loaders.
+
+### Import migration
+
+Direct module imports now include `fields`, for example:
+
+```python
+# Before
+from gdelt_regkg.tone import tokenize_tone
+
+# From 1.2.0
+from gdelt_regkg.fields.tone import tokenize_tone
+```
+
+The top-level public API and scalar field imports remain the same:
+
+```python
+from gdelt_regkg import ToneLexicon, analyze_dates, generate_gkg
+from gdelt_regkg.fields import extract_counts, extract_themes, extract_tone
+```
+
+## 1.1.0 Unified resource builds
+
+### Changes
+
+- Added `gdelt-regkg-cli build` for tone, themes, counts, name rules (`ner`), locations and GCAM. The CLI is also available through `python -m gdelt_regkg`.
+- Integrated full GCAM builds, baseline expansion, dictionary additions/replacements and custom gazetteer construction into the build command.
+- Added explicit source overrides, recorded-source discovery and checksum-verified downloads. Downloads require `--download-sources`.
+- Staged compiled outputs before publishing and preserved unrelated `defaults.json` selections during partial builds.
+- Added immediate build progress on stderr, with the final result summary on stdout.
+- Enabled recorded output checksum validation and corrected the tone v3 and themes v3 hashes. Validation follows the recipe independently of output labels or compression; mismatches warn and allow the build to continue.
+- Moved reusable resource converters into `gdelt_regkg.builders` and removed the previous build scripts and console commands.
+- Updated tone refinement to derive its baseline from the supplied General Inquirer source.
+
+### CLI migration
+
+Replace `gdelt-regkg-build-resources`, `gdelt-regkg-build-gcam`, `gdelt-regkg-expand-gcam` and `gdelt-regkg-build-gazetteer` with `gdelt-regkg-cli build`.
+
+```shell
+gdelt-regkg-cli build all --sources-dir downloads/resources --download-sources --output local-resources
+gdelt-regkg-cli build gcam --use full --sources-dir downloads/resources --download-sources --output local-resources
+gdelt-regkg-cli build tone --use v2 --suffix experiment --sources-dir downloads/resources
+```
+
+See the [maintained tools guide](scripts/README.md) for recipes and build options.
+
 ## 1.0.3 Zenodo integration and citation
 
 ### Changes

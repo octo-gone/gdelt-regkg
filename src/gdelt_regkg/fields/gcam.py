@@ -18,8 +18,8 @@ from typing import TYPE_CHECKING, Any
 if TYPE_CHECKING:
     from .themes import ThemeLexicon
 
+from ..utils import read_resource_json, resource_path
 from .tone import tokenize_tone
-from .utils import read_resource_json, resource_path
 
 
 def _key(key, prefix):

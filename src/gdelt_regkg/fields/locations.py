@@ -12,10 +12,10 @@ from functools import lru_cache
 from pathlib import Path
 from types import MappingProxyType
 
+from ..utils import read_resource_json, resource_path
+from ..wire import text_component
 from .counts import CountLocation
 from .ner import EntityRecognizer, NERResult, analyze_entities
-from .utils import read_resource_json, resource_path
-from .wire import text_component
 
 
 def location_key(name):

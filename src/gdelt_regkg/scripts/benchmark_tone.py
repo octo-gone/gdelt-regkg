@@ -27,7 +27,7 @@ from pathlib import Path
 from urllib.request import Request, urlopen
 
 from gdelt_regkg.fields import extract_tone
-from gdelt_regkg.tone import ToneLexicon, default_tone_lexicon
+from gdelt_regkg.fields.tone import ToneLexicon, default_tone_lexicon
 
 FIELDS = (
     "tone",

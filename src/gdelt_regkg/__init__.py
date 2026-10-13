@@ -3,20 +3,27 @@
 from __future__ import annotations
 
 from . import fields
-from .amounts import AmountMention, AmountResult, analyze_amounts
 from .config import ExtractionConfig, default_extraction_config
-from .counts import CountIssue, CountLocation, CountMention, CountResult, CountRules, analyze_counts
-from .dates import DateIssue, DateMention, DateResult, analyze_dates
-from .extras import Citation, XMLValue, citation_elements, format_extras_xml
-from .gcam import GCAMLexicon, GCAMResult, analyze_gcam, default_gcam_lexicon
-from .language import (
+from .fields.amounts import AmountMention, AmountResult, analyze_amounts
+from .fields.counts import (
+    CountIssue,
+    CountLocation,
+    CountMention,
+    CountResult,
+    CountRules,
+    analyze_counts,
+)
+from .fields.dates import DateIssue, DateMention, DateResult, analyze_dates
+from .fields.extras import Citation, XMLValue, citation_elements, format_extras_xml
+from .fields.gcam import GCAMLexicon, GCAMResult, analyze_gcam, default_gcam_lexicon
+from .fields.language import (
     LanguageDetection,
     LanguageDetectionError,
     LanguageDetector,
     LinguaDetector,
     detect_language,
 )
-from .locations import (
+from .fields.locations import (
     Gazetteer,
     LocationIssue,
     LocationMention,
@@ -25,8 +32,8 @@ from .locations import (
     analyze_locations,
     default_gazetteer,
 )
-from .names import NameResult, analyze_names
-from .ner import (
+from .fields.names import NameResult, analyze_names
+from .fields.ner import (
     EntityMention,
     EntityRecognizer,
     NameMention,
@@ -37,12 +44,11 @@ from .ner import (
     analyze_entities,
     default_name_rules,
 )
-from .pipeline import IncompleteGKGWarning, generate_gkg, serialize_gkg, write_gkg
-from .quotations import QuotationIssue, QuotationMention, QuotationResult, analyze_quotations
-from .rule_inputs import load_count_rules, load_theme_lexicon
-from .themes import ThemeLexicon, ThemeMention, ThemeResult, ThemeRule, analyze_themes
-from .tone import ToneLexicon, ToneResult, analyze_tone, benchmark_tone_lexicon
-from .translation import (
+from .fields.quotations import QuotationIssue, QuotationMention, QuotationResult, analyze_quotations
+from .fields.rule_inputs import load_count_rules, load_theme_lexicon
+from .fields.themes import ThemeLexicon, ThemeMention, ThemeResult, ThemeRule, analyze_themes
+from .fields.tone import ToneLexicon, ToneResult, analyze_tone, benchmark_tone_lexicon
+from .fields.translation import (
     CachedTranslator,
     M2M100Translator,
     TranslationResult,
@@ -51,6 +57,7 @@ from .translation import (
     normalize_language,
     translate_text,
 )
+from .pipeline import IncompleteGKGWarning, generate_gkg, serialize_gkg, write_gkg
 from .utils import GKG_COLUMNS, ResourceUnavailableError, resource_directory
 from .wire import parse_counts_cell, parse_themes_cell, serialize_counts_cell, serialize_themes_cell
 

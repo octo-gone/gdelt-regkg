@@ -7,9 +7,9 @@ from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
 
+from gdelt_regkg.fields.translation import TranslationResult
 from gdelt_regkg.scripts.benchmark_extraction import load_originals, prepare_translation, retrieve
 from gdelt_regkg.scripts.benchmark_samples import sample_windows
-from gdelt_regkg.translation import TranslationResult
 
 
 class SampleTests(unittest.TestCase):
@@ -82,7 +82,7 @@ class SampleTests(unittest.TestCase):
         self.assertTrue(result["translation_pending"])
         text = "The hospital treated three injured people. " * 12
         with patch(
-            "gdelt_regkg.translation.translate_text",
+            "gdelt_regkg.fields.translation.translate_text",
             return_value=TranslationResult(source, text, "zho", "fake CUDA test"),
         ) as translate:
             prepared = prepare_translation(result, object())
@@ -105,7 +105,7 @@ class SampleTests(unittest.TestCase):
             "original": {"word_count": 100},
         }
         with patch(
-            "gdelt_regkg.translation.translate_text",
+            "gdelt_regkg.fields.translation.translate_text",
             return_value=TranslationResult(source, text, "aze", "fake CUDA test"),
         ) as translate:
             prepared = prepare_translation(row, object())

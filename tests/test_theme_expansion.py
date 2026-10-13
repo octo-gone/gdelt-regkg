@@ -4,8 +4,8 @@ from pathlib import Path
 
 from gdelt_regkg import ExtractionConfig, analyze_counts, analyze_themes
 from gdelt_regkg.builders import themes as builder
-from gdelt_regkg.rule_inputs import THEME_SCHEMA, theme_lexicon_from_input
-from gdelt_regkg.themes import ThemeRule
+from gdelt_regkg.fields.rule_inputs import THEME_SCHEMA, theme_lexicon_from_input
+from gdelt_regkg.fields.themes import ThemeRule
 from gdelt_regkg.utils import read_resource_json, resource_path
 
 ROOT = Path(__file__).resolve().parents[1]

@@ -14,7 +14,7 @@ from dataclasses import dataclass, field
 from functools import lru_cache
 from pathlib import Path
 
-from .utils import read_resource_json, resource_path
+from ..utils import read_resource_json, resource_path
 
 _WORD = re.compile(r"[^\W_]+(?:['-][^\W_]+)*", re.UNICODE)
 _CATEGORIES = ("positive", "negative", "activity", "self_group")

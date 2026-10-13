@@ -23,11 +23,11 @@ from importlib import import_module
 from pathlib import Path
 from types import SimpleNamespace
 
-from gdelt_regkg.counts import CountRules, analyze_counts, default_count_rules
-from gdelt_regkg.language import detect_language
-from gdelt_regkg.ner import NameRules, SpacyNER
-from gdelt_regkg.themes import ThemeLexicon, analyze_themes, default_theme_lexicon
-from gdelt_regkg.tone import ToneLexicon, default_tone_lexicon, tokenize_tone
+from gdelt_regkg.fields.counts import CountRules, analyze_counts, default_count_rules
+from gdelt_regkg.fields.language import detect_language
+from gdelt_regkg.fields.ner import NameRules, SpacyNER
+from gdelt_regkg.fields.themes import ThemeLexicon, analyze_themes, default_theme_lexicon
+from gdelt_regkg.fields.tone import ToneLexicon, default_tone_lexicon, tokenize_tone
 from gdelt_regkg.utils import read_resource_json
 
 from .benchmark_tone import acquire_archive, parse_tone, process_article, sample_records, summarize
@@ -137,7 +137,7 @@ def prepare_translation(row, translator, *, min_words=50):
     if row.get("status") != "ok" or not row.get("translated") or not row.get("translation_pending"):
         return row
     from gdelt_regkg.fields import extract_tone
-    from gdelt_regkg.translation import normalize_language, translate_text
+    from gdelt_regkg.fields.translation import normalize_language, translate_text
 
     try:
         match = re.search(r"(?:^|;)srclc:([^;]+)", row.get("translation_info", ""))
@@ -572,14 +572,14 @@ def main(default_fields=("ner", "counts", "themes")):
             b"".join(
                 (Path(__file__).parents[1] / name).read_bytes()
                 for name in (
-                    "ner.py",
-                    "counts.py",
-                    "tone.py",
-                    "translation.py",
-                    "themes.py",
-                    "language.py",
+                    "fields/ner.py",
+                    "fields/counts.py",
+                    "fields/tone.py",
+                    "fields/translation.py",
+                    "fields/themes.py",
+                    "fields/language.py",
                     "wire.py",
-                    "rule_inputs.py",
+                    "fields/rule_inputs.py",
                 )
             )
         ).hexdigest(),
@@ -608,7 +608,7 @@ def main(default_fields=("ner", "counts", "themes")):
     )
     translator = None
     if args.include_translated:
-        from gdelt_regkg.translation import CachedTranslator, M2M100Translator
+        from gdelt_regkg.fields.translation import CachedTranslator, M2M100Translator
 
         translator = CachedTranslator(
             M2M100Translator.from_model(

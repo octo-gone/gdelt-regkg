@@ -7,8 +7,8 @@ from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
 
-from .counts import CountRules
-from .themes import ThemeLexicon
+from .fields.counts import CountRules
+from .fields.themes import ThemeLexicon
 from .utils import read_resource_json, resource_path
 
 
@@ -26,7 +26,7 @@ class ExtractionConfig:
         if not isinstance(data["name"], str) or not data["name"].strip():
             raise ValueError("Configuration name must be a nonempty string")
         themes = data["theme_lexicon"]
-        from .rule_inputs import count_rules_from_input, theme_lexicon_from_input
+        from .fields.rule_inputs import count_rules_from_input, theme_lexicon_from_input
 
         if not isinstance(themes, dict):
             raise ValueError("theme_lexicon must be an object")
@@ -54,7 +54,7 @@ class ExtractionConfig:
         cls, count_path: str | Path, theme_path: str | Path, *, name: str = "custom-rules"
     ):
         """Compose independent source-neutral count and theme JSON inputs."""
-        from .rule_inputs import load_count_rules, load_theme_lexicon
+        from .fields.rule_inputs import load_count_rules, load_theme_lexicon
 
         return cls(name, load_theme_lexicon(theme_path), load_count_rules(count_path))
 
@@ -70,7 +70,7 @@ def default_extraction_config(resources_dir=None) -> ExtractionConfig:
 
 @lru_cache(maxsize=8)
 def _cached_config(theme_path, count_path):
-    from .rule_inputs import count_rules_from_input, theme_lexicon_from_input
+    from .fields.rule_inputs import count_rules_from_input, theme_lexicon_from_input
 
     counts = json.loads(count_path.read_text(encoding="utf-8"))
     themes = json.loads(theme_path.read_text(encoding="utf-8"))

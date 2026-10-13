@@ -9,16 +9,16 @@ from typing import TextIO
 
 from . import fields
 from .config import ExtractionConfig
-from .counts import CountLocation, CountRules, analyze_counts, default_count_rules
-from .extras import XMLValue
-from .gcam import GCAMLexicon, default_gcam_lexicon
-from .language import LanguageDetector
-from .locations import Gazetteer, analyze_locations, default_gazetteer
-from .names import analyze_names
-from .ner import EntityRecognizer, NERResult, analyze_entities
-from .themes import ThemeLexicon, analyze_themes, default_theme_lexicon
-from .tone import ToneLexicon, default_tone_lexicon
-from .translation import Translator, translate_text
+from .fields.counts import CountLocation, CountRules, analyze_counts, default_count_rules
+from .fields.extras import XMLValue
+from .fields.gcam import GCAMLexicon, default_gcam_lexicon
+from .fields.language import LanguageDetector
+from .fields.locations import Gazetteer, analyze_locations, default_gazetteer
+from .fields.names import analyze_names
+from .fields.ner import EntityRecognizer, NERResult, analyze_entities
+from .fields.themes import ThemeLexicon, analyze_themes, default_theme_lexicon
+from .fields.tone import ToneLexicon, default_tone_lexicon
+from .fields.translation import Translator, translate_text
 from .utils import GKG_COLUMNS
 
 

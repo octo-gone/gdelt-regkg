@@ -15,7 +15,7 @@ from functools import lru_cache
 from pathlib import Path
 from types import MappingProxyType
 
-from .wire import text_component
+from ..wire import text_component
 
 PROFILE = "english-counts-v1"
 _UNITS = "one two three four five six seven eight nine".split()
@@ -214,7 +214,7 @@ class CountRules:
 
 
 def default_count_rules(resources_dir=None) -> CountRules:
-    from .utils import read_resource_json, resource_path
+    from ..utils import read_resource_json, resource_path
 
     return _cached_count_rules(
         resource_path(

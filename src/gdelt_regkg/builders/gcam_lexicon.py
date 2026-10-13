@@ -11,8 +11,8 @@ import zipfile
 from pathlib import Path
 from typing import Any
 
-from gdelt_regkg.gcam import GCAMLexicon, _load
-from gdelt_regkg.tone import tokenize_tone
+from gdelt_regkg.fields.gcam import GCAMLexicon, _load
+from gdelt_regkg.fields.tone import tokenize_tone
 
 # Verified against GDELT's GCAM Master Codebook. No ambiguous historical aliases.
 CATEGORIES = {

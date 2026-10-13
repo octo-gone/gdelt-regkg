@@ -12,7 +12,7 @@ from collections import Counter, defaultdict
 from dataclasses import asdict
 from pathlib import Path
 
-from gdelt_regkg.locations import Gazetteer, Place
+from gdelt_regkg.fields.locations import Gazetteer, Place
 
 
 def build_gazetteer(archives, *, name="gkg-reference-gazetteer-v1"):

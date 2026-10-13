@@ -10,8 +10,8 @@ import json
 import zipfile
 from pathlib import Path
 
-from gdelt_regkg.rule_inputs import THEME_SCHEMA, theme_lexicon_from_input
-from gdelt_regkg.themes import ThemeLexicon
+from gdelt_regkg.fields.rule_inputs import THEME_SCHEMA, theme_lexicon_from_input
+from gdelt_regkg.fields.themes import ThemeLexicon
 from gdelt_regkg.utils import read_resource_json
 
 EMTERMS_THEMES = dict(

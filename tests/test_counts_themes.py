@@ -20,7 +20,7 @@ from gdelt_regkg import (
 )
 from gdelt_regkg.builders.themes import build_profile
 from gdelt_regkg.config import ExtractionConfig
-from gdelt_regkg.themes import default_theme_lexicon
+from gdelt_regkg.fields.themes import default_theme_lexicon
 
 CONSERVATIVE = ExtractionConfig.from_json(
     Path(__file__).resolve().parent / "fixtures/extraction-conservative-v1.json"

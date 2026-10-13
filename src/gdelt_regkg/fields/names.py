@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from ..wire import text_component
 from .ner import EntityRecognizer, NameMention, NERResult, analyze_entities
-from .wire import text_component
 
 
 @dataclass(frozen=True)

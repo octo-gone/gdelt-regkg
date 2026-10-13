@@ -6,7 +6,7 @@ from pathlib import Path
 
 from gdelt_regkg import IncompleteGKGWarning, ToneLexicon, analyze_tone, generate_gkg
 from gdelt_regkg.fields import extract_tone
-from gdelt_regkg.tone import default_tone_lexicon, tokenize_tone
+from gdelt_regkg.fields.tone import default_tone_lexicon, tokenize_tone
 
 
 class ToneTests(unittest.TestCase):

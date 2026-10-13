@@ -29,9 +29,9 @@ from gdelt_regkg import (
     analyze_quotations,
 )
 from gdelt_regkg.builders.gcam_expansion import read_codebook
-from gdelt_regkg.gcam import GCAMLexicon, default_gcam_lexicon
-from gdelt_regkg.locations import default_gazetteer
-from gdelt_regkg.tone import tokenize_tone
+from gdelt_regkg.fields.gcam import GCAMLexicon, default_gcam_lexicon
+from gdelt_regkg.fields.locations import default_gazetteer
+from gdelt_regkg.fields.tone import tokenize_tone
 from gdelt_regkg.utils import read_resource_json, resource_path
 
 from .benchmark_extraction import normalize_name
@@ -337,18 +337,18 @@ def benchmark_fields(
     engine_checksums = {
         name: hashlib.sha256(files("gdelt_regkg").joinpath(name).read_bytes()).hexdigest()
         for name in (
-            (() if fields_only else ("gcam.py", "tone.py", "themes.py"))
+            (() if fields_only else ("fields/gcam.py", "fields/tone.py", "fields/themes.py"))
             + (
                 ()
                 if gcam_only
                 else (
-                    "ner.py",
-                    "names.py",
-                    "locations.py",
-                    "dates.py",
-                    "amounts.py",
-                    "quotations.py",
-                    "tone.py",
+                    "fields/ner.py",
+                    "fields/names.py",
+                    "fields/locations.py",
+                    "fields/dates.py",
+                    "fields/amounts.py",
+                    "fields/quotations.py",
+                    "fields/tone.py",
                     "wire.py",
                     "scripts/benchmark_extraction.py",
                 )

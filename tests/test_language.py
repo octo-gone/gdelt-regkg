@@ -4,7 +4,7 @@ from types import SimpleNamespace
 from unittest.mock import Mock, patch
 
 from gdelt_regkg import LanguageDetection, LanguageDetectionError, LinguaDetector, detect_language
-from gdelt_regkg.language import script_mismatch, verify_language
+from gdelt_regkg.fields.language import script_mismatch, verify_language
 
 
 class LanguageTests(unittest.TestCase):

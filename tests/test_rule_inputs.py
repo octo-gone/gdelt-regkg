@@ -16,7 +16,7 @@ from gdelt_regkg import (
     serialize_counts_cell,
     serialize_themes_cell,
 )
-from gdelt_regkg.rule_inputs import (
+from gdelt_regkg.fields.rule_inputs import (
     count_rules_from_input,
     theme_input_from_mapping,
     theme_lexicon_from_input,

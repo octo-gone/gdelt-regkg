@@ -9,8 +9,8 @@ from dataclasses import dataclass
 from importlib import import_module
 from typing import Any, Protocol
 
+from ..wire import text_component
 from .language import LanguageDetection, LanguageDetector, detect_language, verify_language
-from .wire import text_component
 
 # M2M100 languages: ISO 639-1, ISO 639-2/T, and common English names.
 _LANGUAGES = """

@@ -13,8 +13,8 @@ from pathlib import Path
 from types import MappingProxyType
 from typing import Protocol
 
-from .utils import read_resource_json, resource_path
-from .wire import text_component
+from ..utils import read_resource_json, resource_path
+from ..wire import text_component
 
 _LABELS = {"PERSON", "ORG", "LOCATION"}
 _SPACY_LABELS = {

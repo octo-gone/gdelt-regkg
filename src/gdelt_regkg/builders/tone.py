@@ -8,7 +8,7 @@ import hashlib
 import json
 import re
 
-from gdelt_regkg.tone import ToneLexicon, _parse_lexicon, tokenize_tone
+from gdelt_regkg.fields.tone import ToneLexicon, _parse_lexicon, tokenize_tone
 
 
 def build_lexicon(input_path):

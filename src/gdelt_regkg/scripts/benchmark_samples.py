@@ -12,7 +12,7 @@ from http.client import HTTPException
 from pathlib import Path
 from types import SimpleNamespace
 
-from gdelt_regkg.tone import default_tone_lexicon
+from gdelt_regkg.fields.tone import default_tone_lexicon
 
 from .benchmark_extraction import load_originals
 from .benchmark_tone import acquire_archive, process_article, sample_records
