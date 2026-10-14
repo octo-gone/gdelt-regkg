@@ -15,7 +15,7 @@ from unittest.mock import patch
 from gdelt_regkg.builders.themes import authored_theme_input
 from gdelt_regkg.cli import main
 from gdelt_regkg.cli.build import publish
-from gdelt_regkg.cli.inputs import parse_sources, required_sources, resolve_inputs
+from gdelt_regkg.cli.inputs import BuildOptions, parse_sources, required_sources, resolve_inputs
 from gdelt_regkg.cli.profiles import Artifact, BuildContext, compile_profiles
 from gdelt_regkg.utils import read_resource_json
 
@@ -48,11 +48,13 @@ class InputTests(WorkspaceTests):
         with patch("gdelt_regkg.cli.inputs.download_source") as download:
             inputs = resolve_inputs(
                 self.root / "output",
-                targets=("tone",),
-                sources={"general-inquirer": explicit},
-                sources_dir=self.root / "missing",
-                download_sources=True,
-                recipe=recipe_for(**{"general-inquirer": b"recorded"}),
+                BuildOptions(
+                    targets=("tone",),
+                    sources={"general-inquirer": explicit},
+                    sources_dir=self.root / "missing",
+                    download_sources=True,
+                    recipe=recipe_for(**{"general-inquirer": b"recorded"}),
+                ),
             )
         download.assert_not_called()
         self.assertEqual(inputs.sources["general-inquirer"], explicit)
@@ -64,14 +66,16 @@ class InputTests(WorkspaceTests):
         path.write_bytes(b"recorded")
         with patch("gdelt_regkg.cli.sources.urlopen") as network:
             inputs = resolve_inputs(
-                self.root / "output", targets=("tone",), sources_dir=self.root, recipe=recipe
+                self.root / "output",
+                BuildOptions(targets=("tone",), sources_dir=self.root, recipe=recipe),
             )
         network.assert_not_called()
         self.assertEqual(inputs.sources["general-inquirer"], path)
         path.write_bytes(b"changed")
         with self.assertRaisesRegex(ValueError, "checksum mismatch"):
             resolve_inputs(
-                self.root / "output", targets=("tone",), sources_dir=self.root, recipe=recipe
+                self.root / "output",
+                BuildOptions(targets=("tone",), sources_dir=self.root, recipe=recipe),
             )
 
     def test_only_needed_sources_are_downloaded_and_verified_before_writing(self):
@@ -81,10 +85,12 @@ class InputTests(WorkspaceTests):
         ) as network:
             inputs = resolve_inputs(
                 self.root / "output",
-                targets=("tone", "counts"),
-                sources_dir=self.root,
-                download_sources=True,
-                recipe=recipe,
+                BuildOptions(
+                    targets=("tone", "counts"),
+                    sources_dir=self.root,
+                    download_sources=True,
+                    recipe=recipe,
+                ),
             )
         self.assertEqual(network.call_count, 1)
         self.assertEqual(set(inputs.sources), {"general-inquirer"})
@@ -96,16 +102,15 @@ class InputTests(WorkspaceTests):
         ):
             resolve_inputs(
                 self.root / "output",
-                targets=("tone",),
-                sources_dir=other,
-                download_sources=True,
-                recipe=recipe,
+                BuildOptions(
+                    targets=("tone",), sources_dir=other, download_sources=True, recipe=recipe
+                ),
             )
         self.assertFalse(other.exists())
 
     def test_missing_sources_are_reported_together(self):
         with self.assertRaises(ValueError) as error:
-            resolve_inputs(self.root / "output", targets=("tone", "themes"))
+            resolve_inputs(self.root / "output", BuildOptions(targets=("tone", "themes")))
         self.assertIn("general-inquirer", str(error.exception))
         self.assertIn("crisislex", str(error.exception))
         self.assertFalse((self.root / "output").exists())
@@ -124,7 +129,8 @@ class InputTests(WorkspaceTests):
         for name in ("wordnet-31", "wordnet-20", "wordnet-16", "wordnet-annotations"):
             sources[name] = self.root
         inputs = resolve_inputs(
-            self.root / "output", targets=("gcam",), sources=sources, authored_themes_only=True
+            self.root / "output",
+            BuildOptions(targets=("gcam",), sources=sources, authored_themes_only=True),
         )
         self.assertEqual(inputs.sources["wordnet-31"], self.root)
 
@@ -142,13 +148,15 @@ class InputTests(WorkspaceTests):
             ],
         }
         inputs = resolve_inputs(
-            self.root / "output", targets=("locations",), sources_dir=self.root, recipe=recipe
+            self.root / "output",
+            BuildOptions(targets=("locations",), sources_dir=self.root, recipe=recipe),
         )
         self.assertEqual(inputs.gazetteer_archives, (archive,))
         archive.write_bytes(b"changed")
         with self.assertRaisesRegex(ValueError, "checksum mismatch"):
             resolve_inputs(
-                self.root / "output", targets=("locations",), sources_dir=self.root, recipe=recipe
+                self.root / "output",
+                BuildOptions(targets=("locations",), sources_dir=self.root, recipe=recipe),
             )
 
     def test_invalid_requests_do_not_write_or_download(self):
@@ -164,7 +172,7 @@ class InputTests(WorkspaceTests):
                 patch("gdelt_regkg.cli.inputs.download_source") as download,
                 self.assertRaises(ValueError),
             ):
-                resolve_inputs(self.root / "output", **options)
+                resolve_inputs(self.root / "output", BuildOptions(**options))
             download.assert_not_called()
         self.assertFalse((self.root / "output").exists())
 
@@ -204,8 +212,7 @@ class CommandTests(WorkspaceTests):
         self.assertEqual(set(defaults.values()), set(expected))
         for filename, payload in expected.items():
             self.assertEqual(
-                json.loads((new / "lexicons" / filename).read_text(encoding="utf-8")),
-                payload,
+                json.loads((new / "lexicons" / filename).read_text(encoding="utf-8")), payload
             )
         self.assertFalse((new / "lexicons/counts.v1.json").exists())
 
@@ -221,7 +228,9 @@ class CommandTests(WorkspaceTests):
         )
 
     def test_theme_dependency_is_compiled_once_per_build_context(self):
-        inputs = resolve_inputs(self.root, targets=("themes",), authored_themes_only=True)
+        inputs = resolve_inputs(
+            self.root, BuildOptions(targets=("themes",), authored_themes_only=True)
+        )
         with patch(
             "gdelt_regkg.cli.profiles.authored_theme_input", return_value={"name": "test"}
         ) as build:

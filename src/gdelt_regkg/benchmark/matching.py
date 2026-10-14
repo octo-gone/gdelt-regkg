@@ -12,7 +12,9 @@ def assignment(left, right, cost):
     """
     if not left or not right:
         return []
-    from scipy.optimize import linear_sum_assignment
+    from ..dependencies import require_dependency
+
+    linear_sum_assignment = require_dependency("scipy.optimize", "benchmark").linear_sum_assignment
 
     values = [[cost(a, b) for b in right] for a in left]
     valid = [value for row in values for value in row if value is not None]

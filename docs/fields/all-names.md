@@ -1,16 +1,18 @@
 # All names
 
-`V2.1ALLNAMES` stores broad name mentions and their offsets. `extract_all_names` shares the English NER result with persons, organizations and locations, and also includes other named categories and proper-noun sequences.
+`V2.1ALLNAMES` stores broad name mentions and their offsets. `analyze_names` shares the English NER result with persons, organizations and locations, and also includes other named categories and proper-noun sequences.
 
 ## Example
 
 ```python
-from gdelt_regkg import SpacyNER, analyze_entities, analyze_names
-from gdelt_regkg.fields import extract_all_names
+from gdelt_regkg.fields.names import analyze_names
+from gdelt_regkg.fields.ner import SpacyNER
+from gdelt_regkg.fields.ner import analyze_entities
 
 ner = SpacyNER.from_model("en_core_web_sm", name_policy="surface")
-text = 'Marie Curie visited Microsoft in Paris, France.'
-print(extract_all_names(text, recognizer=ner))
+text = "Marie Curie visited Microsoft in Paris, France."
+
+print(analyze_names(text, recognizer=ner).to_gkg())
 entities = analyze_entities(text, recognizer=ner)
 names = analyze_names(text, ner=entities)
 assert names.mentions == entities.all_names

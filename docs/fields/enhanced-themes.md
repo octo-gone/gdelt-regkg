@@ -5,14 +5,13 @@
 ## Example
 
 ```python
-from gdelt_regkg import analyze_themes
-from gdelt_regkg.fields import extract_enhanced_themes
+from gdelt_regkg.fields.themes import analyze_themes
 
-text = 'Heavy rain caused flooding.'
-print(extract_enhanced_themes(text))
+text = "Heavy rain caused flooding."
+
+print(analyze_themes(text).to_gkg(enhanced=True))
 result = analyze_themes(text)
-assert text[result.mentions[0].start:result.mentions[0].end] == "flooding"
-# Reuse result.to_gkg() for the standard theme field.
+assert text[result.mentions[0].start : result.mentions[0].end] == "flooding"
 ```
 
 ```text

@@ -1,12 +1,12 @@
 # Refine a tone dictionary
 
-`gdelt-regkg-refine-tone` learns candidate dictionary changes from saved article bodies and original GDELT tone scores. It builds a baseline from a General Inquirer source, fits edits on training dates, selects variants on a validation date, and evaluates the frozen choices on a held-out test date.
+`gdelt-regkg-cli refine-tone` learns candidate dictionary changes from saved article bodies and original GDELT tone scores. It builds a baseline from a General Inquirer source, fits edits on training dates, selects variants on a validation date, and evaluates the frozen choices on a held-out test date.
 
 ```shell
-gdelt-regkg-refine-tone --results articles.jsonl --train-dates 20260922 20260924 20260926 20260928 --validation-date 20261002 --test-date 20261003 --gi-source inqtabs.txt --output tone-revision --check-language
+gdelt-regkg-cli refine-tone --results articles.jsonl --train-dates 20260922 20260924 20260926 20260928 --validation-date 20261002 --test-date 20261003 --gi-source inqtabs.txt --output tone-revision --check-language
 ```
 
-Install the package following [Installation](../installation.md). Obtain the General Inquirer input using the [resource source instructions](build.md). Run `gdelt-regkg-refine-tone --help` for fitting options.
+Install the package following [Installation](../installation.md). Obtain the General Inquirer input using the [resource source instructions](build.md). Run `gdelt-regkg-cli refine-tone --help` for fitting options.
 
 ## Input
 

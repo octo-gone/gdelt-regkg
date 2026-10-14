@@ -3,8 +3,14 @@ import unittest
 from types import SimpleNamespace
 from unittest.mock import Mock, patch
 
-from gdelt_regkg import LanguageDetection, LanguageDetectionError, LinguaDetector, detect_language
-from gdelt_regkg.fields.language import script_mismatch, verify_language
+from gdelt_regkg.fields.language import (
+    LanguageDetection,
+    LanguageDetectionError,
+    LinguaDetector,
+    detect_language,
+    script_mismatch,
+    verify_language,
+)
 
 
 class LanguageTests(unittest.TestCase):
@@ -66,7 +72,7 @@ class LanguageTests(unittest.TestCase):
         with self.assertRaises(LanguageDetectionError):
             verify_language(arabic, "eng", detector=detector)
 
-    def detector(self, confidence=0.99, second=0.01):
+    def detector(self, confidence=0.99, second=0.01, **options):
         builder = Mock()
         builder.with_low_accuracy_mode.return_value = builder
         backend = builder.build.return_value
@@ -87,11 +93,11 @@ class LanguageTests(unittest.TestCase):
                 )
             },
         ):
-            detector = LinguaDetector()
-        return detector, backend
+            detector = LinguaDetector(**options)
+        return (detector, backend)
 
     def test_confidence_margin_short_text_and_bounded_sample(self):
-        detector, backend = self.detector()
+        detector, backend = self.detector(strict=True)
         result = detect_language(
             "This is a sufficiently long English article about the latest local news.",
             detector=detector,
@@ -109,11 +115,58 @@ class LanguageTests(unittest.TestCase):
         self.assertIn("middle", sample)
         self.assertIn("end", sample)
         for confidence, second in ((0.6, 0.2), (0.85, 0.75)):
-            detector, _ = self.detector(confidence, second)
+            detector, _ = self.detector(confidence, second, strict=True)
             with self.assertRaises(LanguageDetectionError):
                 detector.detect(
                     "A sufficiently long English article with enough alphabetic characters."
                 )
+
+    def test_default_returns_short_and_uncertain_candidates_with_scores(self):
+        for confidence, second in ((0.6, 0.2), (0.85, 0.75)):
+            detector, backend = self.detector(confidence, second)
+            result = detect_language("Hello", detector=detector)
+            self.assertEqual(result.language, "eng")
+            self.assertEqual(result.confidence, confidence)
+            self.assertAlmostEqual(result.margin, confidence - second)
+            backend.compute_language_confidence_values.assert_called_once_with("Hello")
+            with patch(
+                "gdelt_regkg.fields.language.default_language_detector", return_value=detector
+            ):
+                self.assertEqual(detect_language("Hello"), result)
+                from gdelt_regkg.fields.translation import translate_text
+
+                translator = Mock()
+                translated = translate_text("Hello", translator=translator)
+                self.assertEqual(translated.text, "Hello")
+                self.assertEqual(translated.language_detection, result)
+                translator.translate.assert_not_called()
+
+    def test_no_candidate_still_raises_without_strict_checks(self):
+        detector, backend = self.detector()
+        backend.compute_language_confidence_values.return_value = []
+        with self.assertRaisesRegex(LanguageDetectionError, "No language"):
+            detector.detect("123456789")
+
+    def test_strict_thresholds_can_be_configured(self):
+        detector, _ = self.detector(0.6, 0.2, strict=True, min_letters=5, min_confidence=0.5)
+        self.assertEqual(detector.detect("Hello").language, "eng")
+        with self.assertRaises(LanguageDetectionError):
+            detector.detect("Hi")
+        for options, error in (
+            ({"strict": "yes"}, TypeError),
+            ({"min_letters": -1}, ValueError),
+            ({"min_letters": True}, ValueError),
+        ):
+            with self.subTest(options=options), self.assertRaises(error):
+                LinguaDetector(**options)
+
+    def test_default_label_verification_remains_conservative(self):
+        detector, _ = self.detector(0.6, 0.2, strict=True)
+        with patch(
+            "gdelt_regkg.fields.language.default_language_detector", return_value=detector
+        ) as default:
+            self.assertIsNone(verify_language("Hello", "eng", check="all"))
+            default.assert_called_once_with(strict=True)
 
     @unittest.skipUnless(
         importlib.util.find_spec("lingua"), "Optional Lingua dependency not installed"

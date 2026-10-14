@@ -5,11 +5,10 @@ import unittest
 import zipfile
 from pathlib import Path
 
-from gdelt_regkg import GCAMLexicon, analyze_gcam, default_gcam_lexicon, fields
 from gdelt_regkg.benchmark import BenchmarkOptions, evaluate
 from gdelt_regkg.benchmark.model import GKGRow
 from gdelt_regkg.builders.gcam_lexicon import extend_gcam_lexicon, read_lexicoder_source
-from gdelt_regkg.fields.gcam import _load
+from gdelt_regkg.fields.gcam import GCAMLexicon, _load, analyze_gcam, default_gcam_lexicon
 from gdelt_regkg.utils import read_resource_json
 
 
@@ -31,7 +30,7 @@ class WeightedGCAMTests(unittest.TestCase):
         self.assertEqual(analyze_gcam("unknown", lexicon=self.fixture()).to_gkg(), "wc:1")
         self.assertNotIn("v26.1", analyze_gcam("unknown", lexicon=self.fixture()).values)
         self.assertEqual(
-            fields.extract_gcam("good", lexicon=self.fixture()), "wc:1,c26.1:1,v26.1:2"
+            analyze_gcam("good", lexicon=self.fixture()).to_gkg(), "wc:1,c26.1:1,v26.1:2"
         )
 
     def test_immutable_and_finite_validation(self):
@@ -74,7 +73,6 @@ class WeightedGCAMTests(unittest.TestCase):
             vader = Path(directory) / "vader.txt"
             vader.write_text("good\t2.0\t0.2\n: )\t1.0\n", encoding="utf-8")
             lexicoder = Path(directory) / "lexicoder.json"
-            # Authored fixture, not copied Lexicoder vocabulary.
             lexicoder.write_text(
                 json.dumps(
                     {
@@ -133,7 +131,7 @@ class WeightedGCAMTests(unittest.TestCase):
         ]
         report = evaluate(pairs, fields=("gcam",))
         coverage = next(
-            r for r in report.rows if r.calculation == "v26.1 / weighted-score coverage"
+            (r for r in report.rows if r.calculation == "v26.1 / weighted-score coverage")
         )
         self.assertAlmostEqual(coverage.metrics["sign_agreement"], 2 / 3)
 
@@ -156,7 +154,7 @@ class WeightedGCAMTests(unittest.TestCase):
             self.assertEqual(zip_metadata["format"], "original-lc3-zip")
             self.assertEqual(direct_metadata["format"], "lc3-directory")
             self.assertEqual(len(zip_metadata["members"]), 2)
-            self.assertTrue(all(len(m["sha256"]) == 64 for m in zip_metadata["members"]))
+            self.assertTrue(all((len(m["sha256"]) == 64 for m in zip_metadata["members"])))
             self.assertFalse((root / "must-not-execute.scpt").exists())
             profile = extend_gcam_lexicon(
                 {"name": "test", "dimensions": []}, lexicoder_source=archive
@@ -165,12 +163,7 @@ class WeightedGCAMTests(unittest.TestCase):
             self.assertEqual([counts[f"c3.{i}"] for i in range(1, 5)], [1, 1, 1, 1])
             self.assertEqual(
                 profile["lexicoder_source"]["source_entries"],
-                {
-                    "negative": 1,
-                    "positive": 1,
-                    "neg_positive": 1,
-                    "neg_negative": 1,
-                },
+                {"negative": 1, "positive": 1, "neg_positive": 1, "neg_negative": 1},
             )
 
     def test_zip_rejects_missing_or_ambiguous_dictionary_members(self):

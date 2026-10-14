@@ -18,7 +18,7 @@ from gdelt_regkg.builders.themes import build_profile, merge_inputs, restore_cri
 from gdelt_regkg.builders.tone import build_lexicon, revise_tone
 from gdelt_regkg.cli import main
 from gdelt_regkg.cli.gcam import GCAMOptions
-from gdelt_regkg.cli.inputs import required_sources, resolve_inputs
+from gdelt_regkg.cli.inputs import BuildOptions, required_sources, resolve_inputs
 from gdelt_regkg.cli.validation import semantic_sha256
 from gdelt_regkg.fields.gcam import _load, analyze_gcam, default_gcam_lexicon, read_gcam_json
 from gdelt_regkg.fields.rule_inputs import THEME_SCHEMA
@@ -134,7 +134,7 @@ class RecipeTests(WorkspaceTests):
                     for key in ("positive", "negative", "activity", "self_group")
                 },
             }
-            revisions[("tone", f"v{version}-edits.json")] = edits
+            revisions["tone", f"v{version}-edits.json"] = edits
             baseline = revise_tone(baseline, edits)
         return revisions
 
@@ -419,7 +419,7 @@ class RecipeTests(WorkspaceTests):
         self.assertEqual(set(defaults), {"tone", "themes", "counts", "ner", "locations", "gcam"})
         self.assertEqual({p.name for p in (output / "lexicons").iterdir()}, set(defaults.values()))
         self.assertEqual(len(defaults), 6)
-        self.assertTrue(all(".selected.json" in filename for filename in defaults.values()))
+        self.assertTrue(all((".selected.json" in filename for filename in defaults.values())))
 
     def test_standard_and_full_gcam_with_real_converters_and_baseline_expansion(self):
         sources = self.fixture_sources()

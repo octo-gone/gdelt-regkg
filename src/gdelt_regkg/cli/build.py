@@ -9,7 +9,7 @@ import tempfile
 from pathlib import Path
 
 from .gcam import COMPONENT_SOURCES, GCAMOptions
-from .inputs import SOURCE_NAMES, TARGET_SOURCES, parse_sources, resolve_inputs
+from .inputs import SOURCE_NAMES, TARGET_SOURCES, BuildOptions, parse_sources, resolve_inputs
 from .profiles import Artifact, compile_profiles
 from .progress import Progress, ignore_progress, print_progress
 
@@ -116,23 +116,25 @@ def publish(
 def run(args: argparse.Namespace):
     inputs = resolve_inputs(
         args.output,
-        targets=args.targets,
-        sources=parse_sources(args.source),
-        sources_dir=args.sources_dir,
-        download_sources=args.download_sources,
-        authored_themes_only=args.authored_themes_only,
-        gazetteer_archives=args.gazetteer_archives,
-        gazetteer_name=args.gazetteer_name,
-        gazetteer_filename=args.gazetteer_filename,
-        gcam=GCAMOptions(
-            baseline=None if args.gcam_baseline is None else args.gcam_baseline.expanduser(),
-            additions=tuple(args.gcam_add),
-            affect_propagate_hierarchy=args.affect_propagate_hierarchy,
-            affect_nouns_only=args.affect_nouns_only,
+        BuildOptions(
+            targets=args.targets,
+            sources=parse_sources(args.source),
+            sources_dir=args.sources_dir,
+            download_sources=args.download_sources,
+            authored_themes_only=args.authored_themes_only,
+            gazetteer_archives=args.gazetteer_archives,
+            gazetteer_name=args.gazetteer_name,
+            gazetteer_filename=args.gazetteer_filename,
+            gcam=GCAMOptions(
+                baseline=None if args.gcam_baseline is None else args.gcam_baseline.expanduser(),
+                additions=tuple(args.gcam_add),
+                affect_propagate_hierarchy=args.affect_propagate_hierarchy,
+                affect_nouns_only=args.affect_nouns_only,
+            ),
+            gcam_filename=args.gcam_filename,
+            use=args.use,
+            suffix=args.suffix,
         ),
-        gcam_filename=args.gcam_filename,
-        use=args.use,
-        suffix=args.suffix,
         progress=print_progress,
     )
     artifacts, selections = compile_profiles(inputs, progress=print_progress)

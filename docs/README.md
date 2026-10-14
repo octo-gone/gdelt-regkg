@@ -8,9 +8,9 @@ The library implements all 27 GKG columns from prepared article text and supplie
 | [API usage](api-usage.md) | Python extraction, field functions, configuration and complete pipeline examples |
 | [CLI](cli/README.md) | Resource builds, benchmarks and additional command-line tools |
 
-External vocabularies are prepared locally; recorded source recipes identify the resource profiles. [Version 0.19.0](../CHANGELOG.md#0190-locally-built-resources).
+Prepare external dictionaries and geographic references using [Build resources](cli/build.md). The resulting local profiles supply tone, themes, GCAM and geographic resolution during extraction.
 
-Each field page includes runnable Python and the resulting encoded GKG cell. The [row example](../README.md#generate-and-save-a-row) combines the fields into a complete tab-delimited GKG entry, including count geography.
+Each field page includes runnable Python and the resulting encoded GKG cell. The [row example](../README.md#generate-a-gkg-record) combines the fields into a complete tab-delimited GKG entry, including count geography.
 
 Detailed experiment history remains in the [changelog](../CHANGELOG.md).
 
@@ -40,7 +40,7 @@ The **full corpus** is the primary result. The **restricted subset** contains **
 | [Quotations](fields/quotations.md) | Quoted spans and reporting-verb rules | Content F1 **0.0671**; including verb **0.0377** | Content F1 **0.0843**; including verb **0.0464** |
 | [All names](fields/all-names.md) | Broad entities and proper-noun spans | Surface-name F1 **0.2301** | Surface-name F1 **0.2828** |
 | [Amounts](fields/amounts.md) | Numeric/textual values with bounded objects | Value/object F1 **0.1973**; value alone **0.4054** | Value/object F1 **0.2455**; value alone **0.4912** |
-| [Translation information](fields/translation-info.md) | Language detection, optional translation and provenance | Not evaluated in the English study | Earlier translated benchmark below |
+| [Translation information](fields/translation-info.md) | Language detection, optional translation and provenance | Not evaluated in the English study | Not scored |
 | [Extra XML](fields/extras-xml.md) | Supplied extension metadata | XML formatting | Not scored |
 
 Location identity scores use **265,340** valid full-corpus pairs and **54,593** restricted pairs. Other non-GCAM field scores use the listed article counts. All F1 values pool matches across articles; they are not averages of per-article F1. Enhanced offsets have not been benchmarked.
@@ -55,6 +55,8 @@ Remaining limitations:
 - Themes outside the supported vocabulary are included in the all-label score and cannot be recovered by that profile.
 - The geographic lookup contains places observed in 20 reference archives from 2015–2019. Other recognized names can remain unresolved and be omitted from GKG geography; see [coverage limits](fields/locations.md#limits).
 - Metadata formatting, media inputs, translation provenance and enhanced offsets have no extraction-accuracy score in this study.
+
+For field agreement on translated articles, see the [seasonal translated-article evaluation](../CHANGELOG.md#translingual-agreement). Those results combine retrieval, translation and extraction differences; they do not measure translation quality or provenance accuracy independently.
 
 ## GCAM
 

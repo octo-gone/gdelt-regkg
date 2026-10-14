@@ -5,7 +5,7 @@
 ## Example
 
 ```python
-from gdelt_regkg.fields import document_identifier
+from gdelt_regkg.fields.metadata import document_identifier
 
 print(document_identifier("https://example.org/workshop"))
 ```
@@ -18,7 +18,7 @@ https://example.org/workshop
 
 Identifiers must be nonempty strings without tabs or line breaks. The formatter preserves spelling, query parameters and percent escapes.
 
-In `generate_gkg`, pass `identifier=`. A web identifier can also supply the source hostname when `source_name=` is omitted.
+Set `identifier=` on `RecordMetadata`, then pass the metadata to `generate_gkg(text, metadata, resources)`. A web identifier also supplies the source hostname when the metadata’s `source_name=` is omitted.
 
 ## Limits
 

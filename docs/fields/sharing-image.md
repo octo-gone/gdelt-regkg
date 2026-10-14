@@ -5,9 +5,10 @@
 ## Example
 
 ```python
-from gdelt_regkg.fields import format_sharing_image
+from gdelt_regkg.fields.metadata import format_sharing_image
 
 print(format_sharing_image("https://example.org/images/workshop.jpg"))
+
 assert format_sharing_image("") == ""
 assert format_sharing_image(None) is None
 ```
@@ -20,7 +21,7 @@ https://example.org/images/workshop.jpg
 
 Supply one absolute HTTP(S) URL without whitespace. `""` means no image was found; `None` means the metadata is unavailable.
 
-In `generate_gkg`, pass `sharing_image=`. An encoded `field_values["V2.1SHARINGIMAGE"]` override takes precedence. `extract_sharing_image` remains an alias for the same metadata formatter.
+In `RecordMetadata`, pass `sharing_image=`. An encoded `overrides["V2.1SHARINGIMAGE"]` override takes precedence.
 
 ## Limits
 

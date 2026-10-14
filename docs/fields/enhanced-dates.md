@@ -1,15 +1,15 @@
 # Date mentions
 
-`V2.1ENHANCEDDATES` stores explicit calendar references found by `extract_enhanced_dates`. Every mention includes an offset. GKG has no separate standard `V1DATES` column; `V2.1DATE` is the batch timestamp.
+`V2.1ENHANCEDDATES` stores explicit calendar references found by `analyze_dates`. Every mention includes an offset. GKG has no separate standard `V1DATES` column; `V2.1DATE` is the batch timestamp.
 
 ## Example
 
 ```python
-from gdelt_regkg import analyze_dates
-from gdelt_regkg.fields import extract_enhanced_dates
+from gdelt_regkg.fields.dates import analyze_dates
 
 text = "In 2025, on June 5 and 2024-02-29."
-print(extract_enhanced_dates(text))
+
+print(analyze_dates(text).to_gkg())
 result = analyze_dates(text)
 assert result.mentions[1].year == 0
 ```
@@ -38,9 +38,9 @@ The library emits the `#` separators observed in native GKG archives; the origin
 `02/03/2025` is skipped by default. `numeric_order="mdy"` interprets it as February 3, while `"dmy"` interprets it as March 2.
 
 ```python
-from gdelt_regkg.fields import extract_enhanced_dates
+from gdelt_regkg.fields.dates import analyze_dates
 
-print(extract_enhanced_dates("02/03/2025", numeric_order="dmy"))
+print(analyze_dates("02/03/2025", numeric_order="dmy").to_gkg())
 ```
 
 ```text

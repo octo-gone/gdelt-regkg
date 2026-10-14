@@ -1,15 +1,15 @@
 # Amounts
 
-`V2.1AMOUNTS` stores numeric quantities with an object description and offset. `extract_amounts` works independently of event counts and needs no model or downloaded dictionary.
+`V2.1AMOUNTS` stores numeric quantities with an object description and offset. `analyze_amounts` works independently of event counts and needs no model or downloaded dictionary.
 
 ## Example
 
 ```python
-from gdelt_regkg import analyze_amounts
-from gdelt_regkg.fields import extract_amounts
+from gdelt_regkg.fields.amounts import analyze_amounts
 
 text = "We sent twenty-five boxes and spent $1.25 million."
-print(extract_amounts(text))
+
+print(analyze_amounts(text).to_gkg())
 result = analyze_amounts(text)
 assert str(result.mentions[0].amount) == "25"
 ```

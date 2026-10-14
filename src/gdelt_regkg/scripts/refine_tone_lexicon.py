@@ -369,8 +369,7 @@ def evaluation(rows, lexicon):
     }
 
 
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
+def add_arguments(parser):
     parser.add_argument("--results", type=Path, nargs="+", required=True)
     parser.add_argument("--train-dates", nargs="+", required=True)
     parser.add_argument("--validation-date", required=True)
@@ -378,7 +377,9 @@ def main():
     parser.add_argument("--gi-source", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--check-language", action="store_true")
-    args = parser.parse_args()
+
+
+def run(args, *, parser):
     dates = args.train_dates + [args.validation_date, args.test_date]
     if len(set(dates)) != len(dates):
         parser.error("Training, validation and test dates must be disjoint")
@@ -404,89 +405,8 @@ def main():
     base = ToneLexicon(
         name=baseline["name"], **{key: frozenset(baseline[key]) for key in CATEGORIES}
     )
-    vocab_docs = Counter(word for row in train for word in row["counts"])
-    observed = {word for word, n in vocab_docs.items() if n >= 8}
-    verbs = gi_verbs(args.gi_source)
-    expansions = {
-        key: set(getattr(base, key)) | (inflections(getattr(base, key)) & observed)
-        for key in ("positive", "negative")
-    }
-    activity_pool = set(base.activity) | (
-        (inflections(verbs | AUXILIARIES) | AUXILIARIES) & observed
-    )
-    options = {key: {"baseline": set(getattr(base, key))} for key in CATEGORIES}
-    histories = {}
-    for key in ("positive", "negative"):
-        options[key]["observed_inflections"] = expansions[key]
-    options["activity"].update(
-        {
-            "active_plus_auxiliaries": set(base.activity) | AUXILIARIES,
-            "observed_verbs_and_inflections": activity_pool,
-        }
-    )
-    options["self_group"].update(
-        {
-            "first_person": FIRST_PERSON,
-            "first_and_second_person": FIRST_PERSON | SECOND_PERSON,
-            "personal_pronouns": FIRST_PERSON | SECOND_PERSON | THIRD_PERSON,
-        }
-    )
-    for key in CATEGORIES:
-        pool = (
-            expansions[key]
-            if key in expansions
-            else activity_pool
-            if key == "activity"
-            else set(base.self_group) | FIRST_PERSON | SECOND_PERSON | THIRD_PERSON
-        )
-        for penalty in (0.003, 0.01):
-            name = f"refined_penalty_{penalty}"
-            initial = getattr(base, key) if key != "self_group" else FIRST_PERSON | SECOND_PERSON
-            words, history = fit_edits(
-                train,
-                initial,
-                pool,
-                key,
-                penalty=penalty,
-                max_edits=160 if key == "activity" else 80,
-            )
-            options[key][name] = words
-            histories[f"{key}/{name}"] = history
-            print(f"[FIT] {key}/{name}: words={len(words)} edits={len(history)}", flush=True)
-    validation_metrics = {
-        key: {name: category_mae(validation, words, key) for name, words in variants.items()}
-        for key, variants in options.items()
-    }
-    # Choose the sentiment pair together, to avoid improving components but worsening net tone.
-    pair_scores = []
-    for positive_name, positive in options["positive"].items():
-        for negative_name, negative in options["negative"].items():
-            tone_mae = statistics.mean(
-                abs(density(r, positive) - density(r, negative) - r["original"]["tone"])
-                for r in validation
-            )
-            objective = (
-                tone_mae
-                + 0.5 * validation_metrics["positive"][positive_name]
-                + 0.5 * validation_metrics["negative"][negative_name]
-            )
-            pair_scores.append(
-                {
-                    "positive": positive_name,
-                    "negative": negative_name,
-                    "tone_mae": tone_mae,
-                    "objective": objective,
-                }
-            )
-    pair = min(pair_scores, key=lambda r: r["objective"])
-    chosen = {"positive": pair["positive"], "negative": pair["negative"]}
-    for key in ("activity", "self_group"):
-        metrics = validation_metrics[key]
-        chosen[key] = min(metrics, key=metrics.__getitem__)
-    profile = ToneLexicon(
-        name="gdelt-benchmark-lexicon-v1",
-        **{key: frozenset(options[key][chosen[key]]) for key in CATEGORIES},
-    )
+    options, histories = _fit_candidates(train, base, args.gi_source)
+    profile, chosen, validation_metrics, pair_scores = _select_profile(validation, options)
     sentiment = ToneLexicon(
         name="sentiment-only",
         positive=profile.positive,
@@ -582,6 +502,103 @@ def main():
         ),
         flush=True,
     )
+
+
+def _fit_candidates(train, base, gi_source):
+    vocab_docs = Counter(word for row in train for word in row["counts"])
+    observed = {word for word, n in vocab_docs.items() if n >= 8}
+    verbs = gi_verbs(gi_source)
+    expansions = {
+        key: set(getattr(base, key)) | (inflections(getattr(base, key)) & observed)
+        for key in ("positive", "negative")
+    }
+    activity_pool = set(base.activity) | (
+        (inflections(verbs | AUXILIARIES) | AUXILIARIES) & observed
+    )
+    options = {key: {"baseline": set(getattr(base, key))} for key in CATEGORIES}
+    histories = {}
+    for key in ("positive", "negative"):
+        options[key]["observed_inflections"] = expansions[key]
+    options["activity"].update(
+        {
+            "active_plus_auxiliaries": set(base.activity) | AUXILIARIES,
+            "observed_verbs_and_inflections": activity_pool,
+        }
+    )
+    options["self_group"].update(
+        {
+            "first_person": FIRST_PERSON,
+            "first_and_second_person": FIRST_PERSON | SECOND_PERSON,
+            "personal_pronouns": FIRST_PERSON | SECOND_PERSON | THIRD_PERSON,
+        }
+    )
+    for key in CATEGORIES:
+        pool = (
+            expansions[key]
+            if key in expansions
+            else activity_pool
+            if key == "activity"
+            else set(base.self_group) | FIRST_PERSON | SECOND_PERSON | THIRD_PERSON
+        )
+        for penalty in (0.003, 0.01):
+            name = f"refined_penalty_{penalty}"
+            initial = getattr(base, key) if key != "self_group" else FIRST_PERSON | SECOND_PERSON
+            words, history = fit_edits(
+                train,
+                initial,
+                pool,
+                key,
+                penalty=penalty,
+                max_edits=160 if key == "activity" else 80,
+            )
+            options[key][name] = words
+            histories[f"{key}/{name}"] = history
+            print(f"[FIT] {key}/{name}: words={len(words)} edits={len(history)}", flush=True)
+    return options, histories
+
+
+def _select_profile(validation, options):
+    validation_metrics = {
+        key: {name: category_mae(validation, words, key) for name, words in variants.items()}
+        for key, variants in options.items()
+    }
+    # Choose the sentiment pair together, to avoid improving components but worsening net tone.
+    pair_scores = []
+    for positive_name, positive in options["positive"].items():
+        for negative_name, negative in options["negative"].items():
+            tone_mae = statistics.mean(
+                abs(density(r, positive) - density(r, negative) - r["original"]["tone"])
+                for r in validation
+            )
+            objective = (
+                tone_mae
+                + 0.5 * validation_metrics["positive"][positive_name]
+                + 0.5 * validation_metrics["negative"][negative_name]
+            )
+            pair_scores.append(
+                {
+                    "positive": positive_name,
+                    "negative": negative_name,
+                    "tone_mae": tone_mae,
+                    "objective": objective,
+                }
+            )
+    pair = min(pair_scores, key=lambda r: r["objective"])
+    chosen = {"positive": pair["positive"], "negative": pair["negative"]}
+    for key in ("activity", "self_group"):
+        metrics = validation_metrics[key]
+        chosen[key] = min(metrics, key=metrics.__getitem__)
+    profile = ToneLexicon(
+        name="gdelt-benchmark-lexicon-v1",
+        **{key: frozenset(options[key][chosen[key]]) for key in CATEGORIES},
+    )
+    return profile, chosen, validation_metrics, pair_scores
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    add_arguments(parser)
+    run(parser.parse_args(argv), parser=parser)
 
 
 if __name__ == "__main__":

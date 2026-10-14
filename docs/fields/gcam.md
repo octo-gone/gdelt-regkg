@@ -1,14 +1,15 @@
 # GCAM
 
-`V2GCAM` stores word count, category counts and weighted mean scores. `extract_gcam` uses locally prepared English dictionaries. The standard profile supports 809 of 2,888 native dimensions (28.01%); optional Roget and Lexicoder imports raise this to 1,855 of 2,888 (64.23%).
+`V2GCAM` stores word count, category counts and weighted mean scores. `analyze_gcam` uses locally prepared English dictionaries. The standard profile supports 809 of 2,888 native dimensions (28.01%); optional Roget and Lexicoder imports raise this to 1,855 of 2,888 (64.23%).
 
 ## Example
 
 ```python
-from gdelt_regkg import analyze_gcam
+from gdelt_regkg.fields.gcam import analyze_gcam
 
 text = "Good good bad."
 result = analyze_gcam(text)
+
 print(result.to_gkg())
 assert result.word_count == 3
 assert result.counts["c26.1"] == 3
@@ -44,7 +45,8 @@ General Inquirer uses exact normalized token frequencies with categories allowed
 The [broader GCAM setup](../cli/build.md#broader-gcam-coverage) creates `lexicons/gcam.full.json.gz` and selects it in `defaults.json`. `GCAMLexicon.from_json` also loads this profile for the standalone analyzer’s `lexicon=` argument or the generator’s `gcam_lexicon=` argument.
 
 ```python
-from gdelt_regkg import GCAMLexicon, analyze_gcam
+from gdelt_regkg.fields.gcam import GCAMLexicon
+from gdelt_regkg.fields.gcam import analyze_gcam
 
 lexicon = GCAMLexicon.from_json("local-resources/lexicons/gcam.full.json.gz")
 result = analyze_gcam("Good good bad.", lexicon=lexicon)
@@ -56,12 +58,10 @@ The same loader accepts any compatible JSON/gzip profile. External vocabularies 
 The [GCAM schema](../../src/gdelt_regkg/resources/schemas/gcam-lexicon.schema.json) supports count vocabularies, phrase/wildcard patterns and weighted score maps. Weighted maps automatically supply companion counts. `GCAMLexicon` also accepts a custom vocabulary directly.
 
 ```python
-from gdelt_regkg import GCAMLexicon, analyze_gcam
+from gdelt_regkg.fields.gcam import GCAMLexicon
+from gdelt_regkg.fields.gcam import analyze_gcam
 
-lexicon = GCAMLexicon(
-    name="example",
-    dimensions={"c2.21": frozenset({"hand"})},
-)
+lexicon = GCAMLexicon(name="example", dimensions={"c2.21": frozenset({"hand"})})
 print(analyze_gcam("hand hand", lexicon=lexicon).to_gkg())
 ```
 

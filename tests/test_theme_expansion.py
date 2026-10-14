@@ -2,10 +2,13 @@ import json
 import unittest
 from pathlib import Path
 
-from gdelt_regkg import ExtractionConfig, analyze_counts, analyze_themes
+from support import compose_resources, read_resources
+
+from gdelt_regkg import Resources
 from gdelt_regkg.builders import themes as builder
+from gdelt_regkg.fields.counts import analyze_counts, default_count_rules
 from gdelt_regkg.fields.rule_inputs import THEME_SCHEMA, theme_lexicon_from_input
-from gdelt_regkg.fields.themes import ThemeRule
+from gdelt_regkg.fields.themes import ThemeRule, analyze_themes
 from gdelt_regkg.utils import read_resource_json, resource_path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -96,15 +99,15 @@ class ThemeExpansionTests(unittest.TestCase):
         )
 
     def test_neutral_combined_snapshot_retains_conditions_and_counts(self):
-        combined = ExtractionConfig.from_dict(
+        combined = compose_resources(
             {
                 "name": "combined-test",
                 "count_rules": json.loads(
                     (LEXICONS / "counts.v1.json").read_text(encoding="utf-8")
                 ),
                 "theme_lexicon": json.loads(
-                    (
-                        resource_path("lexicons", read_resource_json("defaults.json")["themes"])
+                    resource_path(
+                        "lexicons", read_resource_json("defaults.json")["themes"]
                     ).read_text(encoding="utf-8")
                 ),
             }

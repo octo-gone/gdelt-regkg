@@ -14,7 +14,8 @@ from dataclasses import dataclass, field
 from functools import lru_cache
 from pathlib import Path
 
-from ..utils import read_resource_json, resource_path
+from ..types import StrPath
+from ..utils import resource_path
 
 _WORD = re.compile(r"[^\W_]+(?:['-][^\W_]+)*", re.UNICODE)
 _CATEGORIES = ("positive", "negative", "activity", "self_group")
@@ -91,14 +92,10 @@ def _parse_lexicon(text: str) -> ToneLexicon:
     return ToneLexicon(**{key: payload[key] for key in required})
 
 
-def default_tone_lexicon(resources_dir=None) -> ToneLexicon:
-    """Load the selected local revision; never download during scoring."""
-    resource = resource_path(
-        "lexicons",
-        read_resource_json("defaults.json", resources_dir=resources_dir)["tone"],
-        resources_dir=resources_dir,
-    )
-    return _cached_tone_lexicon(resource)
+def default_tone_lexicon(resources_dir: StrPath | None = None) -> ToneLexicon:
+    from ..utils import ResourceStore
+
+    return _cached_tone_lexicon(ResourceStore(resources_dir).profile("tone"))
 
 
 @lru_cache(maxsize=8)
@@ -106,12 +103,12 @@ def _cached_tone_lexicon(resource):
     return _parse_lexicon(resource.read_text(encoding="utf-8"))
 
 
-def benchmark_tone_lexicon(resources_dir=None) -> ToneLexicon:
+def benchmark_tone_lexicon(resources_dir: StrPath | None = None) -> ToneLexicon:
     """Compatibility alias for the benchmark-refined default dictionary."""
     return default_tone_lexicon(resources_dir)
 
 
-def baseline_tone_lexicon(resources_dir=None) -> ToneLexicon:
+def baseline_tone_lexicon(resources_dir: StrPath | None = None) -> ToneLexicon:
     """Version 1, retained for reproducible dictionary builds and comparisons."""
     return _cached_tone_lexicon(
         resource_path("lexicons", "tone.v1.json", resources_dir=resources_dir)

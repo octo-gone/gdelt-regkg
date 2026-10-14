@@ -2,20 +2,26 @@
 
 import hashlib
 import logging
+import math
 import os
 import sqlite3
 from dataclasses import replace
-from importlib import import_module
 from importlib.metadata import PackageNotFoundError, version
 from importlib.resources import files
 from pathlib import Path
 
 from gdelt_regkg.benchmark import BenchmarkOptions, BenchmarkReport, evaluate, write_report
 from gdelt_regkg.benchmark.checkpoint import prediction_signature, select_device
-from gdelt_regkg.benchmark.corpus import NER_FIELDS, generate_predictions, load_corpus
+from gdelt_regkg.benchmark.corpus import (
+    NER_FIELDS,
+    PredictionOptions,
+    generate_predictions,
+    load_corpus,
+)
 from gdelt_regkg.benchmark.engine import select_fields
 from gdelt_regkg.benchmark.inputs import align_rows, load_rows, resolve_inputs
 from gdelt_regkg.benchmark.storage import BenchmarkStore
+from gdelt_regkg.dependencies import require_dependency
 from gdelt_regkg.fields.gcam import GCAMLexicon, default_gcam_lexicon
 from gdelt_regkg.fields.themes import default_theme_lexicon
 from gdelt_regkg.utils import ResourceUnavailableError, read_resource_json, resource_path
@@ -85,6 +91,9 @@ def add_arguments(parser):
         "--cache",
         type=Path,
         help="SQLite workspace and prediction cache (default: OUTPUT/benchmark.sqlite3)",
+    )
+    parser.add_argument(
+        "--cache-timeout", type=float, default=5, help="SQLite busy timeout in seconds (default: 5)"
     )
     parser.add_argument(
         "--device",
@@ -170,6 +179,8 @@ def strata(pairs, names):
 
 
 def run(args):
+    if not math.isfinite(args.cache_timeout) or args.cache_timeout < 0:
+        raise ValueError("SQLite timeout must be a finite nonnegative number")
     if args.batch_size < 1 or args.batch_chars < 1 or args.gpu_id < 0:
         raise ValueError(
             "Batch size and character limit must be positive; GPU ID must be nonnegative"
@@ -198,14 +209,8 @@ def run(args):
         diagnostics=args.diagnostics,
         proximity_window=args.proximity_window,
     )
-    try:
-        for dependency in ("scipy", "sklearn"):
-            import_module(dependency)
-    except ModuleNotFoundError as error:
-        raise ValueError(
-            'Install benchmark dependencies with pip install "gdelt-regkg[benchmark]" '
-            "or uv sync --extra benchmark"
-        ) from error
+    for dependency in ("scipy", "sklearn"):
+        require_dependency(dependency, "benchmark")
     args.reference = resolve_inputs(args.reference)
     if args.prediction is not None:
         args.prediction = resolve_inputs(args.prediction)
@@ -213,7 +218,7 @@ def run(args):
         args.corpus = resolve_inputs(args.corpus, corpus=True)
     path = args.cache or args.output / "benchmark.sqlite3"
     try:
-        with BenchmarkStore(path) as store:
+        with BenchmarkStore(path, timeout=args.cache_timeout) as store:
             return run_with_store(args, fields, options, store)
     except sqlite3.Error as error:
         raise ValueError(f"Benchmark cache {path}: {error}") from error
@@ -254,6 +259,83 @@ def run_with_store(args, fields, options, store):
         wanted_documents={key[1] for key in corpus} if corpus else None,
         destination=store.rows("reference"),
     )
+    gcam, options = _inventories(args, fields, options, corpus)
+    if corpus is None:
+        prediction = load_rows(
+            args.prediction,
+            report=report,
+            side="prediction",
+            strict=args.strict,
+            source_collections=source_collections,
+            destination=store.rows("prediction"),
+        )
+    else:
+        prediction = generate_predictions(
+            corpus,
+            reference,
+            options=PredictionOptions(
+                fields=fields,
+                resources_dir=args.resources_dir,
+                ner_model=args.ner_model,
+                ner_cache=args.ner_cache,
+                gcam_lexicon=gcam,
+                numeric_date_order=args.numeric_date_order,
+                batch_size=args.batch_size,
+                batch_chars=args.batch_chars,
+            ),
+            report=report,
+            progress=print_progress,
+            store=store,
+            signature=signature,
+        )
+    store.commit()
+    pairs = align_rows(reference, prediction, report=report, match=args.match)
+    print_progress(
+        f"[benchmark] Scoring {len(pairs)} matched documents across {len(fields)} fields"
+    )
+    evaluate(pairs, fields=fields, options=options, report=report, progress=print_progress)
+    for name, subset in sorted(
+        strata(pairs, args.stratify).items(), key=lambda item: (-len(item[1]), item[0])
+    )[: args.max_strata]:
+        if len(subset) >= args.min_stratum:
+            print_progress(f"[benchmark] Scoring {name}: {len(subset)} documents")
+            evaluate(
+                subset,
+                fields=fields,
+                options=options,
+                report=report,
+                subset=name,
+                progress=print_progress,
+            )
+    _configuration(args, fields, options, store, report, corpus, device, signature, gcam, pairs)
+    path = write_report(report, args.output)
+    warnings_count = sum(
+        count
+        for (_, _, issue, _, subset), count in report.audit.items()
+        if subset == "all"
+        and issue
+        in {
+            "malformed",
+            "malformed_row",
+            "conflicting_key",
+            "unavailable",
+            "outside_inventory",
+            "missing_inventory",
+        }
+    )
+    if warnings_count:
+        LOGGER.warning(
+            "[warning] %s invalid, ambiguous or unavailable values; see %s",
+            warnings_count,
+            args.output / "audit.csv",
+        )
+    print(
+        f"Benchmarked {len(pairs)} documents; {len(report.rows)} result rows. Reports: {path}, {args.output / 'metrics.csv'}",
+        flush=True,
+    )
+
+
+def _inventories(args, fields, options, corpus):
     gcam = None
     if "gcam" in fields:
         try:
@@ -275,51 +357,49 @@ def run_with_store(args, fields, options, store):
                 raise
         else:
             options = replace(options, theme_labels=frozenset(rule.theme for rule in themes.rules))
-    if corpus is None:
-        prediction = load_rows(
-            args.prediction,
-            report=report,
-            side="prediction",
-            strict=args.strict,
-            source_collections=source_collections,
-            destination=store.rows("prediction"),
-        )
-    else:
-        prediction = generate_predictions(
-            corpus,
-            reference,
-            fields=fields,
-            report=report,
-            resources_dir=args.resources_dir,
-            ner_model=args.ner_model,
-            ner_cache=args.ner_cache,
-            gcam_lexicon=gcam,
-            numeric_date_order=args.numeric_date_order,
-            progress=print_progress,
-            store=store,
-            signature=signature,
-            batch_size=args.batch_size,
-            batch_chars=args.batch_chars,
-        )
-    store.commit()
-    pairs = align_rows(reference, prediction, report=report, match=args.match)
-    print_progress(
-        f"[benchmark] Scoring {len(pairs)} matched documents across {len(fields)} fields"
-    )
-    evaluate(pairs, fields=fields, options=options, report=report, progress=print_progress)
-    for name, subset in sorted(
-        strata(pairs, args.stratify).items(), key=lambda item: (-len(item[1]), item[0])
-    )[: args.max_strata]:
-        if len(subset) >= args.min_stratum:
-            print_progress(f"[benchmark] Scoring {name}: {len(subset)} documents")
-            evaluate(
-                subset,
-                fields=fields,
-                options=options,
-                report=report,
-                subset=name,
-                progress=print_progress,
-            )
+    return gcam, options
+
+
+def _resource_hashes(args, fields, options, report, corpus, gcam):
+    defaults = read_resource_json("defaults.json", resources_dir=args.resources_dir)
+    needed = set()
+    if options.theme_labels is not None:
+        needed.add("themes")
+    if gcam is not None and args.gcam_lexicon is None:
+        needed.add("gcam")
+    if corpus:
+        if set(fields) & {"counts", "enhanced_counts"}:
+            needed.update(("counts", "ner", "locations"))
+        if set(fields) & {
+            "persons",
+            "enhanced_persons",
+            "organizations",
+            "enhanced_organizations",
+            "locations",
+            "enhanced_locations",
+            "all_names",
+        }:
+            needed.add("ner")
+        if set(fields) & {"locations", "enhanced_locations"}:
+            needed.add("locations")
+        if "tone" in fields:
+            needed.add("tone")
+    for name in sorted(needed):
+        resource = resource_path("lexicons", defaults[name], resources_dir=args.resources_dir)
+        report.configuration["resource SHA256 " + name] = hashlib.sha256(
+            resource.read_bytes()
+        ).hexdigest()
+    for path in [
+        *args.reference,
+        *(args.prediction or []),
+        *(args.corpus or []),
+        *([args.ner_cache] if args.ner_cache else []),
+        *([args.gcam_lexicon] if args.gcam_lexicon else []),
+    ]:
+        report.configuration["SHA256 " + str(path)] = sha256(path)
+
+
+def _configuration(args, fields, options, store, report, corpus, device, signature, gcam, pairs):
     report.configuration = {
         "mode": "saved bodies" if corpus else "prepared GKG rows",
         "prediction_cache": str(store.path.resolve()),
@@ -372,64 +452,4 @@ def run_with_store(args, fields, options, store):
     report.configuration["code SHA256 cli/benchmark.py"] = hashlib.sha256(
         command_code.read_bytes()
     ).hexdigest()
-    defaults = read_resource_json("defaults.json", resources_dir=args.resources_dir)
-    needed = set()
-    if options.theme_labels is not None:
-        needed.add("themes")
-    if gcam is not None and args.gcam_lexicon is None:
-        needed.add("gcam")
-    if corpus:
-        if set(fields) & {"counts", "enhanced_counts"}:
-            needed.update(("counts", "ner", "locations"))
-        if set(fields) & {
-            "persons",
-            "enhanced_persons",
-            "organizations",
-            "enhanced_organizations",
-            "locations",
-            "enhanced_locations",
-            "all_names",
-        }:
-            needed.add("ner")
-        if set(fields) & {"locations", "enhanced_locations"}:
-            needed.add("locations")
-        if "tone" in fields:
-            needed.add("tone")
-    for name in sorted(needed):
-        resource = resource_path("lexicons", defaults[name], resources_dir=args.resources_dir)
-        report.configuration["resource SHA256 " + name] = hashlib.sha256(
-            resource.read_bytes()
-        ).hexdigest()
-    for path in [
-        *args.reference,
-        *(args.prediction or []),
-        *(args.corpus or []),
-        *([args.ner_cache] if args.ner_cache else []),
-        *([args.gcam_lexicon] if args.gcam_lexicon else []),
-    ]:
-        report.configuration["SHA256 " + str(path)] = sha256(path)
-    path = write_report(report, args.output)
-    warnings_count = sum(
-        count
-        for (_, _, issue, _, subset), count in report.audit.items()
-        if subset == "all"
-        and issue
-        in {
-            "malformed",
-            "malformed_row",
-            "conflicting_key",
-            "unavailable",
-            "outside_inventory",
-            "missing_inventory",
-        }
-    )
-    if warnings_count:
-        LOGGER.warning(
-            "[warning] %s invalid, ambiguous or unavailable values; see %s",
-            warnings_count,
-            args.output / "audit.csv",
-        )
-    print(
-        f"Benchmarked {len(pairs)} documents; {len(report.rows)} result rows. Reports: {path}, {args.output / 'metrics.csv'}",
-        flush=True,
-    )
+    _resource_hashes(args, fields, options, report, corpus, gcam)

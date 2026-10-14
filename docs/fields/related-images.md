@@ -5,9 +5,10 @@
 ## Example
 
 ```python
-from gdelt_regkg.fields import format_related_images
+from gdelt_regkg.fields.metadata import format_related_images
 
-urls = ['https://example.org/images/one.jpg', 'https://example.org/images/two.jpg']
+urls = ["https://example.org/images/one.jpg", "https://example.org/images/two.jpg"]
+
 print(format_related_images(urls))
 assert format_related_images([]) == ""
 assert format_related_images(None) is None
@@ -23,7 +24,7 @@ Supply a collection of absolute HTTP(S) URLs without whitespace. Entries are sep
 
 An empty collection means no matching media; `None` means metadata is unavailable. A prejoined string is rejected.
 
-In `generate_gkg`, pass `related_images=`. An encoded `field_values["V2.1RELATEDIMAGES"]` override takes precedence. `extract_related_images` remains an alias for the same formatter.
+In `RecordMetadata`, pass `related_images=`. An encoded `overrides["V2.1RELATEDIMAGES"]` override takes precedence.
 
 ## Limits
 

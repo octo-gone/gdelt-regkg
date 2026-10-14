@@ -6,31 +6,31 @@ from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import Mock, patch
 
-from gdelt_regkg import (
-    CachedTranslator,
-    EntityMention,
-    IncompleteGKGWarning,
-    LanguageDetection,
-    LanguageDetectionError,
+from support import make_record
+
+from gdelt_regkg import IncompleteGKGWarning, OptionalDependencyError
+from gdelt_regkg.fields.language import LanguageDetection, LanguageDetectionError
+from gdelt_regkg.fields.metadata import format_translation_info
+from gdelt_regkg.fields.ner import EntityMention, NERResult
+from gdelt_regkg.fields.translation import (
     M2M100Translator,
-    NERResult,
     TranslationUnavailableError,
-    generate_gkg,
     normalize_language,
     translate_text,
 )
+from gdelt_regkg.translation_cache import CachedTranslator
 
 
 class TranslationTests(unittest.TestCase):
     def test_model_load_without_torch_explains_backend_selection(self):
         with patch.dict("sys.modules", {"torch": None, "transformers": None}):
-            with self.assertRaisesRegex(TranslationUnavailableError, "CPU/CUDA.*installation.md"):
+            with self.assertRaisesRegex(OptionalDependencyError, "PyTorch.*installed separately"):
                 M2M100Translator.from_model(allow_download=True)
 
     def test_english_extraction_without_torch(self):
         text = "Flooding killed 12 people on June 5, 2025."
         with patch.dict("sys.modules", {"torch": None, "transformers": None}):
-            record = generate_gkg(
+            record = make_record(
                 text,
                 identifier="https://example.org/story",
                 batch_time="20250605001500",
@@ -48,19 +48,23 @@ class TranslationTests(unittest.TestCase):
         self.assertTrue(record["V2.1ENHANCEDDATES"])
         self.assertTrue(record["V2GCAM"])
         self.assertEqual(len(record), 27)
-        self.assertTrue(all(value is not None for value in record.values()))
+        self.assertTrue(all((value is not None for value in record.values())))
 
     def test_ner_receives_translated_text_and_offsets(self):
         translated = "President Jane Smith visited the White House."
         mentions = tuple(
-            EntityMention(name, label, translated.index(name), translated.index(name) + len(name))
-            for name, label in (("Jane Smith", "PERSON"), ("White House", "ORG"))
+            (
+                EntityMention(
+                    name, label, translated.index(name), translated.index(name) + len(name)
+                )
+                for name, label in (("Jane Smith", "PERSON"), ("White House", "ORG"))
+            )
         )
         recognizer = Mock(analyze=Mock(return_value=NERResult(translated, mentions)))
         backend = Mock(engine="Local fixture", translate=Mock(return_value=translated))
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", IncompleteGKGWarning)
-            record = generate_gkg(
+            record = make_record(
                 "متن",
                 input_language="Urdu",
                 translator=backend,
@@ -105,8 +109,6 @@ class TranslationTests(unittest.TestCase):
             translate_text("Ambiguous", translator=backend, language_detector=detector)
 
     def test_engine_separators_are_normalized_without_changing_cache_identity(self):
-        from gdelt_regkg.fields import format_translation_info
-
         engine = "M2M100 facebook/m2m100_418M@local; transformers 4.57.6; chunk384 beam4"
         backend = Mock(engine=engine, translate=Mock(return_value="Flooding killed 12 people."))
         result = translate_text("Original", language="ur", translator=backend)
@@ -122,7 +124,7 @@ class TranslationTests(unittest.TestCase):
             format_translation_info("urd", ";\n\t")
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", IncompleteGKGWarning)
-            record = generate_gkg(
+            record = make_record(
                 "Original",
                 input_language="ur",
                 translator=backend,
@@ -176,8 +178,8 @@ class TranslationTests(unittest.TestCase):
             common = dict(
                 identifier="https://example.org/article", batch_time="20250615011500", sequence=1
             )
-            record = generate_gkg("متن", input_language="Urdu", translator=backend, **common)
-            baseline = generate_gkg(translated, **common)
+            record = make_record("متن", input_language="Urdu", translator=backend, **common)
+            baseline = make_record(translated, **common)
             for column in (
                 "V1COUNTS",
                 "V2.1COUNTS",
@@ -189,11 +191,11 @@ class TranslationTests(unittest.TestCase):
                 self.assertEqual(record[column], baseline[column])
             self.assertEqual(record["GKGRECORDID"], "20250615011500-T1")
             self.assertEqual(record["V2.1TRANSLATIONINFO"], "srclc:urd;eng:Local fixture")
-            english = generate_gkg(translated, input_language="en", translator=backend, **common)
+            english = make_record(translated, input_language="en", translator=backend, **common)
             self.assertEqual(english["V2.1TRANSLATIONINFO"], "")
             self.assertEqual(english["GKGRECORDID"], baseline["GKGRECORDID"])
             with self.assertRaises(ValueError):
-                generate_gkg(
+                make_record(
                     "متن",
                     input_language="ur",
                     translator=backend,
@@ -201,7 +203,7 @@ class TranslationTests(unittest.TestCase):
                     **common,
                 )
             with self.assertRaises(ValueError):
-                generate_gkg(
+                make_record(
                     "متن",
                     input_language="ur",
                     translator=backend,
@@ -213,7 +215,11 @@ class TranslationTests(unittest.TestCase):
     def test_cache_normalized_language_engine_and_persistence(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "cache.sqlite"
-            backend = Mock(engine="v1", translate=Mock(return_value="Translated body"))
+            backend = Mock(
+                spec=["engine", "translate"],
+                engine="v1",
+                translate=Mock(return_value="Translated body"),
+            )
             cache = CachedTranslator(backend, path)
             try:
                 self.assertEqual(cache.translate("Original", "Urdu"), "Translated body")
@@ -298,7 +304,7 @@ class TranslationTests(unittest.TestCase):
         self.assertEqual(tokenizer.call_args.kwargs["padding"], True)
 
     def test_empty_translation_is_retried(self):
-        tokenizer, network = Mock(), Mock(device="cpu")
+        tokenizer, network = (Mock(), Mock(device="cpu"))
         backend = M2M100Translator(tokenizer, network, engine="fixture")
         backend._generate = Mock(return_value=["Recovered English"])
         self.assertEqual(backend._retry_empty("Original body"), "Recovered English")

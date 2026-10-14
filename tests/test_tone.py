@@ -4,9 +4,10 @@ import unittest
 import warnings
 from pathlib import Path
 
-from gdelt_regkg import IncompleteGKGWarning, ToneLexicon, analyze_tone, generate_gkg
-from gdelt_regkg.fields import extract_tone
-from gdelt_regkg.fields.tone import default_tone_lexicon, tokenize_tone
+from support import make_record
+
+from gdelt_regkg import IncompleteGKGWarning
+from gdelt_regkg.fields.tone import ToneLexicon, analyze_tone, default_tone_lexicon, tokenize_tone
 
 
 class ToneTests(unittest.TestCase):
@@ -24,7 +25,7 @@ class ToneTests(unittest.TestCase):
         result = analyze_tone(text, lexicon=self.lexicon)
         self.assertEqual(result.to_gkg(), "10,20,10,30,10,20,10")
         self.assertEqual(result.lexicon_name, "synthetic-test")
-        self.assertEqual(extract_tone(text, lexicon=self.lexicon), result.to_gkg())
+        self.assertEqual(analyze_tone(text, lexicon=self.lexicon).to_gkg(), result.to_gkg())
 
     def test_neutral_tone_can_be_emotionally_charged(self):
         result = analyze_tone("good bad", lexicon=self.lexicon)
@@ -39,7 +40,9 @@ class ToneTests(unittest.TestCase):
         self.assertAlmostEqual(result.positive_score, result.negative_score)
 
     def test_denominator_keeps_stopwords_numbers_and_no_reasoning(self):
-        self.assertEqual(extract_tone("not good", lexicon=self.lexicon), "50,50,0,50,0,0,2")
+        self.assertEqual(
+            analyze_tone("not good", lexicon=self.lexicon).to_gkg(), "50,50,0,50,0,0,2"
+        )
         self.assertEqual(
             analyze_tone("very good! 2026", lexicon=self.lexicon).positive_score, 100 / 3
         )
@@ -52,11 +55,11 @@ class ToneTests(unittest.TestCase):
             ["we're", "well-known", "café", "42", "7", "good"],
         )
         lexicon = ToneLexicon("casefold", {"ＧＯＯＤ"}, set(), set(), {"WE’RE"})
-        self.assertEqual(extract_tone("we're good", lexicon=lexicon), "50,50,0,50,0,50,2")
+        self.assertEqual(analyze_tone("we're good", lexicon=lexicon).to_gkg(), "50,50,0,50,0,50,2")
 
     def test_empty_and_missing_input_are_different(self):
         for text in ("", " \n\t", "!? —"):
-            self.assertEqual(extract_tone(text, lexicon=self.lexicon), "0,0,0,0,0,0,0")
+            self.assertEqual(analyze_tone(text, lexicon=self.lexicon).to_gkg(), "0,0,0,0,0,0,0")
         for value in (None, 123, float("nan")):
             with self.subTest(value=value), self.assertRaises(TypeError):
                 analyze_tone(value)
@@ -100,8 +103,8 @@ class ToneTests(unittest.TestCase):
         )
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", IncompleteGKGWarning)
-            record = generate_gkg("good bad", **kwargs)
-            overridden = generate_gkg("good bad", field_values={"V1.5TONE": "custom"}, **kwargs)
+            record = make_record("good bad", **kwargs)
+            overridden = make_record("good bad", field_values={"V1.5TONE": "custom"}, **kwargs)
         self.assertEqual(record["V1.5TONE"], "0,50,50,100,0,0,2")
         self.assertEqual(overridden["V1.5TONE"], "custom")
 

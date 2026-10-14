@@ -1,18 +1,18 @@
 # Quotations
 
-`V2.1QUOTATIONS` stores directly quoted spans and nearby reporting verbs. `extract_quotations` uses quotation marks and English verb patterns; it needs no NER model or downloaded dictionary.
+`V2.1QUOTATIONS` stores directly quoted spans and nearby reporting verbs. `analyze_quotations` uses quotation marks and English verb patterns; it needs no NER model or downloaded dictionary.
 
 ## Example
 
 ```python
-from gdelt_regkg import analyze_quotations
-from gdelt_regkg.fields import extract_quotations
+from gdelt_regkg.fields.quotations import analyze_quotations
 
-text = 'Alice said, "The workshop is ready."'
-print(extract_quotations(text))
+text = "Alice said, \"The workshop is ready.\""
+
+print(analyze_quotations(text).to_gkg())
 result = analyze_quotations(text)
 mention = result.mentions[0]
-assert text[mention.start:mention.end] == mention.text
+assert text[mention.start : mention.end] == mention.text
 assert mention.verb == "said"
 ```
 
@@ -30,7 +30,7 @@ Reserved `#`/`|` separators and control characters become spaces, and whitespace
 
 ## Options
 
-The generator fills this field automatically. An encoded `field_values["V2.1QUOTATIONS"]` override takes precedence. Use `analyze_quotations` when you need original spans, verbs or diagnostics.
+The generator fills this field automatically. An encoded `overrides["V2.1QUOTATIONS"]` override takes precedence. Use `analyze_quotations` when you need original spans, verbs or diagnostics.
 
 ## Limits
 

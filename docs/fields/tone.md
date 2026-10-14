@@ -1,15 +1,15 @@
 # Tone
 
-`V1.5TONE` stores seven numeric components computed by `extract_tone`. The standard English tone profile uses locally prepared General Inquirer categories with evaluated edits; it approximates GDELT’s tone scoring.
+`V1.5TONE` stores seven numeric components computed by `analyze_tone`. The standard English tone profile uses locally prepared General Inquirer categories with evaluated edits; it approximates GDELT’s tone scoring.
 
 ## Example
 
 ```python
-from gdelt_regkg import analyze_tone
-from gdelt_regkg.fields import extract_tone
+from gdelt_regkg.fields.tone import analyze_tone
 
-text = 'We enjoyed the wonderful concert.'
-print(extract_tone(text))
+text = "We enjoyed the wonderful concert."
+
+print(analyze_tone(text).to_gkg())
 result = analyze_tone(text)
 assert result.word_count == 5
 ```
@@ -36,22 +36,18 @@ Tokenization uses Unicode NFKC normalization, case folding and normalized apostr
 
 ## Options
 
-Load `ToneLexicon.from_json(path)` and pass `lexicon=` to the analyzer/extractor or `tone_lexicon=` to the generator. To select a different local directory, use `default_tone_lexicon(resources_dir=path)` and reuse that object.
+Load `ToneLexicon.from_json(path)` and pass `lexicon=` to the analyzer/extractor or `Resources(tone_lexicon=lexicon)` to the generator. To select a different local directory, use `default_tone_lexicon(resources_dir=path)` and reuse that object.
 
 `ToneLexicon` accepts custom token sets for each scoring category.
 
 ```python
-from gdelt_regkg import ToneLexicon
-from gdelt_regkg.fields import extract_tone
+from gdelt_regkg.fields.tone import ToneLexicon
+from gdelt_regkg.fields.tone import analyze_tone
 
 lexicon = ToneLexicon(
-    name="example",
-    positive={"good"},
-    negative={"bad"},
-    activity={"play"},
-    self_group={"we"},
+    name="example", positive={"good"}, negative={"bad"}, activity={"play"}, self_group={"we"}
 )
-print(extract_tone("We play good music.", lexicon=lexicon))
+print(analyze_tone("We play good music.", lexicon=lexicon).to_gkg())
 ```
 
 ```text

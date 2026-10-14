@@ -3,22 +3,18 @@ import warnings
 from unittest.mock import patch
 from xml.etree.ElementTree import fromstring
 
-from gdelt_regkg import (
-    Citation,
-    IncompleteGKGWarning,
-    citation_elements,
-    format_extras_xml,
-    generate_gkg,
-    serialize_gkg,
-)
-from gdelt_regkg.fields import extract_extras_xml
+from support import make_record
+
+from gdelt_regkg import IncompleteGKGWarning, serialize_gkg
+from gdelt_regkg.fields.extras import Citation, citation_elements, format_extras_xml
+from gdelt_regkg.fields.metadata import format_optional_extras
 
 
 class ExtrasTests(unittest.TestCase):
     def record(self, **kwargs):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", IncompleteGKGWarning)
-            return generate_gkg(
+            return make_record(
                 "Article text",
                 identifier="https://example.org/article",
                 published_at=None,
@@ -28,8 +24,8 @@ class ExtrasTests(unittest.TestCase):
             )
 
     def test_missing_and_explicitly_empty_metadata(self):
-        self.assertIsNone(extract_extras_xml(None))
-        self.assertEqual(extract_extras_xml({}), "")
+        self.assertIsNone(format_optional_extras(None))
+        self.assertEqual(format_optional_extras({}), "")
         self.assertEqual(format_extras_xml(citation_elements([])), "")
         self.assertIsNone(self.record()["V2EXTRASXML"])
         self.assertEqual(self.record(extras={})["V2EXTRASXML"], "")
@@ -78,7 +74,7 @@ class ExtrasTests(unittest.TestCase):
         title = 'A & B < C "study"\nnext\tpart\rend'
         citation = Citation(title=title)
         cell = format_extras_xml(citation_elements([citation]))
-        self.assertFalse(any(char in cell for char in "\t\r\n"))
+        self.assertFalse(any((char in cell for char in "\t\r\n")))
         self.assertEqual(fromstring(cell).findtext("CITATION/TITLE"), title)
         record = self.record(extras=citation_elements([citation]))
         cells = serialize_gkg(record, allow_incomplete=True).removesuffix("\n").split("\t")
@@ -88,7 +84,7 @@ class ExtrasTests(unittest.TestCase):
     def test_partial_references_duplicates_and_generators(self):
         first = Citation(title="First", date=" ")
         last = Citation(authors=["Doe, Jane"])
-        cell = format_extras_xml(citation_elements(c for c in (first, first, last)))
+        cell = format_extras_xml(citation_elements((c for c in (first, first, last))))
         root = fromstring(cell)
         self.assertEqual(len(root), 3)
         self.assertEqual([node.findtext("TITLE") for node in root], ["First", "First", None])
@@ -109,7 +105,7 @@ class ExtrasTests(unittest.TestCase):
         with self.assertRaises(TypeError):
             citation_elements([{"title": "Unconverted mapping"}])
         with self.assertRaises(TypeError):
-            extract_extras_xml("Article text")
+            format_optional_extras("Article text")
 
     def test_arbitrary_page_elements_are_rootless_and_caller_supplied(self):
         elements = {
@@ -122,7 +118,7 @@ class ExtrasTests(unittest.TestCase):
         }
         cell = format_extras_xml(elements)
         self.assertEqual(
-            cell, "".join(f"<{name}>{value}</{name}>" for name, value in elements.items())
+            cell, "".join((f"<{name}>{value}</{name}>" for name, value in elements.items()))
         )
         root = fromstring("<root>" + cell + "</root>")
         self.assertEqual([node.tag for node in root], list(elements))
@@ -153,7 +149,9 @@ class ExtrasTests(unittest.TestCase):
             format_extras_xml({"TAG": "\x00"})
 
     def test_pipeline_override_skips_formatter(self):
-        with patch("gdelt_regkg.fields.extract_extras_xml", side_effect=RuntimeError("called")):
+        with patch(
+            "gdelt_regkg.pipeline.format_optional_extras", side_effect=RuntimeError("called")
+        ):
             record = self.record(
                 extras={"UNUSED": "value"}, field_values={"V2EXTRASXML": "<CUSTOM>value</CUSTOM>"}
             )

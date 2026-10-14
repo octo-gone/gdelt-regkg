@@ -11,7 +11,7 @@ from pathlib import Path
 from unittest.mock import Mock, patch
 
 from gdelt_regkg.benchmark.checkpoint import article_signature, prediction_signature, select_device
-from gdelt_regkg.benchmark.corpus import generate_predictions
+from gdelt_regkg.benchmark.corpus import PredictionOptions, generate_predictions
 from gdelt_regkg.benchmark.inputs import align_rows
 from gdelt_regkg.benchmark.model import BenchmarkReport, GKGRow
 from gdelt_regkg.benchmark.storage import BenchmarkStore, StoredRow
@@ -52,14 +52,13 @@ class CheckpointTests(unittest.TestCase):
         return generate_predictions(
             {(a["record_id"], a["document"]): a for a in articles},
             [self.reference(int(a["record_id"])) for a in articles],
-            fields=("tone",),
+            options=PredictionOptions(
+                fields=("tone",), resources_dir=self.root, batch_size=1, **options
+            ),
             report=BenchmarkReport(),
-            resources_dir=self.root,
             store=store,
             signature=namespace,
-            batch_size=1,
             progress=lambda _: None,
-            **options,
         )
 
     def test_interruption_preserves_committed_predictions_and_resume_skips_them(self):
@@ -77,7 +76,7 @@ class CheckpointTests(unittest.TestCase):
             ) as extractor:
                 rows = self.generate(store)
                 self.assertEqual(extractor.call_count, 2)
-            self.assertTrue(all(isinstance(r, StoredRow) for r in rows))
+            self.assertTrue(all((isinstance(r, StoredRow) for r in rows)))
             self.assertEqual(len(rows), 3)
         with BenchmarkStore(self.path) as store:
             with patch(
@@ -107,9 +106,9 @@ class CheckpointTests(unittest.TestCase):
     def test_disk_inputs_preserve_missing_null_and_duplicate_conflicts(self):
         with BenchmarkStore(self.path) as store:
             corpus = store.corpus()
-            corpus[("1", "1")] = self.article()
-            self.assertEqual(corpus[("1", "1")], self.article())
-            left, right = store.rows("reference"), store.rows("prediction")
+            corpus["1", "1"] = self.article()
+            self.assertEqual(corpus["1", "1"], self.article())
+            left, right = (store.rows("reference"), store.rows("prediction"))
             left.append(self.reference())
             left.append(self.reference())
             right.append(self.reference())
@@ -126,7 +125,6 @@ class CheckpointTests(unittest.TestCase):
             a = store.put(self.reference(), signature="key")
             b = store.put(self.reference(), signature="key")
             self.assertEqual(a.identifier, b.identifier)
-            # No commit: an interrupted batch is recomputed, not partially trusted.
         with BenchmarkStore(self.path) as store:
             self.assertIsNone(store.cached("key"))
 
@@ -155,7 +153,7 @@ class CheckpointTests(unittest.TestCase):
     def test_second_writer_cannot_reset_active_inputs(self):
         with BenchmarkStore(self.path) as store:
             corpus = store.corpus()
-            corpus[("1", "1")] = self.article()
+            corpus["1", "1"] = self.article()
             with self.assertRaisesRegex(ValueError, "cache is in use"):
                 with BenchmarkStore(self.path):
                     pass
@@ -167,7 +165,7 @@ class CheckpointTests(unittest.TestCase):
         references = [self.reference(i) for i in range(1, 4)]
         model = Mock()
         model.analyze_many.side_effect = lambda texts, batch_size: iter(
-            NERResult(text, (), backend_name="fixture") for text in texts
+            (NERResult(text, (), backend_name="fixture") for text in texts)
         )
         options = dict(
             fields=("persons",),
@@ -187,7 +185,24 @@ class CheckpointTests(unittest.TestCase):
             ),
         ):
             self.assertEqual(
-                len(generate_predictions(corpus, references, store=store, **options)), 3
+                len(
+                    generate_predictions(
+                        corpus,
+                        references,
+                        options=PredictionOptions(
+                            **{
+                                k: v
+                                for k, v in options.items()
+                                if k not in {"report", "signature", "progress"}
+                            }
+                        ),
+                        report=options["report"],
+                        signature=options["signature"],
+                        progress=options["progress"],
+                        store=store,
+                    )
+                ),
+                3,
             )
             self.assertEqual(
                 [len(call.args[0]) for call in model.analyze_many.call_args_list], [2, 1]
@@ -200,7 +215,24 @@ class CheckpointTests(unittest.TestCase):
             ),
         ):
             self.assertEqual(
-                len(generate_predictions(corpus, references, store=store, **options)), 3
+                len(
+                    generate_predictions(
+                        corpus,
+                        references,
+                        options=PredictionOptions(
+                            **{
+                                k: v
+                                for k, v in options.items()
+                                if k not in {"report", "signature", "progress"}
+                            }
+                        ),
+                        report=options["report"],
+                        signature=options["signature"],
+                        progress=options["progress"],
+                        store=store,
+                    )
+                ),
+                3,
             )
 
     def test_refuses_unrelated_sqlite_database(self):

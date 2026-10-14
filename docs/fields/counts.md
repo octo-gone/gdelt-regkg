@@ -1,18 +1,21 @@
 # Counts
 
-`V1COUNTS` stores event-related quantities, object descriptions and geographic components. `extract_counts` applies English quantity and trigger rules with 37 supported labels. Count rules are included with the package.
+`V1COUNTS` stores event-related quantities, object descriptions and geographic components. `analyze_counts` applies English quantity and trigger rules with 37 supported labels. Count rules are included with the package.
 
 ## Example
 
 ```python
-from gdelt_regkg import SpacyNER, analyze_counts, analyze_entities, analyze_locations
+from gdelt_regkg.fields.counts import analyze_counts
+from gdelt_regkg.fields.locations import analyze_locations
+from gdelt_regkg.fields.ner import SpacyNER
+from gdelt_regkg.fields.ner import analyze_entities
 
 ner = SpacyNER.from_model("en_core_web_sm", name_policy="surface")
 text = "Volunteers rescued 12 people in Paris, France."
+
 entities = analyze_entities(text, recognizer=ner)
 resolved = analyze_locations(text, ner=entities)
 result = analyze_counts(text, locations=resolved.count_locations)
-
 print("V1COUNTS:", result.to_gkg())
 print("V2.1COUNTS:", result.to_gkg(enhanced=True))
 assert result.mentions[0].number == 12
@@ -31,13 +34,13 @@ Each entry has ten `#` components: label, quantity, object, location type, full 
 
 The matcher accepts digit and cardinal-word quantities with supported event phrases. One mention can emit several labels. Original number spans and rejected candidates are available through `result.mentions` and `result.issues`. No accepted matches produces `""`.
 
-Pass resolved `CountLocation` spans through `locations=`. `analyze_locations(...).count_locations` provides compatible spans; `generate_gkg(..., ner=...)` supplies resolved geography automatically unless `count_locations=` is provided. The standalone `extract_counts(text)` does not run NER or geographic resolution by itself. Object descriptions and location names replace reserved separators and control characters with spaces.
+Pass resolved `CountLocation` spans through `locations=`. `analyze_locations(...).count_locations` provides compatible spans; `generate_gkg(text, metadata, Resources(recognizer=ner))` supplies resolved geography automatically unless `count_locations=` is provided. The standalone `analyze_counts(text).to_gkg()` does not run NER or geographic resolution by itself. Object descriptions and location names replace reserved separators and control characters with spaces.
 
 ## Options
 
 ### Rules
 
-Load a custom rule file with `load_count_rules(path)` or `CountRules.from_json(path)` and pass `rules=` to the standalone extractor. In `generate_gkg`, pass `count_rules=` or an `ExtractionConfig`.
+Load a custom rule file with `load_count_rules(path)` or `CountRules.from_json(path)` and pass `rules=` to the standalone extractor. Compose `Resources(count_rules=rules)` for record generation.
 
 The [count-rule schema](../../src/gdelt_regkg/resources/schemas/count-rules.schema.json) uses `name`, `settings` and `rules`. Only `enabled` rules execute; IDs must be unique.
 
@@ -55,4 +58,4 @@ The 37 labels cover all count labels observed in the statistical inventory, but 
 
 ## Related
 
-[Enhanced counts](enhanced-counts.md) · [Amounts](amounts.md) · [Custom rules](../api-usage.md#custom-resources) · [Current agreement](../README.md#agreement-with-gdelt) · [Count inventory](../../CHANGELOG.md#count-labels)
+[Enhanced counts](enhanced-counts.md) · [Amounts](amounts.md) · [Custom rules](../api-usage.md#resource-selection) · [Current agreement](../README.md#agreement-with-gdelt) · [Count inventory](../../CHANGELOG.md#count-labels)

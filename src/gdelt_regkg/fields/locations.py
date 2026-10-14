@@ -12,7 +12,7 @@ from functools import lru_cache
 from pathlib import Path
 from types import MappingProxyType
 
-from ..utils import read_resource_json, resource_path
+from ..types import StrPath
 from ..wire import text_component
 from .counts import CountLocation
 from .ner import EntityRecognizer, NERResult, analyze_entities
@@ -91,7 +91,7 @@ class Gazetteer:
         )
 
     @classmethod
-    def from_json(cls, path):
+    def from_json(cls, path: str | Path) -> Gazetteer:
         path = Path(path)
         raw = gzip.decompress(path.read_bytes()) if path.suffix == ".gz" else path.read_bytes()
         return _load(json.loads(raw.decode("utf-8")))
@@ -104,14 +104,10 @@ def _load(payload):
     return Gazetteer(payload["name"], tuple(Place(**p) for p in payload["places"]))
 
 
-def default_gazetteer(resources_dir=None):
-    return _cached_gazetteer(
-        resource_path(
-            "lexicons",
-            read_resource_json("defaults.json", resources_dir=resources_dir)["locations"],
-            resources_dir=resources_dir,
-        )
-    )
+def default_gazetteer(resources_dir: StrPath | None = None) -> Gazetteer:
+    from ..utils import ResourceStore
+
+    return _cached_gazetteer(ResourceStore(resources_dir).profile("locations"))
 
 
 @lru_cache(maxsize=8)
@@ -195,6 +191,29 @@ def analyze_locations(
     gazetteer = default_gazetteer() if gazetteer is None else gazetteer
     if not isinstance(gazetteer, Gazetteer):
         raise TypeError("gazetteer must be Gazetteer")
+    inputs = _candidate_inputs(ner, gazetteer)
+    anchors = []
+    for _, start, _, candidates in inputs:
+        identities = {p.identity for p in candidates}
+        if len(identities) == 1 and candidates[0].geo_type in {"1", "2", "5"}:
+            anchors.append((start, candidates[0]))
+    mentions, issues = [], []
+    for value, start, end, raw in inputs:
+        candidates = _resolve_candidates(raw, anchors, start)
+        if len(candidates) == 1:
+            mentions.append(LocationMention(value, start, end, candidates[0]))
+        else:
+            issues.append(
+                LocationIssue(
+                    value, start, "unknown-place" if not candidates else "ambiguous-place"
+                )
+            )
+    return LocationResult(
+        text, tuple(sorted(mentions, key=lambda m: m.start)), tuple(issues), gazetteer.name
+    )
+
+
+def _candidate_inputs(ner, gazetteer):
     inputs = []
     for mention in ner.locations:
         candidates = gazetteer.candidates(mention.text)
@@ -210,45 +229,32 @@ def analyze_locations(
                 inputs.append((value, start, start + len(value), gazetteer.candidates(value)))
         else:
             inputs.append((mention.text, mention.start, mention.end, ()))
-    anchors = []
-    for _, start, _, candidates in inputs:
-        identities = {p.identity for p in candidates}
-        if len(identities) == 1 and candidates[0].geo_type in {"1", "2", "5"}:
-            anchors.append((start, candidates[0]))
-    mentions, issues = [], []
-    for value, start, end, raw in inputs:
-        by_id: dict[tuple[str, str, str, str], Place] = {}
-        for p in raw:
-            if p.identity not in by_id or p.frequency > by_id[p.identity].frequency:
-                by_id[p.identity] = p
-        candidates = list(by_id.values())
-        if len(candidates) > 1:
-            # Use the closest applicable explicit anchor within 200 characters.
-            # sorted consumes this key immediately within the current iteration.
-            for position, anchor in sorted(anchors, key=lambda a: abs(a[0] - start)):  # pylint: disable=cell-var-from-loop
-                if abs(position - start) > 200:
-                    continue
-                matching = [
-                    p
-                    for p in candidates
-                    if p.country_code == anchor.country_code
-                    and (anchor.geo_type == "1" or p.adm1_code == anchor.adm1_code)
-                ]
-                if matching:
-                    candidates = matching
-                    break
-        if len(candidates) > 1:
-            candidates.sort(key=lambda p: (-p.frequency, p.identity))
-            if candidates[0].frequency / sum(p.frequency for p in candidates) >= 0.8:
-                candidates = candidates[:1]
-        if len(candidates) == 1:
-            mentions.append(LocationMention(value, start, end, candidates[0]))
-        else:
-            issues.append(
-                LocationIssue(
-                    value, start, "unknown-place" if not candidates else "ambiguous-place"
-                )
-            )
-    return LocationResult(
-        text, tuple(sorted(mentions, key=lambda m: m.start)), tuple(issues), gazetteer.name
-    )
+    return inputs
+
+
+def _resolve_candidates(raw, anchors, start):
+    by_id: dict[tuple[str, str, str, str], Place] = {}
+    for p in raw:
+        if p.identity not in by_id or p.frequency > by_id[p.identity].frequency:
+            by_id[p.identity] = p
+    candidates = list(by_id.values())
+    if len(candidates) > 1:
+        # Use the closest applicable explicit anchor within 200 characters.
+        # sorted consumes this key immediately within the current iteration.
+        for position, anchor in sorted(anchors, key=lambda a: abs(a[0] - start)):  # pylint: disable=cell-var-from-loop
+            if abs(position - start) > 200:
+                continue
+            matching = [
+                p
+                for p in candidates
+                if p.country_code == anchor.country_code
+                and (anchor.geo_type == "1" or p.adm1_code == anchor.adm1_code)
+            ]
+            if matching:
+                candidates = matching
+                break
+    if len(candidates) > 1:
+        candidates.sort(key=lambda p: (-p.frequency, p.identity))
+        if candidates[0].frequency / sum(p.frequency for p in candidates) >= 0.8:
+            candidates = candidates[:1]
+    return candidates

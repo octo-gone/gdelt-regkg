@@ -5,16 +5,13 @@
 ## Example
 
 ```python
-from gdelt_regkg import format_extras_xml
+from gdelt_regkg.fields.extras import format_extras_xml
 
 elements = {
     "PAGE_TITLE": "Music & science workshop",
     "PAGE_AUTHORS": "Alice Smith",
     "PAGE_PRECISEPUBTIMESTAMP": "20250101113000",
-    "CUSTOM_DATA": {
-        "CATEGORY": "workshop",
-        "REVIEW_STATUS": "checked",
-    },
+    "CUSTOM_DATA": {"CATEGORY": "workshop", "REVIEW_STATUS": "checked"},
 }
 print(format_extras_xml(elements))
 ```
@@ -33,7 +30,7 @@ Tabs and line breaks become XML character references so the fragment fits one TS
 
 For semicolon-delimited metadata such as `PAGE_LINKS`, supply a joined string; a list would create repeated XML elements. Normalize authors and timestamps before formatting.
 
-In `generate_gkg`, pass `extras=elements`. `extras={}` explicitly produces an empty cell; `extras=None` leaves the field unavailable. `extract_extras_xml` in `gdelt_regkg.fields` preserves `None` and otherwise uses the same formatter.
+In `RecordMetadata`, pass `extras=elements`. `extras={}` explicitly produces an empty cell; `extras=None` leaves the field unavailable. `format_optional_extras` in `gdelt_regkg.fields.metadata` preserves `None` and otherwise uses the same formatter.
 
 ## Options
 
@@ -42,11 +39,13 @@ In `generate_gkg`, pass `extras=elements`. `extras={}` explicitly produces an em
 `citation_elements` builds a citation block from `Citation` objects. The same structure can also be supplied as nested dictionaries.
 
 ```python
-from gdelt_regkg import Citation, citation_elements, format_extras_xml
+from gdelt_regkg.fields.extras import Citation
+from gdelt_regkg.fields.extras import citation_elements
+from gdelt_regkg.fields.extras import format_extras_xml
 
-elements = citation_elements([
-    Citation(authors=("Smith, Alice",), title="Workshop notes", date="2024")
-])
+elements = citation_elements(
+    [Citation(authors=("Smith, Alice",), title="Workshop notes", date="2024")]
+)
 print(format_extras_xml(elements))
 ```
 

@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-import hashlib
 import re
-import sqlite3
+from collections.abc import Iterable
 from dataclasses import dataclass
-from importlib import import_module
 from typing import Any, Protocol
 
+from ..dependencies import require_dependency
+from ..types import LanguageCheck
 from ..wire import text_component
 from .language import LanguageDetection, LanguageDetector, detect_language, verify_language
 
@@ -211,7 +211,7 @@ def translate_text(
     translator: Translator,
     detect_missing_language: bool = True,
     language_detector: LanguageDetector | None = None,
-    language_check: str = "script",
+    language_check: LanguageCheck = "script",
 ) -> TranslationResult:
     """Translate to English; detect missing labels locally, and bypass English."""
     if not isinstance(text, str):
@@ -274,29 +274,18 @@ class M2M100Translator:
         revision=None,
         batch_size=4,
         num_beams=4,
-    ):
-        try:
-            import_module("torch")
-        except ImportError as error:
-            raise TranslationUnavailableError(
-                "Local M2M100 translation requires PyTorch. Install a compatible CPU/CUDA "
-                "build as described in docs/installation.md#non-english-articles"
-            ) from error
-        try:
-            import transformers
-            from transformers import M2M100ForConditionalGeneration, M2M100Tokenizer
-        except ImportError as error:
-            raise TranslationUnavailableError(
-                "Install gdelt-regkg for local M2M100 translation"
-            ) from error
+    ) -> M2M100Translator:
+        require_dependency("torch", "translate")
+        transformers = require_dependency("transformers", "translate")
+        require_dependency("sentencepiece", "translate")
+        model_class = transformers.M2M100ForConditionalGeneration
+        tokenizer_class = transformers.M2M100Tokenizer
         options: dict[str, Any] = {"local_files_only": not allow_download}
         if revision is not None:
             options["revision"] = revision
         try:
-            tokenizer = M2M100Tokenizer.from_pretrained(model, **options)
-            network = (
-                M2M100ForConditionalGeneration.from_pretrained(model, **options).to(device).eval()
-            )
+            tokenizer = tokenizer_class.from_pretrained(model, **options)
+            network = model_class.from_pretrained(model, **options).to(device).eval()
             if str(device).startswith("cuda"):
                 network = network.half()
         except OSError as error:
@@ -308,7 +297,7 @@ class M2M100Translator:
         engine = f"M2M100 {model}@{commit}; transformers {transformers.__version__}; chunk384 beam{num_beams} packed-v2 {precision}"
         return cls(tokenizer, network, engine=engine, batch_size=batch_size, num_beams=num_beams)
 
-    def translate(self, text, source_language):
+    def translate(self, text: str, source_language: str) -> str:
         return self.translate_many([text], source_language)[0]
 
     def _chunks(self, text):
@@ -379,9 +368,9 @@ class M2M100Translator:
         ]
         return " ".join(self._retry_empty(part, depth + 1) for part in parts)
 
-    def translate_many(self, texts, source_language):
+    def translate_many(self, texts: Iterable[str], source_language: str) -> list[str]:
         """Translate same-language bodies in bounded chunk batches, preserving order."""
-        import torch
+        torch = require_dependency("torch", "translate")
 
         source = normalize_language(source_language)
         if _MODEL_CODES[source] not in self.tokenizer.lang_code_to_id:
@@ -402,77 +391,3 @@ class M2M100Translator:
         if any(not text.strip() for text in result):
             raise ValueError("Cannot translate an empty body")
         return result
-
-
-class CachedTranslator:
-    """Persistent SQLite cache keyed by engine, normalized language, and body."""
-
-    def __init__(self, translator: Translator, path):
-        self.translator = translator
-        self.engine = translator.engine
-        # Export workers use independent connections; wait for short concurrent writes.
-        self.connection = sqlite3.connect(path, timeout=60)
-        self.connection.execute("PRAGMA journal_mode=WAL")
-        self.connection.execute(
-            "CREATE TABLE IF NOT EXISTS translations (key TEXT PRIMARY KEY, body TEXT NOT NULL)"
-        )
-
-    def translate(self, text, source_language):
-        source = normalize_language(source_language)
-        key = hashlib.sha256(
-            (self.engine + "\0" + source + "\0" + text).encode("utf-8")
-        ).hexdigest()
-        cached = self.connection.execute(
-            "SELECT body FROM translations WHERE key = ?", (key,)
-        ).fetchone()
-        if cached is not None:
-            return cached[0]
-        result = translate_text(text, language=source, translator=self.translator)
-        self.connection.execute(
-            "INSERT OR REPLACE INTO translations VALUES (?, ?)", (key, result.text)
-        )
-        self.connection.commit()
-        return result.text
-
-    def close(self):
-        self.connection.close()
-
-    def translate_many(self, texts, source_language):
-        source = normalize_language(source_language)
-        texts = list(texts)
-        keys = [
-            hashlib.sha256((self.engine + "\0" + source + "\0" + text).encode("utf-8")).hexdigest()
-            for text in texts
-        ]
-        outputs: list[str | None] = [None] * len(texts)
-        missing: dict[str, tuple[str, list[int]]] = {}
-        for index, (key, text) in enumerate(zip(keys, texts)):
-            cached = self.connection.execute(
-                "SELECT body FROM translations WHERE key = ?", (key,)
-            ).fetchone()
-            if cached is not None:
-                outputs[index] = cached[0]
-            else:
-                missing.setdefault(key, (text, []))[1].append(index)
-        if missing:
-            bodies = [text for text, _ in missing.values()]
-            method = getattr(self.translator, "translate_many", None)
-            translated = (
-                method(bodies, source)
-                if callable(method)
-                else [self.translator.translate(text, source) for text in bodies]
-            )
-            if len(translated) != len(bodies) or any(
-                not isinstance(text, str) or not text.strip() for text in translated
-            ):
-                raise ValueError("Translator returned an invalid batch")
-            entries = []
-            for (key, (_, indexes)), text in zip(missing.items(), translated):
-                for index in indexes:
-                    outputs[index] = text
-                entries.append((key, text))
-            self.connection.executemany(
-                "INSERT OR REPLACE INTO translations VALUES (?, ?)", entries
-            )
-            self.connection.commit()
-        return outputs

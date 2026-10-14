@@ -1,16 +1,17 @@
 # Persons
 
-`V1PERSONS` stores distinct recognized person names. `extract_persons` uses an English NER model.
+`V1PERSONS` stores distinct recognized person names. `analyze_entities` uses an English NER model.
 
 ## Example
 
 ```python
-from gdelt_regkg import SpacyNER, analyze_entities
+from gdelt_regkg.fields.ner import SpacyNER
+from gdelt_regkg.fields.ner import analyze_entities
 
 ner = SpacyNER.from_model("en_core_web_sm", name_policy="surface")
 text = "Marie Curie visited Microsoft in Paris, France."
-entities = analyze_entities(text, recognizer=ner)
 
+entities = analyze_entities(text, recognizer=ner)
 print("V1PERSONS:", entities.to_gkg("PERSON"))
 print("V2ENHANCEDPERSONS:", entities.to_gkg("PERSON", enhanced=True))
 print("V1ORGANIZATIONS:", entities.to_gkg("ORG"))
@@ -28,7 +29,7 @@ Location mentions: [('Paris', 33), ('France', 40)]
 
 Names are separated by `;` and deduplicated in first-mention order. No accepted names produces `""`. Original spelling and offsets remain available in `entities.persons`.
 
-Load the recognizer once and reuse it. The standalone extractor uses a cached small English recognizer when `recognizer=` is omitted; missing models raise `NERUnavailableError`. In `generate_gkg`, explicitly pass `ner=recognizer` or `ner=entities` to enable the entity fields. A supplied result must belong to the unchanged body.
+Load the recognizer once and reuse it. `analyze_entities` uses a cached small English recognizer when `recognizer=` is omitted; missing models raise `NERUnavailableError`. For record generation, supply it through `Resources(recognizer=ner)` and call `generate_gkg(text, metadata, resources)`, or pass precomputed recognition as `ner_result=entities`. The result must describe the exact analyzed body. See [the generation example](../api-usage.md#generate-a-gkg-record).
 
 ## Options
 
@@ -37,7 +38,8 @@ The example uses `name_policy="surface"` to retain spelling and single-word name
 `SpacyNER.from_model("en_core_web_lg")` selects the large English model when it is installed. Existing spans can also be supplied to `analyze_entities` without loading a model.
 
 ```python
-from gdelt_regkg import EntityMention, analyze_entities
+from gdelt_regkg.fields.ner import EntityMention
+from gdelt_regkg.fields.ner import analyze_entities
 
 text = "Alice Smith arrived."
 entities = analyze_entities(text, mentions=[EntityMention("Alice Smith", "PERSON", 0, 11)])

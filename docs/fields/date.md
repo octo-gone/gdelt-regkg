@@ -5,8 +5,8 @@
 ## Example
 
 ```python
+from gdelt_regkg.fields.metadata import format_date
 from datetime import datetime, timezone
-from gdelt_regkg.fields import format_date
 
 print(format_date(datetime(2025, 1, 1, 12, 0, tzinfo=timezone.utc)))
 print(format_date(None))
@@ -21,7 +21,7 @@ print(format_date(None))
 
 Accepts a `datetime`, a fourteen-digit string or integer, or `None`. Calendar dates are validated. Aware datetimes convert to UTC; naive datetimes are treated as UTC. `None` and `0` produce `"0"` for an unknown timestamp.
 
-In `generate_gkg`, `batch_time=` fills this field and the record-ID prefix. Supply an article’s publication timestamp separately through `published_at=`; it is written to `PAGE_PRECISEPUBTIMESTAMP` in extra XML. An explicit extras timestamp takes precedence.
+Set `batch_time=` on `RecordMetadata` to fill this field and the record-ID prefix, then pass the metadata to `generate_gkg(text, metadata, resources)`. Set the article’s publication timestamp separately with `RecordMetadata(..., published_at=...)`; it is written to `PAGE_PRECISEPUBTIMESTAMP` in extra XML. An explicit extras timestamp takes precedence.
 
 ## Limits
 

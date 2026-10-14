@@ -6,6 +6,7 @@ import re
 from dataclasses import dataclass
 from decimal import Decimal
 
+from ..types import NumericDateOrder
 from ..wire import text_component
 from .counts import _N1000, _VALUES
 from .dates import analyze_dates
@@ -89,7 +90,7 @@ class AmountResult:
         return ";".join(m.to_gkg() for m in self.mentions)
 
 
-def analyze_amounts(text: str, *, numeric_order: str | None = None) -> AmountResult:
+def analyze_amounts(text: str, *, numeric_order: NumericDateOrder | None = None) -> AmountResult:
     """Parse exact numbers, magnitude suffixes and currencies; exclude dates/percentages.
 
     Object attachment reads at most three following words, stopping at common

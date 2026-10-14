@@ -6,7 +6,7 @@ from pathlib import Path
 from gdelt_regkg.builders.themes import revise_themes
 from gdelt_regkg.builders.tone import revise_tone
 from gdelt_regkg.cli.build import publish
-from gdelt_regkg.cli.inputs import resolve_inputs
+from gdelt_regkg.cli.inputs import BuildOptions, resolve_inputs
 from gdelt_regkg.cli.profiles import compile_profiles
 from gdelt_regkg.fields.ner import NameRules, default_name_rules
 from gdelt_regkg.fields.tone import benchmark_tone_lexicon, default_tone_lexicon
@@ -58,13 +58,14 @@ class ResourceTests(unittest.TestCase):
             if not (source / "CrisisLexRec.txt").is_file():
                 self.skipTest("Requires source inputs from the resource setup")
             built = {}
-            # Historical profiles are separate, explicitly requested builds.
             for recipe in ("v1", "v2", "v3"):
                 inputs = resolve_inputs(
                     root,
-                    targets=("themes", "counts"),
-                    use=recipe,
-                    sources={"crisislex": source / "CrisisLexRec.txt"},
+                    BuildOptions(
+                        targets=("themes", "counts"),
+                        use=recipe,
+                        sources={"crisislex": source / "CrisisLexRec.txt"},
+                    ),
                 )
                 artifacts, defaults = compile_profiles(inputs)
                 publish(root, artifacts, defaults)
@@ -75,7 +76,9 @@ class ResourceTests(unittest.TestCase):
                         if artifact.path.startswith("lexicons/")
                     }
                 )
-            artifacts, defaults = compile_profiles(resolve_inputs(root, targets=("ner",)))
+            artifacts, defaults = compile_profiles(
+                resolve_inputs(root, BuildOptions(targets=("ner",)))
+            )
             publish(root, artifacts, defaults)
             built.update(
                 {

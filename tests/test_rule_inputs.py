@@ -4,24 +4,25 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from gdelt_regkg import (
-    ExtractionConfig,
-    analyze_counts,
-    analyze_themes,
-    default_extraction_config,
+from support import compose_resources, read_resources
+
+from gdelt_regkg import Resources
+from gdelt_regkg.fields.counts import analyze_counts, default_count_rules
+from gdelt_regkg.fields.rule_inputs import (
+    count_rules_from_input,
     load_count_rules,
     load_theme_lexicon,
+    theme_input_from_mapping,
+    theme_lexicon_from_input,
+)
+from gdelt_regkg.fields.themes import analyze_themes
+from gdelt_regkg.utils import read_resource_json, resource_path
+from gdelt_regkg.wire import (
     parse_counts_cell,
     parse_themes_cell,
     serialize_counts_cell,
     serialize_themes_cell,
 )
-from gdelt_regkg.fields.rule_inputs import (
-    count_rules_from_input,
-    theme_input_from_mapping,
-    theme_lexicon_from_input,
-)
-from gdelt_regkg.utils import read_resource_json, resource_path
 
 ROOT = Path(__file__).resolve().parents[1]
 LEXICONS = ROOT / "src/gdelt_regkg/resources/lexicons"
@@ -29,7 +30,7 @@ LEXICONS = ROOT / "src/gdelt_regkg/resources/lexicons"
 
 class RuleInputTests(unittest.TestCase):
     def test_local_separate_inputs_match_combined_profile(self):
-        standalone = default_extraction_config()
+        standalone = Resources(count_rules=default_count_rules())
         payload = {
             "name": "combined-test",
             "count_rules": json.loads(
@@ -38,15 +39,15 @@ class RuleInputTests(unittest.TestCase):
                 )
             ),
             "theme_lexicon": json.loads(
-                (
-                    resource_path("lexicons", read_resource_json("defaults.json")["themes"])
-                ).read_text(encoding="utf-8")
+                resource_path("lexicons", read_resource_json("defaults.json")["themes"]).read_text(
+                    encoding="utf-8"
+                )
             ),
         }
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "combined.json"
             path.write_text(json.dumps(payload), encoding="utf-8")
-            combined = ExtractionConfig.from_json(path)
+            combined = read_resources(path)
         for text in (
             "Nearly 460 deaths",
             "11 people arrested; 5 injured.",
@@ -64,7 +65,7 @@ class RuleInputTests(unittest.TestCase):
     def test_separate_inputs_support_independent_editing_and_review_status(self):
         count_data = json.loads((LEXICONS / "counts.v1.json").read_text(encoding="utf-8"))
         theme_data = json.loads(
-            (resource_path("lexicons", "themes.v2.json")).read_text(encoding="utf-8")
+            resource_path("lexicons", "themes.v2.json").read_text(encoding="utf-8")
         )
         count_data["rules"] = [
             {
@@ -104,7 +105,7 @@ class RuleInputTests(unittest.TestCase):
             themes = Path(directory) / "themes.v2.json"
             counts.write_text(json.dumps(count_data), encoding="utf-8")
             themes.write_text(json.dumps(theme_data), encoding="utf-8")
-            config = ExtractionConfig.from_rule_inputs(counts, themes)
+            config = compose_resources(counts, themes)
             self.assertEqual(load_count_rules(counts).name, config.count_rules.name)
             self.assertEqual(load_theme_lexicon(themes).name, config.theme_lexicon.name)
         result = analyze_counts("Police rescued 3 people.", rules=config.count_rules)
@@ -137,7 +138,7 @@ class RuleInputTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             count_rules_from_input(broken)
         theme_data = json.loads(
-            (resource_path("lexicons", "themes.v2.json")).read_text(encoding="utf-8")
+            resource_path("lexicons", "themes.v2.json").read_text(encoding="utf-8")
         )
         theme_data["rules"][0]["kind"] = "template"
         with self.assertRaises(ValueError):

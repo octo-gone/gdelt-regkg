@@ -9,26 +9,20 @@ import zipfile
 from pathlib import Path
 from unittest.mock import patch
 
-from gdelt_regkg import (
-    GCAMLexicon,
-    NERResult,
-    ResourceUnavailableError,
-    ThemeLexicon,
-    ToneLexicon,
-    analyze_counts,
-    default_gcam_lexicon,
-    generate_gkg,
-)
+from support import make_record
+
+from gdelt_regkg import ResourceUnavailableError
 from gdelt_regkg.builders.tone import revise_tone
 from gdelt_regkg.cli.build import publish
-from gdelt_regkg.cli.inputs import resolve_inputs
+from gdelt_regkg.cli.inputs import BuildOptions, resolve_inputs
 from gdelt_regkg.cli.profiles import compile_profiles
 from gdelt_regkg.cli.sources import download_source
-from gdelt_regkg.fields.counts import default_count_rules
+from gdelt_regkg.fields.counts import analyze_counts, default_count_rules
+from gdelt_regkg.fields.gcam import GCAMLexicon, default_gcam_lexicon
 from gdelt_regkg.fields.locations import Gazetteer, default_gazetteer
-from gdelt_regkg.fields.ner import default_name_rules
-from gdelt_regkg.fields.themes import default_theme_lexicon
-from gdelt_regkg.fields.tone import default_tone_lexicon
+from gdelt_regkg.fields.ner import NERResult, default_name_rules
+from gdelt_regkg.fields.themes import ThemeLexicon, default_theme_lexicon
+from gdelt_regkg.fields.tone import ToneLexicon, default_tone_lexicon
 from gdelt_regkg.utils import packaged_resource_path, resource_directory, resource_path
 
 
@@ -110,7 +104,7 @@ class LocalResourceTests(unittest.TestCase):
                 "urllib.request.urlopen", side_effect=AssertionError("Extraction must be offline")
             ),
         ):
-            record = generate_gkg(
+            record = make_record(
                 text,
                 identifier="https://arbitrary.example/story",
                 batch_time="20250101120000",
@@ -138,7 +132,9 @@ class LocalResourceTests(unittest.TestCase):
         text = "Good news."
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            artifacts, defaults = compile_profiles(resolve_inputs(root, targets=("counts", "ner")))
+            artifacts, defaults = compile_profiles(
+                resolve_inputs(root, BuildOptions(targets=("counts", "ner")))
+            )
             publish(root, artifacts, defaults)
             profiles = {
                 "tone.json": {
@@ -168,7 +164,7 @@ class LocalResourceTests(unittest.TestCase):
                 ),
                 encoding="utf-8",
             )
-            record = generate_gkg(
+            record = make_record(
                 text,
                 identifier="https://example.org",
                 batch_time="20250101120000",
@@ -190,7 +186,8 @@ class LocalResourceTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             artifacts, defaults = compile_profiles(
                 resolve_inputs(
-                    directory, targets=("themes", "counts", "ner"), authored_themes_only=True
+                    directory,
+                    BuildOptions(targets=("themes", "counts", "ner"), authored_themes_only=True),
                 )
             )
             publish(Path(directory), artifacts, defaults)
@@ -254,10 +251,7 @@ class LocalResourceTests(unittest.TestCase):
     def test_changed_download_is_rejected_before_writing(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "source.txt"
-            with patch(
-                "gdelt_regkg.cli.sources.urlopen",
-                return_value=io.BytesIO(b"changed"),
-            ):
+            with patch("gdelt_regkg.cli.sources.urlopen", return_value=io.BytesIO(b"changed")):
                 with self.assertRaisesRegex(ValueError, "checksum"):
                     download_source(path, {"url": "https://example.org/source", "sha256": "wrong"})
             self.assertFalse(path.exists())

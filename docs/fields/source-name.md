@@ -5,7 +5,7 @@
 ## Example
 
 ```python
-from gdelt_regkg.fields import source_common_name
+from gdelt_regkg.fields.metadata import source_common_name
 
 print(source_common_name("https://news.example.org/workshop"))
 print(source_common_name("citation:123", name="Example Journal"))
@@ -20,7 +20,7 @@ Example Journal
 
 Automatic naming accepts absolute HTTP(S) URLs, lowercases the hostname and retains subdomains. An explicit `name=` is used as supplied.
 
-In `generate_gkg`, pass `source_name=` to override hostname extraction. Supply a label for non-web identifiers. Tabs and line breaks are rejected.
+Set `source_name=` on `RecordMetadata` to override hostname extraction, then pass the metadata to `generate_gkg(text, metadata, resources)`. Supply a label for non-web identifiers. Tabs and line breaks are rejected.
 
 ## Limits
 

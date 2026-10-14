@@ -4,25 +4,15 @@ import warnings
 from decimal import Decimal
 from unittest.mock import Mock
 
-from gdelt_regkg import (
-    EntityMention,
-    Gazetteer,
-    GCAMLexicon,
-    IncompleteGKGWarning,
-    NameMention,
-    NERResult,
-    Place,
-    SpacyNER,
-    analyze_amounts,
-    analyze_dates,
-    analyze_gcam,
-    analyze_locations,
-    analyze_names,
-    default_gazetteer,
-    fields,
-    generate_gkg,
-    serialize_gkg,
-)
+from support import make_record
+
+from gdelt_regkg import IncompleteGKGWarning, serialize_gkg
+from gdelt_regkg.fields.amounts import analyze_amounts
+from gdelt_regkg.fields.dates import analyze_dates
+from gdelt_regkg.fields.gcam import GCAMLexicon, analyze_gcam
+from gdelt_regkg.fields.locations import Gazetteer, Place, analyze_locations, default_gazetteer
+from gdelt_regkg.fields.names import analyze_names
+from gdelt_regkg.fields.ner import EntityMention, NameMention, NERResult, SpacyNER
 
 
 def ner_places(text, *names):
@@ -44,8 +34,8 @@ class DatesTests(unittest.TestCase):
             [(1, 0, 0, 2020), (2, 3, 0, 2021), (3, 2, 29, 2024), (4, 2, 29, 0), (3, 2, 29, 2024)],
         )
         self.assertEqual(result.mentions[0].start, text.index("2020"))
-        self.assertTrue(all(text[m.start : m.end] == m.text for m in result.mentions))
-        self.assertEqual(fields.extract_enhanced_dates(text), result.to_gkg())
+        self.assertTrue(all((text[m.start : m.end] == m.text for m in result.mentions)))
+        self.assertEqual(analyze_dates(text).to_gkg(), result.to_gkg())
 
     def test_invalid_dates_ambiguous_numeric_and_no_inferred_year(self):
         result = analyze_dates("February 30, 2025 and 2023-02-29 and 02/03/2025.")
@@ -78,7 +68,7 @@ class AmountsTests(unittest.TestCase):
             ],
         )
         self.assertEqual(result.mentions[0].start, text.index("$"))
-        self.assertEqual(fields.extract_amounts(text), result.to_gkg())
+        self.assertEqual(analyze_amounts(text).to_gkg(), result.to_gkg())
         self.assertIn("12.5,euros,", result.to_gkg())
 
     def test_dates_percentages_versions_and_unquantified_amounts(self):
@@ -147,9 +137,9 @@ class LocationsTests(unittest.TestCase):
         self.assertEqual(result.issues[0].reason, "unknown-place")
         self.assertEqual(len(result.count_locations[0].components()), 7)
         self.assertEqual(
-            fields.extract_locations(
+            analyze_locations(
                 text, ner=ner_places(text, "Paris", "France"), gazetteer=self.gazetteer()
-            ),
+            ).to_gkg(),
             result.to_gkg(),
         )
 
@@ -184,7 +174,7 @@ class NamesAndGCAMTests(unittest.TestCase):
         )
         self.assertEqual(analyze_names(text, ner=ner).to_gkg(), "Acme,0;World Cup,9;Acme,23")
         self.assertEqual(
-            fields.extract_all_names(text, ner=ner), analyze_names(text, ner=ner).to_gkg()
+            analyze_names(text, ner=ner).to_gkg(), analyze_names(text, ner=ner).to_gkg()
         )
         with self.assertRaises(ValueError):
             NERResult("Other", (), name_mentions=(NameMention("Acme", 0, 4),))
@@ -221,7 +211,7 @@ class NamesAndGCAMTests(unittest.TestCase):
         self.assertEqual(result.to_gkg(), "wc:4,c2.21:2,c2.74:1")
         self.assertEqual(analyze_gcam("unknown", lexicon=lexicon).to_gkg(), "wc:1")
         self.assertEqual(analyze_gcam("", lexicon=lexicon).to_gkg(), "wc:0")
-        self.assertEqual(fields.extract_gcam("hand", lexicon=lexicon), "wc:1,c2.21:1")
+        self.assertEqual(analyze_gcam("hand", lexicon=lexicon).to_gkg(), "wc:1,c2.21:1")
         with self.assertRaises(ValueError):
             GCAMLexicon("bad", {"v2.21": frozenset({"hand"})})
         with self.assertRaises(TypeError):
@@ -235,7 +225,7 @@ class IntegrationTests(unittest.TestCase):
         recognizer = Mock(analyze=Mock(return_value=ner_places(text, "France")))
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", IncompleteGKGWarning)
-            record = generate_gkg(
+            record = make_record(
                 "Original source",
                 input_language="fr",
                 translator=backend,
@@ -249,12 +239,12 @@ class IntegrationTests(unittest.TestCase):
         self.assertEqual(record["V2.1AMOUNTS"], "12,trucks,12")
         self.assertEqual(record["V2.1ENHANCEDDATES"], "3#6#5#2025#25")
         self.assertTrue(record["V2ENHANCEDLOCATIONS"].endswith("#0"))
-        self.assertEqual(record["V2GCAM"], fields.extract_gcam(text))
+        self.assertEqual(record["V2GCAM"], analyze_gcam(text).to_gkg())
         self.assertTrue(record["V2.1TRANSLATIONINFO"].startswith("srclc:fra"))
         lexicon = GCAMLexicon("translated-test", {}, {"v26.1": {"trucks": 1}})
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", IncompleteGKGWarning)
-            weighted = generate_gkg(
+            weighted = make_record(
                 "Original source",
                 input_language="fr",
                 translator=backend,
@@ -266,7 +256,7 @@ class IntegrationTests(unittest.TestCase):
             )
         self.assertIn("c26.1:1,v26.1:1", weighted["V2GCAM"])
         with self.assertRaises(ValueError):
-            generate_gkg(
+            make_record(
                 "Original source",
                 input_language="fr",
                 translator=backend,
@@ -279,7 +269,7 @@ class IntegrationTests(unittest.TestCase):
     def test_full_row_shared_ner_count_geography_and_overrides(self):
         text = "Paris, France on June 5, 2025: 12 people were killed."
         recognizer = Mock(analyze=Mock(return_value=ner_places(text, "Paris", "France")))
-        record = generate_gkg(
+        record = make_record(
             text,
             identifier="https://example.org/a",
             batch_time="20261001091500",
@@ -293,7 +283,7 @@ class IntegrationTests(unittest.TestCase):
             strict=True,
         )
         recognizer.analyze.assert_called_once_with(text)
-        self.assertTrue(all(isinstance(v, str) for v in record.values()))
+        self.assertTrue(all((isinstance(v, str) for v in record.values())))
         self.assertIn("#FR#", record["V1COUNTS"])
         self.assertEqual(len(serialize_gkg(record).rstrip("\n").split("\t")), 27)
         self.assertIn("12,people,", record["V2.1AMOUNTS"])
@@ -312,14 +302,14 @@ class IntegrationTests(unittest.TestCase):
         }
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", IncompleteGKGWarning)
-            overridden = generate_gkg(
+            overridden = make_record(
                 text,
                 identifier="https://example.org/a",
                 batch_time="20261001091500",
                 sequence=1,
                 field_values=overrides,
             )
-        self.assertTrue(all(overridden[k] == v for k, v in overrides.items()))
+        self.assertTrue(all((overridden[k] == v for k, v in overrides.items())))
 
 
 if __name__ == "__main__":

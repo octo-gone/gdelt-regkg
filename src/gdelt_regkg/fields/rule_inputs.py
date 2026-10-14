@@ -7,6 +7,11 @@ import json
 import re
 from collections import defaultdict
 from pathlib import Path
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from .counts import CountRules
+    from .themes import ThemeLexicon
 
 # Versioned data formats stay stable across package renames.
 COUNT_SCHEMA = "reconstruct-gkg/count-rules/v1"
@@ -58,7 +63,7 @@ def _validate(data, schema, kinds):
     return records
 
 
-def count_rules_from_input(data):
+def count_rules_from_input(data: dict[str, Any]) -> CountRules:
     """Compile enabled count records into the reusable count analyzer."""
     from .counts import CountRules
 
@@ -94,7 +99,7 @@ def count_rules_from_input(data):
     )
 
 
-def theme_lexicon_from_input(data):
+def theme_lexicon_from_input(data: dict[str, Any]) -> ThemeLexicon:
     """Compile enabled phrases, aliases and context conditions."""
     from .themes import ThemeLexicon, ThemeRule
 
@@ -118,11 +123,11 @@ def theme_lexicon_from_input(data):
     return ThemeLexicon(data["name"], tuple(rules))
 
 
-def load_count_rules(path):
+def load_count_rules(path: str | Path) -> CountRules:
     return count_rules_from_input(_read(path))
 
 
-def load_theme_lexicon(path):
+def load_theme_lexicon(path: str | Path) -> ThemeLexicon:
     return theme_lexicon_from_input(_read(path))
 
 

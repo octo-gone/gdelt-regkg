@@ -7,22 +7,14 @@ import zipfile
 from pathlib import Path
 from unittest.mock import patch
 
-from gdelt_regkg import (
-    CountLocation,
-    IncompleteGKGWarning,
-    ThemeLexicon,
-    ThemeRule,
-    analyze_counts,
-    analyze_themes,
-    fields,
-    generate_gkg,
-    serialize_gkg,
-)
-from gdelt_regkg.builders.themes import build_profile
-from gdelt_regkg.config import ExtractionConfig
-from gdelt_regkg.fields.themes import default_theme_lexicon
+from support import make_record, read_resources
 
-CONSERVATIVE = ExtractionConfig.from_json(
+from gdelt_regkg import IncompleteGKGWarning, serialize_gkg
+from gdelt_regkg.builders.themes import build_profile
+from gdelt_regkg.fields.counts import CountLocation, analyze_counts
+from gdelt_regkg.fields.themes import ThemeLexicon, ThemeRule, analyze_themes, default_theme_lexicon
+
+CONSERVATIVE = read_resources(
     Path(__file__).resolve().parent / "fixtures/extraction-conservative-v1.json"
 )
 
@@ -43,9 +35,10 @@ class ThemeTests(unittest.TestCase):
         self.assertEqual(
             [(m.start, m.end) for m in result.mentions], [(0, 5), (0, 13), (6, 13), (15, 20)]
         )
-        self.assertEqual(fields.extract_themes(text, lexicon=lexicon), result.to_gkg())
+        self.assertEqual(analyze_themes(text, lexicon=lexicon).to_gkg(), result.to_gkg())
         self.assertEqual(
-            fields.extract_enhanced_themes(text, lexicon=lexicon), result.to_gkg(enhanced=True)
+            analyze_themes(text, lexicon=lexicon).to_gkg(enhanced=True),
+            result.to_gkg(enhanced=True),
         )
 
     def test_unicode_offsets_and_original_slices(self):
@@ -69,16 +62,18 @@ class ThemeTests(unittest.TestCase):
         default = default_theme_lexicon()
         self.assertIs(default, default_theme_lexicon())
         self.assertGreater(len(default.rules), 379)
-        self.assertEqual(fields.extract_themes("An explosion occurred."), "CRISISLEX_CRISISLEXREC;")
+        self.assertEqual(
+            analyze_themes("An explosion occurred.").to_gkg(), "CRISISLEX_CRISISLEXREC;"
+        )
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "themes.v2.json"
             path.write_text('{"name":"test","themes":{"TEST":["news"]}}', encoding="utf-8")
             self.assertEqual(ThemeLexicon.from_json(path).name, "test")
 
     def test_empty_and_invalid_input(self):
-        self.assertEqual(fields.extract_themes(""), "")
+        self.assertEqual(analyze_themes("").to_gkg(), "")
         self.assertEqual(
-            fields.extract_themes("anything", lexicon=ThemeLexicon.from_mapping({})), ""
+            analyze_themes("anything", lexicon=ThemeLexicon.from_mapping({})).to_gkg(), ""
         )
         with self.assertRaises(TypeError):
             analyze_themes(None)
@@ -99,10 +94,10 @@ class CountTests(unittest.TestCase):
         )
         self.assertEqual(result.issues, ())
         self.assertEqual(
-            fields.extract_counts(text, rules=CONSERVATIVE.count_rules), result.to_gkg()
+            analyze_counts(text, rules=CONSERVATIVE.count_rules).to_gkg(), result.to_gkg()
         )
         self.assertEqual(
-            fields.extract_enhanced_counts(text, rules=CONSERVATIVE.count_rules),
+            analyze_counts(text, rules=CONSERVATIVE.count_rules).to_gkg(enhanced=True),
             result.to_gkg(enhanced=True),
         )
         for legacy, enhanced, mention in zip(
@@ -122,7 +117,7 @@ class CountTests(unittest.TestCase):
             ("one thousand and six", 1006),
             ("1,234", 1234),
             ("ten thousand two hundred and three", 10203),
-            ("five million", 5_000_000),
+            ("five million", 5000000),
             ("2 thousand", 2000),
         ):
             for text in (
@@ -167,7 +162,7 @@ class CountTests(unittest.TestCase):
             with self.subTest(text=text):
                 result = conservative_counts(text)
                 self.assertEqual(result.mentions, ())
-                if any(t in text for t in ("killed", "injured", "died")):
+                if any((t in text for t in ("killed", "injured", "died"))):
                     self.assertTrue(result.issues)
 
     def test_actor_age_date_and_sentence_boundaries(self):
@@ -196,7 +191,7 @@ class CountTests(unittest.TestCase):
         )
 
     def test_invalid_input_and_unsupported_categories(self):
-        self.assertEqual(fields.extract_counts(""), "")
+        self.assertEqual(analyze_counts("").to_gkg(), "")
         self.assertEqual(conservative_counts("200 people were evacuated.").mentions, ())
         with self.assertRaises(TypeError):
             analyze_counts(None)
@@ -213,7 +208,7 @@ class IntegrationTests(unittest.TestCase):
     def make_record(self, **kwargs):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", IncompleteGKGWarning)
-            return generate_gkg(
+            return make_record(
                 "Three people killed in a flood.",
                 identifier="https://example.org/a",
                 published_at=None,

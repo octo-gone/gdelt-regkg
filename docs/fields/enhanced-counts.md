@@ -5,16 +5,19 @@
 ## Example
 
 ```python
-from gdelt_regkg import SpacyNER, analyze_counts, analyze_entities, analyze_locations
+from gdelt_regkg.fields.counts import analyze_counts
+from gdelt_regkg.fields.locations import analyze_locations
+from gdelt_regkg.fields.ner import SpacyNER
+from gdelt_regkg.fields.ner import analyze_entities
 
 ner = SpacyNER.from_model("en_core_web_sm", name_policy="surface")
 text = "Volunteers rescued 12 people in Paris, France."
+
 entities = analyze_entities(text, recognizer=ner)
 resolved = analyze_locations(text, ner=entities)
 result = analyze_counts(text, locations=resolved.count_locations)
 print(result.to_gkg(enhanced=True))
-assert text[result.mentions[0].start:result.mentions[0].start + 2] == "12"
-# Reuse result.to_gkg() for the standard count field.
+assert text[result.mentions[0].start : result.mentions[0].start + 2] == "12"
 ```
 
 ```text

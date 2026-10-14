@@ -1,14 +1,10 @@
 import unittest
 import warnings
 
-from gdelt_regkg import (
-    IncompleteGKGWarning,
-    QuotationMention,
-    analyze_quotations,
-    generate_gkg,
-    serialize_gkg,
-)
-from gdelt_regkg.fields import extract_quotations
+from support import make_record
+
+from gdelt_regkg import IncompleteGKGWarning, serialize_gkg
+from gdelt_regkg.fields.quotations import QuotationMention, analyze_quotations
 
 
 class QuotationTests(unittest.TestCase):
@@ -24,7 +20,8 @@ class QuotationTests(unittest.TestCase):
             self.assertEqual((mention.text, mention.verb), (quote, verb))
             self.assertEqual(text[mention.start : mention.end], quote)
             self.assertEqual(
-                extract_quotations(text), f"{text.index(quote)}|{len(quote)}|{verb}|{quote}"
+                analyze_quotations(text).to_gkg(),
+                f"{text.index(quote)}|{len(quote)}|{verb}|{quote}",
             )
 
     def test_repeated_quotes_and_original_unicode_offsets(self):
@@ -69,8 +66,8 @@ class QuotationTests(unittest.TestCase):
             [entry.split("|")[-1] for entry in result.to_gkg().split("#")], ["Use tag", "a b"]
         )
         self.assertEqual(analyze_quotations('"#|"').issues[0].reason, "empty_after_normalization")
-        self.assertEqual(extract_quotations("No quotations here."), "")
-        self.assertEqual(extract_quotations('""'), "")
+        self.assertEqual(analyze_quotations("No quotations here.").to_gkg(), "")
+        self.assertEqual(analyze_quotations('""').to_gkg(), "")
         with self.assertRaises(TypeError):
             analyze_quotations(None)
 
@@ -84,18 +81,18 @@ class QuotationTests(unittest.TestCase):
         text = 'Jane said, "Ready."'
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", IncompleteGKGWarning)
-            record = generate_gkg(
+            record = make_record(
                 text,
                 identifier="https://example.org/story",
                 published_at=None,
                 batch_time="20261002000000",
                 sequence=1,
             )
-            self.assertEqual(record["V2.1QUOTATIONS"], extract_quotations(text))
+            self.assertEqual(record["V2.1QUOTATIONS"], analyze_quotations(text).to_gkg())
             self.assertEqual(
                 len(serialize_gkg(record, allow_incomplete=True).rstrip("\n").split("\t")), 27
             )
-            record = generate_gkg(
+            record = make_record(
                 text,
                 identifier="https://example.org/story",
                 published_at=None,

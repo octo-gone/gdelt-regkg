@@ -396,14 +396,14 @@ class BenchmarkTests(unittest.TestCase):
         stderr = io.StringIO()
         with (
             patch(
-                "gdelt_regkg.cli.benchmark.import_module", side_effect=ModuleNotFoundError("scipy")
+                "gdelt_regkg.dependencies.import_module", side_effect=ModuleNotFoundError("scipy")
             ),
             contextlib.redirect_stderr(stderr),
             self.assertRaises(SystemExit) as error,
         ):
             main(["benchmark", "--reference", "native.tsv", "--prediction", "predicted.tsv"])
         self.assertEqual(error.exception.code, 2)
-        self.assertIn("uv sync --extra benchmark", stderr.getvalue())
+        self.assertIn("install gdelt-regkg[benchmark]", stderr.getvalue())
 
     def test_reports_have_five_markdown_slots_and_full_precision_csv(self):
         report = BenchmarkReport(

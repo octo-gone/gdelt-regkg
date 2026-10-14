@@ -3,7 +3,7 @@
 `gdelt-regkg-cli benchmark` evaluates prepared GKG rows or generates predictions
 from saved article bodies. It writes Markdown and CSV tables.
 
-Install the [benchmark dependencies](../installation.md#benchmarking) before running this command.
+Install the [benchmark dependencies](../installation.md#benchmark-and-development) before running this command.
 
 ## Compare prepared outputs
 
@@ -130,7 +130,7 @@ gdelt-regkg-cli benchmark --reference native --corpus articles --ner-model en_co
 `--device cpu` is the default. `--device cuda` requires working CUDA inference
 and fails clearly if initialization is unsuccessful. `--device auto` attempts
 CUDA and reports a CPU fallback when unavailable. The selected device is
-recorded in `run.md`. Install [spaCy GPU support](../installation.md#cuda-and-compute-backends)
+recorded in `run.md`. Install [spaCy GPU support](../installation.md#gpu-inference)
 first; CUDA-enabled PyTorch alone does not enable spaCy's CuPy backend.
 Compiled CUDA kernels are cached in `cupy-kernels/` beside the SQLite workspace,
 unless `CUPY_CACHE_DIR` already selects a location.
@@ -254,6 +254,12 @@ from the text originally processed by GDELT. Coordinate errors concern paired
 geographic identities, and GCAM supported-category scores are distinct from
 all-native coverage. Weighted scores require both values to be defined. Report
 the evaluated population and matching rules alongside accuracy claims.
+
+## SQLite ownership and timeout
+
+The default workspace remains `OUTPUT/benchmark.sqlite3`. Select its path with `--cache` and its busy timeout with `--cache-timeout SECONDS` (default five seconds). File databases use WAL. Each run owns an independent connection and holds an exclusive workspace lock through batch commits; use separate workspaces for simultaneous benchmark runs. Connections and locks close on completion or error, and uncommitted work is rolled back.
+
+Library callers use `BenchmarkStore(path, timeout=5)` as a context manager or call its idempotent `close()`. Instances are thread-affine; create one inside each worker rather than sharing it across threads. Build requests use frozen `BuildOptions`, prediction requests use `PredictionOptions`, and scoring requests use `BenchmarkOptions`.
 
 ## Archived implementation
 

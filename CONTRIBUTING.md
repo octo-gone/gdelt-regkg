@@ -4,18 +4,20 @@ Contributions can improve extraction, resource importers, benchmarks, documentat
 
 ## Project structure
 
-The `src/gdelt_regkg/fields/` package contains field extractors and their analyzers,
-NER, language detection, translation and count/theme rule loaders. Its
-`__init__.py` exposes the scalar field functions. `pipeline.py` composes fields
-into GKG records. `config.py`, `utils.py` and `wire.py` provide shared configuration,
-resource lookup and serialization. Resource converters live in `builders/`, command
-handling in `cli/`, field evaluation in `benchmark/`, and tone dictionary
-refinement in `scripts/`. Documentation starts at [docs/README.md](docs/README.md), with
-separate installation, API usage and CLI guides.
+The `src/gdelt_regkg/fields/` package contains structured field analyzers,
+NER, language detection, translation and independent rule loaders. Import analyzers
+from their owning field modules. `pipeline.py` composes fields into records;
+`record.py` defines the column contract, `profiles.py` composes resources, and
+`utils.py` and `wire.py` handle resource lookup and serialization. Resource converters
+live in `src/gdelt_regkg/builders/`, command handling in `src/gdelt_regkg/cli/`, field
+evaluation in `src/gdelt_regkg/benchmark/`, and tone dictionary refinement in
+`src/gdelt_regkg/scripts/` behind `gdelt-regkg-cli refine-tone`.
+Documentation starts at [docs/README.md](docs/README.md), with separate installation,
+API usage and CLI guides.
 
 ## Local checks
 
-Prepare the dictionaries and small English model using [Installation and setup](docs/installation.md#basic-english-setup). From a development checkout, install tools with `uv sync --inexact --group dev`. The full suite requires the standard dictionaries and geographic reference; source-replay checks also use the original downloaded files.
+Prepare the dictionaries and small English model using [Installation and setup](docs/installation.md#basic-english-setup). From a development checkout, install tools with `uv sync --inexact --group dev --all-extras`. Install PyTorch and, for GPU NER, CuPy separately using the [CPU/CUDA instructions](docs/installation.md#non-english-articles). The full suite requires the standard dictionaries and geographic reference; source-replay checks also use the original downloaded files.
 
 ```shell
 uv run --no-sync pre-commit install
@@ -31,7 +33,7 @@ uv run --no-sync python -m unittest discover -s tests -p test_local_resources.py
 
 CI prepares standard resources, builds the distributions and runs the tests against the installed wheel. It does not download optional Lexicoder/Roget profiles or translation weights.
 
-The pylint and mypy hooks use the project's installed development environment and check the complete package and maintained scripts. They do not require dictionaries, model weights or PyTorch. You can run them separately with `uv run --no-sync python -m pylint src/gdelt_regkg scripts .github/scripts` and `uv run --no-sync python -m mypy`. Mypy checks function bodies and existing annotations; complete annotations for every helper are not required. Pylint omits documentation, formatting and size/complexity warnings while retaining correctness checks.
+The pylint and mypy hooks use the project's installed development environment and check the complete package and maintained scripts. They do not require dictionaries, model weights or PyTorch. You can run them separately with `uv run --no-sync python -m pylint src/gdelt_regkg .github/scripts` and `uv run --no-sync python -m mypy`. Mypy checks function bodies and existing annotations; complete annotations for every helper are not required. Pylint checks correctness and limits functions to 10 arguments, 30 locals, 15 branches, 80 statements and five nested blocks; documentation and formatting are handled separately.
 
 ## Pull requests
 

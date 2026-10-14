@@ -8,6 +8,9 @@ from dataclasses import dataclass
 from functools import lru_cache
 from typing import TYPE_CHECKING, Protocol
 
+from ..dependencies import require_dependency
+from ..types import LanguageCheck
+
 if TYPE_CHECKING:
     from lingua import LanguageDetector as LinguaBackend
 
@@ -25,22 +28,29 @@ class LanguageDetector(Protocol):
 
 
 class LanguageDetectionError(ValueError):
-    """The body does not provide enough evidence for a language decision."""
+    """No language candidate exists, or strict detection rejects weak evidence."""
 
 
 class LinguaDetector:
-    """Reusable local detector with bounded input and confidence thresholds."""
+    """Return a scored language candidate, optionally enforcing quality thresholds."""
 
-    def __init__(self, *, min_confidence: float = 0.8, min_margin: float = 0.2):
+    def __init__(
+        self,
+        *,
+        strict: bool = False,
+        min_letters: int = 40,
+        min_confidence: float = 0.8,
+        min_margin: float = 0.2,
+    ):
+        if not isinstance(strict, bool):
+            raise TypeError("strict must be bool")
+        if type(min_letters) is not int or min_letters < 0:
+            raise ValueError("min_letters must be a nonnegative integer")
         if not 0 <= min_confidence <= 1 or not 0 <= min_margin <= 1:
             raise ValueError("Language detection thresholds must be between 0 and 1")
-        try:
-            from lingua import LanguageDetectorBuilder
-        except ImportError as error:
-            raise RuntimeError("Install gdelt-regkg to detect missing languages") from error
-        self.backend = (
-            LanguageDetectorBuilder.from_all_spoken_languages().with_low_accuracy_mode().build()
-        )
+        builder = require_dependency("lingua", "lang").LanguageDetectorBuilder
+        self.backend = builder.from_all_spoken_languages().with_low_accuracy_mode().build()
+        self.strict, self.min_letters = strict, min_letters
         self.min_confidence, self.min_margin = min_confidence, min_margin
 
     def detect(self, text: str) -> LanguageDetection:
@@ -60,14 +70,14 @@ class LinguaDetector:
             sample = "\n".join((text[:2000], text[middle - 1000 : middle + 1000], text[-2000:]))
         else:
             sample = text
-        if sum(char.isalpha() for char in sample) < 40:
+        if self.strict and sum(char.isalpha() for char in sample) < self.min_letters:
             raise LanguageDetectionError("Too little alphabetic text to detect a language reliably")
         values = backend.compute_language_confidence_values(sample)
         if not values:
             raise LanguageDetectionError("No language could be detected")
         best = values[0]
         margin = best.value - (values[1].value if len(values) > 1 else 0)
-        if best.value < self.min_confidence or margin < self.min_margin:
+        if self.strict and (best.value < self.min_confidence or margin < self.min_margin):
             raise LanguageDetectionError(
                 f"Uncertain language detection: confidence={best.value:.3f}, margin={margin:.3f}"
             )
@@ -78,25 +88,26 @@ class LinguaDetector:
 
 @lru_cache(maxsize=8)
 def _confirmation_backend(supplied: str, candidate: str):
-    from lingua import IsoCode639_3, LanguageDetectorBuilder
+    lingua = require_dependency("lingua", "lang")
+    iso_codes, builder = lingua.IsoCode639_3, lingua.LanguageDetectorBuilder
 
-    codes: list[IsoCode639_3] = []
+    codes = []
     for language in (supplied, candidate):
-        code = getattr(IsoCode639_3, language.upper(), None)
+        code = getattr(iso_codes, language.upper(), None)
         if code is None:
             raise LanguageDetectionError("Supplied language cannot be verified by Lingua")
         codes.append(code)
     # Full n-gram models, loaded lazily for these two languages only.
-    return LanguageDetectorBuilder.from_iso_codes_639_3(*codes).build()
+    return builder.from_iso_codes_639_3(*codes).build()
 
 
-@lru_cache(maxsize=1)
-def default_language_detector() -> LinguaDetector:
-    return LinguaDetector()
+@lru_cache(maxsize=2)
+def default_language_detector(*, strict: bool = False) -> LinguaDetector:
+    return LinguaDetector(strict=strict)
 
 
 def detect_language(text: str, *, detector: LanguageDetector | None = None) -> LanguageDetection:
-    """Identify the body language independently of translation or GKG generation."""
+    """Return a scored candidate; pass LinguaDetector(strict=True) to reject weak evidence."""
     if not isinstance(text, str):
         raise TypeError("text must be str")
     result = (default_language_detector() if detector is None else detector).detect(text)
@@ -151,7 +162,11 @@ def script_mismatch(text: str, language: str) -> bool:
 
 
 def verify_language(
-    text: str, language: str, *, check="script", detector: LanguageDetector | None = None
+    text: str,
+    language: str,
+    *,
+    check: LanguageCheck = "script",
+    detector: LanguageDetector | None = None,
 ) -> LanguageDetection | None:
     """Check supplied labels; alphabet conflicts require a confident decision."""
     if check not in {"none", "script", "all"}:
@@ -161,10 +176,11 @@ def verify_language(
     conflict = script_mismatch(text, language)
     if not conflict and check != "all":
         return None
+    # Automatic corrections to a supplied label still need confident evidence.
+    backend = default_language_detector(strict=True) if detector is None else detector
     try:
-        result = detect_language(text, detector=detector)
+        result = detect_language(text, detector=backend)
         if result.language != language and result.detector == "lingua/low-accuracy":
-            backend = default_language_detector() if detector is None else detector
             if isinstance(backend, LinguaDetector):
                 result = backend.confirm(text, language, result.language)
         return result

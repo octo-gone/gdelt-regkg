@@ -5,7 +5,7 @@
 ## Example
 
 ```python
-from gdelt_regkg.fields import format_source_collection
+from gdelt_regkg.fields.metadata import format_source_collection
 
 print(format_source_collection(1))
 ```
@@ -25,7 +25,7 @@ print(format_source_collection(1))
 | 5 | JSTOR |
 | 6 | Nontextual source |
 
-In `generate_gkg`, pass `source_collection=`; the default is `1`. Values outside 1–6 and boolean values are rejected.
+Set `source_collection=` on `RecordMetadata`, then pass the metadata to `generate_gkg(text, metadata, resources)`. The default collection is `1`. Values outside 1–6 and boolean values are rejected.
 
 ## Limits
 

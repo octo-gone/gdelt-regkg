@@ -19,7 +19,7 @@ See the [field documentation and measured agreement](docs/README.md), [resource 
 Requires Python 3.12 or newer. Install the library and its English model, then prepare the extraction dictionaries:
 
 ```shell
-python -m pip install gdelt-regkg
+python -m pip install "gdelt-regkg[ner]"
 python -m spacy download en_core_web_sm
 gdelt-regkg-cli build all --sources-dir downloads/resources --download-sources --output local-resources
 ```
@@ -33,102 +33,92 @@ gdelt-regkg-cli build all --sources-dir downloads/resources --download-sources -
 
 ### Extract individual fields
 
-Each field has a standalone function, so you do not need to generate a full GKG row.
+Import structured analyzers from their field modules. Serialize the result when a GKG cell is needed:
 
 ```python
-from gdelt_regkg.fields import extract_counts, extract_themes, extract_tone
+from gdelt_regkg.fields.counts import analyze_counts
+from gdelt_regkg.fields.themes import analyze_themes
+from gdelt_regkg.fields.tone import analyze_tone
 
-text = "Flooding killed 12 people and displaced 300 residents."
-
-counts = extract_counts(text)
-# CRISISLEX_T03_DEAD#12#people#0######;KILL#12#people#0######;AFFECT#300#residents#0######;CRISISLEX_CRISISLEXREC#300#residents#0######;CRISISLEX_T09_DISPLACEDRELOCATEDEVACUATED#300#residents#0######;DISPLACED#300#residents#0######;
-themes = extract_themes(text)
-# CRISISLEX_C06_WATER_SANITATION;NATURAL_DISASTER_FLOODING;CRISISLEX_T03_DEAD;KILL;AFFECT;CRISISLEX_CRISISLEXREC;CRISISLEX_T09_DISPLACEDRELOCATEDEVACUATED;DISPLACED;MANMADE_DISASTER_IMPLIED;
-tone = extract_tone(text)
-# -12.5,0,12.5,12.5,12.5,0,8
+text = "Flooding killed 12 people."
+counts = analyze_counts(text)
+print(counts.to_gkg())
+print(counts.to_gkg(enhanced=True))
+print(analyze_themes(text).to_gkg())
+print(analyze_tone(text).to_gkg())
 ```
 
-Functions return GKG-formatted cell strings and work with pandas, for example `df["themes"] = df["text"].map(extract_themes)`. pandas package is optional and must be installed separately.
+```text
+CRISISLEX_T03_DEAD#12#people#0######;KILL#12#people#0######;
+CRISISLEX_T03_DEAD#12#people#0#######16;KILL#12#people#0#######16;
+CRISISLEX_C06_WATER_SANITATION;NATURAL_DISASTER_FLOODING;CRISISLEX_T03_DEAD;KILL;
+-25,0,25,25,25,0,4
+```
 
-Tone, themes, geographic references and GCAM require locally prepared profiles. The default directory is `local-resources/`; select another with `resources_dir=` in Python or `--resources-dir` in the CLI. Explicit resource objects override directory defaults. Counts and name rules are available directly from the package.
+Tone, themes, geographic references and GCAM need prepared local profiles. Counts and name rules are included. Default profiles are cached by resolved path; reuse explicit objects or reload them after edits. For pandas, use `df["themes"] = df["text"].map(lambda text: analyze_themes(text).to_gkg())`; install pandas separately and normalize missing values.
 
-### Generate and save a row
+### Generate a GKG record
 
 ```python
-from gdelt_regkg import SpacyNER, generate_gkg, write_gkg
+from gdelt_regkg import RecordMetadata, Resources, generate_gkg, write_gkg
+from gdelt_regkg.fields.ner import SpacyNER
 
-ner = SpacyNER.from_model("en_core_web_sm", name_policy="surface")  # Load once and reuse.
-
-record = generate_gkg(
-    "Volunteers rescued 12 people in Paris, France.",
+text = "Flooding killed 12 people in London."
+metadata = RecordMetadata(
     identifier="https://example.org/story",
-    published_at="20261001090023",  # Known precise publication time, stored in extra XML.
     batch_time="20261001091500",
     sequence=1,
-    ner=ner,
-    resources_dir="local-resources",
     sharing_image="",
     related_images=[],
     social_image_embeds=[],
     social_video_embeds=[],
     extras={},
-    strict=True,
 )
-
-with open("example.gkg.csv", "w", encoding="utf-8", newline="") as stream:
+resources = Resources(resources_dir="local-resources", recognizer=SpacyNER.from_model())
+record = generate_gkg(text, metadata, resources, strict=True)
+with open("articles.gkg.tsv", "w", encoding="utf-8", newline="") as stream:
     write_gkg([record], stream)
-
-for column in ("V1COUNTS", "V1LOCATIONS", "V2.1AMOUNTS"):
-    print(f"{column}: {record[column]}")
 ```
 
-```text
-V1COUNTS: CRISISLEX_T08_MISSINGFOUNDTRAPPEDPEOPLE#12#people#4#Paris, France (General), France#FR#FR00#48.8667#2.33333#-1456928;
-V1LOCATIONS: 4#Paris, France (General), France#FR#FR00#48.8667#2.33333#-1456928;1#France#FR#FR#46#2#FR
-V2.1AMOUNTS: 12,people,19
-```
+The frozen `GKGRecord` has 27 typed attributes, native column-name mapping access, `to_mapping()` and `to_row()`. An empty cell means no matches; `None` means unavailable metadata or model-dependent work. `strict=True` raises `IncompleteGKGError`; otherwise unavailable fields produce `IncompleteGKGWarning`. Export them explicitly with `allow_incomplete=True`.
 
-These are three cells from the generated record. `example.gkg.csv` contains the complete 27-column GKG entry, including themes, tone, GCAM and enhanced fields. The generator resolves locations from NER and adds the nearest resolved location to each count.
+Translate non-English bodies first and use `RecordMetadata.from_translation(result, metadata)`. Enhanced offsets refer to `result.text`. See [API usage](docs/api-usage.md) for translation, batching, caching, overrides and resource composition, and the [Unreleased migration guide](CHANGELOG.md#unreleased) for breaking API changes.
 
-The generator returns a dictionary of 27 fields. This example explicitly supplies a recognizer and empty media/extras metadata, so `strict=True` verifies a complete row. Missing supplied metadata or model-dependent fields without `ner` remain `None` and produce a warning. `allow_incomplete=True` exports those unavailable values as blank cells. Output is headerless and tab-delimited, even when the filename ends in `.csv` (GDELT specifics).
+## Supported fields
 
-For non-English articles and the full GCAM profile, use the [complete pipeline example](docs/api-usage.md#complete-pipeline-example) in the API guide.
+All 27 GKG wire columns are supported. Text-derived fields approximate GDELT processing; metadata and media fields format values supplied by the caller. Enhanced fields add offsets into the analyzed English body. Follow the field links for formats, examples and limitations.
 
-## Field implementation map
-
-Columns appear in output order. Model-dependent fields require an installed recognizer; missing supplied metadata remains `None`.
-
-| Column | Standalone function | Status |
+| GKG column | How it is produced | Setup |
 | --- | --- | --- |
-| GKGRECORDID | `format_record_id` | Supplied metadata |
-| V2.1DATE | `format_date` | Batch timestamp |
-| V2SOURCECOLLECTIONIDENTIFIER | `format_source_collection` | Supplied metadata |
-| V2SOURCECOMMONNAME | `source_common_name` | Explicit label or hostname |
-| V2DOCUMENTIDENTIFIER | `document_identifier` | Supplied metadata |
-| V1COUNTS | `extract_counts` | Experimental approximation |
-| V2.1COUNTS | `extract_enhanced_counts` | Same counts with number offsets |
-| V1THEMES | `extract_themes` | Rule-based approximation |
-| V2ENHANCEDTHEMES | `extract_enhanced_themes` | Same theme mentions with phrase offsets |
-| V1LOCATIONS | `extract_locations` | Offline reference gazetteer and NER approximation |
-| V2ENHANCEDLOCATIONS | `extract_enhanced_locations` | Same resolved places with ADM2 and offsets |
-| V1PERSONS | `extract_persons` | spaCy NER approximation |
-| V2ENHANCEDPERSONS | `extract_enhanced_persons` | Same person mentions with offsets |
-| V1ORGANIZATIONS | `extract_organizations` | spaCy NER approximation |
-| V2ENHANCEDORGANIZATIONS | `extract_enhanced_organizations` | Same organization mentions with offsets |
-| V1.5TONE | `extract_tone` | Benchmark-refined dictionary approximation |
-| V2.1ENHANCEDDATES | `extract_enhanced_dates` | Explicit English dates with resolutions 1–4 |
-| V2GCAM | `extract_gcam` | Dictionary category counts and weighted scores; coverage depends on local dictionaries |
-| V2.1SHARINGIMAGE | `format_sharing_image` | Supplied image URL |
-| V2.1RELATEDIMAGES | `format_related_images` | Supplied image URLs |
-| V2.1SOCIALIMAGEEMBEDS | `format_social_image_embeds` | Supplied social-post URLs |
-| V2.1SOCIALVIDEOEMBEDS | `format_social_video_embeds` | Supplied video URLs |
-| V2.1QUOTATIONS | `extract_quotations` | Quoted spans and reporting-verb approximation |
-| V2.1ALLNAMES | `extract_all_names` | Broad named entities and proper-noun spans |
-| V2.1AMOUNTS | `extract_amounts` | Numeric/textual quantities with bounded objects |
-| V2.1TRANSLATIONINFO | `format_translation_info` | Supplied metadata |
-| V2EXTRASXML | `extract_extras_xml` | Custom extension data, including supplied metadata |
+| [GKGRECORDID](docs/fields/record-id.md) | Batch timestamp and sequence; `T` marks translated records | Supplied `RecordMetadata` |
+| [V2.1DATE](docs/fields/date.md) | Batch timestamp; publication time is kept separately in extra XML | Supplied metadata |
+| [V2SOURCECOLLECTIONIDENTIFIER](docs/fields/source-collection.md) | Validated source collection identifier | Supplied metadata |
+| [V2SOURCECOMMONNAME](docs/fields/source-name.md) | Supplied source name or hostname derived from the document URL | Supplied metadata |
+| [V2DOCUMENTIDENTIFIER](docs/fields/document-identifier.md) | Supplied document URL or identifier | Supplied metadata |
+| [V1COUNTS](docs/fields/counts.md) | Authored English number/event rules with optional resolved geography | Rules included; [NER and geography](docs/installation.md#basic-english-setup) for place enrichment |
+| [V2.1COUNTS](docs/fields/enhanced-counts.md) | Count matches with character offsets | Same as counts |
+| [V1THEMES](docs/fields/themes.md) | Phrase matching against theme dictionaries | [Build local resources](docs/cli/build.md) |
+| [V2ENHANCEDTHEMES](docs/fields/enhanced-themes.md) | Theme matches with offsets | Same as themes |
+| [V1LOCATIONS](docs/fields/locations.md) | NER place mentions resolved against an offline gazetteer | [spaCy model and local resources](docs/installation.md#basic-english-setup) |
+| [V2ENHANCEDLOCATIONS](docs/fields/enhanced-locations.md) | Resolved place occurrences with offsets and administrative details | Same as locations |
+| [V1PERSONS](docs/fields/persons.md) | NER person mentions with name normalization and filtering | [NER extra and English model](docs/installation.md#english-models) |
+| [V2ENHANCEDPERSONS](docs/fields/enhanced-persons.md) | Person mentions with offsets | Same as persons |
+| [V1ORGANIZATIONS](docs/fields/organizations.md) | NER organization mentions with authored name filtering | [NER extra and English model](docs/installation.md#english-models) |
+| [V2ENHANCEDORGANIZATIONS](docs/fields/enhanced-organizations.md) | Organization mentions with offsets | Same as organizations |
+| [V1.5TONE](docs/fields/tone.md) | Dictionary-based tone, polarity, activity, self-reference and word counts | [Build tone resources](docs/cli/build.md) |
+| [V2.1ENHANCEDDATES](docs/fields/enhanced-dates.md) | English calendar/date patterns with offsets | Core only |
+| [V2GCAM](docs/fields/gcam.md) | Matches across configured affect dictionaries | [Build GCAM resources](docs/cli/build.md#gcam-profiles-and-expansion) |
+| [V2.1SHARINGIMAGE](docs/fields/sharing-image.md) | Formats the supplied sharing-image URL | Supplied metadata |
+| [V2.1RELATEDIMAGES](docs/fields/related-images.md) | Formats supplied related-image URLs | Supplied metadata |
+| [V2.1SOCIALIMAGEEMBEDS](docs/fields/social-image-embeds.md) | Formats supplied social-image embed URLs | Supplied metadata |
+| [V2.1SOCIALVIDEOEMBEDS](docs/fields/social-video-embeds.md) | Formats supplied social-video embed URLs | Supplied metadata |
+| [V2.1QUOTATIONS](docs/fields/quotations.md) | Quoted-span detection with offsets and lengths | Core only |
+| [V2.1ALLNAMES](docs/fields/all-names.md) | Broader NER name labels with authored filtering and offsets | [NER extra and English model](docs/installation.md#english-models) |
+| [V2.1AMOUNTS](docs/fields/amounts.md) | Number, currency and unit patterns with offsets | Core only |
+| [V2.1TRANSLATIONINFO](docs/fields/translation-info.md) | Formats language/engine provenance from explicit translation or metadata | [Detection and translation setup](docs/installation.md#non-english-articles) for automatic provenance |
+| [V2EXTRASXML](docs/fields/extras-xml.md) | Escapes and serializes supplied extra metadata as XML | Supplied metadata |
 
-See the [field documentation](docs/README.md) for implementation status, research, and usage for each field.
+Language detection can also be used independently of GKG generation. See [detect and translate an unknown language](docs/api-usage.md#language-detection-and-translation) and [CUDA/CuPy setup](docs/installation.md#gpu-inference).
 
 ## Contributing
 

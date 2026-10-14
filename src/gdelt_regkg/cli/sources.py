@@ -1,4 +1,4 @@
-"""Checksum-verified acquisition for the new CLI."""
+"""Checksum-verified acquisition for the CLI."""
 
 from __future__ import annotations
 

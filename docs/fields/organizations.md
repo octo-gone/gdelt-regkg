@@ -1,16 +1,17 @@
 # Organizations
 
-`V1ORGANIZATIONS` stores distinct recognized organization names. `extract_organizations` uses an English NER model.
+`V1ORGANIZATIONS` stores distinct recognized organization names. `analyze_entities` uses an English NER model.
 
 ## Example
 
 ```python
-from gdelt_regkg import SpacyNER, analyze_entities
+from gdelt_regkg.fields.ner import SpacyNER
+from gdelt_regkg.fields.ner import analyze_entities
 
 ner = SpacyNER.from_model("en_core_web_sm", name_policy="surface")
 text = "Marie Curie visited Microsoft in Paris, France."
-entities = analyze_entities(text, recognizer=ner)
 
+entities = analyze_entities(text, recognizer=ner)
 print("V1ORGANIZATIONS:", entities.to_gkg("ORG"))
 print("V2ENHANCEDORGANIZATIONS:", entities.to_gkg("ORG", enhanced=True))
 print("V1PERSONS:", entities.to_gkg("PERSON"))
@@ -28,7 +29,7 @@ Location mentions: [('Paris', 33), ('France', 40)]
 
 Names are separated by `;` and deduplicated in first-mention order. No accepted names produces `""`. Original organization spans remain available in `entities.organizations`.
 
-Reuse a loaded recognizer across documents. The standalone extractor loads a cached small English recognizer if omitted; the row generator requires `ner=recognizer` or `ner=entities`. Recognized mentions are shared across both organization fields and the other entity columns.
+Reuse a loaded recognizer across documents. `analyze_entities` loads a cached small English recognizer when `recognizer=` is omitted. For record generation, supply it through `Resources(recognizer=ner)` and call `generate_gkg(text, metadata, resources)`, or pass precomputed recognition as `ner_result=entities`. The result must describe the exact analyzed body. Recognized mentions are shared across both organization fields and the other entity columns. See [the generation example](../api-usage.md#generate-a-gkg-record).
 
 ## Options
 

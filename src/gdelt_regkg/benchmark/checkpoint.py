@@ -1,9 +1,10 @@
 """Prediction compatibility fingerprints and explicit spaCy device selection."""
 
 import sys
-from importlib import import_module, metadata, util
+from importlib import metadata, util
 from pathlib import Path
 
+from gdelt_regkg.dependencies import require_dependency
 from gdelt_regkg.utils import read_resource_json, resource_path
 
 from .storage import digest
@@ -32,29 +33,30 @@ def select_device(device, gpu_id, progress):
             raise ValueError(
                 "Both CUDA 12 and CUDA 13 CuPy wheels are installed. "
                 "Uninstall the unused cupy-cuda12x or cupy-cuda13x wheel, "
-                "then reinstall the selected NER GPU extra."
+                "then reinstall the compatible CuPy wheel."
             )
     # Windows PyTorch wheels register their bundled CUDA DLL directories when
     # imported. Let CuPy discover those libraries before Thinc probes its backend.
     if device != "cpu" and sys.platform == "win32" and util.find_spec("torch") is not None:
-        import_module("torch")
-    import spacy
+        require_dependency("torch", "translate")
+    spacy = require_dependency("spacy", "ner")
 
     if device != "cpu":
         try:
             spacy.require_gpu(gpu_id)
             # Check computation too: importing CuPy alone doesn't verify its runtime.
-            import cupy
+            cupy = require_dependency("cupy", "ner")
 
             cupy.arange(4).sum().item()
             progress(f"[benchmark] NER device: cuda:{gpu_id}")
             return f"cuda:{gpu_id}"
-        except (ImportError, OSError, ValueError, RuntimeError) as error:
+        except (OSError, ValueError, RuntimeError) as error:
             if device == "cuda":
                 raise ValueError(
-                    "spaCy CUDA initialization failed. Install gdelt-regkg[ner-cu128] for CUDA 12.8 "
-                    "or gdelt-regkg[ner-cu130] for CUDA 13.0 "
-                    f"and a compatible NVIDIA driver, or select --device cpu. {error}"
+                    "spaCy CUDA initialization failed. Install one CuPy variant separately: "
+                    'python -m pip install "cupy-cuda12x[ctk]" for CUDA 12, or '
+                    'python -m pip install "cupy-cuda13x[ctk]" for CUDA 13. '
+                    f"Use a compatible NVIDIA driver, or select --device cpu. {error}"
                 ) from error
             progress(f"[benchmark] CUDA unavailable; using CPU: {error}")
     spacy.require_cpu()
@@ -114,7 +116,18 @@ def prediction_signature(args, fields, device):
     root = Path(__file__).resolve().parents[1]
     code_paths = [
         *root.joinpath("fields").glob("*.py"),
-        *(root / n for n in ("pipeline.py", "config.py", "utils.py", "wire.py")),
+        *(
+            root / n
+            for n in (
+                "pipeline.py",
+                "profiles.py",
+                "record.py",
+                "utils.py",
+                "wire.py",
+                "dependencies.py",
+                "types.py",
+            )
+        ),
         Path(__file__).with_name("corpus.py"),
     ]
     versions = {}

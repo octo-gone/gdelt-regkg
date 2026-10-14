@@ -13,6 +13,8 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
+from ..types import StrPath
+
 _TOKEN = re.compile(r"\w+(?:['’]\w+)*|[^\w\s]")
 _CODE = re.compile(r"[A-Z][A-Z0-9_-]*")
 
@@ -92,7 +94,9 @@ class ThemeLexicon:
         object.__setattr__(self, "_context_trie", context_trie)
 
     @classmethod
-    def from_mapping(cls, themes: Mapping[str, Iterable[str]], *, name: str = "custom"):
+    def from_mapping(
+        cls, themes: Mapping[str, Iterable[str]], *, name: str = "custom"
+    ) -> ThemeLexicon:
         rules: list[ThemeRule] = []
         for theme, phrases in themes.items():
             if isinstance(phrases, str):
@@ -101,7 +105,7 @@ class ThemeLexicon:
         return cls(name, tuple(rules))
 
     @classmethod
-    def from_json(cls, path: str | Path):
+    def from_json(cls, path: str | Path) -> ThemeLexicon:
         """Load source-neutral rules or a legacy theme-code mapping."""
         data = json.loads(Path(path).read_text(encoding="utf-8"))
         if "schema" in data:
@@ -111,16 +115,10 @@ class ThemeLexicon:
         return cls.from_mapping(data["themes"], name=data["name"])
 
 
-def default_theme_lexicon(resources_dir=None) -> ThemeLexicon:
-    from ..utils import read_resource_json, resource_path
+def default_theme_lexicon(resources_dir: StrPath | None = None) -> ThemeLexicon:
+    from ..utils import ResourceStore
 
-    return _cached_theme_lexicon(
-        resource_path(
-            "lexicons",
-            read_resource_json("defaults.json", resources_dir=resources_dir)["themes"],
-            resources_dir=resources_dir,
-        )
-    )
+    return _cached_theme_lexicon(ResourceStore(resources_dir).profile("themes"))
 
 
 @lru_cache(maxsize=8)

@@ -5,15 +5,16 @@
 ## Example
 
 ```python
-from gdelt_regkg import SpacyNER, analyze_entities, analyze_locations
-from gdelt_regkg.fields import extract_enhanced_locations
+from gdelt_regkg.fields.locations import analyze_locations
+from gdelt_regkg.fields.ner import SpacyNER
+from gdelt_regkg.fields.ner import analyze_entities
 
 ner = SpacyNER.from_model("en_core_web_sm", name_policy="surface")
-text = 'Paris, France hosted the exhibition.'
-print(extract_enhanced_locations(text, recognizer=ner))
+text = "Paris, France hosted the exhibition."
+
+print(analyze_locations(text, recognizer=ner).to_gkg(enhanced=True))
 entities = analyze_entities(text, recognizer=ner)
 resolved = analyze_locations(text, ner=entities)
-# Reuse resolved.to_gkg() for the standard location field.
 ```
 
 ```text

@@ -1,4 +1,4 @@
-"""The new CLI; standalone commands in scripts remain independently supported."""
+"""gdelt_regkg package CLI"""
 
 from .main import main
 

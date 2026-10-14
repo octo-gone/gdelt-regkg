@@ -1,18 +1,9 @@
-import importlib.util
 import json
-import sys
 import tempfile
 import unittest
 from pathlib import Path
-from unittest.mock import patch
 
-ROOT = Path(__file__).resolve().parents[1]
-SPEC = importlib.util.spec_from_file_location(
-    "refine_tone_lexicon", ROOT / "src/gdelt_regkg/scripts/refine_tone_lexicon.py"
-)
-refine = importlib.util.module_from_spec(SPEC)
-with patch.object(sys, "path", [str(ROOT / "scripts"), *sys.path]):
-    SPEC.loader.exec_module(refine)
+from gdelt_regkg.scripts import refine_tone_lexicon as refine
 
 
 class ToneRefinementTests(unittest.TestCase):

@@ -1,190 +1,165 @@
 # Installation
 
-Requires **Python 3.12 or newer**. Install the package and any selected models in
-the same environment. Downloads are needed during setup; extraction uses local
-resources and model weights.
+Requires Python 3.12 or newer. The core installation has no third-party runtime dependencies:
 
 ```shell
-python -m venv .venv
+python -m pip install gdelt-regkg
 ```
 
-Activate it with `source .venv/bin/activate` on Linux/macOS or
-`.venv\Scripts\Activate.ps1` in PowerShell.
+Dates, amounts, quotations and authored counts work without NLP backends. Tone, themes and GCAM need prepared dictionaries. Install the features you use:
+
+| Extra | Capability |
+| --- | --- |
+| `ner` | spaCy adapters; install an English model separately |
+| `translate` | Transformers and SentencePiece for M2M100 translation; install PyTorch separately |
+| `lang` | Lingua language detection and label verification; no PyTorch required |
+| `benchmark` | Article retrieval and statistical benchmark dependencies |
+| `all` | All feature extras above; PyTorch, CuPy and model weights remain separate |
+
+Missing feature dependencies raise `OptionalDependencyError` naming the extra. Missing PyTorch or CuPy produces instructions for that separately installed backend. Missing models and dictionaries produce separate model/resource errors.
 
 ## Basic English setup
 
 ```shell
-python -m pip install gdelt-regkg
+python -m pip install "gdelt-regkg[ner]"
 python -m spacy download en_core_web_sm
 gdelt-regkg-cli build all --sources-dir downloads/resources --download-sources --output local-resources
 ```
 
-The build downloads the recorded dictionary and geographic sources and writes
-compiled profiles to `local-resources/`. Review their [source terms](cli/build.md#third-party-terms).
-Pass `resources_dir=` in Python when using a different output directory.
-
-Install only what your selected fields require:
-
-| Purpose | Additional setup |
-| --- | --- |
-| Dates, amounts and quotations | Package only |
-| Authored count and name rules | `gdelt-regkg-cli build counts ner --output local-resources` |
-| Tone, themes and GCAM | [Build the selected dictionaries](cli/build.md#resource-arguments) |
-| Persons, organizations and broad names | English spaCy model; name rules for the default name policy |
-| Locations and count geography | English spaCy model and [geographic reference](cli/build.md#geographic-reference-files) |
-
-For a first extraction, follow [Generate a GKG record](api-usage.md#generate-a-gkg-record).
-See [Build resources](cli/build.md) for partial builds, source files and custom profiles.
+Downloads occur only during explicit setup. Extraction uses local resources and model weights. Review external [source terms](cli/build.md#third-party-terms). Select another root through `Resources(resources_dir=path)` or CLI `--resources-dir`.
 
 ## English models
 
-For the documented large-model configuration, install:
-
-```shell
-python -m spacy download en_core_web_lg
-```
-
-`en_core_web_md` is another option. Select the installed model explicitly through
-`SpacyNER.from_model("en_core_web_lg", resources_dir="local-resources")` or
-`benchmark --ner-model en_core_web_lg`. Installing a model does not change the
-selected default. The recorded studies use spaCy 3.8.0 English model packages
-with spaCy 3.8. English extraction needs no PyTorch or translation weights.
-
-Optional dictionaries for wider GCAM coverage are described in
-[GCAM profiles and expansion](cli/build.md#gcam-profiles-and-expansion).
-
-## CUDA and compute backends
-
-NER uses spaCy/CuPy; local translation uses PyTorch. Install the backend for each
-task you need. English extraction does not require PyTorch. CUDA inference
-requires a compatible NVIDIA GPU and driver; installing an extra does not select
-the device in Python.
-
-| Compute option | NER extra (spaCy/CuPy) | Translation extra (PyTorch) |
-| --- | --- | --- |
-| CPU | No extra | `cpu` |
-| CUDA 12.8 | `ner-cu128` | `cu128` |
-| CUDA 13.0 | `ner-cu130` | `cu130` |
-
-NER extras include CuPy and the matching CUDA runtime, but not an English model.
-Install the model as described in [English models](#english-models).
-
-### From a source checkout with uv
-
-Choose the command for your workload. uv selects the configured PyTorch index
-for `cpu`, `cu128` and `cu130`:
-
-```shell
-# GPU NER only, CUDA 13.0
-uv sync --inexact --extra ner-cu130
-
-# GPU translation only, CUDA 13.0
-uv sync --inexact --extra cu130
-
-# Both backends on GPU, CUDA 13.0
-uv sync --inexact --extra ner-cu130 --extra cu130
-
-# Both backends on GPU, CUDA 12.8
-uv sync --inexact --extra ner-cu128 --extra cu128
-
-# CPU translation; NER uses CPU by default
-uv sync --inexact --extra cpu
-```
-
-Add `--extra benchmark` for benchmarking or `--group dev` for development.
-`--inexact` preserves separately installed packages, including English models.
-
-### With pip
-
-Install the NER extra for your CUDA version:
-
-```shell
-python -m pip install "gdelt-regkg[ner-cu130]"
-# CUDA 12.8 alternative:
-python -m pip install "gdelt-regkg[ner-cu128]"
-```
-
-For translation, install PyTorch from the appropriate index first. With pip,
-the `cpu`, `cu128` and `cu130` extras declare requirements; they do not select
-the PyTorch wheel index. Keep an existing compatible PyTorch installation.
-
-```shell
-# GPU translation, CUDA 13.0
-python -m pip install "torch>=2.13" --index-url https://download.pytorch.org/whl/cu130
-python -m pip install "gdelt-regkg[cu130]"
-
-# CPU translation alternative
-python -m pip install "torch>=2.13" --index-url https://download.pytorch.org/whl/cpu
-python -m pip install "gdelt-regkg[cpu]"
-```
-
-For both GPU backends, install the NER extra as well as the selected PyTorch
-build and translation extra. Prefer `cpu` or `cu130` for translation: these
-require patched setuptools and PyTorch 2.13 or newer. The CUDA 12.8 option uses
-the older PyTorch wheel line, which requires setuptools below 82 and lacks the
-PyTorch 2.13 JIT and setuptools 83 packaging fixes.
-
-### Combining and switching backends
-
-Install only one NER GPU extra and one PyTorch extra. Match the CUDA versions
-when both backends use GPU; CPU PyTorch can be combined with either NER GPU extra.
-
-When switching CUDA versions with `--inexact`, uninstall the old CuPy wheel
-before syncing the new extra. For CUDA 12 to CUDA 13, run
-`uv pip uninstall cupy-cuda12x` first; for the reverse, uninstall `cupy-cuda13x`.
-The two wheels provide the same Python package and must not be installed together.
-
-Select devices using the [NER and translation API examples](api-usage.md#gpu-inference)
-or the [benchmark command](cli/benchmark.md#model-device-and-batching).
-See [spaCy GPU configuration](https://spacy.io/api/top-level#require_gpu),
-[CuPy installation](https://docs.cupy.dev/en/stable/install.html) and
-[PyTorch installation](https://pytorch.org/get-started/locally/) for platform requirements.
+Use `SpacyNER.from_model("en_core_web_sm")` or install and select `en_core_web_lg` for the larger model. `resources_dir=` on the factory selects name rules; a supplied pipeline retains its own policy. Models remain external to the package.
 
 ## Non-English articles
 
-Detect the language and translate to English **before** extraction. The local
-translation backend, M2M100 418M, needs a [PyTorch backend](#cuda-and-compute-backends)
-and model weights.
+Language detection alone needs only the `lang` extra:
 
-- Weights are stored in the Hugging Face cache, normally `~/.cache/huggingface/hub`.
-- Set `allow_download=True` for the first load, then `False` for offline use.
-- To use another location, pass a complete local snapshot directory as `model=`.
-- Use `device="cpu"` with the CPU PyTorch build.
+```shell
+python -m pip install "gdelt-regkg[lang]"
+```
 
-See the [translation API](fields/translation-info.md#local-translation) and the
-[complete pipeline example](api-usage.md#complete-pipeline-example).
+Local M2M100 translation requires PyTorch **installed separately** from the `translate` extra. Choose one CPU or CUDA build for your environment. For CPU translation:
 
-## Benchmarking
+```shell
+python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+python -m pip install "gdelt-regkg[translate,lang]"
+```
 
-Install the statistical and retrieval dependencies:
+For CUDA 12.8 translation, use this instead of the CPU installation:
+
+```shell
+python -m pip install torch --index-url https://download.pytorch.org/whl/cu128
+python -m pip install "gdelt-regkg[translate,lang]"
+```
+
+For CUDA 13.0, use `https://download.pytorch.org/whl/cu130` instead. Choose a build supported by your NVIDIA driver using the [PyTorch installation selector](https://pytorch.org/get-started/locally/). If a compatible PyTorch build is already installed, keep it and install just the feature extras. CuPy is not required for translation.
+
+Verify the selected backend:
+
+```python
+import torch
+
+print(torch.__version__)
+print(torch.version.cuda)
+print(torch.cuda.is_available())
+```
+
+Use `device="cpu"` for CPU inference or `device="cuda:0"` for the first CUDA device:
+
+```python
+from gdelt_regkg.fields.translation import M2M100Translator, translate_text
+
+backend = M2M100Translator.from_model(device="cuda:0", allow_download=True)
+result = translate_text(
+    "Les autorités ont annoncé de nouvelles mesures pour protéger les habitants "
+    "après les fortes inondations qui ont touché plusieurs villes de la région.",
+    translator=backend,
+)
+print(result.source_language)
+print(result.text)
+```
+
+```text
+fra
+The authorities have announced new measures to protect the inhabitants after the heavy floods that have affected several cities in the region.
+```
+
+Omitting `language=` detects it automatically using Lingua. English bodies pass through unchanged. Translation requires M2M100 weights; `allow_download=True` explicitly permits the first download. Afterwards use `allow_download=False` or a local snapshot directory. Backend model caches are separate from record generation.
+
+Translate before generation and copy provenance with `RecordMetadata.from_translation`. Preserve the translated body because enhanced offsets index it. See [language detection and translation](api-usage.md#language-detection-and-translation) for standalone detection, explicit language labels and record generation.
+
+## GPU inference
+
+spaCy NER uses CuPy for CUDA inference. Install `ner`, an English model and CuPy wheel matching your supported CUDA major version. For CUDA 12:
+
+```shell
+python -m pip install "gdelt-regkg[ner]" "cupy-cuda12x[ctk]"
+python -m spacy download en_core_web_sm
+```
+
+For CUDA 13, substitute `"cupy-cuda13x[ctk]"`. The `[ctk]` option installs CUDA component wheels; a compatible NVIDIA driver is still required. With an existing system CUDA Toolkit, the bare `cupy-cuda12x` or `cupy-cuda13x` wheel can use that toolkit instead. See [CuPy installation](https://docs.cupy.dev/en/stable/install.html) for driver and toolkit requirements. Install only one CuPy variant in an environment, including avoiding the source `cupy` package alongside a CUDA wheel. PyTorch is only needed here if you also translate or use a model that requires it.
+
+Select the device **before loading the spaCy model**, then supply the recognizer to generation:
+
+```python
+import spacy
+
+from gdelt_regkg import Resources
+from gdelt_regkg.fields.ner import SpacyNER
+
+spacy.require_gpu(0)
+recognizer = SpacyNER.from_model("en_core_web_sm")
+resources = Resources(resources_dir="local-resources", recognizer=recognizer)
+mentions = recognizer.analyze("Flooding affected London.")
+print(mentions)
+```
+
+Use `spacy.require_cpu()` before model loading to select CPU explicitly. See [spaCy device selection](https://spacy.io/api/top-level#require_gpu). The benchmark accepts `--device cpu`, `cuda` or `auto`, and `--gpu-id 0`; `cuda` fails if initialization/computation fails, while `auto` falls back to CPU.
+
+### CUDA path warning
+
+spaCy imports Thinc, which probes an installed CuPy even when the requested inference device is CPU. This can emit `CUDA path could not be detected. Set CUDA_PATH environment variable if CuPy fails to load.` The warning concerns toolkit discovery; it does not by itself mean GPU computation failed. First check the actual computation:
+
+```python
+import cupy
+
+print(cupy.cuda.runtime.getDeviceCount())
+print(int(cupy.arange(4).sum()))  # 6 verifies allocation, compilation and computation.
+```
+
+For an environment that also uses PyTorch, import `torch` before CuPy on Windows so its bundled DLL directories are registered. CUDA 12 component wheels can provide usable libraries without a single toolkit root, so this warning can remain even when the check succeeds. Do not set `CUDA_PATH` to a made-up directory or hide all warnings.
+
+If computation fails and you use a system CUDA Toolkit, point `CUDA_PATH` at its **actual installed root**. Replace the example path below with your installed toolkit directory:
+
+```bash
+export CUDA_PATH="/usr/local/cuda-12.8"
+export PATH="$CUDA_PATH/bin:$PATH"
+python -c "import cupy; print(int(cupy.arange(4).sum()))"
+```
+
+These assignments affect only this shell and its child processes. Restart Python after changing discovery settings. See [NVIDIA's Windows toolkit instructions](https://docs.nvidia.com/cuda/cuda-installation-guide-microsoft-windows/index.html) and [CuPy CUDA discovery](https://docs.cupy.dev/en/stable/install.html#working-with-custom-cuda-installation). A CPU-only environment can omit CuPy entirely; selecting CPU does not prevent Thinc from probing an already installed CuPy.
+
+## Benchmark and development
 
 ```shell
 python -m pip install "gdelt-regkg[benchmark]"
 ```
 
-From a checkout, use `uv sync --extra benchmark`. Comparing prepared GKG rows
-does not require dictionaries or an NER model; supported-vocabulary metrics use
-the selected resource profiles when available. Generating predictions from
-saved bodies requires the resources and model for the requested fields.
-See the [benchmark guide](cli/benchmark.md) for inputs and commands.
+Comparing prepared rows does not require NER models or dictionaries. Generating predictions requires the selected field resources. SQLite workspaces, checkpoints and model batching remain configurable; see [benchmark](cli/benchmark.md).
 
-## Development
-
-From a source checkout:
-
-```shell
-uv sync --inexact --group dev
-```
-
-Prepare the English model and resources above before running the full test suite.
-[Contributing](../CONTRIBUTING.md#local-checks) describes tests and formatting checks.
+For local development, use `uv sync --inexact --group dev --all-extras`, install the English model and prepare the resources used by integration tests. Install PyTorch separately if testing local translation, and CuPy separately if testing GPU NER. Package-contract tests use authored resources and deterministic backends. See [Contributing](../CONTRIBUTING.md#local-checks).
 
 ## Troubleshooting
 
 | Symptom | Check |
 | --- | --- |
-| `ResourceUnavailableError` | Build the required profiles and check `resources_dir=` or `--resources-dir`. |
-| spaCy cannot load the model | Install the named model in the same environment as the package. |
-| Translation cannot load or run | Check the PyTorch build, device and locally available model weights in [Non-English articles](#non-english-articles). |
+| Missing feature dependency | Install the extra named by `OptionalDependencyError` in the same environment. |
+| Missing PyTorch or CuPy | Follow the separate CPU/CUDA backend commands above. |
+| CuPy CUDA path warning | Run the computation check above; check toolkit discovery if it fails. |
+| `ResourceUnavailableError` | Build the selected profiles or supply explicit resources. |
+| NER/translation model unavailable | Install/download the selected model explicitly. |
+| SQLite workspace already in use | Use another benchmark workspace or finish its current owner. |
 
 [API usage](api-usage.md) · [CLI guide](cli/README.md) · [Field documentation](README.md)

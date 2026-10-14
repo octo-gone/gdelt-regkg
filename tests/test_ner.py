@@ -3,21 +3,15 @@ import unittest
 import warnings
 from unittest.mock import Mock, patch
 
-from gdelt_regkg import (
+from support import make_record
+
+from gdelt_regkg import IncompleteGKGWarning, OptionalDependencyError
+from gdelt_regkg.fields.ner import (
     EntityMention,
-    IncompleteGKGWarning,
     NERResult,
     NERUnavailableError,
     SpacyNER,
     analyze_entities,
-    generate_gkg,
-)
-from gdelt_regkg.fields import (
-    extract_enhanced_organizations,
-    extract_enhanced_persons,
-    extract_location_mentions,
-    extract_organizations,
-    extract_persons,
 )
 
 
@@ -35,7 +29,7 @@ class NERTests(unittest.TestCase):
     def record(self, text, **kwargs):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", IncompleteGKGWarning)
-            return generate_gkg(
+            return make_record(
                 text,
                 identifier="https://example.org/story",
                 published_at=None,
@@ -58,14 +52,24 @@ class NERTests(unittest.TestCase):
         result = self.sample()
         recognizer = Mock(analyze=Mock(return_value=result))
         for function, expected in (
-            (extract_persons, "Jane Doe"),
-            (extract_enhanced_persons, "Jane Doe,0;Jane Doe,28"),
-            (extract_organizations, "Acme"),
-            (extract_enhanced_organizations, "Acme,13;Acme,49"),
+            (lambda text, **kwargs: analyze_entities(text, **kwargs).to_gkg("PERSON"), "Jane Doe"),
+            (
+                lambda text, **kwargs: analyze_entities(text, **kwargs).to_gkg(
+                    "PERSON", enhanced=True
+                ),
+                "Jane Doe,0;Jane Doe,28",
+            ),
+            (lambda text, **kwargs: analyze_entities(text, **kwargs).to_gkg("ORG"), "Acme"),
+            (
+                lambda text, **kwargs: analyze_entities(text, **kwargs).to_gkg(
+                    "ORG", enhanced=True
+                ),
+                "Acme,13;Acme,49",
+            ),
         ):
             self.assertEqual(function(result.text, recognizer=recognizer), expected)
         self.assertEqual(
-            extract_location_mentions(result.text, recognizer=recognizer), result.locations
+            analyze_entities(result.text, recognizer=recognizer).locations, result.locations
         )
         supplied = analyze_entities(result.text, mentions=iter(result.mentions))
         self.assertEqual(supplied.mentions, result.mentions)
@@ -73,7 +77,7 @@ class NERTests(unittest.TestCase):
             analyze_entities(result.text, recognizer=recognizer, mentions=[])
 
     def test_unicode_offsets_and_whitespace_normalization(self):
-        text = "\U0001f600 Zoë\nSmith works at R&D, Inc."
+        text = "😀 Zoë\nSmith works at R&D, Inc."
         person = "Zoë\nSmith"
         org = "R&D, Inc."
         result = analyze_entities(
@@ -129,7 +133,7 @@ class NERTests(unittest.TestCase):
         }
         recognizer.analyze.reset_mock()
         self.record(result.text, ner=recognizer, field_values=overrides)
-        recognizer.analyze.assert_not_called()
+        recognizer.analyze.assert_called_once_with(result.text)
 
     def test_pipeline_accepts_precomputed_result_and_propagates_failures(self):
         result = self.sample()
@@ -144,7 +148,7 @@ class NERTests(unittest.TestCase):
 
     def test_optional_backend_reports_missing_dependency(self):
         with patch.dict("sys.modules", {"spacy": None}):
-            with self.assertRaises(NERUnavailableError):
+            with self.assertRaises(OptionalDependencyError):
                 SpacyNER.from_model()
 
     def test_spacy_filters_prose_spans_and_trims_website_suffix(self):

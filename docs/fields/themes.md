@@ -1,15 +1,15 @@
 # Themes
 
-`V1THEMES` stores topic labels matched in English article text. `extract_themes` uses the locally prepared theme profile, with 519 supported labels in the standard configuration.
+`V1THEMES` stores topic labels matched in English article text. `analyze_themes` uses the locally prepared theme profile, with 519 supported labels in the standard configuration.
 
 ## Example
 
 ```python
-from gdelt_regkg import analyze_themes
-from gdelt_regkg.fields import extract_themes
+from gdelt_regkg.fields.themes import analyze_themes
 
-text = 'Heavy rain caused flooding.'
-print(extract_themes(text))
+text = "Heavy rain caused flooding."
+
+print(analyze_themes(text).to_gkg())
 result = analyze_themes(text)
 assert result.mentions[0].text == "flooding"
 ```
@@ -24,7 +24,7 @@ Nonempty output contains `CODE;` entries. Each label appears once, in first-matc
 
 `analyze_themes` retains each matched phrase and its original offsets. Reuse its `to_gkg()` and `to_gkg(enhanced=True)` methods for both theme fields.
 
-Prepare dictionaries through [Installation and setup](../installation.md). Standalone analyzers use `local-resources/` by default; load another profile once and pass `lexicon=`. The generator accepts `theme_lexicon=` and `resources_dir=`.
+Prepare dictionaries through [Installation and setup](../installation.md). Standalone analyzers use `local-resources/` by default; load another profile once and pass `lexicon=`. Compose `Resources(theme_lexicon=lexicon, resources_dir=path)` for record generation.
 
 ## Options
 
@@ -46,4 +46,4 @@ Phrase rules do not provide automatic inflection, taxonomy expansion or grammati
 
 ## Related
 
-[Enhanced themes](enhanced-themes.md) · [Installation and setup](../installation.md) · [Custom rules](../api-usage.md#custom-resources) · [Current agreement](../README.md#agreement-with-gdelt) · [Theme inventory](../../CHANGELOG.md#theme-dictionary)
+[Enhanced themes](enhanced-themes.md) · [Installation and setup](../installation.md) · [Custom rules](../api-usage.md#resource-selection) · [Current agreement](../README.md#agreement-with-gdelt) · [Theme inventory](../../CHANGELOG.md#theme-dictionary)

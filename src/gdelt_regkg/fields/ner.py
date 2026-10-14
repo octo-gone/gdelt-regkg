@@ -6,14 +6,18 @@ import json
 import math
 import re
 import unicodedata
-from collections.abc import Iterable, Mapping
+from collections.abc import Iterable, Iterator, Mapping
 from dataclasses import dataclass, field, fields
 from functools import lru_cache
+from importlib.resources.abc import Traversable
+from os import PathLike
 from pathlib import Path
 from types import MappingProxyType
 from typing import Protocol
 
-from ..utils import read_resource_json, resource_path
+from ..dependencies import require_dependency
+from ..types import StrPath
+from ..utils import ResourceStore
 from ..wire import text_component
 
 _LABELS = {"PERSON", "ORG", "LOCATION"}
@@ -114,8 +118,9 @@ class NameRules:
         object.__setattr__(self, "organization_weights", MappingProxyType(weights))
 
     @classmethod
-    def from_json(cls, path):
-        payload = json.loads(Path(path).read_text(encoding="utf-8"))
+    def from_json(cls, path: StrPath | Traversable) -> NameRules:
+        source = Path(path) if isinstance(path, (str, PathLike)) else path
+        payload = json.loads(source.read_text(encoding="utf-8"))
         if not isinstance(payload, dict):
             raise ValueError("Name rules must be a JSON object")
         allowed = {item.name for item in fields(cls)}
@@ -149,15 +154,9 @@ class NameRules:
         return self.person_aliases.get(name, name)
 
 
-def default_name_rules(resources_dir=None) -> NameRules:
+def default_name_rules(resources_dir: StrPath | None = None) -> NameRules:
     """Load the fixed development-selected cell normalization and ORG filter."""
-    return _cached_name_rules(
-        resource_path(
-            "lexicons",
-            read_resource_json("defaults.json", resources_dir=resources_dir)["ner"],
-            resources_dir=resources_dir,
-        )
-    )
+    return _cached_name_rules(ResourceStore(resources_dir).profile("ner"))
 
 
 @lru_cache(maxsize=8)
@@ -345,14 +344,9 @@ class SpacyNER:
         *,
         name_policy: str = "gdelt-full-names",
         name_rules: NameRules | None = None,
-        resources_dir=None,
+        resources_dir: StrPath | None = None,
     ) -> SpacyNER:
-        try:
-            import spacy
-        except ImportError as error:
-            raise NERUnavailableError(
-                "Install gdelt-regkg to use spaCy, or supply another recognizer"
-            ) from error
+        spacy = require_dependency("spacy", "ner")
         try:
             nlp = spacy.load(model)
         except OSError as error:
@@ -371,7 +365,7 @@ class SpacyNER:
         doc = self.nlp(text)
         return self._analyze_doc(text, doc)
 
-    def analyze_many(self, texts: Iterable[str], *, batch_size: int = 32):
+    def analyze_many(self, texts: Iterable[str], *, batch_size: int = 32) -> Iterator[NERResult]:
         """Batch the model while retaining the same mention filtering and offsets."""
         if type(batch_size) is not int or batch_size < 1:
             raise ValueError("batch_size must be a positive integer")
@@ -422,6 +416,13 @@ class SpacyNER:
             mentions.append(
                 EntityMention(text[start:end], _SPACY_LABELS[ent.label_], start, end, ent.label_)
             )
+        names.extend(self._proper_names(doc, text))
+        return NERResult(
+            text, tuple(mentions), self.name, self.name_policy, self.name_rules, tuple(names)
+        )
+
+    def _proper_names(self, doc, text):
+        names = []
         # Entity ruler pipelines without a tagger can still provide broad names.
         if hasattr(doc, "has_annotation") and doc.has_annotation("POS") is True:
             tokens = list(doc)
@@ -446,9 +447,7 @@ class SpacyNER:
                 a, b = tokens[start].idx, tokens[i - 1].idx + len(tokens[i - 1])
                 if not any(a < ent.end_char and ent.start_char < b for ent in doc.ents):
                     names.append(NameMention(text[a:b], a, b))
-        return NERResult(
-            text, tuple(mentions), self.name, self.name_policy, self.name_rules, tuple(names)
-        )
+        return names
 
 
 @lru_cache(maxsize=1)

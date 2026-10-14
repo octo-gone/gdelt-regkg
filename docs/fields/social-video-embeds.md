@@ -5,9 +5,10 @@
 ## Example
 
 ```python
-from gdelt_regkg.fields import format_social_video_embeds
+from gdelt_regkg.fields.metadata import format_social_video_embeds
 
-urls = ['https://example.org/posts/video']
+urls = ["https://example.org/posts/video"]
+
 print(format_social_video_embeds(urls))
 assert format_social_video_embeds([]) == ""
 assert format_social_video_embeds(None) is None
@@ -23,7 +24,7 @@ Supply a collection of absolute HTTP(S) URLs without whitespace. Entries are sep
 
 An empty collection means no matching media; `None` means metadata is unavailable. A prejoined string is rejected.
 
-In `generate_gkg`, pass `social_video_embeds=`. An encoded `field_values["V2.1SOCIALVIDEOEMBEDS"]` override takes precedence. `extract_social_video_embeds` remains an alias for the same formatter.
+In `RecordMetadata`, pass `social_video_embeds=`. An encoded `overrides["V2.1SOCIALVIDEOEMBEDS"]` override takes precedence.
 
 ## Limits
 

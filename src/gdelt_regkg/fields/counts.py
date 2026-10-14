@@ -15,6 +15,7 @@ from functools import lru_cache
 from pathlib import Path
 from types import MappingProxyType
 
+from ..types import StrPath
 from ..wire import text_component
 
 PROFILE = "english-counts-v1"
@@ -74,13 +75,13 @@ class CountRules:
     _bad_object: re.Pattern = field(init=False, repr=False, compare=False)
 
     @classmethod
-    def from_dict(cls, data: dict):
+    def from_dict(cls, data: dict) -> CountRules:
         if not isinstance(data, dict):
             raise ValueError("count_rules must be an object")
         return cls(**data)
 
     @classmethod
-    def from_json(cls, path: str | Path):
+    def from_json(cls, path: str | Path) -> CountRules:
         """Load source-neutral rule input or the legacy count-rules object."""
         data = json.loads(Path(path).read_text(encoding="utf-8"))
         if "schema" in data:
@@ -90,6 +91,11 @@ class CountRules:
         return cls.from_dict(data)
 
     def __post_init__(self):
+        self._normalize_vocabulary()
+        self._compile_grammar()
+        self._compile_templates()
+
+    def _normalize_vocabulary(self):
         if not isinstance(self.name, str) or not self.name.strip():
             raise ValueError("Count rules require a nonempty profile name")
         if not isinstance(self.triggers, Mapping):
@@ -135,9 +141,11 @@ class CountRules:
             raise TypeError("allow_bare_active must be boolean")
         if not isinstance(self.reject_time_objects, bool):
             raise TypeError("reject_time_objects must be boolean")
+
+    def _compile_grammar(self):
         noun = _alternation(self.object_nouns)
         obj = rf"(?:[^\W\d_]+\s+){{0,{self.max_object_modifiers}}}{noun}"
-        event = _alternation(triggers)
+        event = _alternation(self.triggers)
         passive = re.compile(
             rf"(?<!\w)(?P<number>{_NUMBER})(?!\w)\s+"
             rf"(?:(?P<object>{obj})\s+)?"
@@ -166,6 +174,8 @@ class CountRules:
         object.__setattr__(
             self, "_bad_object", re.compile(rf"\b{_alternation(self.bad_object_words)}\b", re.I)
         )
+
+    def _compile_templates(self):
         compiled = []
         stored = []
         ids = set()
@@ -213,16 +223,10 @@ class CountRules:
         object.__setattr__(self, "_patterns", tuple(compiled))
 
 
-def default_count_rules(resources_dir=None) -> CountRules:
-    from ..utils import read_resource_json, resource_path
+def default_count_rules(resources_dir: StrPath | None = None) -> CountRules:
+    from ..utils import ResourceStore
 
-    return _cached_count_rules(
-        resource_path(
-            "lexicons",
-            read_resource_json("defaults.json", resources_dir=resources_dir)["counts"],
-            resources_dir=resources_dir,
-        )
-    )
+    return _cached_count_rules(ResourceStore(resources_dir).profile("counts"))
 
 
 @lru_cache(maxsize=8)

@@ -15,10 +15,11 @@ from pathlib import Path
 from types import MappingProxyType
 from typing import TYPE_CHECKING, Any
 
+from ..types import StrPath
+
 if TYPE_CHECKING:
     from .themes import ThemeLexicon
 
-from ..utils import read_resource_json, resource_path
 from .tone import tokenize_tone
 
 
@@ -62,6 +63,26 @@ class GCAMLexicon:
         ):
             if not isinstance(mapping, Mapping):
                 raise TypeError("GCAM dimensions and options must be mappings")
+        dimensions, patterns = self._normalize_dimensions()
+        weighted, modes = self._normalize_scores(dimensions, patterns)
+        lemma_modes, exceptions = self._normalize_morphology(dimensions, patterns, weighted)
+        indices, tries, wildcards, lemma_vocabulary, wildcard_trie = self._build_indices(
+            dimensions, patterns, lemma_modes
+        )
+        object.__setattr__(self, "dimensions", MappingProxyType(dimensions))
+        object.__setattr__(self, "weighted_dimensions", MappingProxyType(weighted))
+        object.__setattr__(self, "tokenization", MappingProxyType(modes))
+        object.__setattr__(self, "patterns", MappingProxyType(patterns))
+        object.__setattr__(self, "lemmatization", MappingProxyType(lemma_modes))
+        object.__setattr__(self, "exceptions", MappingProxyType(exceptions))
+        object.__setattr__(self, "theme_dimensions", MappingProxyType(dict(self.theme_dimensions)))
+        object.__setattr__(self, "_indices", indices)
+        object.__setattr__(self, "_tries", tries)
+        object.__setattr__(self, "_wildcards", wildcards)
+        object.__setattr__(self, "_lemma_vocabulary", lemma_vocabulary)
+        object.__setattr__(self, "_wildcard_trie", wildcard_trie)
+
+    def _normalize_dimensions(self):
         dimensions = {}
         for key, words in self.dimensions.items():
             _key(key, "c")
@@ -90,6 +111,9 @@ class GCAMLexicon:
                 raise ValueError("Use words or patterns for a count dimension")
             dimensions.setdefault(key, frozenset())
             patterns[key] = tuple(sorted(set(terms), key=lambda p: (-len(p.split()), -len(p), p)))
+        return dimensions, patterns
+
+    def _normalize_scores(self, dimensions, patterns):
         weighted: dict[str, Mapping[str, float]] = {}
         modes = {}
         for key, scores in self.weighted_dimensions.items():
@@ -124,6 +148,9 @@ class GCAMLexicon:
             modes[key] = mode
         if set(self.tokenization) - set(weighted):
             raise ValueError("Tokenization options require a weighted dimension")
+        return weighted, modes
+
+    def _normalize_morphology(self, dimensions, patterns, weighted):
         from .themes import ThemeLexicon
 
         if self.theme_dimensions and not isinstance(self.theme_lexicon, ThemeLexicon):
@@ -151,6 +178,9 @@ class GCAMLexicon:
             if not lemmas or any(tokenize_tone(w) != [w] for w in lemmas):
                 raise ValueError("Morphology exception lemmas must be normalized tokens")
             exceptions[token] = lemmas
+        return lemma_modes, exceptions
+
+    def _build_indices(self, dimensions, patterns, lemma_modes):
         indices: dict[str, dict[str, set[str]]] = {"words": {}, "wordnet": {}}
         tries: dict[str, dict[str | None, Any]] = {"words": {}, "wordnet": {}}
         wildcards = {}
@@ -175,16 +205,6 @@ class GCAMLexicon:
                     if mode == "wordnet":
                         lemma_vocabulary.add(token)
                 node.setdefault(None, set()).add(key)
-        object.__setattr__(self, "dimensions", MappingProxyType(dimensions))
-        object.__setattr__(self, "weighted_dimensions", MappingProxyType(weighted))
-        object.__setattr__(self, "tokenization", MappingProxyType(modes))
-        object.__setattr__(self, "patterns", MappingProxyType(patterns))
-        object.__setattr__(self, "lemmatization", MappingProxyType(lemma_modes))
-        object.__setattr__(self, "exceptions", MappingProxyType(exceptions))
-        object.__setattr__(self, "theme_dimensions", MappingProxyType(dict(self.theme_dimensions)))
-        object.__setattr__(self, "_indices", indices)
-        object.__setattr__(self, "_tries", tries)
-        object.__setattr__(self, "_wildcards", wildcards)
         wildcard_trie: dict[str | None, Any] = {}
         for key, terms in wildcards.items():
             for rank, term in enumerate(terms):
@@ -192,11 +212,16 @@ class GCAMLexicon:
                 for token in term.split():
                     node = node.setdefault(token, {})
                 node.setdefault(None, {})[key] = rank
-        object.__setattr__(self, "_wildcard_trie", _compile_wildcard_trie(wildcard_trie))
-        object.__setattr__(self, "_lemma_vocabulary", frozenset(lemma_vocabulary))
+        return (
+            indices,
+            tries,
+            wildcards,
+            frozenset(lemma_vocabulary),
+            _compile_wildcard_trie(wildcard_trie),
+        )
 
     @classmethod
-    def from_json(cls, path):
+    def from_json(cls, path: str | Path) -> GCAMLexicon:
         return _load(read_gcam_json(path))
 
 
@@ -262,14 +287,10 @@ def _load(payload):
     )
 
 
-def default_gcam_lexicon(resources_dir=None):
-    return _cached_gcam_lexicon(
-        resource_path(
-            "lexicons",
-            read_resource_json("defaults.json", resources_dir=resources_dir)["gcam"],
-            resources_dir=resources_dir,
-        )
-    )
+def default_gcam_lexicon(resources_dir: StrPath | None = None) -> GCAMLexicon:
+    from ..utils import ResourceStore
+
+    return _cached_gcam_lexicon(ResourceStore(resources_dir).profile("gcam"))
 
 
 @lru_cache(maxsize=8)
@@ -331,19 +352,7 @@ def _wildcard_counts(tokens, trie):
         matches: dict[str, tuple[int, int]] = {}
         for end in range(start, len(tokens)):
             token, next_nodes = tokens[end], []
-            for node in nodes:
-                if token in node["literal"]:
-                    next_nodes.append(node["literal"][token])
-                # Deduplicate prefixes for one-character tokens.
-                for prefix in {token[:2], token[:1], ""}:  # pylint: disable=use-sequence-for-iteration
-                    for matcher, child in node["wild"].get(prefix, ()):
-                        hit = (
-                            token.startswith(matcher)
-                            if isinstance(matcher, str)
-                            else matcher.fullmatch(token)
-                        )
-                        if hit:
-                            next_nodes.append(child)
+            next_nodes = _wildcard_children(nodes, token)
             nodes = next_nodes
             if not nodes:
                 break
@@ -456,6 +465,32 @@ def analyze_gcam(text: str, *, lexicon: GCAMLexicon | None = None) -> GCAMResult
         )
         for key, label in lexicon.theme_dimensions.items():
             counts[key] = frequencies_by_theme[label]
+    values = _weighted_values(text, lexicon, frequencies, counts)
+    keys = tuple(sorted((*counts, *lexicon.weighted_dimensions), key=_order))
+    return GCAMResult(
+        len(tokens), MappingProxyType(counts), keys, lexicon.name, MappingProxyType(values)
+    )
+
+
+def _wildcard_children(nodes, token):
+    next_nodes = []
+    for node in nodes:
+        if token in node["literal"]:
+            next_nodes.append(node["literal"][token])
+        # Deduplicate prefixes for one-character tokens.
+        for prefix in {token[:2], token[:1], ""}:  # pylint: disable=use-sequence-for-iteration
+            for matcher, child in node["wild"].get(prefix, ()):
+                hit = (
+                    token.startswith(matcher)
+                    if isinstance(matcher, str)
+                    else matcher.fullmatch(token)
+                )
+                if hit:
+                    next_nodes.append(child)
+    return next_nodes
+
+
+def _weighted_values(text, lexicon, frequencies, counts):
     values = {}
     for key, scores in lexicon.weighted_dimensions.items():
         if lexicon.tokenization[key] == "words":
@@ -475,7 +510,4 @@ def analyze_gcam(text: str, *, lexicon: GCAMLexicon | None = None) -> GCAMResult
         counts["c" + key[1:]] = count
         if count:
             values[key] = math.fsum(score * (n / count) for score, n in matches)
-    keys = tuple(sorted((*counts, *lexicon.weighted_dimensions), key=_order))
-    return GCAMResult(
-        len(tokens), MappingProxyType(counts), keys, lexicon.name, MappingProxyType(values)
-    )
+    return values

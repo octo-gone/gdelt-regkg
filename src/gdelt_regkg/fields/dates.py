@@ -6,6 +6,8 @@ import calendar
 import re
 from dataclasses import dataclass
 
+from ..types import NumericDateOrder
+
 _MONTHS = {name.casefold(): i for i, name in enumerate(calendar.month_name) if name}
 _MONTHS.update({name.casefold(): i for i, name in enumerate(calendar.month_abbr) if name})
 _MONTHS["sept"] = 9
@@ -92,7 +94,7 @@ class DateResult:
         return ";".join(m.to_gkg() for m in self.mentions)
 
 
-def analyze_dates(text: str, *, numeric_order: str | None = None) -> DateResult:
+def analyze_dates(text: str, *, numeric_order: NumericDateOrder | None = None) -> DateResult:
     """Extract years 1500–2199 and explicit calendar dates; reject ambiguous slashes.
 
     Set numeric_order to 'mdy' or 'dmy' to resolve ambiguous numeric dates.

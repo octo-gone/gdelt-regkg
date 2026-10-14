@@ -1,18 +1,19 @@
 # Locations
 
-`V1LOCATIONS` stores resolved geographic records. `extract_locations` recognizes place names with the shared English NER model, then looks them up in a locally prepared geographic reference database (gazetteer).
+`V1LOCATIONS` stores resolved geographic records. `analyze_locations` recognizes place names with the shared English NER model, then looks them up in a locally prepared geographic reference database (gazetteer).
 
 ## Example
 
 ```python
-from gdelt_regkg import SpacyNER, analyze_entities, analyze_locations
+from gdelt_regkg.fields.locations import analyze_locations
+from gdelt_regkg.fields.ner import SpacyNER
+from gdelt_regkg.fields.ner import analyze_entities
 
 ner = SpacyNER.from_model("en_core_web_sm", name_policy="surface")
-text = 'Paris, France hosted the exhibition.'
+text = "Paris, France hosted the exhibition."
+
 entities = analyze_entities(text, recognizer=ner)
 print("Location mentions:", [(m.text, m.source_label, m.start) for m in entities.locations])
-
-# Resolve the recognized spans without running NER again.
 resolved = analyze_locations(text, ner=entities)
 print("V1LOCATIONS:", resolved.to_gkg())
 print("V2ENHANCEDLOCATIONS:", resolved.to_gkg(enhanced=True))
@@ -39,14 +40,17 @@ Nearby country or state mentions within 200 characters help resolve ambiguous na
 `analyze_entities` returns person, organization and location spans in one result. `analyze_names` and `analyze_locations` use that result to produce broad name and geographic fields without repeating recognition.
 
 ```python
-from gdelt_regkg import SpacyNER, analyze_entities, analyze_locations, analyze_names
+from gdelt_regkg.fields.locations import analyze_locations
+from gdelt_regkg.fields.names import analyze_names
+from gdelt_regkg.fields.ner import SpacyNER
+from gdelt_regkg.fields.ner import analyze_entities
 
 ner = SpacyNER.from_model("en_core_web_sm", name_policy="surface")
 text = "Marie Curie visited Microsoft in Paris, France."
+
 entities = analyze_entities(text, recognizer=ner)
 resolved = analyze_locations(text, ner=entities)
 names = analyze_names(text, ner=entities)
-
 print("V1PERSONS:", entities.to_gkg("PERSON"))
 print("V1ORGANIZATIONS:", entities.to_gkg("ORG"))
 print("Location mentions:", [(m.text, m.start) for m in entities.locations])
@@ -64,16 +68,19 @@ V1LOCATIONS: 4#Paris, France (General), France#FR#FR00#48.8667#2.33333#-1456928;
 V2ENHANCEDLOCATIONS: 4#Paris, France (General), France#FR#FR00#16282#48.8667#2.33333#-1456928#33;1#France#FR#FR##46#2#FR#40
 ```
 
-Pass `ner=entities` to `generate_gkg` to reuse recognition of that exact body. The generator resolves both location columns once and supplies their geography to counts.
+Pass precomputed recognition to `generate_gkg(text, metadata, resources, ner_result=entities)` to reuse recognition of that exact body. To let the generator run recognition, supply a recognizer through `Resources(recognizer=ner)`. The generator resolves both location columns once and supplies their geography to counts. See [the generation example](../api-usage.md#generate-a-gkg-record).
 
 ### Unresolved mentions
 
 Raw place spans remain available in `entities.locations` even when geographic resolution produces an empty cell.
 
 ```python
-from gdelt_regkg import EntityMention, analyze_entities, analyze_locations
+from gdelt_regkg.fields.locations import analyze_locations
+from gdelt_regkg.fields.ner import EntityMention
+from gdelt_regkg.fields.ner import analyze_entities
 
 text = "Atlantis"
+
 entities = analyze_entities(text, mentions=[EntityMention("Atlantis", "LOCATION", 0, 8)])
 resolved = analyze_locations(text, ner=entities)
 print([m.text for m in entities.locations])
@@ -87,9 +94,9 @@ print([(issue.text, issue.reason) for issue in resolved.issues])
 [('Atlantis', 'unknown-place')]
 ```
 
-`extract_location_mentions(text, recognizer=ner)` also returns raw place spans. `entities.to_gkg("LOCATION")` is unsupported because raw NER spans do not contain resolved geography.
+`analyze_entities(text, recognizer=ner).locations` returns raw place spans. `entities.to_gkg("LOCATION")` is unsupported because raw NER spans do not contain resolved geography.
 
-Load a custom JSON/gzip database with `Gazetteer.from_json(path)` and pass `gazetteer=` to the analyzer, extractor or generator. See the [gazetteer schema](../../src/gdelt_regkg/resources/schemas/gazetteer.schema.json) and [resource setup](../cli/build.md#custom-gazetteer).
+Load a custom JSON/gzip database with `Gazetteer.from_json(path)` and pass it as `gazetteer=` to `analyze_locations`. For record generation, compose `Resources(gazetteer=gazetteer, recognizer=ner)` and pass those resources to `generate_gkg(text, metadata, resources)`. See the [gazetteer schema](../../src/gdelt_regkg/resources/schemas/gazetteer.schema.json) and [resource setup](../cli/build.md#custom-gazetteer).
 
 ## Limits
 

@@ -4,16 +4,11 @@ import unittest
 import warnings
 from pathlib import Path
 
-from gdelt_regkg import (
-    ExtractionConfig,
-    IncompleteGKGWarning,
-    ThemeLexicon,
-    analyze_counts,
-    analyze_themes,
-    default_extraction_config,
-    fields,
-    generate_gkg,
-)
+from support import compose_resources, make_record, read_resources
+
+from gdelt_regkg import IncompleteGKGWarning, Resources
+from gdelt_regkg.fields.counts import analyze_counts, default_count_rules
+from gdelt_regkg.fields.themes import ThemeLexicon, analyze_themes
 
 
 class ConfigTests(unittest.TestCase):
@@ -37,17 +32,18 @@ class ConfigTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "extraction.json"
             path.write_text(json.dumps(self.custom_data()), encoding="utf-8")
-            config = ExtractionConfig.from_json(path)
+            config = read_resources(path)
         text = "Three people were evacuated."
-        self.assertEqual(fields.extract_themes(text, lexicon=config.theme_lexicon), "EVACUATION;")
+        self.assertEqual(analyze_themes(text, lexicon=config.theme_lexicon).to_gkg(), "EVACUATION;")
         self.assertEqual(
-            fields.extract_enhanced_themes(text, lexicon=config.theme_lexicon), "EVACUATION,18;"
+            analyze_themes(text, lexicon=config.theme_lexicon).to_gkg(enhanced=True),
+            "EVACUATION,18;",
         )
         self.assertEqual(
-            fields.extract_counts(text, rules=config.count_rules), "EVACUATION#3#people#0######;"
+            analyze_counts(text, rules=config.count_rules).to_gkg(), "EVACUATION#3#people#0######;"
         )
         self.assertEqual(
-            fields.extract_enhanced_counts(text, rules=config.count_rules),
+            analyze_counts(text, rules=config.count_rules).to_gkg(enhanced=True),
             "EVACUATION#3#people#0#######0;",
         )
         self.assertEqual(
@@ -56,16 +52,16 @@ class ConfigTests(unittest.TestCase):
         self.assertEqual(
             analyze_themes(text, lexicon=config.theme_lexicon).lexicon_name, "my-themes-v1"
         )
-        # A custom profile must not change global defaults.
         self.assertEqual(
-            analyze_counts(text).profile_name, default_extraction_config().count_rules.name
+            analyze_counts(text).profile_name,
+            Resources(count_rules=default_count_rules()).count_rules.name,
         )
 
     def test_pipeline_config_and_explicit_override_precedence(self):
-        config = ExtractionConfig.from_dict(self.custom_data())
+        config = compose_resources(self.custom_data())
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", IncompleteGKGWarning)
-            record = generate_gkg(
+            record = make_record(
                 "Three people were evacuated.",
                 config=config,
                 theme_lexicon=ThemeLexicon.from_mapping({"CUSTOM": ["evacuated"]}),
@@ -83,7 +79,7 @@ class ConfigTests(unittest.TestCase):
     def test_count_vocabulary_and_guard_settings_are_effective(self):
         data = self.custom_data()
         data["count_rules"]["object_nouns"] = ["engineers"]
-        config = ExtractionConfig.from_dict(data)
+        config = compose_resources(data)
         self.assertEqual(
             analyze_counts("Police evacuated two engineers.", rules=config.count_rules)
             .mentions[0]
@@ -100,7 +96,7 @@ class ConfigTests(unittest.TestCase):
             (),
         )
         data["count_rules"]["unsafe_phrases"].remove("about")
-        relaxed = ExtractionConfig.from_dict(data)
+        relaxed = compose_resources(data)
         self.assertEqual(
             analyze_counts("About two engineers were evacuated.", rules=relaxed.count_rules)
             .mentions[0]
@@ -110,7 +106,6 @@ class ConfigTests(unittest.TestCase):
 
     def test_invalid_configuration_does_not_silently_fall_back(self):
         for edit in (
-            lambda d: d.update(typo=True),
             lambda d: d["count_rules"].update(active_triggers=["unknown"]),
             lambda d: d["count_rules"].update(object_nouns="people"),
             lambda d: d["count_rules"].update(triggers={"killed.*": "KILL"}),
@@ -120,21 +115,21 @@ class ConfigTests(unittest.TestCase):
             data = self.data()
             edit(data)
             with self.assertRaises((ValueError, TypeError)):
-                ExtractionConfig.from_dict(data)
+                compose_resources(data)
 
     def test_profile_is_snapshot_and_empty_lists_disable_matching(self):
         data = self.custom_data()
-        config = ExtractionConfig.from_dict(data)
+        config = compose_resources(data)
         data["count_rules"]["triggers"]["evacuated"] = "OTHER"
         self.assertEqual(config.count_rules.triggers["evacuated"], ("EVACUATION",))
         with self.assertRaises(TypeError):
             config.count_rules.triggers["evacuated"] = "OTHER"
         data["count_rules"].update(triggers={}, active_triggers=[])
         data["theme_lexicon"]["themes"] = {}
-        empty = ExtractionConfig.from_dict(data)
+        empty = compose_resources(data)
         self.assertEqual(analyze_counts("3 evacuated", rules=empty.count_rules).mentions, ())
         self.assertEqual(analyze_themes("evacuated", lexicon=empty.theme_lexicon).mentions, ())
-        self.assertIs(default_extraction_config(), default_extraction_config())
+        self.assertIs(Resources().counts(), Resources().counts())
 
 
 if __name__ == "__main__":

@@ -4,57 +4,68 @@ import warnings
 from datetime import datetime, timedelta, timezone
 from unittest.mock import patch
 
+from support import make_record
+
 from gdelt_regkg import (
     GKG_COLUMNS,
+    IncompleteGKGError,
     IncompleteGKGWarning,
-    fields,
-    generate_gkg,
     serialize_gkg,
     write_gkg,
 )
+from gdelt_regkg.fields.locations import analyze_locations
+from gdelt_regkg.fields.metadata import (
+    document_identifier,
+    format_date,
+    format_record_id,
+    format_related_images,
+    format_sharing_image,
+    format_social_image_embeds,
+    format_social_video_embeds,
+    format_source_collection,
+    format_translation_info,
+    source_common_name,
+)
+from gdelt_regkg.fields.ner import EntityMention, NERResult
 
 
 class FieldTests(unittest.TestCase):
     def test_dates_and_local_record_ids(self):
         instant = datetime(2026, 10, 1, 12, tzinfo=timezone(timedelta(hours=3)))
-        self.assertEqual(fields.format_date(instant), "20261001090000")
-        self.assertEqual(fields.format_date(None), "0")
-        self.assertEqual(fields.format_record_id(instant, 5, translated=True), "20261001090000-T5")
+        self.assertEqual(format_date(instant), "20261001090000")
+        self.assertEqual(format_date(None), "0")
+        self.assertEqual(format_record_id(instant, 5, translated=True), "20261001090000-T5")
         for value in ("20260230000000", "20261001", True, float("nan")):
             with self.subTest(value=value), self.assertRaises((ValueError, TypeError)):
-                fields.format_date(value)
+                format_date(value)
         for sequence in (0, -1, 1.5, True):
             with self.subTest(sequence=sequence), self.assertRaises(ValueError):
-                fields.format_record_id(instant, sequence)
+                format_record_id(instant, sequence)
 
     def test_source_and_translation(self):
-        self.assertEqual(
-            fields.source_common_name("https://NEWS.example.org:443/a"), "news.example.org"
-        )
-        self.assertEqual(
-            fields.source_common_name("offline citation", name="Print Daily"), "Print Daily"
-        )
-        self.assertEqual(fields.format_source_collection(5), "5")
+        self.assertEqual(source_common_name("https://NEWS.example.org:443/a"), "news.example.org")
+        self.assertEqual(source_common_name("offline citation", name="Print Daily"), "Print Daily")
+        self.assertEqual(format_source_collection(5), "5")
         with self.assertRaises(ValueError):
-            fields.format_source_collection(7)
-        self.assertEqual(fields.format_translation_info(), "")
+            format_source_collection(7)
+        self.assertEqual(format_translation_info(), "")
         self.assertEqual(
-            fields.format_translation_info("fra", "Example engine"), "srclc:fra;eng:Example engine"
+            format_translation_info("fra", "Example engine"), "srclc:fra;eng:Example engine"
         )
         self.assertEqual(
-            fields.format_related_images(["https://example.org/a;b?x=1;2#part"]),
+            format_related_images(["https://example.org/a;b?x=1;2#part"]),
             "https://example.org/a%3Bb?x=1%3B2#part",
         )
         with self.assertRaises(ValueError):
-            fields.format_translation_info("fra")
+            format_translation_info("fra")
         with self.assertRaises(ValueError):
-            fields.document_identifier("url\tbroken")
+            document_identifier("url\tbroken")
 
     def test_supplied_media_urls_and_missing_metadata(self):
         url = "https://example.org/photo.jpg?a=1&b=2"
-        self.assertEqual(fields.format_sharing_image(url), url)
-        self.assertEqual(fields.format_sharing_image(""), "")
-        self.assertIsNone(fields.format_sharing_image(None))
+        self.assertEqual(format_sharing_image(url), url)
+        self.assertEqual(format_sharing_image(""), "")
+        self.assertIsNone(format_sharing_image(None))
         for value in (
             "/photo.jpg",
             "javascript:bad",
@@ -62,16 +73,16 @@ class FieldTests(unittest.TestCase):
             "https://example.org/a b",
         ):
             with self.subTest(value=value), self.assertRaises(ValueError):
-                fields.format_sharing_image(value)
+                format_sharing_image(value)
         for formatter in (
-            fields.format_related_images,
-            fields.format_social_image_embeds,
-            fields.format_social_video_embeds,
+            format_related_images,
+            format_social_image_embeds,
+            format_social_video_embeds,
         ):
             with self.subTest(formatter=formatter.__name__):
                 self.assertIsNone(formatter(None))
                 self.assertEqual(formatter([]), "")
-                self.assertEqual(formatter(u for u in (url, url)), f"{url};{url}")
+                self.assertEqual(formatter((u for u in (url, url))), f"{url};{url}")
                 with self.assertRaises(TypeError):
                     formatter(url)
                 self.assertEqual(
@@ -79,18 +90,16 @@ class FieldTests(unittest.TestCase):
                 )
 
     def test_locations_accept_precomputed_spans(self):
-        from gdelt_regkg import EntityMention, NERResult
-
         text = "Jane spoke in London."
         ner = NERResult(text, (EntityMention("London", "LOCATION", 14, 20),))
-        self.assertIn("#UK#", fields.extract_locations(text, ner=ner))
+        self.assertIn("#UK#", analyze_locations(text, ner=ner).to_gkg())
 
 
 class PipelineTests(unittest.TestCase):
     def record(self, **kwargs):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", IncompleteGKGWarning)
-            return generate_gkg(
+            return make_record(
                 "Example text.",
                 identifier="https://example.org/a",
                 batch_time="20261001091500",
@@ -142,7 +151,7 @@ class PipelineTests(unittest.TestCase):
         record = self.record(field_values={"V1PERSONS": "Jane"})
         self.assertEqual(record["V1PERSONS"], "Jane")
         self.assertIsNone(record["V2ENHANCEDPERSONS"])
-        with self.assertRaises(NotImplementedError):
+        with self.assertRaises(IncompleteGKGError):
             self.record(strict=True)
         supplied = {column: "" for column, value in record.items() if value is None}
         supplied["V1PERSONS"] = "Jane"
@@ -155,7 +164,7 @@ class PipelineTests(unittest.TestCase):
     def test_warning_and_real_errors(self):
         with warnings.catch_warnings(record=True) as caught:
             warnings.simplefilter("always")
-            generate_gkg(
+            make_record(
                 "",
                 identifier="https://example.org",
                 published_at=None,
@@ -164,7 +173,7 @@ class PipelineTests(unittest.TestCase):
             )
         self.assertEqual(len(caught), 1)
         self.assertIs(caught[0].category, IncompleteGKGWarning)
-        with patch.object(fields, "extract_tone", side_effect=RuntimeError("model failed")):
+        with patch("gdelt_regkg.pipeline.analyze_tone", side_effect=RuntimeError("model failed")):
             with self.assertRaisesRegex(RuntimeError, "model failed"):
                 self.record()
 
@@ -183,13 +192,13 @@ class PipelineTests(unittest.TestCase):
         self.assertEqual(record["V2.1SOCIALIMAGEEMBEDS"], "")
         self.assertEqual(record["V2.1SOCIALVIDEOEMBEDS"], "https://vimeo.com/123")
         self.assertEqual(record["V2EXTRASXML"], "<PAGE_TITLE>Supplied title</PAGE_TITLE>")
-        with patch.object(fields, "format_sharing_image", side_effect=RuntimeError("called")):
+        with patch("gdelt_regkg.pipeline.format_sharing_image", side_effect=RuntimeError("called")):
             self.assertEqual(
                 self.record(field_values={"V2.1SHARINGIMAGE": ""})["V2.1SHARINGIMAGE"], ""
             )
 
     def test_translation_and_invalid_serialization(self):
-        record = self.record(source_language="fra", translation_engine="Example")
+        record = self.record(source_language="fra", translation_engine="Example").to_mapping()
         self.assertEqual(record["GKGRECORDID"], "20261001091500-T1")
         record["V1PERSONS"] = "bad\nname"
         with self.assertRaises(ValueError):

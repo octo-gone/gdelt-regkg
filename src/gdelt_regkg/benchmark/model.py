@@ -4,12 +4,17 @@ from collections import Counter
 from dataclasses import dataclass, field
 from typing import Callable
 
-FIELD_NAMES = tuple(
-    "recordid date source_collection source document counts enhanced_counts themes enhanced_themes "
-    "locations enhanced_locations persons enhanced_persons organizations enhanced_organizations "
-    "tone enhanced_dates gcam sharing_image related_images social_image_embeds social_video_embeds "
-    "quotations all_names amounts translation extras_xml".split()
-)
+from ..record import FIELD_NAMES
+
+__all__ = [
+    "FIELD_NAMES",
+    "GKGRow",
+    "BenchmarkOptions",
+    "BenchmarkReport",
+    "ScoreContext",
+    "ResultRow",
+]
+
 GROUPS = {
     "metadata": ("recordid", "date", "source_collection", "source", "document"),
     "counts": ("counts", "enhanced_counts"),

@@ -24,7 +24,7 @@ dependencies. Explicit `--source NAME=PATH` inputs take precedence over files di
 Downloads require `--download-sources`. Counts and name rules need no external
 sources; `--authored-themes-only` also removes the CrisisLex requirement for themes
 and their use within GCAM. Use `--gazetteer-archives` for explicit location-reference
-inputs; the recorded gazetteer recipe is unchanged.
+inputs.
 
 Each selected target produces exactly one profile. The default `--use best`
 selects the current supported recipe, and partial builds preserve unrelated
@@ -173,7 +173,7 @@ The recorded recipe uses 20 files from **2015–2019** to reproduce the geograph
 > - There is no automatic geocoding fallback.
 > - For broad coverage, supply a more comprehensive compatible gazetteer. Adding sampled GKG files alone cannot guarantee coverage of all places.
 
-Use [Custom gazetteer](#custom-gazetteer) to build from selected archives. The build selects the result in `defaults.json`; Python callers can also pass a `Gazetteer` object explicitly through the [API](../api-usage.md#resource-and-model-arguments).
+Use [Custom gazetteer](#custom-gazetteer) to build from selected archives. The build selects the result in `defaults.json`; Python callers can also pass a `Gazetteer` object explicitly through the [API](../api-usage.md#resource-selection).
 
 ## Partial builds and manual downloads
 
@@ -212,7 +212,7 @@ Select the result with `resources_dir="local-resources/authored"`. Note:
 - Some learned phrases and organization coefficients reflect development-corpus publisher wording, so other domains need separate evaluation.
 - `NameRules()` bypasses the learned organization filter.
 
-See [custom rules](../api-usage.md#custom-resources).
+See [custom rules](../api-usage.md#resource-selection).
 
 **Use other dictionaries.** The recorded tone and theme replay recipes require their original source editions. For other GCAM dictionaries, use `gdelt-regkg-cli build gcam --source NAME=PATH` with the selected profile or additions. You can also pass explicit `ToneLexicon`, `ThemeLexicon`, `CountRules`, `NameRules`, `Gazetteer` and `GCAMLexicon` objects. Obtain geographic development and reference archives separately from held-out articles.
 

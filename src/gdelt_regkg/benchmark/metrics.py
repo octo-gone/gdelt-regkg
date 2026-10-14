@@ -4,6 +4,8 @@ import math
 import statistics
 from collections import Counter
 
+from ..dependencies import require_dependency
+
 
 def prf(tp, fp, fn):
     return {
@@ -44,8 +46,10 @@ def numeric_metrics(pairs):
         return dict.fromkeys(
             ("mae", "rmse", "bias", "ccc", "spearman", "loa_lower", "loa_upper")
         ) | {"paired_values": 0}
-    from scipy.stats import spearmanr
-    from sklearn.metrics import mean_absolute_error, root_mean_squared_error
+    spearmanr = require_dependency("scipy.stats", "benchmark").spearmanr
+    metrics = require_dependency("sklearn.metrics", "benchmark")
+    mean_absolute_error = metrics.mean_absolute_error
+    root_mean_squared_error = metrics.root_mean_squared_error
 
     left, right = map(list, zip(*pairs))
     errors = [b - a for a, b in pairs]

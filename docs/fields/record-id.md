@@ -5,7 +5,7 @@
 ## Example
 
 ```python
-from gdelt_regkg.fields import format_record_id
+from gdelt_regkg.fields.metadata import format_record_id
 
 print(format_record_id("20250101120000", 1))
 print(format_record_id("20250101120000", 2, translated=True))
@@ -20,7 +20,7 @@ print(format_record_id("20250101120000", 2, translated=True))
 
 The timestamp uses `YYYYMMDDHHMMSS`. Sequence numbers must be positive integers; the timestamp must be known. `translated=True` inserts `T` before the sequence number.
 
-In `generate_gkg`, use `batch_time=` and `sequence=`. Translation provenance adds the `T` marker automatically. The batch timestamp also fills `V2.1DATE`.
+Set `batch_time=` and `sequence=` on `RecordMetadata`, then pass the metadata to `generate_gkg(text, metadata, resources)`. Translation provenance adds the `T` marker automatically. The batch timestamp also fills `V2.1DATE`.
 
 ## Limits
 

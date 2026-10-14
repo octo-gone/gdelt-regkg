@@ -146,37 +146,7 @@ def build_gcam(context: BuildContext) -> tuple[Artifact, ...]:
                 for dimension in profile["dimensions"]
                 if not dimension["key"].startswith(prefix)
             ]
-        if component in ("vader", "lexicoder"):
-            # These importers append dimensions. Replacing a selected family must
-            # first discard its existing keys, especially when expanding a baseline.
-            replaced = {"v26.1"} if component == "vader" else set(LEXICODER_CATEGORIES)
-            profile = copy.deepcopy(profile)
-            name = profile["name"]
-            profile["dimensions"] = [d for d in profile["dimensions"] if d["key"] not in replaced]
-            profile = extend_gcam_lexicon(profile, **{component + "_source": sources[component]})
-            if options.baseline is not None or component == "lexicoder":
-                profile["name"] = name + "-" + component
-        elif component == "general-inquirer":
-            profile = add_general_inquirer(profile, sources["general-inquirer"], book)
-        elif component == "roget":
-            profile = add_roget(profile, sources["roget"], sources["wordnet-31"], book)
-        elif component == "wordnet-lexical":
-            profile = add_wordnet_lexical(profile, sources["wordnet-31"], book)
-        elif component == "wordnet-affect":
-            profile = add_wordnet_affect(
-                profile,
-                sources["wordnet-affect"],
-                sources["wordnet-16"],
-                book,
-                propagate_hierarchy=options.affect_propagate_hierarchy,
-                nouns_only=options.affect_nouns_only,
-            )
-        elif component == "wordnet-domains":
-            profile = add_wordnet_domains(
-                profile, sources["wordnet-domains"], sources["wordnet-20"], book
-            )
-        elif component == "themes":
-            profile = add_themes(profile, book, theme_lexicon_from_input(context.themes))
+        profile = _gcam_component(context, profile, component, book)
     if (
         options.baseline is None
         and options.components == STANDARD_COMPONENTS
@@ -260,3 +230,39 @@ def compile_profiles(
     if len(paths) != len(set(paths)):
         raise ValueError("Output filenames collide; choose distinct profile filenames")
     return tuple(artifacts), defaults
+
+
+def _gcam_component(context, profile, component, book):
+    sources, options = context.inputs.sources, context.inputs.gcam
+    if component in ("vader", "lexicoder"):
+        # These importers append dimensions. Replacing a selected family must
+        # first discard its existing keys, especially when expanding a baseline.
+        replaced = {"v26.1"} if component == "vader" else set(LEXICODER_CATEGORIES)
+        profile = copy.deepcopy(profile)
+        name = profile["name"]
+        profile["dimensions"] = [d for d in profile["dimensions"] if d["key"] not in replaced]
+        profile = extend_gcam_lexicon(profile, **{component + "_source": sources[component]})
+        if options.baseline is not None or component == "lexicoder":
+            profile["name"] = name + "-" + component
+    elif component == "general-inquirer":
+        profile = add_general_inquirer(profile, sources["general-inquirer"], book)
+    elif component == "roget":
+        profile = add_roget(profile, sources["roget"], sources["wordnet-31"], book)
+    elif component == "wordnet-lexical":
+        profile = add_wordnet_lexical(profile, sources["wordnet-31"], book)
+    elif component == "wordnet-affect":
+        profile = add_wordnet_affect(
+            profile,
+            sources["wordnet-affect"],
+            sources["wordnet-16"],
+            book,
+            propagate_hierarchy=options.affect_propagate_hierarchy,
+            nouns_only=options.affect_nouns_only,
+        )
+    elif component == "wordnet-domains":
+        profile = add_wordnet_domains(
+            profile, sources["wordnet-domains"], sources["wordnet-20"], book
+        )
+    elif component == "themes":
+        profile = add_themes(profile, book, theme_lexicon_from_input(context.themes))
+    return profile

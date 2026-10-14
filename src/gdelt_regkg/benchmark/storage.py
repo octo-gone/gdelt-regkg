@@ -7,7 +7,9 @@ import sqlite3
 import sys
 from collections.abc import MutableMapping, Sequence
 from pathlib import Path
+from typing import BinaryIO
 
+from ..storage import close_database, open_database
 from .model import FIELD_NAMES
 
 APPLICATION_ID = int.from_bytes(b"GKGB", "big")
@@ -112,11 +114,12 @@ class StoredCorpus(MutableMapping):
 
 
 class BenchmarkStore:
-    def __init__(self, path):
+    def __init__(self, path, *, timeout: float = 5):
+        self.timeout = timeout
         self.path = Path(path)
         self.path.parent.mkdir(parents=True, exist_ok=True)
-        self.lock = None
-        self._db = None
+        self.lock: BinaryIO | None = None
+        self._db: sqlite3.Connection | None = None
 
     @property
     def db(self) -> sqlite3.Connection:
@@ -125,6 +128,8 @@ class BenchmarkStore:
         return self._db
 
     def __enter__(self):
+        if self._db is not None:
+            raise RuntimeError("Benchmark store is already open")
         # Hold an OS lock across batch commits, so two runs cannot reset each
         # other's staged inputs. The OS releases it even after a killed process.
         self.lock = self.path.with_suffix(self.path.suffix + ".lock").open("a+b")
@@ -145,19 +150,11 @@ class BenchmarkStore:
             self.lock.close()
             raise ValueError(f"Benchmark cache is in use: {self.path}") from error
         try:
-            self._db = sqlite3.connect(self.path)
-            application = self.db.execute("PRAGMA application_id").fetchone()[0]
-            tables = self.db.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()
-            if tables and application != APPLICATION_ID:
-                raise ValueError(f"Not a benchmark cache database: {self.path}")
-            if (
-                application
-                and self.db.execute("PRAGMA user_version").fetchone()[0] != CACHE_SCHEMA_VERSION
-            ):
-                raise ValueError("Unsupported benchmark cache version; choose a new --cache path")
+            self._db = open_database(
+                self.path, timeout=self.timeout, validate=self._validate_database
+            )
             self.db.execute(f"PRAGMA application_id={APPLICATION_ID}")
             self.db.execute(f"PRAGMA user_version={CACHE_SCHEMA_VERSION}")
-            self.db.execute("PRAGMA journal_mode=WAL")
             self.db.execute("PRAGMA synchronous=FULL")
             self.db.execute("PRAGMA cache_size=-16384")
             self.db.execute(
@@ -179,12 +176,28 @@ class BenchmarkStore:
             raise
         return self
 
+    def _validate_database(self, connection):
+        application = connection.execute("PRAGMA application_id").fetchone()[0]
+        tables = connection.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()
+        if tables and application != APPLICATION_ID:
+            raise ValueError(f"Not a benchmark cache database: {self.path}")
+        if (
+            application
+            and connection.execute("PRAGMA user_version").fetchone()[0] != CACHE_SCHEMA_VERSION
+        ):
+            raise ValueError("Unsupported benchmark cache version; choose a new --cache path")
+
     def __exit__(self, *_):
-        if self._db is not None:
-            self._db.close()
-            self._db = None
-        if self.lock is not None:
-            self.lock.close()
+        self.close()
+
+    def close(self):
+        connection, self._db = self._db, None
+        try:
+            close_database(connection)
+        finally:
+            if self.lock is not None:
+                self.lock.close()
+                self.lock = None
 
     def put(self, row, *, scope="cache", signature=None):
         values = row.values
