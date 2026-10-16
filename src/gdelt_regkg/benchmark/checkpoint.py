@@ -1,5 +1,6 @@
 """Prediction compatibility fingerprints and explicit spaCy device selection."""
 
+import hashlib
 import sys
 from importlib import metadata, util
 from pathlib import Path
@@ -11,8 +12,6 @@ from .storage import digest
 
 
 def file_hash(path):
-    import hashlib
-
     checksum = hashlib.sha256()
     with path.open("rb") as stream:
         while block := stream.read(1024 * 1024):
@@ -126,12 +125,13 @@ def prediction_signature(args, fields, device):
                 "wire.py",
                 "dependencies.py",
                 "types.py",
+                "gcam_dictionaries.py",
             )
         ),
         Path(__file__).with_name("corpus.py"),
     ]
     versions = {}
-    for name in ("spacy", "thinc", "numpy", "cupy-cuda12x", "cupy-cuda13x"):
+    for name in ("spacy", "thinc", "numpy", "cupy-cuda12x", "cupy-cuda13x", "jieba"):
         try:
             versions[name] = metadata.version(name)
         except metadata.PackageNotFoundError:
@@ -146,6 +146,9 @@ def prediction_signature(args, fields, device):
         "batch_size": args.batch_size,
         "batch_chars": args.batch_chars,
         "numeric_date_order": args.numeric_date_order,
+        "gcam_disabled_dictionaries": sorted(
+            str(value) for value in getattr(args, "gcam_disable", ())
+        ),
     }
     return digest(configuration)
 
@@ -156,7 +159,18 @@ def article_signature(namespace, reference, article):
     return digest(
         {
             "configuration": namespace,
-            "article": {k: v for k, v in article.items() if k not in {"text", "native_cells"}},
+            "article": {
+                k: v
+                for k, v in article.items()
+                if k not in {"text", "original_text", "native_cells"}
+            }
+            | {
+                "original_text_sha256": hashlib.sha256(
+                    article["original_text"].encode("utf-8")
+                ).hexdigest()
+                if article.get("original_text") is not None
+                else None,
+            },
             "metadata": {
                 k: reference.get(k)
                 for k in ("recordid", "date", "source_collection", "source", "document")

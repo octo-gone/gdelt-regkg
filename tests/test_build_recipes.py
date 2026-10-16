@@ -19,6 +19,7 @@ from gdelt_regkg.builders.tone import build_lexicon, revise_tone
 from gdelt_regkg.cli import main
 from gdelt_regkg.cli.gcam import GCAMOptions
 from gdelt_regkg.cli.inputs import BuildOptions, required_sources, resolve_inputs
+from gdelt_regkg.cli.recipes import select_recipes
 from gdelt_regkg.cli.validation import semantic_sha256
 from gdelt_regkg.fields.gcam import _load, analyze_gcam, default_gcam_lexicon, read_gcam_json
 from gdelt_regkg.fields.rule_inputs import THEME_SCHEMA
@@ -421,7 +422,36 @@ class RecipeTests(WorkspaceTests):
         self.assertEqual(len(defaults), 6)
         self.assertTrue(all((".selected.json" in filename for filename in defaults.values())))
 
-    def test_standard_and_full_gcam_with_real_converters_and_baseline_expansion(self):
+    def test_full_gcam_alias_selects_v5_and_preserves_versioned_v4(self):
+        v4 = GCAMOptions(profile="v4")
+        v5 = GCAMOptions(profile="v5")
+        self.assertEqual(GCAMOptions(profile="full"), v5)
+        self.assertEqual(select_recipes(("gcam",), "full"), {"gcam": "v5"})
+        self.assertEqual(v4.filename, "gcam.v4.json.gz")
+        self.assertEqual(v5.filename, "gcam.v5.json.gz")
+        self.assertEqual(select_recipes(("gcam",)), {"gcam": "v3"})
+        self.assertEqual(
+            set(v4.components),
+            {
+                "vader",
+                "general-inquirer",
+                "wordnet-lexical",
+                "wordnet-affect",
+                "wordnet-domains",
+                "themes",
+                "roget",
+                "lexicoder",
+            },
+        )
+        self.assertTrue(set(v4.components) < set(v5.components))
+        self.assertIn("emfd", v5.required_sources())
+        self.assertIn("anew", v5.required_sources())
+        self.assertNotIn("emfd", v4.required_sources())
+        self.assertNotIn("themes-experimental", v5.components)
+        self.assertIn("themes-authored", v5.components)
+        self.assertNotIn("themes-authored", v4.components)
+
+    def test_standard_and_v4_gcam_with_real_converters_and_baseline_expansion(self):
         sources = self.fixture_sources()
         standard_sources = {
             key: value for key, value in sources.items() if key not in ("roget", "lexicoder")
@@ -440,17 +470,17 @@ class RecipeTests(WorkspaceTests):
         self.assertEqual(counts["c16.1"], 2)
         self.assertEqual(counts["c17.5"], 1)
         self.assertEqual(counts["c2.21"], 1)
-        full = self.root / "full"
+        full = self.root / "v4"
         self.run_build(
             "gcam",
             "--use",
-            "full",
+            "v4",
             "--authored-themes-only",
             *self.source_args(sources),
             "--output",
             full,
         )
-        complete = read_gcam_json(full / "lexicons/gcam.full.json.gz")
+        complete = read_gcam_json(full / "lexicons/gcam.v4.json.gz")
         selected = default_gcam_lexicon(full)
         self.assertEqual(set(selected.dimensions), set(_load(complete).dimensions))
         self.assertTrue({"c3.1", "c9.1"} <= selected.dimensions.keys())
@@ -461,7 +491,8 @@ class RecipeTests(WorkspaceTests):
             {key.split(".")[0] for key in _load(complete).dimensions},
             {"c2", "c3", "c9", "c15", "c16", "c17", "c18", "c26"},
         )
-        self.assertEqual([p.name for p in (full / "lexicons").iterdir()], ["gcam.full.json.gz"])
+        self.assertEqual([p.name for p in (full / "lexicons").iterdir()], ["gcam.v4.json.gz"])
+        self.assertTrue((full / "gcam/coverage.v4.json").is_file())
         additions = {
             name: sources[name] for name in ("roget", "lexicoder", "wordnet-31", "codebook")
         }
@@ -474,17 +505,17 @@ class RecipeTests(WorkspaceTests):
             "lexicoder",
             *self.source_args(additions),
             "--suffix",
-            "full",
+            "v4",
             "--output",
             standard,
         )
-        expanded = read_gcam_json(standard / "lexicons/gcam.full.json.gz")
+        expanded = read_gcam_json(standard / "lexicons/gcam.v4.json.gz")
         self.assertEqual(
             sorted(expanded["dimensions"], key=lambda d: d["key"]),
             sorted(complete["dimensions"], key=lambda d: d["key"]),
         )
         self.assertEqual(
-            json.loads((standard / "defaults.json").read_text()), {"gcam": "gcam.full.json.gz"}
+            json.loads((standard / "defaults.json").read_text()), {"gcam": "gcam.v4.json.gz"}
         )
 
     def test_replacing_vader_and_lexicoder_preserves_other_baseline_dimensions(self):

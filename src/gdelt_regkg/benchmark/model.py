@@ -1,9 +1,11 @@
 """Shared data contracts for input readers, field scorers and report writers."""
 
 from collections import Counter
+from collections.abc import Mapping
 from dataclasses import dataclass, field
 from typing import Callable
 
+from ..gcam_dictionaries import dictionary_id, resolve_dictionaries
 from ..record import FIELD_NAMES
 
 __all__ = [
@@ -48,13 +50,57 @@ class BenchmarkOptions:
     proximity_window: int = 200
     theme_labels: frozenset[str] | None = None
     gcam_keys: frozenset[str] | None = None
+    gcam_disabled_dictionaries: tuple[int | str, ...] = ()
+    gcam_languages: Mapping[str, str] | None = None
+    gcam_approximate_dimensions: frozenset[str] | None = None
+    gcam_dimension_names: Mapping[str, str] | None = None
+    gcam_evaluation_language: str | None = None
+    gcam_max_word_count_difference: float | None = None
+    gcam_sample_size: int | None = None
+    gcam_bootstrap_samples: int = 0
+    gcam_seed: int = 0
+    gcam_split_languages: bool = False
 
     def __post_init__(self):
+        object.__setattr__(
+            self,
+            "gcam_disabled_dictionaries",
+            resolve_dictionaries(
+                self.gcam_disabled_dictionaries,
+                custom_ids=(
+                    dictionary_id(key)
+                    for key in (self.gcam_keys or ())
+                    if key.startswith(("c", "v"))
+                ),
+            ),
+        )
         if type(self.offset_tolerance) is not int or self.offset_tolerance < 0:
             raise ValueError("Offset tolerance must be a nonnegative integer")
         if type(self.proximity_window) is not int or self.proximity_window < 0:
             raise ValueError("Proximity window must be a nonnegative integer")
         import math
+
+        if self.gcam_evaluation_language is not None:
+            from ..fields.translation import normalize_language
+
+            object.__setattr__(
+                self, "gcam_evaluation_language", normalize_language(self.gcam_evaluation_language)
+            )
+        if self.gcam_max_word_count_difference is not None and (
+            not math.isfinite(self.gcam_max_word_count_difference)
+            or self.gcam_max_word_count_difference < 0
+        ):
+            raise ValueError("GCAM word-count difference must be finite and nonnegative")
+        if self.gcam_sample_size is not None and (
+            type(self.gcam_sample_size) is not int or self.gcam_sample_size < 1
+        ):
+            raise ValueError("GCAM sample size must be a positive integer")
+        if type(self.gcam_bootstrap_samples) is not int or self.gcam_bootstrap_samples < 0:
+            raise ValueError("GCAM bootstrap samples must be a nonnegative integer")
+        if type(self.gcam_seed) is not int:
+            raise ValueError("GCAM seed must be an integer")
+        if type(self.gcam_split_languages) is not bool:
+            raise ValueError("GCAM split languages must be bool")
 
         if not math.isfinite(self.number_tolerance) or self.number_tolerance < 0:
             raise ValueError("Number tolerance must be finite and nonnegative")
@@ -72,10 +118,15 @@ class ResultRow:
     documents: int = 0
     unit: str = ""
     subset: str = "all"
+    dimension_key: str = ""
+    dimension_name: str = ""
+    language: str = ""
 
     @property
     def name(self) -> str:
         prefix = "" if self.subset == "all" else self.subset + " / "
+        if self.language:
+            prefix += self.language + " / "
         return prefix + self.field + (" / " + self.calculation if self.calculation else "")
 
 
@@ -84,6 +135,8 @@ class BenchmarkReport:
     rows: list[ResultRow] = field(default_factory=list)
     audit: Counter = field(default_factory=Counter)
     configuration: dict[str, str] = field(default_factory=dict)
+    tables: dict[str, list[ResultRow]] = field(default_factory=dict)
+    details: dict[str, list[dict]] = field(default_factory=dict)
 
     def note(
         self,
@@ -104,6 +157,7 @@ class ScoreContext:
     options: BenchmarkOptions
     report: BenchmarkReport
     subset: str = "all"
+    language: str = ""
     _parsed: dict = field(default_factory=dict)
 
     def clear_parsed(self):
@@ -118,7 +172,7 @@ class ScoreContext:
             self._parsed[field_name] = list(self.iter_parsed(field_name, parser))
         return self._parsed[field_name]
 
-    def iter_parsed(self, field_name: str, parser: Callable):
+    def iter_parsed(self, field_name: str, parser: Callable, *, include_rows=False):
         """Exclude unavailable/native-invalid fields; invalid predictions become empty.
 
         A malformed prediction must never improve a score by removing its document.
@@ -140,7 +194,55 @@ class ScoreContext:
             except (ValueError, ArithmeticError) as error:
                 self.note("prediction", field_name, "malformed", str(error))
                 actual = parser("")
-            yield expected, actual
+            yield (expected, actual, reference, prediction) if include_rows else (expected, actual)
 
-    def add(self, name: str, calculation: str, metrics: dict[str, Number], documents=0, unit=""):
-        self.report.rows.append(ResultRow(name, calculation, metrics, documents, unit, self.subset))
+    def add(
+        self,
+        name: str,
+        calculation: str,
+        metrics: dict[str, Number],
+        documents=0,
+        unit="",
+        *,
+        dimension_key="",
+        dimension_name="",
+    ):
+        self.report.rows.append(
+            ResultRow(
+                name,
+                calculation,
+                metrics,
+                documents,
+                unit,
+                self.subset,
+                dimension_key,
+                dimension_name,
+                self.language,
+            )
+        )
+
+    def table(
+        self,
+        table: str,
+        name: str,
+        calculation: str,
+        metrics: dict[str, Number],
+        documents=0,
+        unit="",
+        *,
+        dimension_key="",
+        dimension_name="",
+    ):
+        self.report.tables.setdefault(table, []).append(
+            ResultRow(
+                name,
+                calculation,
+                metrics,
+                documents,
+                unit,
+                self.subset,
+                dimension_key,
+                dimension_name,
+                self.language,
+            )
+        )

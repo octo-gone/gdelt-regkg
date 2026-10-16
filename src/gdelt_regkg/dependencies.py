@@ -12,7 +12,7 @@ def require_dependency(module: str, extra: str) -> ModuleType:
     try:
         return import_module(module)
     except ImportError as error:
-        if module == "torch":
+        if module == "torch" and extra != "build":
             message = (
                 "Local translation requires PyTorch, which is installed separately. "
                 "For CPU: python -m pip install torch --index-url https://download.pytorch.org/whl/cpu. "

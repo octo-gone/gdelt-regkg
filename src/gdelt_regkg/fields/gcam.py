@@ -7,20 +7,23 @@ import json
 import math
 import re
 import string
-from collections import Counter
-from collections.abc import Mapping
+from collections import Counter, OrderedDict
+from collections.abc import Iterable, Mapping
 from dataclasses import dataclass, field
 from functools import lru_cache
 from pathlib import Path
 from types import MappingProxyType
 from typing import TYPE_CHECKING, Any
 
+from ..gcam_dictionaries import dictionary_id, resolve_dictionaries
 from ..types import StrPath
 
 if TYPE_CHECKING:
     from .themes import ThemeLexicon
 
+from .gcam_tokens import tokenize_gcam, valid_gcam_word, valid_native_pattern
 from .tone import tokenize_tone
+from .translation import normalize_language
 
 
 def _key(key, prefix):
@@ -43,11 +46,15 @@ class GCAMLexicon:
     exceptions: Mapping[str, tuple[str, ...]] = field(default_factory=dict)
     theme_dimensions: Mapping[str, str] = field(default_factory=dict)
     theme_lexicon: ThemeLexicon | None = None
+    emit_count: Mapping[str, bool] = field(default_factory=dict)
+    exclusions: Mapping[str, tuple[str, ...]] = field(default_factory=dict)
+    languages: Mapping[str, str] = field(default_factory=dict)
     _indices: dict = field(init=False, repr=False, compare=False)
     _tries: dict = field(init=False, repr=False, compare=False)
     _wildcards: dict = field(init=False, repr=False, compare=False)
     _wildcard_trie: dict = field(init=False, repr=False, compare=False)
     _lemma_vocabulary: frozenset = field(init=False, repr=False, compare=False)
+    _selections: OrderedDict = field(init=False, repr=False, compare=False)
 
     def __post_init__(self):
         if not isinstance(self.name, str) or not self.name.strip():
@@ -60,18 +67,27 @@ class GCAMLexicon:
             self.lemmatization,
             self.exceptions,
             self.theme_dimensions,
+            self.emit_count,
+            self.exclusions,
+            self.languages,
         ):
             if not isinstance(mapping, Mapping):
                 raise TypeError("GCAM dimensions and options must be mappings")
         dimensions, patterns = self._normalize_dimensions()
         weighted, modes = self._normalize_scores(dimensions, patterns)
         lemma_modes, exceptions = self._normalize_morphology(dimensions, patterns, weighted)
+        self._normalize_languages(dimensions, weighted)
         indices, tries, wildcards, lemma_vocabulary, wildcard_trie = self._build_indices(
             dimensions, patterns, lemma_modes
         )
         object.__setattr__(self, "dimensions", MappingProxyType(dimensions))
         object.__setattr__(self, "weighted_dimensions", MappingProxyType(weighted))
         object.__setattr__(self, "tokenization", MappingProxyType(modes))
+        object.__setattr__(
+            self,
+            "emit_count",
+            MappingProxyType({key: self.emit_count.get(key, True) for key in weighted}),
+        )
         object.__setattr__(self, "patterns", MappingProxyType(patterns))
         object.__setattr__(self, "lemmatization", MappingProxyType(lemma_modes))
         object.__setattr__(self, "exceptions", MappingProxyType(exceptions))
@@ -81,6 +97,115 @@ class GCAMLexicon:
         object.__setattr__(self, "_wildcards", wildcards)
         object.__setattr__(self, "_lemma_vocabulary", lemma_vocabulary)
         object.__setattr__(self, "_wildcard_trie", wildcard_trie)
+        object.__setattr__(self, "_selections", OrderedDict())
+        exclusions = {}
+        for code, terms in self.exclusions.items():
+            if not isinstance(code, str) or not re.fullmatch(r"[1-9][0-9]*", code):
+                raise ValueError("Exclusions must be keyed by dictionary ID strings")
+            if not any(dictionary_id(key) == int(code) for key in dimensions) or any(
+                dictionary_id(key) == int(code) for key in (*weighted, *self.theme_dimensions)
+            ):
+                raise ValueError("Exclusions require a count-only vocabulary dictionary")
+            if isinstance(terms, str):
+                raise TypeError("Exclusions must be a collection of token patterns")
+            terms = tuple(sorted(set(terms)))
+            if any(
+                not isinstance(term, str)
+                or not valid_native_pattern(term)
+                or term != term.casefold()
+                or not re.search(r"\w", term)
+                for term in terms
+            ):
+                raise ValueError("Exclusions require normalized token or phrase patterns")
+            exclusions[code] = terms
+        object.__setattr__(self, "exclusions", MappingProxyType(exclusions))
+
+    @property
+    def implemented_dimensions(self) -> tuple[str, ...]:
+        """All supported serialized keys, including value-only dimensions."""
+        return tuple(sorted((*self.dimensions, *self.weighted_dimensions), key=_order))
+
+    def without_dictionaries(self, disabled: Iterable[int | str] = ()) -> GCAMLexicon:
+        """Return a reusable selection; excluded matchers are never evaluated."""
+        present = {dictionary_id(key) for key in self.implemented_dimensions}
+        ids = tuple(
+            code for code in resolve_dictionaries(disabled, custom_ids=present) if code in present
+        )
+        if not ids:
+            return self
+        return self._selection(("dictionaries", *ids), lambda key: dictionary_id(key) not in ids)
+
+    def for_language(self, language: str = "eng") -> GCAMLexicon:
+        """Select applicable dimensions, including languages sharing a dictionary ID."""
+        language = normalize_language(language)
+        if all(value == language for value in self.languages.values()):
+            return self
+        return self._selection(("language", language), lambda key: self.languages[key] == language)
+
+    def _selection(self, cache_key, predicate):
+        if cache_key in self._selections:
+            self._selections.move_to_end(cache_key)
+            return self._selections[cache_key]
+
+        def keep(mapping):
+            return {key: value for key, value in mapping.items() if predicate(key)}
+
+        themes = keep(self.theme_dimensions)
+        theme_lexicon = None
+        if themes:
+            from .themes import ThemeLexicon
+
+            assert self.theme_lexicon is not None
+            theme_lexicon = ThemeLexicon(
+                self.theme_lexicon.name,
+                tuple(
+                    rule for rule in self.theme_lexicon.rules if rule.theme in set(themes.values())
+                ),
+            )
+        selection = GCAMLexicon(
+            name=self.name,
+            dimensions=keep(self.dimensions),
+            weighted_dimensions=keep(self.weighted_dimensions),
+            tokenization=keep(self.tokenization),
+            patterns=keep(self.patterns),
+            lemmatization=keep(self.lemmatization),
+            exceptions=self.exceptions,
+            theme_dimensions=themes,
+            theme_lexicon=theme_lexicon,
+            emit_count=keep(self.emit_count),
+            exclusions={
+                code: terms
+                for code, terms in self.exclusions.items()
+                if any(
+                    dictionary_id(key) == int(code) and predicate(key) for key in self.dimensions
+                )
+            },
+            languages=keep(self.languages),
+        )
+        self._selections[cache_key] = selection
+        if len(self._selections) > 8:
+            self._selections.popitem(last=False)
+        return selection
+
+    def _language(self, key):
+        return self.languages.get(
+            key, self.languages.get(("v" if key.startswith("c") else "c") + key[1:], "eng")
+        )
+
+    def _normalize_languages(self, dimensions, weighted):
+        keys = dimensions.keys() | weighted.keys()
+        if set(self.languages) - keys:
+            raise ValueError("Language metadata requires a supported dimension")
+        languages = {key: normalize_language(self._language(key)) for key in keys}
+        for key in keys:
+            other = ("v" if key.startswith("c") else "c") + key[1:]
+            if other in languages and languages[key] != languages[other]:
+                raise ValueError("Companion count/value keys must have the same language")
+            if languages[key] != "eng" and (
+                key in self.lemmatization or key in self.theme_dimensions
+            ):
+                raise ValueError("WordNet morphology and theme rules require English dimensions")
+        object.__setattr__(self, "languages", MappingProxyType(languages))
 
     def _normalize_dimensions(self):
         dimensions = {}
@@ -89,7 +214,10 @@ class GCAMLexicon:
             if isinstance(words, str):
                 raise TypeError("Dimension vocabulary must be a collection of tokens")
             values = frozenset(words)
-            if any(not isinstance(w, str) or tokenize_tone(w) != [w] for w in values):
+            if any(
+                not isinstance(w, str) or tokenize_gcam(w, self._language(key)) != [w]
+                for w in values
+            ):
                 raise ValueError("GCAM words must be normalized single tokens")
             dimensions[key] = values
         patterns = {}
@@ -100,7 +228,11 @@ class GCAMLexicon:
             terms = tuple(terms)
             if any(
                 not isinstance(p, str)
-                or not re.fullmatch(r"[\w'*? -]+", p)
+                or not (
+                    valid_native_pattern(p)
+                    if self._language(key) != "eng"
+                    else re.fullmatch(r"[\w'*? -]+", p)
+                )
                 or p != p.casefold()
                 or p != " ".join(p.split())
                 or not re.search(r"\w", p)
@@ -114,6 +246,10 @@ class GCAMLexicon:
         return dimensions, patterns
 
     def _normalize_scores(self, dimensions, patterns):
+        if set(self.emit_count) - set(self.weighted_dimensions) or any(
+            type(value) is not bool for value in self.emit_count.values()
+        ):
+            raise ValueError("emit_count requires boolean options for weighted dimensions")
         weighted: dict[str, Mapping[str, float]] = {}
         modes = {}
         for key, scores in self.weighted_dimensions.items():
@@ -130,7 +266,7 @@ class GCAMLexicon:
                     or not term
                     or term != term.casefold()
                     or any(c.isspace() for c in term)
-                    or (mode == "words" and tokenize_tone(term) != [term])
+                    or (mode == "words" and not valid_gcam_word(term, self._language(key)))
                 ):
                     raise ValueError("Weighted terms must match the selected tokenizer")
                 if (
@@ -141,9 +277,12 @@ class GCAMLexicon:
                     raise ValueError("Weighted scores must be finite numbers")
                 scores_by_term[term] = float(score)
             count_key = "c" + key[1:]
-            if dimensions.get(count_key) or count_key in patterns:
+            if self.emit_count.get(key, True) and (
+                dimensions.get(count_key) or count_key in patterns
+            ):
                 raise ValueError("A weighted score supplies its own companion match count")
-            dimensions.setdefault(count_key, frozenset())
+            if self.emit_count.get(key, True):
+                dimensions.setdefault(count_key, frozenset())
             weighted[key] = MappingProxyType(scores_by_term)
             modes[key] = mode
         if set(self.tokenization) - set(weighted):
@@ -162,13 +301,20 @@ class GCAMLexicon:
                 r.theme for r in self.theme_lexicon.rules
             }:
                 raise ValueError("Theme dimension requires a supported theme label")
-            if dimensions.get(key) or key in patterns or "v" + key[1:] in weighted:
+            if (
+                dimensions.get(key)
+                or key in patterns
+                or ("v" + key[1:] in weighted and self.emit_count.get("v" + key[1:], True))
+            ):
                 raise ValueError("Theme dimensions cannot also contain words, patterns or scores")
             dimensions.setdefault(key, frozenset())
         lemma_modes = dict(self.lemmatization)
         if set(lemma_modes) - set(dimensions) or any(v != "wordnet" for v in lemma_modes.values()):
             raise ValueError("Lemmatization must select wordnet for count dimensions")
-        if set(lemma_modes) & (set(self.theme_dimensions) | {"c" + k[1:] for k in weighted}):
+        if set(lemma_modes) & (
+            set(self.theme_dimensions)
+            | {"c" + k[1:] for k in weighted if self.emit_count.get(k, True)}
+        ):
             raise ValueError("Themes and weighted counts cannot select lemmatization")
         exceptions = {}
         for token, lemmas in self.exceptions.items():
@@ -237,7 +383,7 @@ def _load(payload):
     if not isinstance(payload, dict) or not isinstance(payload.get("dimensions"), list):
         raise ValueError("GCAM JSON requires a dimensions array")
     dimensions, weighted, modes, patterns, seen = {}, {}, {}, {}, set()
-    lemmatization, theme_dimensions = {}, {}
+    lemmatization, theme_dimensions, emit_count, languages = {}, {}, {}, {}
     for dimension in payload["dimensions"]:
         if not isinstance(dimension, dict) or "key" not in dimension:
             raise ValueError("GCAM dimensions require a key")
@@ -245,19 +391,20 @@ def _load(payload):
         if not isinstance(key, str) or key in seen:
             raise ValueError("Invalid or duplicate GCAM dimension key")
         seen.add(key)
+        if "language" in dimension:
+            languages[key] = dimension["language"]
         forms = set(dimension) & {"words", "scores", "patterns", "theme"}
         if len(forms) != 1:
             raise ValueError("A dimension requires exactly one of words, scores or patterns")
+        if "scores" not in forms and {"tokenization", "emit_count"} & dimension.keys():
+            raise ValueError("Tokenization and emit_count are options for weighted dimensions only")
         if "scores" in forms:
             weighted[key] = dimension["scores"]
             modes[key] = dimension.get("tokenization", "words")
+            emit_count[key] = dimension.get("emit_count", True)
         elif "theme" in forms:
-            if "tokenization" in dimension:
-                raise ValueError("Tokenization is an option for weighted dimensions only")
             theme_dimensions[key] = dimension["theme"]
         else:
-            if "tokenization" in dimension:
-                raise ValueError("Tokenization is an option for weighted dimensions only")
             form = next(iter(forms))
             if not isinstance(dimension[form], list):
                 raise ValueError("Words and patterns must be arrays")
@@ -284,6 +431,9 @@ def _load(payload):
         payload.get("exceptions", {}),
         theme_dimensions,
         theme_lexicon,
+        emit_count,
+        payload.get("exclusions", {}),
+        languages,
     )
 
 
@@ -305,9 +455,12 @@ class GCAMResult:
     implemented_dimensions: tuple[str, ...]
     lexicon_name: str
     values: Mapping[str, float] = field(default_factory=dict)
+    native_word_count: int | None = None
 
     def to_gkg(self):
         entries = [f"wc:{self.word_count}"]
+        if self.native_word_count is not None:
+            entries.append(f"nwc:{self.native_word_count}")
         for key in self.implemented_dimensions:
             if key in self.counts and self.counts[key]:
                 entries.append(f"{key}:{self.counts[key]}")
@@ -322,6 +475,31 @@ def _pattern_regex(patterns):
     for pattern in patterns:
         alternatives.append(re.escape(pattern).replace(r"\*", r"\S*").replace(r"\?", r"\S"))
     return re.compile(r"(?<!\S)(?:" + "|".join(alternatives) + r")(?!\S)")
+
+
+@lru_cache(maxsize=16)
+def _exclusion_trie(patterns):
+    trie: dict = {}
+    for pattern in patterns:
+        node = trie
+        for token in pattern.split():
+            node = node.setdefault(token, {})
+        node[None] = {"exclude": 0}
+    return _compile_wildcard_trie(trie)
+
+
+def _mask_exclusions(tokens, patterns):
+    trie = _exclusion_trie(patterns)
+    masked = list(tokens)
+    for start in range(len(tokens)):
+        nodes = [trie]
+        for end in range(start, len(tokens)):
+            nodes = _wildcard_children(nodes, tokens[end])
+            if not nodes:
+                break
+            if any(node["output"] for node in nodes):
+                masked[start : end + 1] = [None] * (end + 1 - start)
+    return masked
 
 
 def _compile_wildcard_trie(node):
@@ -351,6 +529,8 @@ def _wildcard_counts(tokens, trie):
         nodes = [trie]
         matches: dict[str, tuple[int, int]] = {}
         for end in range(start, len(tokens)):
+            if tokens[end] is None:
+                break
             token, next_nodes = tokens[end], []
             next_nodes = _wildcard_children(nodes, token)
             nodes = next_nodes
@@ -425,17 +605,76 @@ def _literal_counts(candidates, trie):
     return counts
 
 
-def analyze_gcam(text: str, *, lexicon: GCAMLexicon | None = None) -> GCAMResult:
+def analyze_gcam(
+    text: str,
+    *,
+    lexicon: GCAMLexicon | None = None,
+    disabled_dictionaries: Iterable[int | str] = (),
+    original_text: str | None = None,
+    original_language: str | None = None,
+) -> GCAMResult:
     """Counts and means of matched occurrences, without VADER sentence heuristics.
 
+    Text is prepared English. Optional original text is scored only by dictionaries
+    matching original_language, using the same contract for every source language.
     A supported zero-match count is sparse; its mean is undefined and omitted.
     A matched mean of zero is retained. Unsupported dimensions are uncomputed.
     """
-    tokens = tokenize_tone(text)
+    if (original_text is None) != (original_language is None):
+        raise ValueError("Supply original_text and original_language together")
+    native_language = (
+        normalize_language(original_language) if original_language is not None else None
+    )
+    if native_language == "eng":
+        raise ValueError("Original GCAM text must have a non-English language")
     lexicon = default_gcam_lexicon() if lexicon is None else lexicon
     if not isinstance(lexicon, GCAMLexicon):
         raise TypeError("lexicon must be GCAMLexicon")
+    lexicon = lexicon.without_dictionaries(disabled_dictionaries)
+    result = _analyze_language(text, lexicon.for_language("eng"), "eng")
+    if original_text is None:
+        return result
+    assert native_language is not None
+    native = _analyze_language(
+        original_text, lexicon.for_language(native_language), native_language
+    )
+    return GCAMResult(
+        result.word_count,
+        MappingProxyType({**result.counts, **native.counts}),
+        tuple(sorted((*result.implemented_dimensions, *native.implemented_dimensions), key=_order)),
+        result.lexicon_name,
+        MappingProxyType({**result.values, **native.values}),
+        native.word_count,
+    )
+
+
+def _analyze_language(text, lexicon, language):
+    tokens = tokenize_gcam(text, language)
+    if not lexicon.exclusions:
+        return _analyze_tokens(text, tokens, lexicon)
+    result = _analyze_tokens(
+        text, tokens, lexicon.without_dictionaries(map(int, lexicon.exclusions))
+    )
+    counts, values = dict(result.counts), dict(result.values)
+    present = {dictionary_id(key) for key in lexicon.implemented_dimensions}
+    for code, patterns in lexicon.exclusions.items():
+        selection = lexicon.without_dictionaries(present - {int(code)})
+        masked = _mask_exclusions(tokens, patterns)
+        part = _analyze_tokens(text, masked, selection)
+        counts.update(part.counts)
+        values.update(part.values)
+    return GCAMResult(
+        len(tokens),
+        MappingProxyType(counts),
+        lexicon.implemented_dimensions,
+        lexicon.name,
+        MappingProxyType(values),
+    )
+
+
+def _analyze_tokens(text, tokens, lexicon):
     frequencies = Counter(tokens)
+    frequencies.pop(None, None)
     counts = dict.fromkeys(lexicon.dimensions, 0)
     lemma_tokens = None
     for token, frequency in frequencies.items():
@@ -443,7 +682,7 @@ def analyze_gcam(text: str, *, lexicon: GCAMLexicon | None = None) -> GCAMResult
             counts[key] += frequency
     if lexicon.lemmatization:
         candidates = {token: _lemma_candidates(token, lexicon) for token in frequencies}
-        lemma_tokens = [candidates[token] for token in tokens]
+        lemma_tokens = [candidates[token] if token is not None else set() for token in tokens]
         for token, frequency in frequencies.items():
             lemma_keys = {
                 key for w in candidates[token] for key in lexicon._indices["wordnet"].get(w, ())
@@ -452,7 +691,11 @@ def analyze_gcam(text: str, *, lexicon: GCAMLexicon | None = None) -> GCAMResult
                 counts[key] += frequency
     for mode, trie in lexicon._tries.items():
         if trie:
-            stream = [{token} for token in tokens] if mode == "words" else lemma_tokens
+            stream = (
+                [set() if token is None else {token} for token in tokens]
+                if mode == "words"
+                else lemma_tokens
+            )
             counts.update(_literal_counts(stream, trie))
     if lexicon._wildcards:
         counts.update(_wildcard_counts(tokens, lexicon._wildcard_trie))
@@ -507,7 +750,8 @@ def _weighted_values(text, lexicon, frequencies, counts):
                     weighted_tokens[candidate] += 1
             matches = [(scores[token], count) for token, count in weighted_tokens.items()]
         count = sum(n for _, n in matches)
-        counts["c" + key[1:]] = count
+        if lexicon.emit_count[key]:
+            counts["c" + key[1:]] = count
         if count:
             values[key] = math.fsum(score * (n / count) for score, n in matches)
     return values

@@ -2,6 +2,33 @@
 
 This changelog records implementation changes and the research behind each version. Versions group the iterative work; dictionary revisions such as tone v3 are separate from package versions. Each Research section may contain the method, results and conclusions for that stage.
 
+## 2.1.0 GCAM update
+
+This release expands GCAM dictionary coverage, adds original-language analysis alongside English text, and improves multilingual benchmark reports.
+
+### GCAM analysis
+
+- Added the `v5` profile with 2,597 of 2,888 GCAM dimensions: 2,328 source-backed dimensions and 269 approximations. The inventory includes 2,296 English and 301 non-English dimensions. Build it with `--use v5` or `--use full`; the default profile remains `v3`.
+- Analyze English and original-language bodies together. Pass `original_text` and `original_language` to `analyze_gcam`, or `gcam_original_text` to `generate_gkg` with source-language metadata. GCAM emits the original-body word count as `nwc`; other fields and enhanced offsets continue to use the English body. See [multilingual GCAM](docs/reference/fields/gcam.md#translation).
+- Exclude selected dictionaries through `disabled_dictionaries` in `analyze_gcam`, `gcam_disabled_dictionaries` in `generate_gkg`, or benchmark `--gcam-disable`. Selectors accept dictionary names or native IDs.
+
+### Dictionary preparation
+
+- Expanded dictionary sources and import support, including translated RID, Spanish ANEW, multilingual Hedonometer and ML-SENTICON, and eMFD weighted scores. Chinese Hedonometer uses Jieba segmentation. Optional LIWC 2007 and MPQA imports provide 62 and 14 dimensions respectively; LIWC requires a user-supplied dictionary, and MPQA mirror downloads require explicit `--download-mpqa` permission.
+- Convert the original ANEW report into nine mean-rating dimensions for 1,034 words. French imagery can be imported from verified ratings or converted from the paper's rating bands using OCR or reviewed text. OCR requires a separately installed Tesseract engine. See [dictionary imports](docs/guides/dictionary-imports.md) for setup and commands.
+- Build coverage reports distinguish source-backed dimensions from authored theme rules and approximate French imagery scores, retaining source and review metadata. Broader vocabulary coverage does not establish closer agreement with native GKG output. See [profiles and coverage](docs/guides/resources.md#gcam-profiles-and-expansion).
+
+### Benchmarking
+
+- Evaluate multilingual GCAM using the English and original-language bodies available for each article. Reports include a language overview; `--gcam-language` filters scoring to one language, and `--gcam-split-languages` separates dictionary results by language.
+- Added label-macro and article-level agreement, errors for active category counts, weighted-score availability and per-dimension diagnostics. Presence and supported-presence metrics distinguish vocabulary gaps from agreement within the selected profile.
+- Added reproducible corpus sampling, body-size filtering, original-language article acquisition and publisher-cluster bootstrap intervals. Separate reports describe source provenance, approximations, sample selection and article-level differences.
+- Reports display dictionary and dimension names alongside native IDs, sort dimension identifiers numerically, and keep count and weighted-score results with their dictionary. CSV exports provide separate dimension keys and names. See [benchmarking](docs/guides/benchmarking.md) for workflows and report formats.
+
+### Documentation
+
+- Reorganized documentation into a quickstart, task guides, Python and CLI references, individual GKG field pages, evaluation results and migration instructions. Start at the [documentation index](docs/README.md).
+
 ## 2.0.0
 
 ### Changes
@@ -21,53 +48,9 @@ This changelog records implementation changes and the research behind each versi
 - Cached scalar and batch translation share language normalization, English passthrough, validation and key construction. Language verification stays in `translate_text`. A new cache-key namespace bypasses inconsistent older entries without deleting them.
 - Centralized offline resource resolution and retained authored fallback, historical build recipes and stable schema IDs. Split constructor/workflow helpers and enabled bounded complexity checks. Public factories now carry concrete return types.
 
-### Migration examples
+### Migration
 
-```python
-# Standalone fields: replace extract_counts(text).
-from gdelt_regkg.fields.counts import analyze_counts
-
-cell = analyze_counts(text).to_gkg()
-enhanced_cell = analyze_counts(text).to_gkg(enhanced=True)
-```
-
-```python
-from gdelt_regkg import RecordMetadata, Resources, generate_gkg
-from gdelt_regkg.fields.ner import SpacyNER
-from gdelt_regkg.fields.translation import translate_text
-
-metadata = RecordMetadata(
-    identifier="https://example.org/story",
-    batch_time="20261001091500",
-    sequence=1,
-    sharing_image="",
-    related_images=[],
-    social_image_embeds=[],
-    social_video_embeds=[],
-    extras={},
-)
-resources = Resources(resources_dir="local-resources", recognizer=SpacyNER.from_model())
-result = translate_text(source_body, language="fra", translator=backend)
-record = generate_gkg(
-    result.text,
-    RecordMetadata.from_translation(result, metadata),
-    resources,
-    overrides={"V1THEMES": "CUSTOM;"},
-    strict=True,
-)
-row = record.to_row()
-mapping = record.to_mapping()
-# Save result.text with this record: enhanced offsets refer to this body.
-```
-
-```python
-from gdelt_regkg.translation_cache import CachedTranslator
-
-with CachedTranslator(backend, "translations.sqlite", timeout=60) as cached:
-    result = translate_text(source_body, language="fra", translator=cached)
-```
-
-See [installation](docs/installation.md) for feature extras and explicit CPU/CUDA setup, and [API usage](docs/api-usage.md) for resource composition, batching and connection ownership.
+See the [2.0 migration guide](docs/migration.md#upgrade-to-20) for updated imports, record generation, translation and resource configuration.
 
 ## 1.3.0 Unified benchmarking
 
@@ -131,7 +114,7 @@ gdelt-regkg-cli build gcam --use full --sources-dir downloads/resources --downlo
 gdelt-regkg-cli build tone --use v2 --suffix experiment --sources-dir downloads/resources
 ```
 
-See the [maintained tools guide](docs/cli/README.md) for recipes and build options.
+See the [maintained tools guide](docs/reference/cli.md) for recipes and build options.
 
 ## 1.0.3 Zenodo integration and citation
 
@@ -516,7 +499,7 @@ The count categories remain approximate, and adding VADER does not alter GKG ton
 
 The remaining extraction fields were implemented: resolved locations in both columns, explicit calendar dates, numeric amounts with objects, all names and minimal GCAM. One entity pass supplies persons, organizations, locations and all names. Resolved geography is also passed to counts, and translated English bodies use the same extractors.
 
-The offline gazetteer preserves native feature identifiers and available GAUL ADM2 codes. It contains places observed in reference archives, so recognized names outside the snapshot remain unresolved rather than receiving invented geography. See [location limits](docs/fields/locations.md#limits). GCAM initially covers 8 of the codebook's 2,888 dimensions, using original General Inquirer categories with verified keys. Explicit dates use the `#` separators observed in archives; the benchmark also accepts the commas described in the codebook.
+The offline gazetteer preserves native feature identifiers and available GAUL ADM2 codes. It contains places observed in reference archives, so recognized names outside the snapshot remain unresolved rather than receiving invented geography. See [location limits](docs/reference/fields/locations.md#limitations). GCAM initially covers 8 of the codebook's 2,888 dimensions, using original General Inquirer categories with verified keys. Explicit dates use the `#` separators observed in archives; the benchmark also accepts the commas described in the codebook.
 
 | Geographic reference | Size |
 | --- | ---: |
@@ -873,7 +856,7 @@ The comparison uses identical test bodies and the same tokenizer. No numerical b
 | Sources absent from fitting and validation | 52 | 2.89 → 1.76 | 14.84 → 3.79 | 7.22 → 0.26 |
 | Word count within 10% of GDELT | 115 | 2.85 → 1.76 | 15.00 → 3.05 | 8.24 → 0.08 |
 
-Dictionary changes reduced tone error and substantially improved activity and self/group density. Word-count error did not change. The v2 profile remains reproducible for historical comparisons; the current default is v3 from [version 0.7.0](#070-seasonal-evaluation-and-revised-extraction). See [tone formulas](docs/fields/tone.md).
+Dictionary changes reduced tone error and substantially improved activity and self/group density. Word-count error did not change. The v2 profile remains reproducible for historical comparisons; the current default is v3 from [version 0.7.0](#070-seasonal-evaluation-and-revised-extraction). See [tone formulas](docs/reference/fields/tone.md).
 
 #### Count labels are sufficient, themes need expansion
 
@@ -1075,4 +1058,4 @@ The 287-label v2 profile was built by combining [authored crisis/count rules](sr
 | Crisis/count mappings | 446 | 37 | 8.02% | — |
 | With authored news mappings, v2 | 692 | 287 | 60.63% | +52.61 pp |
 
-The original [count profile](src/gdelt_regkg/resources/lexicons/counts.v1.json) uses quantity rules to emit the observed count labels. CrisisLexRec terms are imported separately under their [source terms](docs/cli/build.md#third-party-terms); EMTerms import is also supported. These inventories establish vocabulary coverage, not document-level precision or recall.
+The original [count profile](src/gdelt_regkg/resources/lexicons/counts.v1.json) uses quantity rules to emit the observed count labels. CrisisLexRec terms are imported separately under their [source terms](docs/reference/dictionaries.md#third-party-terms); EMTerms import is also supported. These inventories establish vocabulary coverage, not document-level precision or recall.

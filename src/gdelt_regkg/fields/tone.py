@@ -1,4 +1,4 @@
-"""Dictionary-frequency approximation of GKG tone; see docs/fields/tone.md.
+"""Dictionary-frequency approximation of GKG tone; see docs/reference/fields/tone.md.
 
 The locally built General Inquirer categories are NOT GDELT's production lexicon.
 No POS model, sentiment reasoning, negation inversion, or stopword removal.

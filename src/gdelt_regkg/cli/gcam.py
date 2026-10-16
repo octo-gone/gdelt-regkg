@@ -14,30 +14,107 @@ COMPONENT_SOURCES = {
     "wordnet-domains": ("wordnet-domains", "wordnet-20", "codebook"),
     "themes": ("crisislex", "codebook"),
     "lexicoder": ("lexicoder",),
+    "wordnet-affect-v1": ("wordnet-affect", "wordnet-16", "codebook"),
+    "sentiwords": ("sentiwords", "codebook"),
+    "general-inquirer-legacy": ("general-inquirer-legacy", "codebook"),
+    "themes-experimental": ("codebook",),
+    "themes-authored": ("codebook",),
 }
-STANDARD_COMPONENTS = (
-    "vader",
+for _component in (
+    "forest-values",
+    "lexicoder-topics",
+    "liwc",
+    "loughran-mcdonald",
+    "opinion-observer",
+    "rid",
+    "subjectivity",
+    "body-boundary",
+    "moral-foundations",
+    "hogenraad-motive",
+    "time",
+    "temperament",
+    "central-bank",
+    "sentiwordnet",
+    "anew",
+    "ml-senticon",
+    "hedonometer",
+    "emfd",
+    "rid-french",
+    "rid-portuguese",
+    "rid-swedish",
+    "rid-german",
+    "rid-hungarian",
+    "rid-russian",
+    "anew-spanish",
+    "french-imagery",
+    "portuguese-emotion",
+    "hogenraad-motive-french",
+    "hogenraad-motive-spanish",
+):
+    COMPONENT_SOURCES[_component] = (_component, "codebook")
+COMPONENT_SOURCES["ml-senticon-multilingual"] = (
+    "ml-senticon-ca",
+    "ml-senticon-es",
+    "ml-senticon-gl",
+    "codebook",
+)
+COMPONENT_SOURCES["hedonometer-multilingual"] = tuple(
+    "hedonometer-" + code
+    for code in ("ar", "de", "fr", "hi", "id", "ko", "pt", "ru", "es", "ur", "zh")
+) + ("codebook",)
+
+V1_COMPONENTS = ()
+V2_COMPONENTS = ("vader",)
+V3_COMPONENTS = (
+    *V2_COMPONENTS,
     "general-inquirer",
     "wordnet-lexical",
     "wordnet-affect",
     "wordnet-domains",
     "themes",
 )
+V4_COMPONENTS = (
+    *V3_COMPONENTS,
+    "roget",
+    "lexicoder",
+)
+V5_COMPONENTS = (
+    *V4_COMPONENTS,
+    "wordnet-affect-v1",
+    "sentiwords",
+    "general-inquirer-legacy",
+    "forest-values",
+    "lexicoder-topics",
+    "rid",
+    "body-boundary",
+    "opinion-observer",
+    "loughran-mcdonald",
+    "central-bank",
+    "sentiwordnet",
+    "moral-foundations",
+    "anew",
+    "hedonometer",
+    "emfd",
+    "ml-senticon",
+    "ml-senticon-multilingual",
+    "hedonometer-multilingual",
+    "anew-spanish",
+    "rid-french",
+    "rid-portuguese",
+    "rid-swedish",
+    "rid-german",
+    "rid-hungarian",
+    "themes-authored",
+    "french-imagery",
+)
 PROFILE_COMPONENTS = {
-    "v1": (),
-    "v2": ("vader",),
-    "v3": STANDARD_COMPONENTS,
-    "full": (*STANDARD_COMPONENTS, "roget", "lexicoder"),
+    "v1": V1_COMPONENTS,
+    "v2": V2_COMPONENTS,
+    "v3": V3_COMPONENTS,
+    "v4": V4_COMPONENTS,
+    "v5": V5_COMPONENTS,
 }
-# Native GCAM dictionary prefixes. Replacing one of these families must also
-# remove categories no longer present in the newly selected source or variant.
-COMPONENT_PREFIXES = {
-    "roget": "c9.",
-    "wordnet-affect": "c15.",
-    "wordnet-domains": "c16.",
-    "wordnet-lexical": "c17.",
-    "themes": "c18.",
-}
+PROFILE_ALIASES = {"full": "v5"}
 
 
 @dataclass(frozen=True)
@@ -49,6 +126,8 @@ class GCAMOptions:
     affect_nouns_only: bool = False
 
     def __post_init__(self):
+        if self.profile is not None:
+            object.__setattr__(self, "profile", PROFILE_ALIASES.get(self.profile, self.profile))
         if self.profile is not None and self.profile not in PROFILE_COMPONENTS:
             raise ValueError(f"Unknown GCAM profile: {self.profile}")
         if self.profile is not None and self.baseline is not None:
@@ -78,7 +157,8 @@ class GCAMOptions:
             "v1": "gcam.v1.json",
             "v2": "gcam.v2.json",
             "v3": "gcam.v3.json.gz",
-            "full": "gcam.full.json.gz",
+            "v4": "gcam.v4.json.gz",
+            "v5": "gcam.v5.json.gz",
         }[self.profile or "v3"]
 
     def required_sources(self) -> tuple[str, ...]:

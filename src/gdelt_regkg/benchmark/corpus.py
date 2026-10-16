@@ -10,7 +10,7 @@ from time import perf_counter
 from typing import Any
 
 from gdelt_regkg import IncompleteGKGWarning, RecordMetadata, Resources, generate_gkg
-from gdelt_regkg.fields.gcam import GCAMLexicon
+from gdelt_regkg.fields.gcam import GCAMLexicon, analyze_gcam
 from gdelt_regkg.fields.ner import (
     EntityMention,
     NameMention,
@@ -18,6 +18,7 @@ from gdelt_regkg.fields.ner import (
     SpacyNER,
     default_name_rules,
 )
+from gdelt_regkg.fields.translation import normalize_language
 from gdelt_regkg.pipeline import TEXT_COLUMNS
 from gdelt_regkg.types import NumericDateOrder, StrPath
 from gdelt_regkg.utils import GKG_COLUMNS
@@ -34,6 +35,10 @@ BODY_KEYS = {
     "status",
     "text",
     "text_sha256",
+    "original_text",
+    "original_language",
+    "original_text_sha256",
+    "gcam_native_only",
     "translated",
     "translation_pending",
     "translation",
@@ -55,6 +60,22 @@ NER_FIELDS = {
     "enhanced_locations",
     "all_names",
 }
+
+
+def _original_body(row, origin):
+    if row.get("original_text") is None:
+        if row.get("original_language") or row.get("original_text_sha256"):
+            raise ValueError(f"{origin}: original language/hash requires original_text")
+        return
+    if not isinstance(row["original_text"], str) or not row.get("original_language"):
+        raise ValueError(f"{origin}: original_text requires a string and original_language")
+    language = normalize_language(row["original_language"])
+    if language == "eng":
+        raise ValueError(f"{origin}: original_text must have a non-English language")
+    checksum = hashlib.sha256(row["original_text"].encode("utf-8")).hexdigest()
+    if row.get("original_text_sha256", checksum) != checksum:
+        raise ValueError(f"{origin}: original body checksum mismatch")
+    row.update(original_language=language, original_text_sha256=checksum)
 
 
 def load_corpus(paths, *, report, include_translated=False, destination=None):
@@ -83,8 +104,18 @@ def load_corpus(paths, *, report, include_translated=False, destination=None):
             checksum = hashlib.sha256(row["text"].encode("utf-8")).hexdigest()
             if row.get("text_sha256", checksum) != checksum:
                 raise ValueError(f"{origin}: saved body checksum mismatch")
+            _original_body(row, origin)
+            if row.get("gcam_native_only") and (
+                row["text"].strip() or row.get("original_text") is None
+            ):
+                raise ValueError(
+                    f"{origin}: gcam_native_only requires empty English text and original_text"
+                )
             key = (row.get("record_id", row.get("recordid")), document)
-            if key in rows and rows[key]["text"] != row["text"]:
+            if key in rows and any(
+                rows[key].get(field) != row.get(field)
+                for field in ("text", "original_text", "original_language")
+            ):
                 raise ValueError(f"{origin}: conflicting saved bodies for {document}")
             rows[key] = {k: v for k, v in row.items() if k in BODY_KEYS} | {
                 "text_sha256": checksum,
@@ -275,8 +306,27 @@ class _PredictionRun:
 
     def _prediction(self, reference, article, batch_ner):
         text = article["text"]
+        if article.get("gcam_native_only") and self.selected - {
+            "gcam",
+            "recordid",
+            "date",
+            "source_collection",
+            "source",
+            "document",
+        }:
+            raise ValueError("Native-only bodies can be benchmarked only with --fields gcam")
         ner, broad_names = self._entities(reference, article, batch_ner)
         overrides = self._overrides(article)
+        resources = Resources(
+            resources_dir=self.options.resources_dir, gcam_lexicon=self.options.gcam_lexicon
+        )
+        if article.get("original_text") is not None and "V2GCAM" not in overrides:
+            overrides["V2GCAM"] = analyze_gcam(
+                text,
+                lexicon=resources.gcam(),
+                original_text=article["original_text"],
+                original_language=article["original_language"],
+            ).to_gkg()
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", IncompleteGKGWarning)
             result = generate_gkg(
@@ -288,9 +338,7 @@ class _PredictionRun:
                     source_collection=int(reference.get("source_collection") or "1"),
                     source_name=reference.get("source"),
                 ),
-                Resources(
-                    resources_dir=self.options.resources_dir, gcam_lexicon=self.options.gcam_lexicon
-                ),
+                resources,
                 overrides=overrides,
                 ner_result=ner,
                 numeric_date_order=self.options.numeric_date_order,
@@ -311,6 +359,11 @@ class _PredictionRun:
             values["all_names"] = None
         if "translation" in self.selected:
             values["translation"] = article.get("translation", article.get("translation_info"))
+        values["_gcam_languages"] = json.dumps(
+            ([] if article.get("gcam_native_only") else ["eng"]) + [article["original_language"]]
+            if article.get("original_text") is not None
+            else ["eng"]
+        )
         row = GKGRow(values, article.get("url", article["document"]))
         return row
 

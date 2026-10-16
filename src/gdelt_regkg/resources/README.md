@@ -1,5 +1,7 @@
-# Build inputs
+# Packaged resource inputs
 
-This package directory contains authored rules, schemas, default revision names and source/replay checksums. External dictionaries, geographic references and the GCAM codebook are built into a separate directory. No third-party dictionary notices or vocabularies are shipped here.
+This directory contains authored rules, JSON schemas, build recipes, default revision names and source/replay checksums. External dictionaries, geographic references and the GCAM codebook are built into a separate directory. Third-party dictionary vocabularies are not shipped here.
 
-See [Installation](../../../docs/installation.md) for package and model setup, [Build resources](../../../docs/cli/build.md) for sources and conversion formats, and [API usage](../../../docs/api-usage.md#resource-selection) for resource selection. Runtime directories are selected through `resources_dir=` in Python or `--resources-dir` in the CLI; the default is `local-resources/` under the working directory. Explicit resource objects override the defaults.
+See [installation](../../../docs/installation.md) for dependencies and models, [resource preparation](../../../docs/guides/resources.md) for builds and resource selection, and [dictionary imports](../../../docs/guides/dictionary-imports.md) for specialized conversion procedures. The [dictionary reference](../../../docs/reference/dictionaries.md) records sources, terms and citations.
+
+Select a runtime resource root with `resources_dir=` in Python or `--resources-dir` in the CLI. The default is `local-resources/` under the working directory; explicit resource objects override directory selections.

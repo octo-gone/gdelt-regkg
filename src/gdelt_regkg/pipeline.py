@@ -114,10 +114,24 @@ def _paired_fields(text, resources, supplied, count_locations):
     return values
 
 
-def _scalar_fields(text, resources, supplied, numeric_date_order):
+def _scalar_fields(
+    text,
+    resources,
+    supplied,
+    numeric_date_order,
+    gcam_disabled_dictionaries,
+    original_text,
+    original_language,
+):
     analyzers = {
         "V1.5TONE": lambda: analyze_tone(text, lexicon=resources.tone()).to_gkg(),
-        "V2GCAM": lambda: analyze_gcam(text, lexicon=resources.gcam()).to_gkg(),
+        "V2GCAM": lambda: analyze_gcam(
+            text,
+            lexicon=resources.gcam(),
+            disabled_dictionaries=gcam_disabled_dictionaries,
+            original_text=original_text,
+            original_language=original_language if original_text is not None else None,
+        ).to_gkg(),
         "V2.1ENHANCEDDATES": lambda: analyze_dates(text, numeric_order=numeric_date_order).to_gkg(),
         "V2.1AMOUNTS": lambda: analyze_amounts(text, numeric_order=numeric_date_order).to_gkg(),
         "V2.1QUOTATIONS": lambda: analyze_quotations(text).to_gkg(),
@@ -149,6 +163,8 @@ def generate_gkg(
     ner_result: NERResult | None = None,
     count_locations: Iterable[CountLocation] = (),
     numeric_date_order: NumericDateOrder | None = None,
+    gcam_disabled_dictionaries: Iterable[int | str] = (),
+    gcam_original_text: str | None = None,
     strict: bool = False,
 ) -> GKGRecord:
     """Analyze prepared English text. Enhanced offsets index this exact body.
@@ -175,7 +191,17 @@ def generate_gkg(
     )
     values.update(entities)
     values.update(_paired_fields(text, resources, supplied, locations))
-    values.update(_scalar_fields(text, resources, supplied, numeric_date_order))
+    values.update(
+        _scalar_fields(
+            text,
+            resources,
+            supplied,
+            numeric_date_order,
+            gcam_disabled_dictionaries,
+            gcam_original_text,
+            metadata.source_language,
+        )
+    )
     values.update(_metadata_fields(metadata, supplied))
     values.update(supplied)
     record = GKGRecord.from_mapping(values)

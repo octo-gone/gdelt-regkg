@@ -1,9 +1,24 @@
 ## Project
 
-local-resources/
+# Dev
 tmp/
 output/
 research/
+
+# Library
+downloads/
+local-resources/
+
+# External dictionary profiles and GCAM data
+/src/gdelt_regkg/resources/lexicons/tone.*.json
+/src/gdelt_regkg/resources/lexicons/themes.*.json
+/src/gdelt_regkg/resources/lexicons/gcam.*
+/src/gdelt_regkg/resources/lexicons/locations.*
+/src/gdelt_regkg/resources/gcam/
+
+# Local translation cache and SQLite sidecar files
+/translations.sqlite
+/translations.sqlite-*
 
 ## Common
 

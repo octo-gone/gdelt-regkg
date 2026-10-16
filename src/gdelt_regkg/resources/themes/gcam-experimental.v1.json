@@ -1,0 +1,4469 @@
+{
+  "$schema": "../schemas/theme-rules.schema.json",
+  "schema": "reconstruct-gkg/theme-rules/v1",
+  "name": "gcam-authored-experimental-v1",
+  "status": "experimental; authored phrases, not recovered GDELT rules; no measured native agreement",
+  "sources": [
+    {
+      "type": "locally_authored_approximation",
+      "resource": "gcam-authored-experimental-v1"
+    }
+  ],
+  "rules": [
+    {
+      "id": "gcam-experimental-political-turmoil",
+      "kind": "literal",
+      "expression": "political turmoil",
+      "aliases": [
+        "political unrest"
+      ],
+      "labels": [
+        "POLITICAL_TURMOIL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-property-rights",
+      "kind": "literal",
+      "expression": "property rights",
+      "aliases": [
+        "land ownership rights"
+      ],
+      "labels": [
+        "PROPERTY_RIGHTS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-grievances",
+      "kind": "literal",
+      "expression": "grievances",
+      "aliases": [
+        "public grievance"
+      ],
+      "labels": [
+        "GRIEVANCES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-austerity",
+      "kind": "literal",
+      "expression": "austerity",
+      "aliases": [
+        "spending cuts"
+      ],
+      "labels": [
+        "AUSTERITY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-hate-speech",
+      "kind": "literal",
+      "expression": "hate speech",
+      "aliases": [
+        "racial slurs"
+      ],
+      "labels": [
+        "HATE_SPEECH"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-bullying",
+      "kind": "literal",
+      "expression": "bullying",
+      "aliases": [
+        "cyberbullying"
+      ],
+      "labels": [
+        "BULLYING"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-black-market",
+      "kind": "literal",
+      "expression": "black market",
+      "aliases": [
+        "black markets"
+      ],
+      "labels": [
+        "BLACK_MARKET"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-jihad",
+      "kind": "literal",
+      "expression": "jihad",
+      "aliases": [
+        "jihadist"
+      ],
+      "labels": [
+        "JIHAD"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-claim-credit",
+      "kind": "literal",
+      "expression": "claimed responsibility",
+      "aliases": [
+        "claim of responsibility"
+      ],
+      "labels": [
+        "CLAIM_CREDIT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-ratify",
+      "kind": "literal",
+      "expression": "ratify",
+      "aliases": [
+        "ratification",
+        "ratified"
+      ],
+      "labels": [
+        "RATIFY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-veto",
+      "kind": "literal",
+      "expression": "veto",
+      "aliases": [
+        "vetoed"
+      ],
+      "labels": [
+        "VETO"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-exhumation",
+      "kind": "literal",
+      "expression": "exhumation",
+      "aliases": [
+        "exhumed"
+      ],
+      "labels": [
+        "EXHUMATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-relations",
+      "kind": "literal",
+      "expression": "bilateral relations",
+      "aliases": [
+        "diplomatic relations"
+      ],
+      "labels": [
+        "RELATIONS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-retaliate",
+      "kind": "literal",
+      "expression": "retaliation",
+      "aliases": [
+        "retaliatory attack"
+      ],
+      "labels": [
+        "RETALIATE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-defection",
+      "kind": "literal",
+      "expression": "defection",
+      "aliases": [
+        "defected"
+      ],
+      "labels": [
+        "DEFECTION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-treason",
+      "kind": "literal",
+      "expression": "treason",
+      "aliases": [
+        "treasonous"
+      ],
+      "labels": [
+        "TREASON"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-whistleblower",
+      "kind": "literal",
+      "expression": "whistleblower",
+      "aliases": [
+        "whistleblowers",
+        "whistleblowing"
+      ],
+      "labels": [
+        "WHISTLEBLOWER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-self-identified-atrocity",
+      "kind": "literal",
+      "expression": "atrocity",
+      "aliases": [
+        "atrocities"
+      ],
+      "labels": [
+        "SELF_IDENTIFIED_ATROCITY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-vandalize",
+      "kind": "literal",
+      "expression": "vandalism",
+      "aliases": [
+        "vandalized"
+      ],
+      "labels": [
+        "VANDALIZE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-developmentorgs",
+      "kind": "literal",
+      "expression": "world bank",
+      "aliases": [
+        "international monetary fund",
+        "asian development bank"
+      ],
+      "labels": [
+        "ECON_DEVELOPMENTORGS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-crime-cartels",
+      "kind": "literal",
+      "expression": "drug cartel",
+      "aliases": [
+        "drug cartels",
+        "criminal cartel"
+      ],
+      "labels": [
+        "CRIME_CARTELS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-tax-cartels",
+      "kind": "literal",
+      "expression": "sinaloa cartel",
+      "aliases": [
+        "jalisco new generation cartel",
+        "gulf cartel"
+      ],
+      "labels": [
+        "TAX_CARTELS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-crime-illegal-drugs",
+      "kind": "literal",
+      "expression": "drug trafficking",
+      "aliases": [
+        "illegal drugs",
+        "narcotics trafficking"
+      ],
+      "labels": [
+        "CRIME_ILLEGAL_DRUGS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-food-staple",
+      "kind": "literal",
+      "expression": "rice",
+      "aliases": [
+        "wheat",
+        "maize",
+        "potatoes"
+      ],
+      "labels": [
+        "FOOD_STAPLE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      },
+      "requires_all": [
+        [
+          "food",
+          "crop",
+          "crops",
+          "harvest",
+          "grain",
+          "agriculture",
+          "hunger",
+          "farming"
+        ]
+      ]
+    },
+    {
+      "id": "gcam-experimental-political-prisoner",
+      "kind": "literal",
+      "expression": "political prisoner",
+      "aliases": [
+        "political prisoners"
+      ],
+      "labels": [
+        "POLITICAL_PRISONER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-extremism",
+      "kind": "literal",
+      "expression": "extremism",
+      "aliases": [
+        "violent extremism"
+      ],
+      "labels": [
+        "EXTREMISM"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-propaganda",
+      "kind": "literal",
+      "expression": "propaganda",
+      "aliases": [
+        "propagandist"
+      ],
+      "labels": [
+        "PROPAGANDA"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-take-office",
+      "kind": "literal",
+      "expression": "took office",
+      "aliases": [
+        "takes office",
+        "sworn into office"
+      ],
+      "labels": [
+        "TAKE_OFFICE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-trade-dispute",
+      "kind": "literal",
+      "expression": "trade dispute",
+      "aliases": [
+        "trade war",
+        "tariff dispute"
+      ],
+      "labels": [
+        "ECON_TRADE_DISPUTE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-legalize",
+      "kind": "literal",
+      "expression": "legalization",
+      "aliases": [
+        "legalisation",
+        "legalize",
+        "legalise"
+      ],
+      "labels": [
+        "LEGALIZE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-crime-common-robbery",
+      "kind": "literal",
+      "expression": "robbery",
+      "aliases": [
+        "armed robbery"
+      ],
+      "labels": [
+        "CRIME_COMMON_ROBBERY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-unions",
+      "kind": "literal",
+      "expression": "trade union",
+      "aliases": [
+        "labor union",
+        "labour union"
+      ],
+      "labels": [
+        "ECON_UNIONS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-bankruptcy",
+      "kind": "literal",
+      "expression": "bankruptcy",
+      "aliases": [
+        "bankruptcies",
+        "insolvency"
+      ],
+      "labels": [
+        "ECON_BANKRUPTCY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-mil-weapons-proliferation",
+      "kind": "literal",
+      "expression": "weapons proliferation",
+      "aliases": [
+        "nuclear proliferation"
+      ],
+      "labels": [
+        "MIL_WEAPONS_PROLIFERATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-mil-self-identified-arms-deal",
+      "kind": "literal",
+      "expression": "arms deal",
+      "aliases": [
+        "weapons sale",
+        "arms sales"
+      ],
+      "labels": [
+        "MIL_SELF_IDENTIFIED_ARMS_DEAL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-currency-reserves",
+      "kind": "literal",
+      "expression": "currency reserves",
+      "aliases": [
+        "foreign exchange reserves"
+      ],
+      "labels": [
+        "ECON_CURRENCY_RESERVES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-currency-exchange-rate",
+      "kind": "literal",
+      "expression": "exchange rate",
+      "aliases": [
+        "exchange rates"
+      ],
+      "labels": [
+        "ECON_CURRENCY_EXCHANGE_RATE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-earningsreport",
+      "kind": "literal",
+      "expression": "earnings report",
+      "aliases": [
+        "quarterly earnings",
+        "annual earnings"
+      ],
+      "labels": [
+        "ECON_EARNINGSREPORT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-ipo",
+      "kind": "literal",
+      "expression": "initial public offering",
+      "aliases": [
+        "initial public offerings"
+      ],
+      "labels": [
+        "ECON_IPO"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-landmine",
+      "kind": "literal",
+      "expression": "landmine",
+      "aliases": [
+        "landmines",
+        "anti-personnel mine"
+      ],
+      "labels": [
+        "LANDMINE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-fuelprices",
+      "kind": "literal",
+      "expression": "fuel prices",
+      "aliases": [
+        "petrol prices",
+        "diesel prices"
+      ],
+      "labels": [
+        "FUELPRICES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-peacekeeping",
+      "kind": "literal",
+      "expression": "peacekeeping",
+      "aliases": [
+        "peacekeepers"
+      ],
+      "labels": [
+        "PEACEKEEPING"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-military-cooperation",
+      "kind": "literal",
+      "expression": "military cooperation",
+      "aliases": [
+        "defence cooperation",
+        "defense cooperation"
+      ],
+      "labels": [
+        "MILITARY_COOPERATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-new-construction",
+      "kind": "literal",
+      "expression": "new construction",
+      "aliases": [
+        "construction project",
+        "broke ground"
+      ],
+      "labels": [
+        "NEW_CONSTRUCTION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      },
+      "requires_all": [
+        [
+          "building",
+          "housing",
+          "bridge",
+          "road",
+          "railway",
+          "hospital",
+          "plant",
+          "construction"
+        ]
+      ]
+    },
+    {
+      "id": "gcam-experimental-organized-crime",
+      "kind": "literal",
+      "expression": "organized crime",
+      "aliases": [
+        "organised crime"
+      ],
+      "labels": [
+        "ORGANIZED_CRIME"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-state-of-emergency",
+      "kind": "literal",
+      "expression": "state of emergency",
+      "aliases": [
+        "emergency declaration"
+      ],
+      "labels": [
+        "STATE_OF_EMERGENCY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-curfew",
+      "kind": "literal",
+      "expression": "curfew",
+      "aliases": [
+        "curfews"
+      ],
+      "labels": [
+        "CURFEW"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-suicide-attack",
+      "kind": "literal",
+      "expression": "suicide attack",
+      "aliases": [
+        "suicide bombing",
+        "suicide bomber"
+      ],
+      "labels": [
+        "SUICIDE_ATTACK"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-exile",
+      "kind": "literal",
+      "expression": "exile",
+      "aliases": [
+        "exiled"
+      ],
+      "labels": [
+        "EXILE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-confiscation",
+      "kind": "literal",
+      "expression": "confiscation",
+      "aliases": [
+        "confiscated"
+      ],
+      "labels": [
+        "CONFISCATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-maritime-incident-self-identified",
+      "kind": "literal",
+      "expression": "maritime incident",
+      "aliases": [
+        "ship collision",
+        "shipwreck"
+      ],
+      "labels": [
+        "MARITIME_INCIDENT_SELF_IDENTIFIED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-food-security",
+      "kind": "literal",
+      "expression": "food security",
+      "aliases": [
+        "food insecurity"
+      ],
+      "labels": [
+        "FOOD_SECURITY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-water-security",
+      "kind": "literal",
+      "expression": "water security",
+      "aliases": [
+        "water insecurity",
+        "water shortages"
+      ],
+      "labels": [
+        "WATER_SECURITY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-sanitation",
+      "kind": "literal",
+      "expression": "sanitation",
+      "aliases": [
+        "sewage treatment"
+      ],
+      "labels": [
+        "SANITATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-privatization",
+      "kind": "literal",
+      "expression": "privatization",
+      "aliases": [
+        "privatisation"
+      ],
+      "labels": [
+        "PRIVATIZATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-justice",
+      "kind": "literal",
+      "expression": "criminal justice",
+      "aliases": [
+        "social justice",
+        "justice system"
+      ],
+      "labels": [
+        "JUSTICE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-retirement",
+      "kind": "literal",
+      "expression": "retirement",
+      "aliases": [
+        "retired"
+      ],
+      "labels": [
+        "RETIREMENT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-democracy",
+      "kind": "literal",
+      "expression": "democracy",
+      "aliases": [
+        "democracies"
+      ],
+      "labels": [
+        "DEMOCRACY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-human-trafficking",
+      "kind": "literal",
+      "expression": "human trafficking",
+      "aliases": [
+        "trafficking victims"
+      ],
+      "labels": [
+        "HUMAN_TRAFFICKING"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-smuggling",
+      "kind": "literal",
+      "expression": "smuggling",
+      "aliases": [
+        "smugglers"
+      ],
+      "labels": [
+        "SMUGGLING"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-slums",
+      "kind": "literal",
+      "expression": "slum",
+      "aliases": [
+        "slums",
+        "informal settlements"
+      ],
+      "labels": [
+        "SLUMS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-movement-social",
+      "kind": "literal",
+      "expression": "social movement",
+      "aliases": [
+        "grassroots movement"
+      ],
+      "labels": [
+        "MOVEMENT_SOCIAL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-income-inequality",
+      "kind": "literal",
+      "expression": "income inequality",
+      "aliases": [
+        "wealth inequality"
+      ],
+      "labels": [
+        "INCOME_INEQUALITY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-movement-womens",
+      "kind": "literal",
+      "expression": "women's movement",
+      "aliases": [
+        "feminist movement"
+      ],
+      "labels": [
+        "MOVEMENT_WOMENS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-movement-environmental",
+      "kind": "literal",
+      "expression": "environmental movement",
+      "aliases": [
+        "climate movement"
+      ],
+      "labels": [
+        "MOVEMENT_ENVIRONMENTAL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-gender-violence",
+      "kind": "literal",
+      "expression": "gender-based violence",
+      "aliases": [
+        "violence against women"
+      ],
+      "labels": [
+        "GENDER_VIOLENCE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-disability",
+      "kind": "literal",
+      "expression": "disability",
+      "aliases": [
+        "disabilities"
+      ],
+      "labels": [
+        "DISABILITY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-lgbt",
+      "kind": "literal",
+      "expression": "lgbt",
+      "aliases": [
+        "lgbtq",
+        "lgbtqia",
+        "same-sex marriage"
+      ],
+      "labels": [
+        "LGBT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-persecution",
+      "kind": "literal",
+      "expression": "persecution",
+      "aliases": [
+        "persecuted"
+      ],
+      "labels": [
+        "PERSECUTION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-human-rights-abuses",
+      "kind": "literal",
+      "expression": "human rights abuses",
+      "aliases": [
+        "human rights violations"
+      ],
+      "labels": [
+        "HUMAN_RIGHTS_ABUSES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-freespeech",
+      "kind": "literal",
+      "expression": "free speech",
+      "aliases": [
+        "freedom of expression"
+      ],
+      "labels": [
+        "FREESPEECH"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-self-identified-humanitarian-crisis",
+      "kind": "literal",
+      "expression": "humanitarian crisis",
+      "aliases": [
+        "humanitarian catastrophe"
+      ],
+      "labels": [
+        "SELF_IDENTIFIED_HUMANITARIAN_CRISIS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-torture",
+      "kind": "literal",
+      "expression": "torture",
+      "aliases": [
+        "tortured"
+      ],
+      "labels": [
+        "TORTURE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-unsafe-work-environment",
+      "kind": "literal",
+      "expression": "unsafe working conditions",
+      "aliases": [
+        "unsafe workplace",
+        "workplace hazards"
+      ],
+      "labels": [
+        "UNSAFE_WORK_ENVIRONMENT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-unemployment",
+      "kind": "literal",
+      "expression": "unemployment",
+      "aliases": [
+        "joblessness"
+      ],
+      "labels": [
+        "UNEMPLOYMENT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-sanctions",
+      "kind": "literal",
+      "expression": "economic sanctions",
+      "aliases": [
+        "trade sanctions",
+        "sanctions imposed"
+      ],
+      "labels": [
+        "SANCTIONS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-death-penalty",
+      "kind": "literal",
+      "expression": "death penalty",
+      "aliases": [
+        "capital punishment"
+      ],
+      "labels": [
+        "DEATH_PENALTY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-internet-blackout",
+      "kind": "literal",
+      "expression": "internet blackout",
+      "aliases": [
+        "internet shutdown"
+      ],
+      "labels": [
+        "INTERNET_BLACKOUT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-phone-outage",
+      "kind": "literal",
+      "expression": "phone outage",
+      "aliases": [
+        "telephone outage",
+        "mobile network outage"
+      ],
+      "labels": [
+        "PHONE_OUTAGE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-internet-censorship",
+      "kind": "literal",
+      "expression": "internet censorship",
+      "aliases": [
+        "online censorship"
+      ],
+      "labels": [
+        "INTERNET_CENSORSHIP"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-media-censorship",
+      "kind": "literal",
+      "expression": "media censorship",
+      "aliases": [
+        "press censorship"
+      ],
+      "labels": [
+        "MEDIA_CENSORSHIP"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-piracy",
+      "kind": "literal",
+      "expression": "maritime piracy",
+      "aliases": [
+        "pirate attack",
+        "pirated software"
+      ],
+      "labels": [
+        "PIRACY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-election-fraud",
+      "kind": "literal",
+      "expression": "election fraud",
+      "aliases": [
+        "electoral fraud",
+        "vote rigging"
+      ],
+      "labels": [
+        "ELECTION_FRAUD"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-rebellion",
+      "kind": "literal",
+      "expression": "rebellion",
+      "aliases": [
+        "armed uprising"
+      ],
+      "labels": [
+        "REBELLION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-resignation",
+      "kind": "literal",
+      "expression": "resignation",
+      "aliases": [
+        "resigned"
+      ],
+      "labels": [
+        "RESIGNATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-retirements",
+      "kind": "literal",
+      "expression": "retirements",
+      "aliases": [
+        "retiring"
+      ],
+      "labels": [
+        "RETIREMENTS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-impeachment",
+      "kind": "literal",
+      "expression": "impeachment",
+      "aliases": [
+        "impeached"
+      ],
+      "labels": [
+        "IMPEACHMENT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-drug-trade",
+      "kind": "literal",
+      "expression": "drug trade",
+      "aliases": [
+        "drug trafficking"
+      ],
+      "labels": [
+        "DRUG_TRADE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-medical-security",
+      "kind": "literal",
+      "expression": "medical supply shortage",
+      "aliases": [
+        "medicine shortage",
+        "access to medicines"
+      ],
+      "labels": [
+        "MEDICAL_SECURITY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-cyber-attack",
+      "kind": "literal",
+      "expression": "cyberattack",
+      "aliases": [
+        "cyber attack",
+        "ransomware attack"
+      ],
+      "labels": [
+        "CYBER_ATTACK"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-self-identified-environ-disaster",
+      "kind": "literal",
+      "expression": "environmental disaster",
+      "aliases": [
+        "ecological disaster"
+      ],
+      "labels": [
+        "SELF_IDENTIFIED_ENVIRON_DISASTER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-monopoly",
+      "kind": "literal",
+      "expression": "monopoly",
+      "aliases": [
+        "monopolies",
+        "antitrust"
+      ],
+      "labels": [
+        "ECON_MONOPOLY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-locusts",
+      "kind": "literal",
+      "expression": "locust",
+      "aliases": [
+        "locusts"
+      ],
+      "labels": [
+        "LOCUSTS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-aviation-incident",
+      "kind": "literal",
+      "expression": "plane crash",
+      "aliases": [
+        "aircraft crash",
+        "aviation accident"
+      ],
+      "labels": [
+        "AVIATION_INCIDENT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-rail-incident",
+      "kind": "literal",
+      "expression": "train derailment",
+      "aliases": [
+        "train collision",
+        "rail accident"
+      ],
+      "labels": [
+        "RAIL_INCIDENT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-road-incident",
+      "kind": "literal",
+      "expression": "road accident",
+      "aliases": [
+        "car crash",
+        "traffic collision"
+      ],
+      "labels": [
+        "ROAD_INCIDENT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-pipeline-incident",
+      "kind": "literal",
+      "expression": "pipeline leak",
+      "aliases": [
+        "pipeline explosion",
+        "pipeline rupture"
+      ],
+      "labels": [
+        "PIPELINE_INCIDENT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-manmade-disaster",
+      "kind": "literal",
+      "expression": "man-made disaster",
+      "aliases": [
+        "industrial disaster"
+      ],
+      "labels": [
+        "MANMADE_DISASTER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-power-outage",
+      "kind": "literal",
+      "expression": "power outage",
+      "aliases": [
+        "power cut",
+        "electricity outage"
+      ],
+      "labels": [
+        "POWER_OUTAGE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-env-carboncapture",
+      "kind": "literal",
+      "expression": "carbon capture",
+      "aliases": [
+        "carbon sequestration"
+      ],
+      "labels": [
+        "ENV_CARBONCAPTURE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-env-nuclearpower",
+      "kind": "literal",
+      "expression": "nuclear power",
+      "aliases": [
+        "nuclear energy"
+      ],
+      "labels": [
+        "ENV_NUCLEARPOWER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-env-hydro",
+      "kind": "literal",
+      "expression": "hydropower",
+      "aliases": [
+        "hydroelectric power"
+      ],
+      "labels": [
+        "ENV_HYDRO"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-env-coal",
+      "kind": "literal",
+      "expression": "coal mining",
+      "aliases": [
+        "coal-fired power",
+        "coal power"
+      ],
+      "labels": [
+        "ENV_COAL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-env-naturalgas",
+      "kind": "literal",
+      "expression": "natural gas",
+      "aliases": [
+        "liquefied natural gas"
+      ],
+      "labels": [
+        "ENV_NATURALGAS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-env-windpower",
+      "kind": "literal",
+      "expression": "wind power",
+      "aliases": [
+        "wind farm",
+        "wind turbines"
+      ],
+      "labels": [
+        "ENV_WINDPOWER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-env-geothermal",
+      "kind": "literal",
+      "expression": "geothermal energy",
+      "aliases": [
+        "geothermal power"
+      ],
+      "labels": [
+        "ENV_GEOTHERMAL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-env-biofuel",
+      "kind": "literal",
+      "expression": "biofuel",
+      "aliases": [
+        "biofuels"
+      ],
+      "labels": [
+        "ENV_BIOFUEL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-literacy",
+      "kind": "literal",
+      "expression": "literacy",
+      "aliases": [
+        "illiteracy"
+      ],
+      "labels": [
+        "LITERACY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-checkpoint",
+      "kind": "literal",
+      "expression": "military checkpoint",
+      "aliases": [
+        "security checkpoint",
+        "border checkpoint"
+      ],
+      "labels": [
+        "CHECKPOINT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-traffic",
+      "kind": "literal",
+      "expression": "traffic congestion",
+      "aliases": [
+        "traffic jam",
+        "road traffic"
+      ],
+      "labels": [
+        "TRAFFIC"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-infrastructure-bad-roads",
+      "kind": "literal",
+      "expression": "potholes",
+      "aliases": [
+        "crumbling roads",
+        "poor road conditions"
+      ],
+      "labels": [
+        "INFRASTRUCTURE_BAD_ROADS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-subsidies",
+      "kind": "literal",
+      "expression": "subsidies",
+      "aliases": [
+        "government subsidy"
+      ],
+      "labels": [
+        "ECON_SUBSIDIES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-deregulation",
+      "kind": "literal",
+      "expression": "deregulation",
+      "aliases": [
+        "deregulate"
+      ],
+      "labels": [
+        "ECON_DEREGULATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-nationalize",
+      "kind": "literal",
+      "expression": "nationalization",
+      "aliases": [
+        "nationalisation",
+        "nationalized"
+      ],
+      "labels": [
+        "ECON_NATIONALIZE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-health-vaccination",
+      "kind": "literal",
+      "expression": "vaccination",
+      "aliases": [
+        "vaccinations",
+        "immunization",
+        "immunisation"
+      ],
+      "labels": [
+        "HEALTH_VACCINATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-health-sextransdisease",
+      "kind": "literal",
+      "expression": "sexually transmitted infection",
+      "aliases": [
+        "sexually transmitted disease"
+      ],
+      "labels": [
+        "HEALTH_SEXTRANSDISEASE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-tax-terror-group",
+      "kind": "literal",
+      "expression": "al-qaeda",
+      "aliases": [
+        "boko haram",
+        "islamic state"
+      ],
+      "labels": [
+        "TAX_TERROR_GROUP"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-ideology",
+      "kind": "literal",
+      "expression": "ideology",
+      "aliases": [
+        "ideological"
+      ],
+      "labels": [
+        "IDEOLOGY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-gentrification",
+      "kind": "literal",
+      "expression": "gentrification",
+      "aliases": [
+        "gentrified"
+      ],
+      "labels": [
+        "GENTRIFICATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-population-density",
+      "kind": "literal",
+      "expression": "population density",
+      "aliases": [
+        "densely populated"
+      ],
+      "labels": [
+        "POPULATION_DENSITY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-urban-sprawl",
+      "kind": "literal",
+      "expression": "urban sprawl",
+      "aliases": [
+        "urban expansion"
+      ],
+      "labels": [
+        "URBAN_SPRAWL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-insurgency",
+      "kind": "literal",
+      "expression": "insurgency",
+      "aliases": [
+        "insurgents"
+      ],
+      "labels": [
+        "INSURGENCY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-rebels",
+      "kind": "literal",
+      "expression": "rebel fighters",
+      "aliases": [
+        "rebel forces",
+        "rebels"
+      ],
+      "labels": [
+        "REBELS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-separatists",
+      "kind": "literal",
+      "expression": "separatist",
+      "aliases": [
+        "separatists",
+        "separatism"
+      ],
+      "labels": [
+        "SEPARATISTS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-ungoverned",
+      "kind": "literal",
+      "expression": "ungoverned territory",
+      "aliases": [
+        "ungoverned spaces"
+      ],
+      "labels": [
+        "UNGOVERNED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-recruitment",
+      "kind": "literal",
+      "expression": "military recruitment",
+      "aliases": [
+        "recruitment campaign"
+      ],
+      "labels": [
+        "RECRUITMENT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-slfid-rule-of-law",
+      "kind": "literal",
+      "expression": "rule of law",
+      "aliases": [],
+      "labels": [
+        "SLFID_RULE_OF_LAW"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-slfid-military-readiness",
+      "kind": "literal",
+      "expression": "military readiness",
+      "aliases": [
+        "combat readiness"
+      ],
+      "labels": [
+        "SLFID_MILITARY_READINESS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-slfid-military-buildup",
+      "kind": "literal",
+      "expression": "military buildup",
+      "aliases": [
+        "military build-up"
+      ],
+      "labels": [
+        "SLFID_MILITARY_BUILDUP"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-remittance",
+      "kind": "literal",
+      "expression": "remittances",
+      "aliases": [
+        "migrant remittance"
+      ],
+      "labels": [
+        "ECON_REMITTANCE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-informal-economy",
+      "kind": "literal",
+      "expression": "informal economy",
+      "aliases": [
+        "informal sector"
+      ],
+      "labels": [
+        "ECON_INFORMAL_ECONOMY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-slfid-peace-building",
+      "kind": "literal",
+      "expression": "peace building",
+      "aliases": [
+        "peacebuilding"
+      ],
+      "labels": [
+        "SLFID_PEACE_BUILDING"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-slfid-capacity-building",
+      "kind": "literal",
+      "expression": "capacity building",
+      "aliases": [
+        "capacity-building"
+      ],
+      "labels": [
+        "SLFID_CAPACITY_BUILDING"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-slfid-economic-development",
+      "kind": "literal",
+      "expression": "economic development",
+      "aliases": [],
+      "labels": [
+        "SLFID_ECONOMIC_DEVELOPMENT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-slfid-economic-developmentaid",
+      "kind": "literal",
+      "expression": "development aid",
+      "aliases": [
+        "development assistance"
+      ],
+      "labels": [
+        "SLFID_ECONOMIC_DEVELOPMENTAID"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-slfid-civil-liberties",
+      "kind": "literal",
+      "expression": "civil liberties",
+      "aliases": [],
+      "labels": [
+        "SLFID_CIVIL_LIBERTIES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-slfid-dictatorship",
+      "kind": "literal",
+      "expression": "dictatorship",
+      "aliases": [
+        "dictatorships"
+      ],
+      "labels": [
+        "SLFID_DICTATORSHIP"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-slfid-military-spending",
+      "kind": "literal",
+      "expression": "military spending",
+      "aliases": [
+        "defense spending",
+        "defence spending"
+      ],
+      "labels": [
+        "SLFID_MILITARY_SPENDING"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-firearm-ownership",
+      "kind": "literal",
+      "expression": "gun ownership",
+      "aliases": [
+        "firearm ownership"
+      ],
+      "labels": [
+        "FIREARM_OWNERSHIP"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-slfid-economic-power",
+      "kind": "literal",
+      "expression": "economic power",
+      "aliases": [],
+      "labels": [
+        "SLFID_ECONOMIC_POWER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-slfid-political-boundaries",
+      "kind": "literal",
+      "expression": "political boundaries",
+      "aliases": [
+        "national borders"
+      ],
+      "labels": [
+        "SLFID_POLITICAL_BOUNDARIES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-env-overfish",
+      "kind": "literal",
+      "expression": "overfishing",
+      "aliases": [
+        "overfished"
+      ],
+      "labels": [
+        "ENV_OVERFISH"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-env-deforestation",
+      "kind": "literal",
+      "expression": "deforestation",
+      "aliases": [
+        "forest clearance"
+      ],
+      "labels": [
+        "ENV_DEFORESTATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-env-forestry",
+      "kind": "literal",
+      "expression": "forestry",
+      "aliases": [
+        "forest management"
+      ],
+      "labels": [
+        "ENV_FORESTRY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-slfid-mineral-resources",
+      "kind": "literal",
+      "expression": "mineral resources",
+      "aliases": [
+        "mineral deposits"
+      ],
+      "labels": [
+        "SLFID_MINERAL_RESOURCES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-env-mining",
+      "kind": "literal",
+      "expression": "mining",
+      "aliases": [
+        "mine extraction"
+      ],
+      "labels": [
+        "ENV_MINING"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-env-fishery",
+      "kind": "literal",
+      "expression": "fishery",
+      "aliases": [
+        "fisheries"
+      ],
+      "labels": [
+        "ENV_FISHERY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-tax-weapons",
+      "kind": "literal",
+      "expression": "assault rifle",
+      "aliases": [
+        "machine gun",
+        "ballistic missile",
+        "hand grenade"
+      ],
+      "labels": [
+        "TAX_WEAPONS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-info-rumor",
+      "kind": "literal",
+      "expression": "rumor",
+      "aliases": [
+        "rumour",
+        "rumors",
+        "rumours"
+      ],
+      "labels": [
+        "INFO_RUMOR"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-info-hoax",
+      "kind": "literal",
+      "expression": "hoax",
+      "aliases": [
+        "hoaxes"
+      ],
+      "labels": [
+        "INFO_HOAX"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-rel-antisemitism",
+      "kind": "literal",
+      "expression": "antisemitism",
+      "aliases": [
+        "anti-semitism",
+        "antisemitic"
+      ],
+      "labels": [
+        "REL_ANTISEMITISM"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-eth-indiginous",
+      "kind": "literal",
+      "expression": "indigenous peoples",
+      "aliases": [
+        "indigenous communities",
+        "aboriginal people"
+      ],
+      "labels": [
+        "ETH_INDIGINOUS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-gov-intergovernmental",
+      "kind": "literal",
+      "expression": "intergovernmental",
+      "aliases": [
+        "inter-governmental"
+      ],
+      "labels": [
+        "GOV_INTERGOVERNMENTAL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-gov-repatriation",
+      "kind": "literal",
+      "expression": "repatriation",
+      "aliases": [
+        "repatriated"
+      ],
+      "labels": [
+        "GOV_REPATRIATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-gov-dissolvegov",
+      "kind": "literal",
+      "expression": "dissolved parliament",
+      "aliases": [
+        "dissolution of parliament",
+        "government dissolved"
+      ],
+      "labels": [
+        "GOV_DISSOLVEGOV"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-gov-reform",
+      "kind": "literal",
+      "expression": "government reform",
+      "aliases": [
+        "constitutional reform",
+        "political reform"
+      ],
+      "labels": [
+        "GOV_REFORM"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-gov-divisionofpower",
+      "kind": "literal",
+      "expression": "separation of powers",
+      "aliases": [
+        "division of powers"
+      ],
+      "labels": [
+        "GOV_DIVISIONOFPOWER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-freetrade",
+      "kind": "literal",
+      "expression": "free trade",
+      "aliases": [
+        "free-trade agreement"
+      ],
+      "labels": [
+        "ECON_FREETRADE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-foreigninvest",
+      "kind": "literal",
+      "expression": "foreign investment",
+      "aliases": [
+        "foreign direct investment"
+      ],
+      "labels": [
+        "ECON_FOREIGNINVEST"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-pricecontrol",
+      "kind": "literal",
+      "expression": "price controls",
+      "aliases": [
+        "price ceiling",
+        "price cap"
+      ],
+      "labels": [
+        "ECON_PRICECONTROL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-env-speciesendangered",
+      "kind": "literal",
+      "expression": "endangered species",
+      "aliases": [
+        "critically endangered"
+      ],
+      "labels": [
+        "ENV_SPECIESENDANGERED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-env-speciesextinct",
+      "kind": "literal",
+      "expression": "extinct species",
+      "aliases": [
+        "species extinction"
+      ],
+      "labels": [
+        "ENV_SPECIESEXTINCT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-act-harmthreaten",
+      "kind": "literal",
+      "expression": "death threat",
+      "aliases": [
+        "threatened to kill",
+        "threat of violence"
+      ],
+      "labels": [
+        "ACT_HARMTHREATEN"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-act-yield",
+      "kind": "literal",
+      "expression": "surrendered",
+      "aliases": [
+        "laid down their arms",
+        "capitulated"
+      ],
+      "labels": [
+        "ACT_YIELD"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-act-makestatement",
+      "kind": "literal",
+      "expression": "issued a statement",
+      "aliases": [
+        "said in a statement"
+      ],
+      "labels": [
+        "ACT_MAKESTATEMENT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-suspiciousactivities",
+      "kind": "literal",
+      "expression": "suspicious activity",
+      "aliases": [
+        "suspicious activities"
+      ],
+      "labels": [
+        "SOC_SUSPICIOUSACTIVITIES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-suspiciouspeople",
+      "kind": "literal",
+      "expression": "suspicious person",
+      "aliases": [
+        "suspicious individuals"
+      ],
+      "labels": [
+        "SOC_SUSPICIOUSPEOPLE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-trafficaccident",
+      "kind": "literal",
+      "expression": "traffic accident",
+      "aliases": [
+        "traffic accidents"
+      ],
+      "labels": [
+        "SOC_TRAFFICACCIDENT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-boycott",
+      "kind": "literal",
+      "expression": "boycott",
+      "aliases": [
+        "boycotts",
+        "boycotted"
+      ],
+      "labels": [
+        "ECON_BOYCOTT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-unrest-hungerstrike",
+      "kind": "literal",
+      "expression": "hunger strike",
+      "aliases": [
+        "hunger strikers"
+      ],
+      "labels": [
+        "UNREST_HUNGERSTRIKE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-unrest-stoning",
+      "kind": "literal",
+      "expression": "stoning",
+      "aliases": [
+        "stoned to death"
+      ],
+      "labels": [
+        "UNREST_STONING"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-unrest-molotovcocktail",
+      "kind": "literal",
+      "expression": "molotov cocktail",
+      "aliases": [
+        "molotov cocktails"
+      ],
+      "labels": [
+        "UNREST_MOLOTOVCOCKTAIL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-unrest-policebrutality",
+      "kind": "literal",
+      "expression": "police brutality",
+      "aliases": [
+        "police violence"
+      ],
+      "labels": [
+        "UNREST_POLICEBRUTALITY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-unrest-checkpoint",
+      "kind": "literal",
+      "expression": "protest checkpoint",
+      "aliases": [
+        "protester roadblock"
+      ],
+      "labels": [
+        "UNREST_CHECKPOINT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-unrest-closingborder",
+      "kind": "literal",
+      "expression": "border closure",
+      "aliases": [
+        "closed the border",
+        "closing the border"
+      ],
+      "labels": [
+        "UNREST_CLOSINGBORDER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-unrest-stonethrowing",
+      "kind": "literal",
+      "expression": "stone throwing",
+      "aliases": [
+        "stone-throwing",
+        "threw stones"
+      ],
+      "labels": [
+        "UNREST_STONETHROWING"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-massmigration",
+      "kind": "literal",
+      "expression": "mass migration",
+      "aliases": [
+        "mass exodus"
+      ],
+      "labels": [
+        "SOC_MASSMIGRATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-forcedrelocation",
+      "kind": "literal",
+      "expression": "forced relocation",
+      "aliases": [
+        "forcible displacement"
+      ],
+      "labels": [
+        "SOC_FORCEDRELOCATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-act-forceposture",
+      "kind": "literal",
+      "expression": "troop deployment",
+      "aliases": [
+        "military deployment",
+        "deployed troops"
+      ],
+      "labels": [
+        "ACT_FORCEPOSTURE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-judicialcoop",
+      "kind": "literal",
+      "expression": "judicial cooperation",
+      "aliases": [
+        "mutual legal assistance"
+      ],
+      "labels": [
+        "SOC_JUDICIALCOOP"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-econcoop",
+      "kind": "literal",
+      "expression": "economic cooperation",
+      "aliases": [],
+      "labels": [
+        "SOC_ECONCOOP"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-diplomcoop",
+      "kind": "literal",
+      "expression": "diplomatic cooperation",
+      "aliases": [],
+      "labels": [
+        "SOC_DIPLOMCOOP"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-diplomrecog",
+      "kind": "literal",
+      "expression": "diplomatic recognition",
+      "aliases": [
+        "recognized as a state"
+      ],
+      "labels": [
+        "SOC_DIPLOMRECOG"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-intelsharing",
+      "kind": "literal",
+      "expression": "intelligence sharing",
+      "aliases": [
+        "intelligence-sharing"
+      ],
+      "labels": [
+        "SOC_INTELSHARING"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-expresssupport",
+      "kind": "literal",
+      "expression": "expressed support",
+      "aliases": [
+        "expressed solidarity"
+      ],
+      "labels": [
+        "SOC_EXPRESSSUPPORT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-pardon",
+      "kind": "literal",
+      "expression": "presidential pardon",
+      "aliases": [
+        "pardoned",
+        "granted a pardon"
+      ],
+      "labels": [
+        "SOC_PARDON"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-expressregret",
+      "kind": "literal",
+      "expression": "expressed regret",
+      "aliases": [
+        "expressed remorse"
+      ],
+      "labels": [
+        "SOC_EXPRESSREGRET"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-mou",
+      "kind": "literal",
+      "expression": "memorandum of understanding",
+      "aliases": [
+        "memoranda of understanding"
+      ],
+      "labels": [
+        "ECON_MOU"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-cutoutlook",
+      "kind": "literal",
+      "expression": "cut its forecast",
+      "aliases": [
+        "lowered its forecast",
+        "downgraded the outlook"
+      ],
+      "labels": [
+        "ECON_CUTOUTLOOK"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-pol-hostvisit",
+      "kind": "literal",
+      "expression": "state visit",
+      "aliases": [
+        "official visit"
+      ],
+      "labels": [
+        "POL_HOSTVISIT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-ransom",
+      "kind": "literal",
+      "expression": "ransom",
+      "aliases": [
+        "ransom demand"
+      ],
+      "labels": [
+        "SOC_RANSOM"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-burialpractices",
+      "kind": "literal",
+      "expression": "burial practices",
+      "aliases": [
+        "funeral rites",
+        "cremation"
+      ],
+      "labels": [
+        "SOC_BURIALPRACTICES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-quarantine",
+      "kind": "literal",
+      "expression": "quarantine",
+      "aliases": [
+        "quarantined"
+      ],
+      "labels": [
+        "SOC_QUARANTINE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-policemilitarization",
+      "kind": "literal",
+      "expression": "police militarization",
+      "aliases": [
+        "police militarisation",
+        "militarized police"
+      ],
+      "labels": [
+        "SOC_POLICEMILITARIZATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-bubble",
+      "kind": "literal",
+      "expression": "housing bubble",
+      "aliases": [
+        "asset bubble",
+        "economic bubble"
+      ],
+      "labels": [
+        "ECON_BUBBLE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-deflation",
+      "kind": "literal",
+      "expression": "deflation",
+      "aliases": [
+        "deflationary"
+      ],
+      "labels": [
+        "ECON_DEFLATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-underemployment",
+      "kind": "literal",
+      "expression": "underemployment",
+      "aliases": [
+        "underemployed"
+      ],
+      "labels": [
+        "ECON_UNDEREMPLOYMENT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-identitytheft",
+      "kind": "literal",
+      "expression": "identity theft",
+      "aliases": [
+        "stolen identities"
+      ],
+      "labels": [
+        "ECON_IDENTITYTHEFT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-agingpopulation",
+      "kind": "literal",
+      "expression": "aging population",
+      "aliases": [
+        "ageing population"
+      ],
+      "labels": [
+        "SOC_AGINGPOPULATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-middleclass",
+      "kind": "literal",
+      "expression": "middle class",
+      "aliases": [
+        "middle-class"
+      ],
+      "labels": [
+        "ECON_MIDDLECLASS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-workingclass",
+      "kind": "literal",
+      "expression": "working class",
+      "aliases": [
+        "working-class"
+      ],
+      "labels": [
+        "ECON_WORKINGCLASS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-emergingecon",
+      "kind": "literal",
+      "expression": "emerging economy",
+      "aliases": [
+        "emerging economies",
+        "emerging markets"
+      ],
+      "labels": [
+        "ECON_EMERGINGECON"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-polarized",
+      "kind": "literal",
+      "expression": "political polarization",
+      "aliases": [
+        "political polarisation",
+        "polarized society"
+      ],
+      "labels": [
+        "SOC_POLARIZED"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-chronicdisease",
+      "kind": "literal",
+      "expression": "chronic disease",
+      "aliases": [
+        "chronic illness"
+      ],
+      "labels": [
+        "SOC_CHRONICDISEASE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-refugeecamp",
+      "kind": "literal",
+      "expression": "refugee camp",
+      "aliases": [
+        "refugee camps"
+      ],
+      "labels": [
+        "SOC_REFUGEECAMP"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-selfimmolation",
+      "kind": "literal",
+      "expression": "self-immolation",
+      "aliases": [
+        "set himself on fire",
+        "set herself on fire"
+      ],
+      "labels": [
+        "SOC_SELFIMMOLATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-degradingtreatment",
+      "kind": "literal",
+      "expression": "degrading treatment",
+      "aliases": [
+        "inhumane treatment"
+      ],
+      "labels": [
+        "SOC_DEGRADINGTREATMENT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-tax-aidgroups",
+      "kind": "literal",
+      "expression": "red cross",
+      "aliases": [
+        "red crescent",
+        "doctors without borders",
+        "oxfam"
+      ],
+      "labels": [
+        "TAX_AIDGROUPS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-aidassistance",
+      "kind": "literal",
+      "expression": "humanitarian aid",
+      "aliases": [
+        "humanitarian assistance",
+        "disaster relief"
+      ],
+      "labels": [
+        "SOC_AIDASSISTANCE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-emerg-emergshelter",
+      "kind": "literal",
+      "expression": "emergency shelter",
+      "aliases": [
+        "emergency shelters"
+      ],
+      "labels": [
+        "EMERG_EMERGSHELTER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-emerg-fieldhospital",
+      "kind": "literal",
+      "expression": "field hospital",
+      "aliases": [
+        "field hospitals"
+      ],
+      "labels": [
+        "EMERG_FIELDHOSPITAL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-emergingtech",
+      "kind": "literal",
+      "expression": "emerging technology",
+      "aliases": [
+        "emerging technologies"
+      ],
+      "labels": [
+        "SOC_EMERGINGTECH"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-med-counterfeitdrugs",
+      "kind": "literal",
+      "expression": "counterfeit medicines",
+      "aliases": [
+        "counterfeit drugs",
+        "fake medicines"
+      ],
+      "labels": [
+        "MED_COUNTERFEITDRUGS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-counterfeitmoney",
+      "kind": "literal",
+      "expression": "counterfeit money",
+      "aliases": [
+        "counterfeit currency",
+        "counterfeit banknotes"
+      ],
+      "labels": [
+        "ECON_COUNTERFEITMONEY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-counterfeitfood",
+      "kind": "literal",
+      "expression": "counterfeit food",
+      "aliases": [
+        "food adulteration"
+      ],
+      "labels": [
+        "SOC_COUNTERFEITFOOD"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-earlymarriage",
+      "kind": "literal",
+      "expression": "child marriage",
+      "aliases": [
+        "early marriage"
+      ],
+      "labels": [
+        "SOC_EARLYMARRIAGE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-childsoldier",
+      "kind": "literal",
+      "expression": "child soldier",
+      "aliases": [
+        "child soldiers"
+      ],
+      "labels": [
+        "SOC_CHILDSOLDIER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-sexjihad",
+      "kind": "literal",
+      "expression": "sexual jihad",
+      "aliases": [
+        "sex jihad"
+      ],
+      "labels": [
+        "SOC_SEXJIHAD"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-slavery",
+      "kind": "literal",
+      "expression": "slavery",
+      "aliases": [
+        "enslavement",
+        "enslaved"
+      ],
+      "labels": [
+        "SOC_SLAVERY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-indservitude",
+      "kind": "literal",
+      "expression": "indentured servitude",
+      "aliases": [
+        "bonded labor",
+        "bonded labour"
+      ],
+      "labels": [
+        "SOC_INDSERVITUDE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-goldprice",
+      "kind": "literal",
+      "expression": "gold price",
+      "aliases": [
+        "gold prices",
+        "price of gold"
+      ],
+      "labels": [
+        "ECON_GOLDPRICE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-gasolineprice",
+      "kind": "literal",
+      "expression": "gasoline prices",
+      "aliases": [
+        "gasoline price",
+        "petrol prices"
+      ],
+      "labels": [
+        "ECON_GASOLINEPRICE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-heatingoil",
+      "kind": "literal",
+      "expression": "heating oil",
+      "aliases": [],
+      "labels": [
+        "ECON_HEATINGOIL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-heatingoilprice",
+      "kind": "literal",
+      "expression": "heating oil prices",
+      "aliases": [
+        "price of heating oil"
+      ],
+      "labels": [
+        "ECON_HEATINGOILPRICE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-propane",
+      "kind": "literal",
+      "expression": "propane",
+      "aliases": [],
+      "labels": [
+        "ECON_PROPANE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-propaneprice",
+      "kind": "literal",
+      "expression": "propane prices",
+      "aliases": [
+        "price of propane"
+      ],
+      "labels": [
+        "ECON_PROPANEPRICE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-electricalgeneration",
+      "kind": "literal",
+      "expression": "electricity generation",
+      "aliases": [
+        "electrical generation",
+        "power generation"
+      ],
+      "labels": [
+        "ECON_ELECTRICALGENERATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-electricalgrid",
+      "kind": "literal",
+      "expression": "electrical grid",
+      "aliases": [
+        "electricity grid",
+        "power grid"
+      ],
+      "labels": [
+        "ECON_ELECTRICALGRID"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-electricaldemand",
+      "kind": "literal",
+      "expression": "electricity demand",
+      "aliases": [
+        "power demand"
+      ],
+      "labels": [
+        "ECON_ELECTRICALDEMAND"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-electricalloadshedding",
+      "kind": "literal",
+      "expression": "load shedding",
+      "aliases": [
+        "load-shedding",
+        "rolling blackouts"
+      ],
+      "labels": [
+        "ECON_ELECTRICALLOADSHEDDING"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-electricalprice",
+      "kind": "literal",
+      "expression": "electricity prices",
+      "aliases": [
+        "electricity tariffs",
+        "power prices"
+      ],
+      "labels": [
+        "ECON_ELECTRICALPRICE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-newpowerplant",
+      "kind": "literal",
+      "expression": "new power plant",
+      "aliases": [
+        "new power station"
+      ],
+      "labels": [
+        "ECON_NEWPOWERPLANT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-natgasprice",
+      "kind": "literal",
+      "expression": "natural gas prices",
+      "aliases": [
+        "natural gas price"
+      ],
+      "labels": [
+        "ECON_NATGASPRICE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-effigy",
+      "kind": "literal",
+      "expression": "effigy",
+      "aliases": [
+        "effigies"
+      ],
+      "labels": [
+        "SOC_EFFIGY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-marginalize",
+      "kind": "literal",
+      "expression": "social marginalization",
+      "aliases": [
+        "social marginalisation",
+        "marginalized communities"
+      ],
+      "labels": [
+        "SOC_MARGINALIZE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-pricegouge",
+      "kind": "literal",
+      "expression": "price gouging",
+      "aliases": [
+        "price-gouging"
+      ],
+      "labels": [
+        "ECON_PRICEGOUGE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-med-medicaltourism",
+      "kind": "literal",
+      "expression": "medical tourism",
+      "aliases": [
+        "medical tourists"
+      ],
+      "labels": [
+        "MED_MEDICALTOURISM"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-technologysector",
+      "kind": "literal",
+      "expression": "technology sector",
+      "aliases": [
+        "tech sector"
+      ],
+      "labels": [
+        "SOC_TECHNOLOGYSECTOR"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-moneylaundering",
+      "kind": "literal",
+      "expression": "money laundering",
+      "aliases": [
+        "money-laundering"
+      ],
+      "labels": [
+        "ECON_MONEYLAUNDERING"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-econ-bitcoin",
+      "kind": "literal",
+      "expression": "bitcoin",
+      "aliases": [
+        "bitcoins"
+      ],
+      "labels": [
+        "ECON_BITCOIN"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-exceptionalism",
+      "kind": "literal",
+      "expression": "exceptionalism",
+      "aliases": [],
+      "labels": [
+        "SOC_EXCEPTIONALISM"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-tax-worldbirds",
+      "kind": "literal",
+      "expression": "eagle",
+      "aliases": [
+        "eagles",
+        "sparrow",
+        "sparrows",
+        "penguin",
+        "penguins"
+      ],
+      "labels": [
+        "TAX_WORLDBIRDS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      },
+      "requires_all": [
+        [
+          "bird",
+          "birds",
+          "wildlife",
+          "species",
+          "nest",
+          "habitat",
+          "conservation"
+        ]
+      ]
+    },
+    {
+      "id": "gcam-experimental-econ-foreignbanks",
+      "kind": "literal",
+      "expression": "foreign banks",
+      "aliases": [
+        "foreign bank"
+      ],
+      "labels": [
+        "ECON_FOREIGNBANKS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-mil-mercenaries",
+      "kind": "literal",
+      "expression": "mercenary",
+      "aliases": [
+        "mercenaries"
+      ],
+      "labels": [
+        "MIL_MERCENARIES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-tax-chronicdisease",
+      "kind": "literal",
+      "expression": "diabetes",
+      "aliases": [
+        "hypertension",
+        "chronic obstructive pulmonary disease"
+      ],
+      "labels": [
+        "TAX_CHRONICDISEASE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-tax-worldreptiles",
+      "kind": "literal",
+      "expression": "crocodile",
+      "aliases": [
+        "crocodiles",
+        "alligator",
+        "alligators",
+        "tortoise",
+        "tortoises"
+      ],
+      "labels": [
+        "TAX_WORLDREPTILES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      },
+      "requires_all": [
+        [
+          "reptile",
+          "reptiles",
+          "wildlife",
+          "species",
+          "habitat",
+          "conservation"
+        ]
+      ]
+    },
+    {
+      "id": "gcam-experimental-tax-worldinsects",
+      "kind": "literal",
+      "expression": "mosquito",
+      "aliases": [
+        "mosquitoes",
+        "beetle",
+        "beetles",
+        "butterfly",
+        "butterflies"
+      ],
+      "labels": [
+        "TAX_WORLDINSECTS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      },
+      "requires_all": [
+        [
+          "insect",
+          "insects",
+          "wildlife",
+          "species",
+          "habitat",
+          "pest",
+          "pests"
+        ]
+      ]
+    },
+    {
+      "id": "gcam-experimental-tax-agriculharminsects",
+      "kind": "literal",
+      "expression": "locust",
+      "aliases": [
+        "locusts",
+        "aphid",
+        "aphids",
+        "bollworm",
+        "bollworms"
+      ],
+      "labels": [
+        "TAX_AGRICULHARMINSECTS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-tax-worldarachnids",
+      "kind": "literal",
+      "expression": "scorpion",
+      "aliases": [
+        "scorpions",
+        "tarantula",
+        "tarantulas"
+      ],
+      "labels": [
+        "TAX_WORLDARACHNIDS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      },
+      "requires_all": [
+        [
+          "arachnid",
+          "arachnids",
+          "wildlife",
+          "species",
+          "venom",
+          "habitat"
+        ]
+      ]
+    },
+    {
+      "id": "gcam-experimental-tax-worldmyriapoda",
+      "kind": "literal",
+      "expression": "centipede",
+      "aliases": [
+        "centipedes",
+        "millipede",
+        "millipedes"
+      ],
+      "labels": [
+        "TAX_WORLDMYRIAPODA"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-tax-worldcrustaceans",
+      "kind": "literal",
+      "expression": "lobster",
+      "aliases": [
+        "lobsters",
+        "krill",
+        "crayfish"
+      ],
+      "labels": [
+        "TAX_WORLDCRUSTACEANS"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      },
+      "requires_all": [
+        [
+          "crustacean",
+          "crustaceans",
+          "marine",
+          "ocean",
+          "fishery",
+          "fisheries",
+          "species"
+        ]
+      ]
+    },
+    {
+      "id": "gcam-experimental-emerg-distresssignal",
+      "kind": "literal",
+      "expression": "distress signal",
+      "aliases": [
+        "distress call",
+        "mayday call"
+      ],
+      "labels": [
+        "EMERG_DISTRESSSIGNAL"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-med-emergencyroom",
+      "kind": "literal",
+      "expression": "emergency room",
+      "aliases": [
+        "emergency department"
+      ],
+      "labels": [
+        "MED_EMERGENCYROOM"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-rel-islamophobia",
+      "kind": "literal",
+      "expression": "islamophobia",
+      "aliases": [
+        "islamophobic"
+      ],
+      "labels": [
+        "REL_ISLAMOPHOBIA"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-rel-islamization",
+      "kind": "literal",
+      "expression": "islamization",
+      "aliases": [
+        "islamisation"
+      ],
+      "labels": [
+        "REL_ISLAMIZATION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-crm-arson",
+      "kind": "literal",
+      "expression": "arson",
+      "aliases": [
+        "arsonist"
+      ],
+      "labels": [
+        "CRM_ARSON"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-crm-bombthreat",
+      "kind": "literal",
+      "expression": "bomb threat",
+      "aliases": [
+        "bomb threats"
+      ],
+      "labels": [
+        "CRM_BOMBTHREAT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-fascism",
+      "kind": "literal",
+      "expression": "fascism",
+      "aliases": [
+        "fascist"
+      ],
+      "labels": [
+        "SOC_FASCISM"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-emerg-shelterinplace",
+      "kind": "literal",
+      "expression": "shelter in place",
+      "aliases": [
+        "shelter-in-place"
+      ],
+      "labels": [
+        "EMERG_SHELTERINPLACE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-emerg-masscasualty",
+      "kind": "literal",
+      "expression": "mass casualty",
+      "aliases": [
+        "mass-casualty"
+      ],
+      "labels": [
+        "EMERG_MASSCASUALTY"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-emerg-suspiciouspackage",
+      "kind": "literal",
+      "expression": "suspicious package",
+      "aliases": [
+        "suspicious parcel"
+      ],
+      "labels": [
+        "EMERG_SUSPICIOUSPACKAGE"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-soc-servicedisruption",
+      "kind": "literal",
+      "expression": "service disruption",
+      "aliases": [
+        "service disruptions"
+      ],
+      "labels": [
+        "SOC_SERVICEDISRUPTION"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-emerg-industrialaccident",
+      "kind": "literal",
+      "expression": "industrial accident",
+      "aliases": [
+        "factory accident"
+      ],
+      "labels": [
+        "EMERG_INDUSTRIALACCIDENT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-emerg-hazmat",
+      "kind": "literal",
+      "expression": "hazmat",
+      "aliases": [
+        "hazardous materials incident"
+      ],
+      "labels": [
+        "EMERG_HAZMAT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-experimental-leg-constitutionalamendment",
+      "kind": "literal",
+      "expression": "constitutional amendment",
+      "aliases": [
+        "amendment to the constitution"
+      ],
+      "labels": [
+        "LEG_CONSTITUTIONALAMENDMENT"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_gcam_experiment",
+        "native_agreement": "unmeasured"
+      }
+    },
+    {
+      "id": "gcam-authored-movement-other",
+      "kind": "literal",
+      "expression": "civil rights movement",
+      "aliases": [
+        "antiwar movement",
+        "anti-war movement",
+        "peace movement",
+        "student movement"
+      ],
+      "labels": [
+        "MOVEMENT_OTHER"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_approximation",
+        "native_agreement": "unmeasured",
+        "scope": "explicit named civil-rights, peace, antiwar and student movements; not a generic movement catch-all"
+      }
+    },
+    {
+      "id": "gcam-authored-special-issues",
+      "kind": "literal",
+      "expression": "obamacare",
+      "aliases": [
+        "obama care",
+        "affordable care act",
+        "affordable healthcare act"
+      ],
+      "labels": [
+        "TAX_SPECIAL_ISSUES"
+      ],
+      "status": "enabled",
+      "provenance": {
+        "source": "locally_authored_approximation",
+        "native_agreement": "unmeasured",
+        "scope": "public child taxonomy labels; not recovered native matching rules",
+        "reference": "https://data.gdeltproject.org/api/v2/guides/LOOKUP-GKGTHEMES.TXT"
+      }
+    }
+  ],
+  "deferred_categories": [
+    "TAX_SPECIALDEATH"
+  ]
+}

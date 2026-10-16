@@ -1,94 +1,40 @@
 # Documentation
 
-The library implements all 27 GKG columns from prepared article text and supplied metadata.
+`gdelt-regkg` reconstructs GDELT GKG records from prepared article text and supplied metadata. Library **approximates** GDELT processing for text-derived fields, metadata fields are supplied by the caller and format according to GDELT.
 
-| Guide | Contents |
+## Get started
+
+1. [Install the library](installation.md), optional dependencies and models.
+2. [Run the quickstart](quickstart.md) to extract a field and write a complete record.
+3. [Prepare and select resources](guides/resources.md) for your own articles.
+
+For an expanded setup, use the [TL;DR commands](installation.md#tldr-expanded-coverage-and-gpu) for GCAM v5 with LIWC and MPQA, the large English model and NVIDIA GPU inference.
+
+## Guides
+
+| Task | Guide |
 | --- | --- |
-| [Installation](installation.md) | Package dependencies, English models, translation and development setup |
-| [API usage](api-usage.md) | Python extraction, field functions, configuration and complete pipeline examples |
-| [CLI](cli/README.md) | Resource builds, benchmarks and additional command-line tools |
+| Generate records, supply metadata and export TSV | [Records](guides/records.md) |
+| Build dictionaries and select or customize profiles | [Resources](guides/resources.md) |
+| Convert specialized source files and add optional dictionaries | [Dictionary imports](guides/dictionary-imports.md) |
+| Detect languages, translate bodies and retain provenance | [Translation](guides/translation.md) |
+| Batch inference, reuse models and manage persistent caches | [Performance](guides/performance.md) |
+| Compare native and reconstructed records | [Benchmarking](guides/benchmarking.md) |
+| Fit and evaluate candidate tone dictionaries | [Tone refinement](guides/tone-refinement.md) |
 
-Prepare external dictionaries and geographic references using [Build resources](cli/build.md). The resulting local profiles supply tone, themes, GCAM and geographic resolution during extraction.
+## Reference
 
-Each field page includes runnable Python and the resulting encoded GKG cell. The [row example](../README.md#generate-a-gkg-record) combines the fields into a complete tab-delimited GKG entry, including count geography.
+| Reference | Contents |
+| --- | --- |
+| [Python API](reference/python-api.md) | Public interfaces, options, result types and exceptions |
+| [CLI](reference/cli.md) | Commands, arguments, defaults and output conventions |
+| [GKG fields](reference/fields/README.md) | All 27 columns in wire order, with encodings, examples and limitations |
+| [Dictionaries](reference/dictionaries.md) | GCAM inventory, acquisition links, source terms and citations |
 
-Detailed experiment history remains in the [changelog](../CHANGELOG.md).
+## Evaluation and development
 
-## Agreement with GDELT
-
-The latest study compares archived GKG outputs with reconstruction on **265,413 retained English articles from 2018–2025**, covering **10,531 sources**. It uses the recorded tone/count/theme profiles, expanded GCAM dictionaries and spaCy `en_core_web_lg` with the `gdelt-full-names` policy.
-
-F1 measure matching outputs against GDELT; higher is better. MAE is average absolute error; lower is better. Lin's concordance correlation coefficient (CCC) measures paired-value agreement, with one denoting perfect concordance. GCAM coverage measures supported vocabulary, independently of agreement on its values. Publisher revisions and body extraction differences contribute to disagreement alongside dictionary and extraction differences.
-
-### English articles
-
-The **full corpus** is the primary result. The **restricted subset** contains **54,609 articles** from 2020–2025 with exact normalized titles and local/native word-count ratios between 0.90 and 1.10. Here, local denotes our reconstruction and native denotes the archived GKG output; word counts come from their respective tone fields. Similar lengths do not establish identical text, and subset composition also changes; the restricted results do not isolate an extraction-only error rate.
-
-| Field | Implementation | Full corpus | Restricted subset |
-| --- | --- | --- | --- |
-| [Record ID](fields/record-id.md), [batch date](fields/date.md), [document ID](fields/document-identifier.md) | Supplied timestamps, sequence and identifier | Metadata formatting | Not scored |
-| [Source collection](fields/source-collection.md), [source name](fields/source-name.md) | Supplied collection; source label or hostname | Metadata formatting | Not scored |
-| [Counts](fields/counts.md) · [enhanced](fields/enhanced-counts.md) | Quantity/trigger rules; 37 labels | F1 **0.2888** for label/quantity; **0.1639** including object; **0.0652** including geography | F1 **0.3210** for label/quantity; **0.1823** including object; **0.0688** including geography |
-| [Themes](fields/themes.md) · [enhanced](fields/enhanced-themes.md) | Phrase/context rules; 519 labels | F1 **0.6144** across all native labels; **0.6965** within supported labels | F1 **0.6720** across all native labels; **0.7667** within supported labels |
-| [Locations](fields/locations.md) · [enhanced](fields/enhanced-locations.md) | NER plus offline geographic resolution | Feature-identity F1 **0.6489** | Feature-identity F1 **0.7253** |
-| [Persons](fields/persons.md) · [enhanced](fields/enhanced-persons.md) | spaCy NER and name normalization | Name F1 **0.6456** | Name F1 **0.7483** |
-| [Organizations](fields/organizations.md) · [enhanced](fields/enhanced-organizations.md) | spaCy NER, normalization and name filter | Name F1 **0.4149** | Name F1 **0.4833** |
-| [Tone](fields/tone.md) | Dictionary scoring with tone v3 | MAE **1.795 points**; CCC **0.746** | MAE **1.475 points**; CCC **0.830** |
-| [Date mentions](fields/enhanced-dates.md) | Explicit English calendar expressions | Date F1 **0.4286** | Date F1 **0.5066** |
-| [GCAM](fields/gcam.md) | English category counts and VADER lexical means | **809 / 2,888 dimensions (28.01%)** standard; **1,855 / 2,888 (64.23%)** full | Same supported vocabulary; family metrics below |
-| [Sharing image](fields/sharing-image.md), [related images](fields/related-images.md), [social images](fields/social-image-embeds.md), [social videos](fields/social-video-embeds.md) | Supplied media URLs | Metadata formatting | Not scored |
-| [Quotations](fields/quotations.md) | Quoted spans and reporting-verb rules | Content F1 **0.0671**; including verb **0.0377** | Content F1 **0.0843**; including verb **0.0464** |
-| [All names](fields/all-names.md) | Broad entities and proper-noun spans | Surface-name F1 **0.2301** | Surface-name F1 **0.2828** |
-| [Amounts](fields/amounts.md) | Numeric/textual values with bounded objects | Value/object F1 **0.1973**; value alone **0.4054** | Value/object F1 **0.2455**; value alone **0.4912** |
-| [Translation information](fields/translation-info.md) | Language detection, optional translation and provenance | Not evaluated in the English study | Not scored |
-| [Extra XML](fields/extras-xml.md) | Supplied extension metadata | XML formatting | Not scored |
-
-Location identity scores use **265,340** valid full-corpus pairs and **54,593** restricted pairs. Other non-GCAM field scores use the listed article counts. All F1 values pool matches across articles; they are not averages of per-article F1. Enhanced offsets have not been benchmarked.
-
-Full-corpus source-cluster bootstrap 95% intervals are **1.767–1.828** for tone MAE, **0.6371–0.6545** for person F1, **0.4092–0.4204** for organization F1 and **0.6410–0.6565** for location F1, using 2,000 draws. The intervals are conditional on observed acquisition.
-
-Only **29.98% of attempted URLs** were retained. Exploratory inverse-retention weighting increases tone MAE to **1.888** with weights capped at 20 and **2.063** without capping. This indicates sensitivity to selection, rather than a validated population correction; the retained corpus does not represent all GDELT news.
-
-Remaining limitations:
-
-- Counts often miss quantities or attach different objects and locations; amount-object and quotation agreement remains low.
-- Themes outside the supported vocabulary are included in the all-label score and cannot be recovered by that profile.
-- The geographic lookup contains places observed in 20 reference archives from 2015–2019. Other recognized names can remain unresolved and be omitted from GKG geography; see [coverage limits](fields/locations.md#limits).
-- Metadata formatting, media inputs, translation provenance and enhanced offsets have no extraction-accuracy score in this study.
-
-For field agreement on translated articles, see the [seasonal translated-article evaluation](../CHANGELOG.md#translingual-agreement). Those results combine retrieval, translation and extraction differences; they do not measure translation quality or provenance accuracy independently.
-
-## GCAM
-
-The standard local profile uses General Inquirer, WordNet-derived families, theme categories and VADER. Roget and Lexicoder are optional imports. Dimension coverage is **809 of 2,888 (28.01%)** for the standard profile and **1,855 of 2,888 (64.23%)** for the full profile. These vocabulary counts give each dimension equal weight.
-
-On the latest full corpus, the full profile covers **78.33% of native positive count occurrences** and **81.02% of native document–dimension assignments**. Frequent categories contribute more to occurrence coverage. These shares measure representable native activity, not correctly reconstructed counts. The older seasonal benchmark's occurrence shares are retained in the [historical changelog](../CHANGELOG.md#combined-gcam-coverage).
-
-The table uses the full optional profile. Presence F1, count WAPE and aggregate count ratios use the **265,413-article full corpus**; the final column separately reports WAPE for the **54,609-article restricted subset**. Presence F1 compares category occurrence. WAPE divides total absolute count error by total native counts and is expressed as a percentage; lower is better. Count ratios above one indicate aggregate overcounting and below one indicate undercounting. Metrics apply to supported comparable categories.
-
-| Family (supported / native dimensions) | Full presence F1 | Full count WAPE | Full local/native count ratio | Restricted count WAPE |
-| --- | ---: | ---: | ---: | ---: |
-| General Inquirer (217 / 228) | 0.9268 | 41.20% | 0.866 | 27.30% |
-| Lexicoder, optional (4 / 4) | 0.9702 | 43.12% | 0.742 | 34.12% |
-| Roget, optional (1,042 / 1,042) | 0.8169 | 70.73% | 1.183 | 50.78% |
-| WordNet Affect (280 / 280) | 0.3187 | 93.19% | 0.259 | 88.61% |
-| WordNet Domains (168 / 168) | 0.8143 | 63.09% | 0.654 | 54.46% |
-| WordNet lexical categories (44 / 44) | 0.9621 | 75.87% | 1.472 | 54.35% |
-| GCAM themes (99 / 368) | 0.6893 | 67.05% | 0.625 | 56.25% |
-
-High presence F1 can coexist with biased counts: WordNet lexical categories have presence F1 **0.9621** but an aggregate count ratio of **1.472**. Vocabulary coverage therefore does not make local and native category counts interchangeable.
-
-VADER is evaluated separately on mean valence among matched lexical entries, rather than the complete VADER sentiment algorithm. Pairs with undefined means are excluded.
-
-| Subset | Comparable pairs | MAE | CCC | Sign agreement |
-| --- | ---: | ---: | ---: | ---: |
-| Full corpus | 262,295 | 0.242 | 0.871 | 90.94% |
-| Restricted subset | 54,518 | 0.139 | 0.952 | 93.92% |
-
-## Choosing a configuration
-
-- To reproduce the latest English study's model and vocabulary configuration, use `en_core_web_lg`, the `gdelt-full-names` policy and the recorded local profiles. See [English models](installation.md#english-models) and [GCAM profiles](cli/build.md#gcam-profiles-and-expansion).
-- Add Roget and Lexicoder for the full GCAM profile; their vocabularies are supplied separately. Broader coverage does not guarantee lower count error.
-- Translate non-English bodies before English extraction and retain the analyzed text for offsets. The [full pipeline example](api-usage.md#complete-pipeline-example) handles detection, translation and extraction.
-
-[Benchmark CLI guide](cli/benchmark.md) · [Resource builders and benchmarks](cli/README.md)
+- [Published results](evaluation/results.md) describe measured agreement and the evaluated configurations.
+- [Evaluation methodology](evaluation/methodology.md) explains metrics, sampling and interpretation.
+- [Migration](migration.md) covers upgrading to the current API.
+- [Contributing](../CONTRIBUTING.md) describes architecture, development checks and contribution requirements.
+- [Changelog](../CHANGELOG.md) records releases and historical experiments.

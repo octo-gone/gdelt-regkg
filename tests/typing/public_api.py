@@ -5,7 +5,7 @@ from typing import assert_type
 
 from gdelt_regkg import GKGRecord, RecordMetadata, Resources, generate_gkg
 from gdelt_regkg.fields.counts import CountRules
-from gdelt_regkg.fields.gcam import GCAMLexicon
+from gdelt_regkg.fields.gcam import GCAMLexicon, GCAMResult, analyze_gcam
 from gdelt_regkg.fields.locations import Gazetteer
 from gdelt_regkg.fields.ner import NameRules, SpacyNER
 from gdelt_regkg.fields.rule_inputs import load_count_rules, load_theme_lexicon
@@ -18,6 +18,12 @@ assert_type(CountRules.from_json(path), CountRules)
 assert_type(ThemeLexicon.from_mapping({}), ThemeLexicon)
 assert_type(ThemeLexicon.from_json(path), ThemeLexicon)
 assert_type(GCAMLexicon.from_json(path), GCAMLexicon)
+assert_type(GCAMLexicon.from_json(path).without_dictionaries(("roget", 26)), GCAMLexicon)
+assert_type(GCAMLexicon.from_json(path).implemented_dimensions, tuple[str, ...])
+assert_type(analyze_gcam("body", disabled_dictionaries=("roget", 26)), GCAMResult)
+assert_type(analyze_gcam("body", original_text="texte", original_language="fra"), GCAMResult)
+assert_type(GCAMLexicon.from_json(path).for_language("fra"), GCAMLexicon)
+assert_type(analyze_gcam("body").native_word_count, int | None)
 assert_type(Gazetteer.from_json(path), Gazetteer)
 assert_type(load_count_rules(path), CountRules)
 assert_type(load_theme_lexicon(path), ThemeLexicon)
@@ -30,6 +36,10 @@ assert_type(
     RecordMetadata,
 )
 assert_type(generate_gkg("body", metadata, Resources()), GKGRecord)
+assert_type(generate_gkg("body", metadata, Resources(), gcam_original_text="texte"), GKGRecord)
+assert_type(
+    generate_gkg("body", metadata, Resources(), gcam_disabled_dictionaries=("roget", 26)), GKGRecord
+)
 assert_type(GKGRecord.from_mapping({}), GKGRecord)
 assert_type(GKGRecord.from_mapping({}).to_mapping(), dict[str, str | None])
 assert_type(GKGRecord.from_mapping({}).to_row(), tuple[str, ...])

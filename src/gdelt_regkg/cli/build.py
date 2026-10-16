@@ -26,7 +26,7 @@ def add_arguments(parser: argparse.ArgumentParser):
         "--use",
         default="best",
         metavar="RECIPE",
-        help="Recipe to build: best (default), v1, v2, v3; also themes: authored, gcam: full",
+        help="Recipe to build: best (default), v1, v2, v3; also themes: authored, gcam: v4, v5 or full (v5)",
     )
     parser.add_argument(
         "--suffix", metavar="LABEL", help="Output label only, e.g. tone.experiment.json"
@@ -45,6 +45,11 @@ def add_arguments(parser: argparse.ArgumentParser):
         "--download-sources",
         action="store_true",
         help="Fetch required recorded inputs into --sources-dir",
+    )
+    parser.add_argument(
+        "--download-mpqa",
+        action="store_true",
+        help="Add MPQA and explicitly allow its checksum-verified third-party mirror download (GPL-3.0); requires --sources-dir",
     )
     parser.add_argument(
         "--authored-themes-only", action="store_true", help="Use authored themes without CrisisLex"
@@ -121,6 +126,7 @@ def run(args: argparse.Namespace):
             sources=parse_sources(args.source),
             sources_dir=args.sources_dir,
             download_sources=args.download_sources,
+            download_mpqa=args.download_mpqa,
             authored_themes_only=args.authored_themes_only,
             gazetteer_archives=args.gazetteer_archives,
             gazetteer_name=args.gazetteer_name,

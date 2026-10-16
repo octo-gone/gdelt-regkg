@@ -39,8 +39,10 @@ jobs:
         env:
           RELEASE_TAG: ${{ inputs.release-tag }}
         run: python .github/scripts/check_release.py --tag "$RELEASE_TAG"
+      - name: Check documentation
+        run: python .github/scripts/check_docs.py
       - name: Install dependencies
-        run: uv sync --group dev --extra ner --extra lang --extra benchmark
+        run: uv sync --group dev --extra build --extra ner --extra lang --extra benchmark
       - name: Install the recorded small English model
         run: uv pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl
       - name: Prepare local test resources
@@ -65,6 +67,12 @@ jobs:
           uv run --no-sync python -m twine check --strict dist/*
       - name: Install the built wheel
         run: uv pip install --no-deps --reinstall dist/*.whl
+      - name: Build and validate multilingual GCAM from the installed wheel
+        run: |
+          # Use an authored CSV fixture; this build does not require external OCR tools.
+          uv run --no-sync python -c 'from pathlib import Path; Path("downloads/resources/imagery-fixture.csv").write_text("word,ImageryValence,approximation,review_status\neau,67.5,class-midpoint,authored-fixture\nsoleil,67.5,class-midpoint,authored-fixture\n")'
+          uv run --no-sync gdelt-regkg-cli build gcam --use v5 --source french-imagery=downloads/resources/imagery-fixture.csv --sources-dir downloads/resources --download-sources --output local-resources/v5
+          uv run --no-sync python -c 'import json; from pathlib import Path; from gdelt_regkg.fields.gcam import GCAMLexicon, analyze_gcam; root=Path("local-resources/v5"); coverage=json.loads((root/"gcam/coverage.v5.json").read_text()); assert coverage["supported_dimensions"] == 2328; assert coverage["compiled_dimensions"] == 2597; assert len(coverage["approximate_dimensions"]) == 269; lexicon=GCAMLexicon.from_json(root/"lexicons/gcam.v5.json.gz"); result=analyze_gcam("Love and happiness", lexicon=lexicon, original_text="amour bonheur", original_language="fra"); assert result.native_word_count == 2; assert "v24.3" in result.values'
       - name: Test the installed wheel
         run: uv run --no-sync python -m unittest discover -s tests
       - uses: actions/upload-artifact@v4

@@ -1,7 +1,7 @@
 """Compile native GCAM categories from published, versioned dictionaries.
 
 No article bodies or GDELT reference scores are used to build the dictionaries.
-Roget is supplied separately because redistribution terms are not established.
+Source dictionaries are obtained separately and compiled locally.
 """
 
 from __future__ import annotations
@@ -15,7 +15,9 @@ import tarfile
 import xml.etree.ElementTree as ET
 import zipfile
 from collections import Counter, defaultdict
+from collections.abc import Mapping
 from pathlib import Path
+from typing import Any
 
 from gdelt_regkg.fields.gcam import _load, _order
 from gdelt_regkg.fields.themes import default_theme_lexicon
@@ -96,6 +98,86 @@ def read_codebook(path=None, *, resources_dir=None):
     }
 
 
+def gcam_coverage(profile, codebook):
+    """Report category support, pairing c/v and retaining value-only categories."""
+    from ..gcam_dictionaries import dictionary_id
+
+    compiled = {key[1:] for key in _load(profile).implemented_dimensions}
+    approximate = compiled & {
+        key
+        for source in profile.get("sources", {}).values()
+        for key in source.get("approximate_dimensions", [])
+    }
+    supported = compiled - approximate
+    native = {key[1:] for key in codebook["dimensions"]}
+    english = {
+        key[1:]
+        for key, row in codebook["dimensions"].items()
+        if row.get("language", "eng") == "eng"
+    }
+    dictionaries: dict[str, Any] = {}
+    for key, row in codebook["dimensions"].items():
+        code = str(dictionary_id(key))
+        item = dictionaries.setdefault(
+            code,
+            {
+                "name": row.get("dictionary", "Dictionary " + code),
+                "languages": set(),
+                "native": set(),
+                "supported": set(),
+                "compiled": set(),
+                "approximate": set(),
+                "missing": {},
+            },
+        )
+        item["languages"].add(row.get("language", "eng"))
+        item["native"].add(key[1:])
+        if key[1:] in compiled:
+            item["compiled"].add(key[1:])
+        if key[1:] in approximate:
+            item["approximate"].add(key[1:])
+        if key[1:] in supported:
+            item["supported"].add(key[1:])
+        else:
+            item["missing"].setdefault(key[1:], row["category"])
+    for item in dictionaries.values():
+        item["languages"] = sorted(item["languages"])
+        item["native"] = len(item["native"])
+        item["supported"] = len(item["supported"])
+        item["compiled"] = len(item["compiled"])
+        item["approximate"] = len(item["approximate"])
+    languages = {}
+    for language in sorted({row.get("language", "eng") for row in codebook["dimensions"].values()}):
+        keys = {
+            key[1:]
+            for key, row in codebook["dimensions"].items()
+            if row.get("language", "eng") == language
+        }
+        languages[language] = {"native": len(keys), "compiled": len(keys & compiled)}
+    return {
+        "schema": "gdelt-regkg/gcam-coverage/v1",
+        "profile": profile["name"],
+        "codebook_sha256": codebook["source_sha256"],
+        "supported_dimensions": len(supported & native),
+        "compiled_dimensions": len(compiled & native),
+        "approximate_dimensions": sorted(approximate),
+        "native_dimensions": len(native),
+        "supported_english_dimensions": len(supported & english),
+        "native_english_dimensions": len(english),
+        "outside_codebook": sorted(supported - native),
+        "dictionaries": dictionaries,
+        "languages": languages,
+        "acquired_sources": sorted(profile.get("sources", {})),
+        "deferred_languages": sorted(
+            {
+                language
+                for source in profile.get("sources", {}).values()
+                for language in source.get("deferred_languages", [])
+            }
+        ),
+    }
+
+
 def _native(codebook, dictionary):
     return {
         key: row["category"]
@@ -105,6 +187,10 @@ def _native(codebook, dictionary):
 
 
 def _source(path, **metadata):
+    if isinstance(path, Mapping):
+        entries = {name: _source(value) for name, value in sorted(path.items())}
+        checksum = hashlib.sha256(json.dumps(entries, sort_keys=True).encode()).hexdigest()
+        return {"sha256": checksum, "files": entries, **metadata}
     path = Path(path)
     if path.is_dir():
         digest = hashlib.sha256()
@@ -118,6 +204,13 @@ def _source(path, **metadata):
 
 
 def _attach(baseline, additions, family, metadata, codebook, *, exceptions=None):
+    for item in additions:
+        row = codebook["dimensions"].get(
+            item["key"], codebook["dimensions"].get("c" + item["key"][1:], {})
+        )
+        language = row.get("language", "eng")
+        if language != "eng":
+            item["language"] = language
     result = copy.deepcopy(baseline)
     replaced = {d["key"] for d in additions}
     result["dimensions"] = [d for d in result["dimensions"] if d["key"] not in replaced] + additions

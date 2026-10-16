@@ -32,8 +32,25 @@ DIRECTORY_SOURCES = {
     "wordnet-domains",
     "roget",
     "lexicoder",
+    "forest-values",
+    "lexicoder-topics",
+    "liwc",
+    "opinion-observer",
+    "rid",
+    "subjectivity",
+    "body-boundary",
+    "moral-foundations",
+    "hogenraad-motive",
+    "time",
+    "temperament",
+    "sentiwordnet",
+    "sentiwords",
 }
-SOURCE_RECIPES = {"wordnet-affect": "wordnet-annotations", "wordnet-domains": "wordnet-annotations"}
+SOURCE_RECIPES = {
+    "wordnet-affect": "wordnet-annotations",
+    "wordnet-domains": "wordnet-annotations",
+    "sentiwords": "wordnet-annotations",
+}
 SOURCE_NAMES = tuple(
     dict.fromkeys(
         (
@@ -109,6 +126,7 @@ class BuildOptions:
     sources: Mapping[str, str | Path] | None = None
     sources_dir: str | Path | None = None
     download_sources: bool = False
+    download_mpqa: bool = False
     gazetteer_archives: tuple[str | Path, ...] | None = None
     authored_themes_only: bool = False
     gcam: GCAMOptions | None = None
@@ -144,6 +162,7 @@ class _InputResolver:
         self.sources = options.sources
         self.sources_dir = options.sources_dir
         self.download_sources = options.download_sources
+        self.download_mpqa = options.download_mpqa
         self.gazetteer_archives = options.gazetteer_archives
         self.authored_themes_only = options.authored_themes_only
         self.gcam = options.gcam
@@ -175,6 +194,16 @@ class _InputResolver:
                 self.selected["themes"] = "authored"
         self.authored_themes_only = self.authored_themes_only or self.use == "authored"
         self.gcam = GCAMOptions() if self.gcam is None else self.gcam
+        if self.download_mpqa:
+            self.gcam = GCAMOptions(
+                profile=self.gcam.profile,
+                baseline=self.gcam.baseline,
+                additions=tuple(dict.fromkeys((*self.gcam.additions, "subjectivity"))),
+                affect_propagate_hierarchy=self.gcam.affect_propagate_hierarchy,
+                affect_nouns_only=self.gcam.affect_nouns_only,
+            )
+        if "gcam" in self.targets and self.use == "best" and self.gcam.profile is not None:
+            self.selected["gcam"] = self.gcam.profile
         if "gcam" in self.targets and self.use != "best":
             if self.gcam.profile is not None or self.gcam.baseline is not None:
                 raise ValueError("Choose --use or --gcam-baseline")
@@ -191,7 +220,7 @@ class _InputResolver:
         if "wordnet-annotations" in self.sources:
             combined = self.sources.pop("wordnet-annotations")
             used = False
-            for name in ("wordnet-affect", "wordnet-domains"):
+            for name in ("wordnet-affect", "wordnet-domains", "sentiwords"):
                 if name in self.required:
                     self.sources.setdefault(name, combined)
                     used = True
@@ -201,8 +230,8 @@ class _InputResolver:
             raise ValueError(f"Sources not used by the selected targets: {sorted(unused)}")
 
     def _validate_output(self):
-        if self.download_sources and self.sources_dir is None:
-            raise ValueError("--download-sources requires --sources-dir")
+        if (self.download_sources or self.download_mpqa) and self.sources_dir is None:
+            raise ValueError("Source download flags require --sources-dir")
         if "gcam" not in self.targets and (
             self.gcam != GCAMOptions() or self.gcam_filename is not None
         ):
@@ -249,14 +278,26 @@ class _InputResolver:
                 path = self.directory / entry["filename"]
                 if path.is_file():
                     self.progress(f"[inputs] Checking {name}: {path}")
-                if self.download_sources:
-                    download_source(path, entry, progress=self.progress)
+                if self.download_sources or (name == "subjectivity" and self.download_mpqa):
+                    if name == "subjectivity":
+                        download_source(
+                            path, entry, progress=self.progress, allow_opt_in=self.download_mpqa
+                        )
+                    else:
+                        download_source(path, entry, progress=self.progress)
                 if not path.is_file():
-                    self.missing.append(f"{name} ({path})")
+                    self.missing.append(
+                        f"{name} ({path})"
+                        + (": " + entry["instructions"] if entry.get("manual") else "")
+                    )
                     continue
-                verify_source(path, entry)
+                if not entry.get("manual"):
+                    verify_source(path, entry)
             else:
-                self.missing.append(name)
+                entry = self.recipe["sources"][SOURCE_RECIPES.get(name, name)]
+                self.missing.append(
+                    name + (": " + entry["instructions"] if entry.get("manual") else "")
+                )
                 continue
             self.resolved[name] = path
 

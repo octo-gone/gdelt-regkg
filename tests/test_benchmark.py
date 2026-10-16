@@ -136,7 +136,10 @@ class BenchmarkTests(unittest.TestCase):
         self.assertIsNone(find(report, "GCAM / VADER", "supported presence").metrics["f1"])
         self.assertEqual(find(report, "GCAM / VADER", "v26.1 / weighted score").metrics["mae"], 0)
         self.assertEqual(
-            find(report, "GCAM", "v26.1 / weighted-score coverage").metrics["paired_values"], 1
+            find(report, "GCAM / VADER", "v26.1 / weighted-score coverage").metrics[
+                "paired_values"
+            ],
+            1,
         )
 
     def test_gc_am_known_sparse_zeros_and_unknown_dimensions_have_distinct_scopes(self):
@@ -159,7 +162,10 @@ class BenchmarkTests(unittest.TestCase):
         report = evaluate([(row(gcam="wc:1,v26.1:2"), row(gcam="wc:1"))], fields=("gcam",))
         self.assertIsNone(find(report, "GCAM / VADER", "v26.1 / weighted score").metrics["mae"])
         self.assertEqual(
-            find(report, "GCAM", "v26.1 / weighted-score coverage").metrics["paired_values"], 0
+            find(report, "GCAM / VADER", "v26.1 / weighted-score coverage").metrics[
+                "paired_values"
+            ],
+            0,
         )
 
     def test_dates_retain_component_identity_and_count_occurrences(self):
@@ -511,6 +517,11 @@ class BenchmarkTests(unittest.TestCase):
             ("--offset-tolerance", "-1"),
             ("--number-tolerance", "nan"),
             ("--fields", "unknown"),
+            ("--fields", "themes", "--gcam-language", "fra"),
+            ("--fields", "themes", "--gcam-split-languages"),
+            ("--gcam-sample-size", "0"),
+            ("--gcam-max-word-count-difference", "nan"),
+            ("--gcam-bootstrap-samples", "-1"),
         ):
             with (
                 self.subTest(options=options),

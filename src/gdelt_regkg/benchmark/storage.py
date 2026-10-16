@@ -13,7 +13,8 @@ from ..storage import close_database, open_database
 from .model import FIELD_NAMES
 
 APPLICATION_ID = int.from_bytes(b"GKGB", "big")
-CACHE_SCHEMA_VERSION = 1
+CACHE_SCHEMA_VERSION = 2
+STORED_FIELDS = (*FIELD_NAMES, "_gcam_languages")
 
 
 def digest(value):
@@ -30,7 +31,7 @@ class StoredRow:
         self.identifier = identifier
 
     def get(self, name):
-        if name not in FIELD_NAMES:
+        if name not in STORED_FIELDS:
             return None
         return self.store.db.execute(
             f'SELECT "{name}" FROM rows WHERE id=?', (self.identifier,)
@@ -39,11 +40,11 @@ class StoredRow:
     @property
     def values(self):
         row = self.store.db.execute(
-            "SELECT present," + ",".join(f'"{n}"' for n in FIELD_NAMES) + " FROM rows WHERE id=?",
+            "SELECT present," + ",".join(f'"{n}"' for n in STORED_FIELDS) + " FROM rows WHERE id=?",
             (self.identifier,),
         ).fetchone()
         present = set(json.loads(row[0]))
-        return {key: value for key, value in zip(FIELD_NAMES, row[1:]) if key in present}
+        return {key: value for key, value in zip(STORED_FIELDS, row[1:]) if key in present}
 
     @property
     def origin(self):
@@ -153,6 +154,8 @@ class BenchmarkStore:
             self._db = open_database(
                 self.path, timeout=self.timeout, validate=self._validate_database
             )
+            if self.db.execute("PRAGMA user_version").fetchone()[0] == 1:
+                self.db.execute('ALTER TABLE rows ADD COLUMN "_gcam_languages" TEXT')
             self.db.execute(f"PRAGMA application_id={APPLICATION_ID}")
             self.db.execute(f"PRAGMA user_version={CACHE_SCHEMA_VERSION}")
             self.db.execute("PRAGMA synchronous=FULL")
@@ -163,7 +166,7 @@ class BenchmarkStore:
             self.db.execute(
                 "CREATE TABLE IF NOT EXISTS ner (identity TEXT PRIMARY KEY, payload TEXT NOT NULL)"
             )
-            columns = ",".join(f'"{name}" TEXT' for name in FIELD_NAMES)
+            columns = ",".join(f'"{name}" TEXT' for name in STORED_FIELDS)
             self.db.execute(
                 f"CREATE TABLE IF NOT EXISTS rows (id INTEGER PRIMARY KEY, scope TEXT, signature TEXT UNIQUE, origin TEXT, present TEXT, {columns})"
             )
@@ -181,9 +184,9 @@ class BenchmarkStore:
         tables = connection.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()
         if tables and application != APPLICATION_ID:
             raise ValueError(f"Not a benchmark cache database: {self.path}")
-        if (
-            application
-            and connection.execute("PRAGMA user_version").fetchone()[0] != CACHE_SCHEMA_VERSION
+        if application and connection.execute("PRAGMA user_version").fetchone()[0] not in (
+            1,
+            CACHE_SCHEMA_VERSION,
         ):
             raise ValueError("Unsupported benchmark cache version; choose a new --cache path")
 
@@ -201,7 +204,7 @@ class BenchmarkStore:
 
     def put(self, row, *, scope="cache", signature=None):
         values = row.values
-        columns = ["scope", "signature", "origin", "present", *FIELD_NAMES]
+        columns = ["scope", "signature", "origin", "present", *STORED_FIELDS]
         sql = (
             "INSERT OR IGNORE INTO rows ("
             + ",".join(f'"{n}"' for n in columns)
@@ -216,7 +219,7 @@ class BenchmarkStore:
                 signature,
                 row.origin,
                 json.dumps(list(values)),
-                *(values.get(n) for n in FIELD_NAMES),
+                *(values.get(n) for n in STORED_FIELDS),
             ),
         )
         return StoredRow(self, cursor.lastrowid) if cursor.rowcount else self.cached(signature)

@@ -5,6 +5,7 @@ import logging
 import math
 import os
 import sqlite3
+from argparse import BooleanOptionalAction
 from dataclasses import replace
 from importlib.metadata import PackageNotFoundError, version
 from importlib.resources import files
@@ -22,7 +23,7 @@ from gdelt_regkg.benchmark.engine import select_fields
 from gdelt_regkg.benchmark.inputs import align_rows, load_rows, resolve_inputs
 from gdelt_regkg.benchmark.storage import BenchmarkStore
 from gdelt_regkg.dependencies import require_dependency
-from gdelt_regkg.fields.gcam import GCAMLexicon, default_gcam_lexicon
+from gdelt_regkg.fields.gcam import GCAMLexicon, default_gcam_lexicon, read_gcam_json
 from gdelt_regkg.fields.themes import default_theme_lexicon
 from gdelt_regkg.utils import ResourceUnavailableError, read_resource_json, resource_path
 
@@ -86,7 +87,41 @@ def add_arguments(parser):
         type=Path,
         help="Declare implemented dimensions; also overrides GCAM in corpus mode",
     )
+    parser.add_argument(
+        "--gcam-disable",
+        nargs="+",
+        default=(),
+        metavar="NAME_OR_ID",
+        help="GCAM dictionaries to exclude from generation and scoring",
+    )
     parser.add_argument("--ner-model", default="en_core_web_sm")
+    parser.add_argument(
+        "--gcam-language",
+        help="Score only this language (default: all analyzed streams)",
+    )
+    parser.add_argument(
+        "--gcam-split-languages",
+        action=BooleanOptionalAction,
+        default=False,
+        help="Split GCAM dictionary groups by language; default joins languages in each dictionary",
+    )
+    parser.add_argument(
+        "--gcam-max-word-count-difference",
+        type=float,
+        help="Keep GCAM pairs within this relative reference word-count difference, e.g. 0.1",
+    )
+    parser.add_argument(
+        "--gcam-sample-size",
+        type=int,
+        help="Reproducible reservoir sample after GCAM language and body-size selection",
+    )
+    parser.add_argument(
+        "--gcam-bootstrap-samples",
+        type=int,
+        default=0,
+        help="Publisher-cluster bootstrap replicates for GCAM uncertainty (default: off)",
+    )
+    parser.add_argument("--gcam-seed", type=int, default=0, help="GCAM sampling and bootstrap seed")
     parser.add_argument(
         "--cache",
         type=Path,
@@ -191,6 +226,17 @@ def run(args):
         fields = tuple(name for name in fields if name not in excluded)
     if not fields:
         raise ValueError("No benchmark fields remain after exclusions")
+    if "gcam" not in fields and any(
+        (
+            args.gcam_language is not None,
+            args.gcam_max_word_count_difference is not None,
+            args.gcam_sample_size is not None,
+            args.gcam_bootstrap_samples,
+            args.gcam_disable,
+            args.gcam_split_languages,
+        )
+    ):
+        raise ValueError("GCAM evaluation options require --fields gcam")
     if args.min_stratum < 1 or args.max_strata < 1:
         raise ValueError("Stratum limits must be positive")
     if "all" in args.source_collections and args.source_collections != ["all"]:
@@ -208,6 +254,12 @@ def run(args):
         tone_neutral=args.tone_neutral,
         diagnostics=args.diagnostics,
         proximity_window=args.proximity_window,
+        gcam_evaluation_language=args.gcam_language,
+        gcam_max_word_count_difference=args.gcam_max_word_count_difference,
+        gcam_sample_size=args.gcam_sample_size,
+        gcam_bootstrap_samples=args.gcam_bootstrap_samples,
+        gcam_seed=args.gcam_seed,
+        gcam_split_languages=args.gcam_split_languages,
     )
     for dependency in ("scipy", "sklearn"):
         require_dependency(dependency, "benchmark")
@@ -348,7 +400,57 @@ def _inventories(args, fields, options, corpus):
             if args.gcam_lexicon or corpus:
                 raise
         if gcam:
-            options = replace(options, gcam_keys=frozenset(gcam.dimensions))
+            selected = gcam.without_dictionaries(args.gcam_disable)
+            path = args.gcam_lexicon
+            if path is None:
+                defaults = read_resource_json("defaults.json", resources_dir=args.resources_dir)
+                path = resource_path("lexicons", defaults["gcam"], resources_dir=args.resources_dir)
+            profile = read_gcam_json(path)
+            approximate = frozenset(
+                key
+                for source in profile.get("sources", {}).values()
+                for key in source.get("approximate_dimensions", [])
+            )
+            names = {
+                row["key"]: row.get("category", row["key"]) for row in profile.get("dimensions", [])
+            }
+            languages = dict(gcam.languages)
+            if (
+                options.gcam_evaluation_language is not None
+                and options.gcam_evaluation_language not in set(languages.values())
+            ):
+                raise ValueError(
+                    "The declared GCAM inventory has no dimensions for "
+                    + options.gcam_evaluation_language
+                )
+            try:
+                book = read_resource_json(
+                    "gcam", "codebook.v1.json", resources_dir=args.resources_dir
+                )
+            except (ResourceUnavailableError, FileNotFoundError):
+                pass
+            else:
+                languages = {
+                    key: row.get("language", "eng") for key, row in book["dimensions"].items()
+                } | languages
+                names = {
+                    key: row.get("category", key) for key, row in book["dimensions"].items()
+                } | names
+            options = replace(
+                options,
+                gcam_keys=frozenset(gcam.implemented_dimensions),
+                gcam_languages=languages,
+                gcam_disabled_dictionaries=tuple(args.gcam_disable),
+                gcam_approximate_dimensions=approximate,
+                gcam_dimension_names=names,
+            )
+            gcam = selected
+        elif args.gcam_disable:
+            raise ValueError("--gcam-disable requires a GCAM lexicon or prepared resources")
+        elif args.gcam_language:
+            raise ValueError("--gcam-language requires a GCAM lexicon or prepared resources")
+    elif args.gcam_disable:
+        raise ValueError("--gcam-disable requires the gcam field")
     if "themes" in fields:
         try:
             themes = default_theme_lexicon(args.resources_dir)
@@ -401,6 +503,13 @@ def _resource_hashes(args, fields, options, report, corpus, gcam):
 
 def _configuration(args, fields, options, store, report, corpus, device, signature, gcam, pairs):
     report.configuration = {
+        "GCAM disabled dictionaries": ", ".join(map(str, options.gcam_disabled_dictionaries)),
+        "GCAM evaluation language": options.gcam_evaluation_language or "all analyzed languages",
+        "GCAM language layout": "split" if options.gcam_split_languages else "joined",
+        "GCAM maximum word-count difference": str(options.gcam_max_word_count_difference),
+        "GCAM sample size": str(options.gcam_sample_size),
+        "GCAM bootstrap samples": str(options.gcam_bootstrap_samples),
+        "GCAM sampling seed": str(options.gcam_seed),
         "mode": "saved bodies" if corpus else "prepared GKG rows",
         "prediction_cache": str(store.path.resolve()),
         "prediction_signature": signature or "prepared predictions",

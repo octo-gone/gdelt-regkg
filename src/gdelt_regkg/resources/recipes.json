@@ -1,6 +1,13 @@
 {
   "schema": "reconstruct-gkg/resource-recipe/v1",
   "sources": {
+    "tesseract-french": {
+      "filename": "fra.traineddata",
+      "url": "https://raw.githubusercontent.com/tesseract-ocr/tessdata_best/main/fra.traineddata",
+      "sha256": "907743d98915c91a3906dfbf6e48b97598346698fe53aaa797e1a064ffcac913",
+      "terms_url": "https://github.com/tesseract-ocr/tessdata_best/blob/main/LICENSE",
+      "edition": "Tesseract tessdata_best French LSTM model, Apache-2.0"
+    },
     "general-inquirer": {
       "filename": "inqtabs.txt",
       "url": "https://inquirer.sites.fas.harvard.edu/inqtabs.txt",
@@ -52,6 +59,324 @@
       "filename": "LSDaug2015.zip",
       "url": "https://www.snsoroka.com/s/LSDaug2015.zip",
       "sha256": "07416e15df7d04b3a3e0ff553a704fb16d25340ce045eda2a7ddecb53fe18907"
+    },
+    "general-inquirer-legacy": {
+      "filename": "inqdict.txt",
+      "url": "https://inquirer.sites.fas.harvard.edu/inqdict.txt",
+      "sha256": "1a83ef845ce9c26df40ac0015845a1ddce27f94d24ad539c4c55a08ba39a8ffb",
+      "terms_url": "https://inquirer.sites.fas.harvard.edu/spreadsheet_guide.htm",
+      "edition": "Harvard dictionary text, union of senses"
+    },
+    "forest-values": {
+      "filename": "FOREST.zip",
+      "url": "https://provalisresearch.com/Download/FOREST.zip",
+      "sha256": "f899cc9aedb771f5452b152ec059f6f17faa44cefcc1d32f58d3ba0ec2fa6ffb",
+      "terms_url": "https://provalisresearch.com/products/content-analysis-software/wordstat-dictionary/forest-value-dictionary/",
+      "edition": "Bengston and Xu 1995, WordStat distribution"
+    },
+    "rid": {
+      "filename": "RID.ZIP",
+      "url": "https://provalisresearch.com/Download/RID.ZIP",
+      "sha256": "866020c664d3bc31771e158f68fa08e0486f0a069d58aba1fe9274dec30f334c",
+      "terms_url": "https://provalisresearch.com/products/content-analysis-software/wordstat-dictionary/regressive-imagery-dictionary/",
+      "edition": "English WordStat distribution, including RID.exc"
+    },
+    "body-boundary": {
+      "filename": "BodyType.zip",
+      "url": "https://provalisresearch.com/Download/BodyType.zip",
+      "sha256": "60e9f647efc9beea9bb11be9bc6bda3b15756baa177a411757420b881efc415a",
+      "terms_url": "https://provalisresearch.com/products/content-analysis-software/wordstat-dictionary/body-type-dictionary/",
+      "edition": "WordStat Body Type, including BodyTyp.exc"
+    },
+    "lexicoder-topics": {
+      "filename": "LTDjun2013.zip",
+      "url": "https://www.snsoroka.com/s/LTDjun2013.zip",
+      "sha256": "60432ca99e082532056b4a2eaa1bab13ba0dbe18a5fd5b5d7e923fee094dfe46",
+      "terms_url": "https://www.snsoroka.com/data-lexicoder/",
+      "edition": "June 2013 English topic dictionary"
+    },
+    "loughran-mcdonald": {
+      "filename": "Loughran-McDonald_MasterDictionary_1993-2025.csv",
+      "url": "https://drive.google.com/uc?export=download&id=1iq2RUf8qGFEAk1g8wQntP3habOnR3fXF",
+      "sha256": "e2d1328682bab7d2187684fb9f5420bb730401c9eefc00daf835edd203f4859d",
+      "terms_url": "https://sraf.nd.edu/loughranmcdonald-master-dictionary/",
+      "edition": "1993-2025; differs from the 2011 GCAM citation"
+    },
+    "opinion-observer": {
+      "filename": "opinion_lexicon.zip",
+      "url": "https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/corpora/opinion_lexicon.zip",
+      "sha256": "7a5da68d53016c5d1fca38f7dd81844cff73466371f90968d1ef15c85b873193",
+      "terms_url": "https://www.cs.uic.edu/~liub/FBS/sentiment-analysis.html",
+      "edition": "Hu-Liu vocabulary, NLTK distribution"
+    },
+    "central-bank": {
+      "filename": "ifdp1203-appendix.xlsx",
+      "url": "https://www.federalreserve.gov/econres/ifdp/files/ifdp1203-appendix.xlsx",
+      "sha256": "753115c9d5830b7454564fb463b2c7d9a61541d0e2ca6b6c4a903f795589303c",
+      "terms_url": "https://www.federalreserve.gov/econres/ifdp/sentiment-in-central-banks-financial-stability-reports.htm",
+      "edition": "March 21 2017"
+    },
+    "sentiwordnet": {
+      "filename": "SentiWordNet_3.0.0.txt",
+      "url": "https://raw.githubusercontent.com/aesuli/SentiWordNet/refs/heads/master/data/SentiWordNet_3.0.0.txt",
+      "sha256": "4fc9b253a45a691f3264d6a5063861a6dfa82dc8c2f254802334650b7728762e",
+      "terms_url": "https://github.com/aesuli/SentiWordNet",
+      "edition": "3.0.0; source header CC BY-SA 4.0"
+    },
+    "moral-foundations": {
+      "filename": "mft_original.dic",
+      "url": "https://raw.githubusercontent.com/medianeuroscience/emfd/master/dictionaries/mft_original.dic",
+      "sha256": "d53aea18f544ba2468eda63549d8e1f2000bb5d5a3aaded0e31c559c28686d47",
+      "terms_url": "https://moralfoundations.org/other-materials/",
+      "edition": "Original MFD, copy in eMFD authors repository"
+    },
+    "emfd": {
+      "filename": "emfd_scoring.csv",
+      "url": "https://raw.githubusercontent.com/medianeuroscience/emfd/master/dictionaries/emfd_scoring.csv",
+      "sha256": "d75e0ddfb3e93c7b492b2be0cbeb4b5c65c8c185575c9152069ee5246870d2e6",
+      "terms_url": "https://github.com/medianeuroscience/emfd",
+      "edition": "2020 scoring dictionary; review publisher terms"
+    },
+    "hedonometer": {
+      "filename": "labMT-en-v1.json",
+      "url": "https://hedonometer.org/api/v1/words/?format=json&wordlist__title=labMT-en-v1&limit=20000",
+      "sha256": "4cb454e9be2db948aec683c437adafdbe2de16cc715472ac8af243eceb1c3b12",
+      "terms_url": "https://hedonometer.org/words/labMT-en-v1/",
+      "edition": "English labMT-en-v1, 2011"
+    },
+    "liwc": {
+      "filename": "LIWC2007.dic",
+      "manual": true,
+      "documentation_url": "https://www.liwc.app/dictionaries",
+      "instructions": "Obtain a licensed compatible English LIWC 2007 .dic; review the publisher license. Modern LIWC editions are not substitutes for the 62 native GCAM categories."
+    },
+    "subjectivity": {
+      "filename": "mpqasubj.zip",
+      "url": "https://tjzhifei.github.io/resources/mpqasubj.zip",
+      "sha256": "5fc8026a095e1458e0ba5b61e4b9042e78202f528eaa881fd8121978a7fa8975",
+      "opt_in_flag": "--download-mpqa",
+      "documentation_url": "https://mpqa.cs.pitt.edu/lexicons/subj_lexicon/",
+      "terms_url": "https://tjzhifei.github.io/resource.html",
+      "edition": "MPQA Subjectivity Lexicon; third-party mirror, GPL-3.0",
+      "instructions": "Third-party mirror, GPL-3.0; opt in at your discretion or supply --source subjectivity=PATH. The NLTK subjectivity corpus is a different dataset."
+    },
+    "anew": {
+      "filename": "anew.csv",
+      "url": "https://pdodds.w3.uvm.edu/teaching/courses/2009-08UVM-300/docs/others/everything/bradley1999a.pdf",
+      "pdf_sha256": "d6ada885e70883aff322a45cc4275b569265928d34a4e040a91cb95cd5843533",
+      "sha256": "909c48331c104ff9cdd4681eb79e8eac4ba2b53748e3ec1d26f2e1ed1cc01ff4",
+      "converter": "anew-pdf",
+      "terms_url": "https://csea.phhp.ufl.edu/media/anewmessage.html",
+      "documentation_url": "https://csea.phhp.ufl.edu/media/anewmessage.html",
+      "edition": "Original 1,034-word ANEW ratings, 1999 report; GCAM labels the reissued report ANEW 2010"
+    },
+    "ml-senticon": {
+      "filename": "senticon.en.xml",
+      "url": "https://raw.githubusercontent.com/ITALIC-US/ML-Senticon/59df28942e2f366dde7d4f9d6454648b69054dff/senticon.en.xml",
+      "sha256": "f1a4eba9df251206423d07bca7826665f54dc739b97a8caa7ceda2a1ec68edfe",
+      "terms_url": "https://github.com/ITALIC-US/ML-Senticon/blob/main/LICENSE",
+      "edition": "Publisher XML; cumulative layers; MIT"
+    },
+    "hogenraad-motive": {
+      "filename": "hogenraad-motive.json",
+      "manual": true,
+      "documentation_url": "https://data.gdeltproject.org/documentation/GCAM-MASTER-CODEBOOK.TXT",
+      "instructions": "Obtain Hogenraad Motive version 7.0 from the author/rightsholder and supply .CAT or category JSON using the native codebook labels. No verified public download is configured."
+    },
+    "time": {
+      "filename": "time.json",
+      "manual": true,
+      "documentation_url": "https://data.gdeltproject.org/documentation/GCAM-MASTER-CODEBOOK.TXT",
+      "instructions": "Obtain Hogenraad TIME from the author/rightsholder and supply .CAT or category JSON using native codebook labels. No verified public download is configured."
+    },
+    "temperament": {
+      "filename": "temperament.json",
+      "manual": true,
+      "documentation_url": "https://data.gdeltproject.org/documentation/GCAM-MASTER-CODEBOOK.TXT",
+      "instructions": "Obtain the Martindale temperament/elements dictionary from the author/rightsholder and supply .CAT or category JSON using native codebook labels. No verified public download is configured."
+    },
+    "rid-french": {
+      "filename": "FRID.ZIP",
+      "url": "https://provalisresearch.com/Download/FRID.ZIP",
+      "sha256": "22a0529b163adec33072f0e8e5182699be6c024266dd81c2aac2086082aea4a4",
+      "terms_url": "https://provalisresearch.com/products/content-analysis-software/wordstat-dictionary/regressive-imagery-dictionary/",
+      "edition": "Publisher WordStat CAT/EXC distribution",
+      "encoding": "cp1252"
+    },
+    "rid-portuguese": {
+      "filename": "PRID.ZIP",
+      "url": "https://provalisresearch.com/Download/PRID.ZIP",
+      "sha256": "db3a2f07f20c4e56a06747cb4334486d9032f4c13d370e466a5f9fbeeb10f807",
+      "terms_url": "https://provalisresearch.com/products/content-analysis-software/wordstat-dictionary/regressive-imagery-dictionary/",
+      "edition": "Publisher WordStat CAT/EXC distribution",
+      "encoding": "cp1252"
+    },
+    "rid-swedish": {
+      "filename": "SWRID.zip",
+      "url": "https://provalisresearch.com/Download/SWRID.zip",
+      "sha256": "ca94ba534b6f92851255686b4edac696070bf4fc4927b991d4219eea6c02e5eb",
+      "terms_url": "https://provalisresearch.com/products/content-analysis-software/wordstat-dictionary/regressive-imagery-dictionary/",
+      "edition": "Publisher WordStat CAT/EXC distribution",
+      "encoding": "cp1252"
+    },
+    "rid-german": {
+      "filename": "GGRID.ZIP",
+      "url": "https://provalisresearch.com/Download/GGRID.ZIP",
+      "sha256": "c9c392b38977ada9ded02ee681d7c8d811e2c24c54f1d88d98a4bf43cfb7ac0a",
+      "terms_url": "https://provalisresearch.com/products/content-analysis-software/wordstat-dictionary/regressive-imagery-dictionary/",
+      "edition": "Publisher WordStat CAT/EXC distribution",
+      "encoding": "cp1252"
+    },
+    "rid-hungarian": {
+      "filename": "RIDHungarian.zip",
+      "url": "https://provalisresearch.com/Download/RIDHungarian.zip",
+      "sha256": "c8a1950aa196cfd8700dc4129ae368a5895f607364792590ac115e836e0a5a8f",
+      "terms_url": "https://provalisresearch.com/products/content-analysis-software/wordstat-dictionary/regressive-imagery-dictionary/",
+      "edition": "Publisher WordStat CAT/EXC distribution",
+      "encoding": "cp1250"
+    },
+    "anew-spanish": {
+      "filename": "Redondo-BRM-2007.zip",
+      "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.3758%2FBF03193031/MediaObjects/Redondo-BRM-2007.zip",
+      "sha256": "0253484541388eace1ea4ee0d5f9c36e9601fbb22e111db3db26ab6203cd2488",
+      "terms_url": "https://link.springer.com/article/10.3758/BF03193031",
+      "edition": "Redondo et al. 2007 original 1,034-word norms; archive terms apply"
+    },
+    "ml-senticon-ca": {
+      "filename": "senticon.ca.xml",
+      "url": "https://raw.githubusercontent.com/ITALIC-US/ML-Senticon/59df28942e2f366dde7d4f9d6454648b69054dff/senticon.ca.xml",
+      "sha256": "6c171a48d38fec6e5611638de6b558691b7641190d66180d3994d0ffe0d09653",
+      "terms_url": "https://github.com/ITALIC-US/ML-Senticon/blob/main/LICENSE",
+      "edition": "Publisher XML; cumulative layers; MIT"
+    },
+    "ml-senticon-es": {
+      "filename": "senticon.es.xml",
+      "url": "https://raw.githubusercontent.com/ITALIC-US/ML-Senticon/59df28942e2f366dde7d4f9d6454648b69054dff/senticon.es.xml",
+      "sha256": "3368dd643bcaec48fbe35bc8e642181f3f2e2a4655abf3fb95fb2ab202629043",
+      "terms_url": "https://github.com/ITALIC-US/ML-Senticon/blob/main/LICENSE",
+      "edition": "Publisher XML; cumulative layers; MIT"
+    },
+    "ml-senticon-gl": {
+      "filename": "senticon.gl.xml",
+      "url": "https://raw.githubusercontent.com/ITALIC-US/ML-Senticon/59df28942e2f366dde7d4f9d6454648b69054dff/senticon.gl.xml",
+      "sha256": "c604c1087fda50acd595215813ca0f6a95fb6247e29ff7260f7c890453145f90",
+      "terms_url": "https://github.com/ITALIC-US/ML-Senticon/blob/main/LICENSE",
+      "edition": "Publisher XML; cumulative layers; MIT"
+    },
+    "hedonometer-ar": {
+      "filename": "labMT-ar-v1.json",
+      "url": "https://hedonometer.org/api/v1/words/?format=json&wordlist__title=labMT-ar-v1&limit=20000",
+      "sha256": "18ee2483eb3f068d34414057e42344014fe487de04e8c253940674b2d53c997f",
+      "terms_url": "https://hedonometer.org/api.html",
+      "edition": "Publisher labMT word list v1; Chinese retained without scoring"
+    },
+    "hedonometer-de": {
+      "filename": "labMT-de-v1.json",
+      "url": "https://hedonometer.org/api/v1/words/?format=json&wordlist__title=labMT-de-v1&limit=20000",
+      "sha256": "e9099a28bcdcd8c47e622ed39b394393a28640b850a52e85c2cecc72320c6278",
+      "terms_url": "https://hedonometer.org/api.html",
+      "edition": "Publisher labMT word list v1; Chinese retained without scoring"
+    },
+    "hedonometer-fr": {
+      "filename": "labMT-fr-v1.json",
+      "url": "https://hedonometer.org/api/v1/words/?format=json&wordlist__title=labMT-fr-v1&limit=20000",
+      "sha256": "e3a7786e27b055ca7bd80a46a66f0e6504a245045028e81d8be20331e123b29f",
+      "terms_url": "https://hedonometer.org/api.html",
+      "edition": "Publisher labMT word list v1; Chinese retained without scoring"
+    },
+    "hedonometer-hi": {
+      "filename": "labMT-hi-v1.json",
+      "url": "https://hedonometer.org/api/v1/words/?format=json&wordlist__title=labMT-hi-v1&limit=20000",
+      "sha256": "c48c92fae93cf29714e980a7ab2db3e4ab3090c335f9580c14927cb43c4db31c",
+      "terms_url": "https://hedonometer.org/api.html",
+      "edition": "Publisher labMT word list v1; Chinese retained without scoring"
+    },
+    "hedonometer-id": {
+      "filename": "labMT-id-v1.json",
+      "url": "https://hedonometer.org/api/v1/words/?format=json&wordlist__title=labMT-id-v1&limit=20000",
+      "sha256": "deb619049a35ad2786d815e418d02e3699564a40fcec21c55dd4b4b78b0be675",
+      "terms_url": "https://hedonometer.org/api.html",
+      "edition": "Publisher labMT word list v1; Chinese retained without scoring"
+    },
+    "hedonometer-ko": {
+      "filename": "labMT-ko-v1.json",
+      "url": "https://hedonometer.org/api/v1/words/?format=json&wordlist__title=labMT-ko-v1&limit=20000",
+      "sha256": "f168e4be356c2764443973359f367500564ee6fed08de97ceed025d9e6921315",
+      "terms_url": "https://hedonometer.org/api.html",
+      "edition": "Publisher labMT word list v1; Chinese retained without scoring"
+    },
+    "hedonometer-pt": {
+      "filename": "labMT-pt-v1.json",
+      "url": "https://hedonometer.org/api/v1/words/?format=json&wordlist__title=labMT-pt-v1&limit=20000",
+      "sha256": "c12bc023c28082ba1856b7b22013bce3dd962ef5ba2a87b5822dbf553aa5b7a3",
+      "terms_url": "https://hedonometer.org/api.html",
+      "edition": "Publisher labMT word list v1; Chinese retained without scoring"
+    },
+    "hedonometer-ru": {
+      "filename": "labMT-ru-v1.json",
+      "url": "https://hedonometer.org/api/v1/words/?format=json&wordlist__title=labMT-ru-v1&limit=20000",
+      "sha256": "d2ec10f907937230c66092368da4389c10fe8aae8b17242abd111d43cdd5aaf8",
+      "terms_url": "https://hedonometer.org/api.html",
+      "edition": "Publisher labMT word list v1; Chinese retained without scoring"
+    },
+    "hedonometer-es": {
+      "filename": "labMT-es-v1.json",
+      "url": "https://hedonometer.org/api/v1/words/?format=json&wordlist__title=labMT-es-v1&limit=20000",
+      "sha256": "2bb53c122c812014941ce68d21c9278692c6bf9adac550f71e00b37e0f382bb9",
+      "terms_url": "https://hedonometer.org/api.html",
+      "edition": "Publisher labMT word list v1; Chinese retained without scoring"
+    },
+    "hedonometer-ur": {
+      "filename": "labMT-ur-v1.json",
+      "url": "https://hedonometer.org/api/v1/words/?format=json&wordlist__title=labMT-ur-v1&limit=20000",
+      "sha256": "86418c3dabb8d53d8e7059ac14e68844f85228617c18da221ea7e2d4d9f63363",
+      "terms_url": "https://hedonometer.org/api.html",
+      "edition": "Publisher labMT word list v1; Chinese retained without scoring"
+    },
+    "hedonometer-zh": {
+      "filename": "labMT-zh-v1.json",
+      "url": "https://hedonometer.org/api/v1/words/?format=json&wordlist__title=labMT-zh-v1&limit=20000",
+      "sha256": "097a8608ca90285005579a1a20b18302c254d60bbb5b17ea509c9a839806076b",
+      "terms_url": "https://hedonometer.org/api.html",
+      "edition": "Publisher labMT word list v1; Chinese retained without scoring"
+    },
+    "french-imagery-report": {
+      "filename": "hogenraad-orianne-1981.pdf",
+      "url": "https://psychologicabelgica.com/articles/672/files/submission/proof/672-1-3564-1-10-20200714.pdf",
+      "sha256": "bf47ac660e9a8d96c642af528eb7750c6c312cd439ff3fdcf073014833ec0a85",
+      "terms_url": "https://psychologicabelgica.com/articles/10.5334/pb.672",
+      "edition": "Original scanned paper, CC BY 4.0; not a verified rating CSV"
+    },
+    "french-imagery": {
+      "filename": "hogenraad-orianne-1981.pdf",
+      "url": "https://psychologicabelgica.com/articles/672/files/submission/proof/672-1-3564-1-10-20200714.pdf",
+      "sha256": "bf47ac660e9a8d96c642af528eb7750c6c312cd439ff3fdcf073014833ec0a85",
+      "terms_url": "https://psychologicabelgica.com/articles/10.5334/pb.672",
+      "edition": "Original scanned paper, CC BY 4.0; OCR produces approximate class-midpoint scores"
+    },
+    "portuguese-emotion": {
+      "filename": "portuguese-emotion.csv",
+      "manual": true,
+      "documentation_url": "https://blog.gdeltproject.org/detry-lopo-hogenraad-portuguese-emotion-pro-social-available-in-gcam/",
+      "instructions": "Supply the original 1,040-word Portuguese data as word,Emotion,ProSocial CSV with ratings on the 10-70 scale."
+    },
+    "rid-russian": {
+      "filename": "rid-russian.json",
+      "manual": true,
+      "documentation_url": "https://provalisresearch.com/products/content-analysis-software/wordstat-dictionary/regressive-imagery-dictionary/",
+      "instructions": "Obtain the original Russian RID and supply explicit category JSON for the 64 native categories. Preserve source encoding and exclusions."
+    },
+    "hogenraad-motive-french": {
+      "filename": "hogenraad-motive-french.json",
+      "manual": true,
+      "documentation_url": "https://blog.gdeltproject.org/hogenraads-motive-dictionary-available-in-gcam/",
+      "instructions": "Obtain original French version 1.2 and supply native category JSON."
+    },
+    "hogenraad-motive-spanish": {
+      "filename": "hogenraad-motive-spanish.json",
+      "manual": true,
+      "documentation_url": "https://blog.gdeltproject.org/hogenraads-motive-dictionary-available-in-gcam/",
+      "instructions": "Obtain original Spanish version 1.1 and supply native category JSON."
     }
   },
   "outputs": {

@@ -1,6 +1,6 @@
 [project]
 name = "gdelt-regkg"
-version = "2.0.0"
+version = "2.1.0"
 description = "GDELT GKG reconstruction from article text and metadata"
 readme = "README.md"
 license = "MIT"
@@ -31,11 +31,21 @@ dev = [
 ]
 
 [project.optional-dependencies]
+build = [
+    "pypdf>=6.20.1,<7", "pypdfium2>=5.14,<6", "Pillow>=12.3,<13", "pytesseract>=0.3.13,<0.4",
+    "jieba>=0.42.1,<0.43",
+]
 ner = ["spacy>=3.8.11,<3.9"]
-translate = ["transformers>=5.19,<6", "sentencepiece>=0.2.1"]
+translate = ["transformers>=5.19,<6", "sentencepiece>=0.2.1", "hf-xet>=1.7,<2"]
 lang = ["lingua-language-detector>=2.2,<3"]
 benchmark = ["trafilatura>=2,<3", "scipy>=1.12,<2", "scikit-learn>=1.4,<2"]
 all = [
+    "hf-xet>=1.7,<2",
+    "jieba>=0.42.1,<0.43",
+    "Pillow>=12.3,<13",
+    "pytesseract>=0.3.13,<0.4",
+    "pypdfium2>=5.14,<6",
+    "pypdf>=6.20.1,<7",
     "spacy>=3.8.11,<3.9", "transformers>=5.19,<6", "sentencepiece>=0.2.1",
     "lingua-language-detector>=2.2,<3",
     "trafilatura>=2,<3", "scipy>=1.12,<2", "scikit-learn>=1.4,<2",
@@ -70,6 +80,7 @@ exclude = [
     "/src/gdelt_regkg/resources/gcam",
 ]
 include = [
+    "/.github/scripts/check_docs.py",
     "/src/gdelt_regkg",
     "/docs",
     "/SECURITY.md",

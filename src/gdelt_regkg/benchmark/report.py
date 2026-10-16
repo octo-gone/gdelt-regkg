@@ -3,6 +3,9 @@
 import csv
 from pathlib import Path
 
+from .gcam_metrics import language_label
+from .model import BenchmarkReport
+
 LABELS = {
     "precision": "Precision",
     "recall": "Recall",
@@ -39,6 +42,14 @@ LABELS = {
     "assignment_coverage": "Assignment coverage",
     "occurrence_coverage": "Occurrence coverage",
     "reference_coverage": "Reference coverage",
+    "mean_document_f1": "Mean article F1",
+    "mean_document_jaccard": "Mean article Jaccard",
+    "macro_f1": "Category macro F1",
+    "within_one_count": "Within one count",
+    "within_ten_percent": "Within 10% of reference word count",
+    "ci_lower": "95% CI lower",
+    "ci_upper": "95% CI upper",
+    "ccc_dimensions": "Dimensions with defined CCC",
 }
 PERCENTAGES = {
     "validity_rate",
@@ -53,6 +64,8 @@ PERCENTAGES = {
     "reference_coverage",
     "within_25_km",
     "within_100_km",
+    "within_one_count",
+    "within_ten_percent",
 }
 
 
@@ -89,13 +102,24 @@ def markdown(report):
         "",
         "Each row names a calculation. Scores measure agreement with the supplied reference.",
         "",
+    ]
+    if any(row.field.startswith("GCAM") and row.calculation == "presence" for row in report.rows):
+        lines += [
+            "GCAM **presence** compares all observed categories, including unimplemented ones. "
+            "**Supported presence** restricts the comparison to applicable dimensions in the declared lexicon, including approximations. "
+            "**Active supported counts** include pairs where either the reference or prediction count is nonzero.",
+            "",
+        ]
+    lines += [
         "| Field / calculation | Metric 1 | Metric 2 | Metric 3 | Metric 4 | Metric 5 |",
         "| --- | --- | --- | --- | --- | --- |",
     ]
-    fields: dict[tuple[str, str], list] = {}
+    fields: dict[tuple[str, str, str], list] = {}
     for row in report.rows:
-        fields.setdefault((row.subset, row.field), []).append(row)
-    for (subset, field), rows in fields.items():
+        fields.setdefault((row.subset, row.field, row.language), []).append(row)
+    for (subset, field, language), rows in fields.items():
+        if language:
+            field += " / " + language_label(language)
         heading = field if subset == "all" else subset + " / " + field
         lines.append("| " + " | ".join([f"**{escape(heading)}**", "", "", "", "", ""]) + " |")
         layouts: dict[tuple, list] = {}
@@ -103,6 +127,11 @@ def markdown(report):
             values = list(row.metrics.items())
             for start in range(0, max(len(values), 1), 5):
                 name = row.calculation or row.field
+                if row.dimension_key and row.dimension_name and name.startswith(row.dimension_key):
+                    name = (
+                        f"{row.dimension_key} / {row.dimension_name}"
+                        + name[len(row.dimension_key) :]
+                    )
                 if start:
                     name += f" / continued {start // 5 + 1}"
                 chunk = values[start : start + 5]
@@ -130,15 +159,51 @@ def markdown(report):
 def write_report(report, output):
     output = Path(output)
     output.mkdir(parents=True, exist_ok=True)
-    (output / "metrics.md").write_text(markdown(report), encoding="utf-8")
-    columns = ["field", "calculation", "subset", "documents", "unit"]
-    metrics = list(
-        dict.fromkeys(key for row in report.rows for key in row.metrics if key not in columns)
+    links = []
+    for name, rows in report.tables.items():
+        _write_metric_csv(rows, output / (name + ".csv"))
+        table = markdown(BenchmarkReport(rows=rows)).replace(
+            "# GKG benchmark", "# " + name.replace("-", " ").upper(), 1
+        )
+        note = (
+            "Provenance follows profile annotations; source-backed does not mean independently verified. Only implemented dimensions enter these groups."
+            if name == "gcam-provenance"
+            else "Intervals use publisher-cluster percentile bootstrap. Selected samples describe the stated cohort, not the full corpus; similar length does not establish identical text. Fewer than two publisher clusters yields undefined intervals."
+        )
+        (output / (name + ".md")).write_text(table + "\n" + note + "\n", encoding="utf-8")
+        links.append(f"[{name}]({name}.md)")
+    for name, rows in report.details.items():
+        columns = list(dict.fromkeys(key for row in rows for key in row))
+        with (output / (name + ".csv")).open("w", encoding="utf-8", newline="") as stream:
+            writer = csv.DictWriter(stream, fieldnames=columns)
+            writer.writeheader()
+            writer.writerows(rows)
+        links.append(f"[{name}]({name}.csv)")
+    (output / "metrics.md").write_text(
+        markdown(report) + ("\nAdditional reports: " + ", ".join(links) + ".\n" if links else ""),
+        encoding="utf-8",
     )
-    with (output / "metrics.csv").open("w", encoding="utf-8", newline="") as stream:
+    _write_metric_csv(report.rows, output / "metrics.csv")
+    _write_run_and_audit(report, output)
+    return output / "metrics.md"
+
+
+def _write_metric_csv(rows, path):
+    columns = [
+        "field",
+        "calculation",
+        "subset",
+        "documents",
+        "unit",
+        "dimension_key",
+        "dimension_name",
+        "language",
+    ]
+    metrics = list(dict.fromkeys(key for row in rows for key in row.metrics if key not in columns))
+    with path.open("w", encoding="utf-8", newline="") as stream:
         writer = csv.DictWriter(stream, fieldnames=[*columns, *metrics])
         writer.writeheader()
-        for row in report.rows:
+        for row in rows:
             writer.writerow(
                 {
                     "field": row.field,
@@ -146,9 +211,15 @@ def write_report(report, output):
                     "subset": row.subset,
                     "documents": row.documents,
                     "unit": row.unit,
+                    "dimension_key": row.dimension_key,
+                    "dimension_name": row.dimension_name,
+                    "language": row.language,
                     **row.metrics,
                 }
             )
+
+
+def _write_run_and_audit(report, output):
     with (output / "audit.csv").open("w", encoding="utf-8", newline="") as stream:
         audit_writer = csv.writer(stream)
         audit_writer.writerow(["side", "field", "subset", "issue", "count", "detail"])

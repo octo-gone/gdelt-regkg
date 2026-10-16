@@ -16,13 +16,17 @@ from gdelt_regkg.builders.gcam_expansion import (
     add_wordnet_affect,
     add_wordnet_domains,
     add_wordnet_lexical,
+    gcam_coverage,
     read_codebook,
 )
-from gdelt_regkg.builders.gcam_lexicon import (
-    LEXICODER_CATEGORIES,
-    build_gcam_lexicon,
-    extend_gcam_lexicon,
+from gdelt_regkg.builders.gcam_imports import (
+    IMPORTERS,
+    add_count_dictionary,
+    add_experimental_themes,
+    add_weighted_table,
+    add_wordnet_affect_v1,
 )
+from gdelt_regkg.builders.gcam_lexicon import build_gcam_lexicon, extend_gcam_lexicon
 from gdelt_regkg.builders.themes import (
     authored_theme_input,
     merge_inputs,
@@ -33,10 +37,11 @@ from gdelt_regkg.builders.tone import build_lexicon, revise_tone
 from gdelt_regkg.fields.gcam import _load, read_gcam_json
 from gdelt_regkg.fields.ner import NameRules
 from gdelt_regkg.fields.rule_inputs import count_rules_from_input, theme_lexicon_from_input
+from gdelt_regkg.gcam_dictionaries import DICTIONARY_IDS, dictionary_id
 from gdelt_regkg.utils import packaged_resource_path, read_resource_json
 
-from .gcam import COMPONENT_PREFIXES, STANDARD_COMPONENTS
-from .inputs import BuildInputs
+from .gcam import V3_COMPONENTS
+from .inputs import SOURCE_RECIPES, BuildInputs
 from .progress import Progress, ignore_progress
 from .validation import validate_output
 
@@ -139,17 +144,19 @@ def build_gcam(context: BuildContext) -> tuple[Artifact, ...]:
     book = read_codebook(sources["codebook"]) if "codebook" in sources else None
     for component in options.components:
         context.progress(f"[gcam] Compiling {component}")
-        if prefix := COMPONENT_PREFIXES.get(component):
+        # General Inquirer imports merge their selected categories. Other
+        # components replace their dictionary, including stale keys and exclusions.
+        if component not in ("general-inquirer", "general-inquirer-legacy"):
+            code = DICTIONARY_IDS[component]
             profile = copy.deepcopy(profile)
             profile["dimensions"] = [
-                dimension
-                for dimension in profile["dimensions"]
-                if not dimension["key"].startswith(prefix)
+                d for d in profile["dimensions"] if dictionary_id(d["key"]) != code
             ]
+            profile.get("exclusions", {}).pop(str(code), None)
         profile = _gcam_component(context, profile, component, book)
     if (
         options.baseline is None
-        and options.components == STANDARD_COMPONENTS
+        and options.components == V3_COMPONENTS
         and not (options.affect_propagate_hierarchy or options.affect_nouns_only)
     ):
         profile["name"] = "general-inquirer-wordnet-themes-vader-gcam-v3"
@@ -173,6 +180,13 @@ def build_gcam(context: BuildContext) -> tuple[Artifact, ...]:
     artifacts = [Artifact("lexicons/" + filename, profile)]
     if book is not None:
         artifacts.append(Artifact("gcam/codebook.v1.json", book))
+        label = (
+            context.inputs.filename(filename)
+            .removesuffix(".gz")
+            .removesuffix(".json")
+            .removeprefix("gcam.")
+        )
+        artifacts.append(Artifact(f"gcam/coverage.{label}.json", gcam_coverage(profile, book)))
     return tuple(artifacts)
 
 
@@ -235,12 +249,7 @@ def compile_profiles(
 def _gcam_component(context, profile, component, book):
     sources, options = context.inputs.sources, context.inputs.gcam
     if component in ("vader", "lexicoder"):
-        # These importers append dimensions. Replacing a selected family must
-        # first discard its existing keys, especially when expanding a baseline.
-        replaced = {"v26.1"} if component == "vader" else set(LEXICODER_CATEGORIES)
-        profile = copy.deepcopy(profile)
         name = profile["name"]
-        profile["dimensions"] = [d for d in profile["dimensions"] if d["key"] not in replaced]
         profile = extend_gcam_lexicon(profile, **{component + "_source": sources[component]})
         if options.baseline is not None or component == "lexicoder":
             profile["name"] = name + "-" + component
@@ -265,4 +274,77 @@ def _gcam_component(context, profile, component, book):
         )
     elif component == "themes":
         profile = add_themes(profile, book, theme_lexicon_from_input(context.themes))
+    else:
+        profile = _import_gcam_dictionary(context, profile, component, book)
     return profile
+
+
+def _import_gcam_dictionary(context, profile, component, book):
+    sources = context.inputs.sources
+    if component == "wordnet-affect-v1":
+        return add_wordnet_affect_v1(
+            profile, sources["wordnet-affect"], sources["wordnet-16"], book
+        )
+    if component in ("themes-experimental", "themes-authored"):
+        return add_experimental_themes(profile, book)
+    from ..builders.gcam_multilingual import (
+        RID_LANGUAGES,
+        add_labmt_languages,
+        add_rid,
+        add_senticon_languages,
+        add_spanish_anew,
+    )
+    from .gcam import COMPONENT_SOURCES
+
+    if component in ("ml-senticon-multilingual", "hedonometer-multilingual"):
+        selected = {
+            name: sources[name] for name in COMPONENT_SOURCES[component] if name != "codebook"
+        }
+        importer = (
+            add_senticon_languages
+            if component == "ml-senticon-multilingual"
+            else add_labmt_languages
+        )
+        result = importer(profile, selected, book)
+        for name, metadata in result["sources"][component]["files"].items():
+            _record_gcam_source(name, metadata)
+        return result
+    if component in RID_LANGUAGES:
+        result = add_rid(profile, sources[component], book, component)
+    elif component == "anew-spanish":
+        result = add_spanish_anew(profile, sources[component], book)
+    elif component in IMPORTERS:
+        source = sources[component]
+        result = IMPORTERS[component](profile, source, book)
+    elif component in (
+        "anew",
+        "ml-senticon",
+        "hedonometer",
+        "emfd",
+        "french-imagery",
+        "portuguese-emotion",
+    ):
+        result = add_weighted_table(
+            profile, sources[component], book, component, progress=context.progress
+        )
+    else:
+        result = add_count_dictionary(profile, sources[component], book, component)
+    _record_gcam_source(component, result["sources"][component])
+    return result
+
+
+def _record_gcam_source(component, metadata):
+    entry = read_resource_json("recipes.json")["sources"].get(
+        SOURCE_RECIPES.get(component, component), {}
+    )
+    metadata.update(
+        {key: entry[key] for key in ("url", "terms_url", "documentation_url") if key in entry}
+    )
+    if "sha256" in entry:
+        matches = metadata["sha256"] == entry["sha256"]
+        metadata["matches_recorded_source"] = matches
+        metadata["edition"] = (
+            entry.get("edition", "recorded source")
+            if matches
+            else "custom source; edition unverified"
+        )

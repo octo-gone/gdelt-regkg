@@ -2,13 +2,15 @@
 
 from collections.abc import Iterable
 
+from .gcam import PROFILE_ALIASES
+
 RECIPES = {
     "tone": ("v1", "v2", "v3"),
     "themes": ("v1", "v2", "v3", "authored"),
     "counts": ("v1", "v2", "v3"),
     "ner": ("v1",),
     "locations": ("v1",),
-    "gcam": ("v1", "v2", "v3", "full"),
+    "gcam": ("v1", "v2", "v3", "v4", "v5", "full"),
 }
 DEFAULT_RECIPES = {
     "tone": "v3",
@@ -26,6 +28,8 @@ def select_recipes(targets: Iterable[str], use: str = "best") -> dict[str, str]:
         if target not in RECIPES:
             raise ValueError(f"Unknown build target: {target}")
         selected = DEFAULT_RECIPES[target] if use == "best" else use
+        if target == "gcam":
+            selected = PROFILE_ALIASES.get(selected, selected)
         if selected not in RECIPES[target]:
             raise ValueError(
                 f"Recipe {use!r} is unavailable for {target}; choose {', '.join(RECIPES[target])}"

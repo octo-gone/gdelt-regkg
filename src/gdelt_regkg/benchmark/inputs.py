@@ -63,7 +63,7 @@ def json_row(payload: dict, origin: str = "") -> GKGRow:
     values = {}
     for key, value in payload.items():
         name = ALIASES.get(key, key)
-        if name not in FIELD_NAMES:
+        if name not in FIELD_NAMES and name != "_gcam_languages":
             continue
         if value is not None and not isinstance(value, str):
             raise ValueError(f"GKG field {name} must be a string or null")

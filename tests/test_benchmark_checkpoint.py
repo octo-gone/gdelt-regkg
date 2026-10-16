@@ -143,12 +143,17 @@ class CheckpointTests(unittest.TestCase):
         )
         first = prediction_signature(args, ("tone",), "cpu")
         self.assertEqual(first, prediction_signature(args, ("tone",), "cpu"))
+        args.gcam_split_languages = True
+        self.assertEqual(first, prediction_signature(args, ("tone",), "cpu"))
         tone.write_text(json.dumps({"name": "changed"}), encoding="utf8")
         self.assertNotEqual(first, prediction_signature(args, ("tone",), "cpu"))
         second = prediction_signature(args, ("tone",), "cpu")
         self.assertNotEqual(second, prediction_signature(args, ("tone",), "cuda:0"))
         args.batch_size = 8
         self.assertNotEqual(second, prediction_signature(args, ("tone",), "cpu"))
+        third = prediction_signature(args, ("tone",), "cpu")
+        args.gcam_disable = ["roget", "26"]
+        self.assertNotEqual(third, prediction_signature(args, ("tone",), "cpu"))
 
     def test_second_writer_cannot_reset_active_inputs(self):
         with BenchmarkStore(self.path) as store:
