@@ -93,8 +93,7 @@ See [quickstart](https://github.com/octo-gone/gdelt-regkg/blob/master/docs/quick
 
 | Topic | Documentation |
 | --- | --- |
-| Start here | [Documentation index](https://github.com/octo-gone/gdelt-regkg/blob/master/docs/README.md) and [quickstart](https://github.com/octo-gone/gdelt-regkg/blob/master/docs/quickstart.md) |
-| Python interfaces | [API reference](https://github.com/octo-gone/gdelt-regkg/blob/master/docs/reference/python-api.md) |
+| Start here | [Documentation site](https://octo-gone.github.io/gdelt-regkg/) and [quickstart](https://github.com/octo-gone/gdelt-regkg/blob/master/docs/quickstart.md) |
 | Field formats and limitations | [All 27 GKG fields](https://github.com/octo-gone/gdelt-regkg/blob/master/docs/reference/fields/README.md) |
 | Dictionaries and configuration | [Resource guide](https://github.com/octo-gone/gdelt-regkg/blob/master/docs/guides/resources.md) |
 | Non-English articles | [Translation guide](https://github.com/octo-gone/gdelt-regkg/blob/master/docs/guides/translation.md) |

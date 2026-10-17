@@ -1,6 +1,6 @@
 # Generate and export records
 
-Prepare article text and caller-supplied metadata, then combine field results into a GKG record. See [Quickstart](../quickstart.md) for a first run and [Python API](../reference/python-api.md) for interface details.
+Prepare article text and caller-supplied metadata, then combine field results into a GKG record. See [Quickstart](../quickstart.md) for a first run.
 
 ## Generate a GKG record
 
@@ -72,5 +72,4 @@ CUSTOM;
 
 Use `gcam_disabled_dictionaries=("roget", "wordnet-affect", 26)` to omit selected GCAM dictionaries before matching. The standalone `analyze_gcam` option is `disabled_dictionaries=...`. Collections accept canonical names, integer IDs and numeric strings; `wc` is preserved. See [GCAM dictionary selection](../reference/fields/gcam.md#select-dictionaries).
 
-
-For standalone field extraction, see [quickstart](../quickstart.md#standalone-fields). For optional metadata, resource types and export errors, see [Python API](../reference/python-api.md).
+For standalone field extraction, see [quickstart](../quickstart.md#standalone-fields).

@@ -34,7 +34,7 @@ Prepare dictionaries through [Installation and setup](../../installation.md). St
 
 ### Rules
 
-Load edited JSON with `load_theme_lexicon(path)` or `ThemeLexicon.from_json(path)`. The [theme-rule schema](../../../src/gdelt_regkg/resources/schemas/theme-rules.schema.json) uses `name` and `rules`. Each rule declares a literal `expression`, output `labels`, a unique `id` and a `status`; only `enabled` rules execute.
+Load edited JSON with `load_theme_lexicon(path)` or `ThemeLexicon.from_json(path)`. The [theme-rule schema](https://github.com/octo-gone/gdelt-regkg/blob/master/src/gdelt_regkg/resources/schemas/theme-rules.schema.json) uses `name` and `rules`. Each rule declares a literal `expression`, output `labels`, a unique `id` and a `status`; only `enabled` rules execute.
 
 | Optional property | Behavior |
 | --- | --- |
@@ -50,6 +50,6 @@ Phrase rules do not provide automatic inflection, taxonomy expansion or grammati
 
 ## Related
 
-[Enhanced themes](enhanced-themes.md) · [Installation and setup](../../installation.md) · [Custom rules](../../guides/resources.md#resource-selection) · [Current agreement](../../evaluation/results.md#agreement-with-gdelt) · [Theme inventory](../../../CHANGELOG.md#theme-dictionary)
+[Enhanced themes](enhanced-themes.md) · [Installation and setup](../../installation.md) · [Custom rules](../../guides/resources.md#resource-selection) · [Current agreement](../../evaluation/results.md#agreement-with-gdelt) · [Theme inventory](https://github.com/octo-gone/gdelt-regkg/blob/master/CHANGELOG.md#theme-dictionary)
 
-[Field index](README.md) · [Python API](../python-api.md)
+[Field index](README.md)

@@ -1,6 +1,6 @@
 # Migration guide
 
-Version 2.0 uses structured field analyzers, explicit metadata and resource composition. See the [release history](../CHANGELOG.md#200) for the complete change list.
+Version 2.0 uses structured field analyzers, explicit metadata and resource composition. See the [release history](https://github.com/octo-gone/gdelt-regkg/blob/master/CHANGELOG.md#200) for the complete change list.
 
 ## Upgrade to 2.0
 

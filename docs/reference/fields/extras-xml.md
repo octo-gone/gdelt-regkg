@@ -67,4 +67,4 @@ No HTML or citation extraction runs. Attributes, namespaces and mixed text/child
 
 [Batch date](date.md) · [API usage](../../guides/records.md) · [Article metadata format](https://blog.gdeltproject.org/new-gkg-2-0-article-metadata-fields/) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
 
-[Field index](README.md) · [Python API](../python-api.md)
+[Field index](README.md)

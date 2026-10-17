@@ -89,7 +89,7 @@ def analyze_quotations(text: str) -> QuotationResult:
     """Find outer quoted spans without modifying original coordinates.
 
     Accept straight/curly double and single quotes and guillemets. Apostrophes
-    inside words are ignored. Nested quotes of another style remain in the outer text.
+    inside words are ignored. Nested quotes of another style are included in the outer text.
     Unmatched openings and normalized wire delimiters are reported in ``issues``. Quoted
     titles and scare quotes are not distinguished from speech. Verb association
     is a bounded English heuristic, not speaker attribution or parsing.

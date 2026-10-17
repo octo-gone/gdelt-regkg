@@ -66,7 +66,7 @@ On macOS with Homebrew:
 brew install tesseract
 ```
 
-Check `tesseract --version`. During PDF conversion, the builder downloads and checksum-verifies the higher-accuracy [tessdata_best French language data](https://github.com/tesseract-ocr/tessdata_best) into `downloads/resources/models/tesseract`. This Apache-2.0 model data remains external to the package and is reused on subsequent runs. The builder never downloads or installs Tesseract executables. It reports page and line progress, limits each page to 120 seconds and each line to 15 seconds, and converts the recognized text automatically when structural checks pass. OCR-derived scores remain marked `unreviewed-ocr`; successful conversion does not certify every spelling.
+Check `tesseract --version`. During PDF conversion, the builder downloads and checksum-verifies the higher-accuracy [tessdata_best French language data](https://github.com/tesseract-ocr/tessdata_best) into `downloads/resources/models/tesseract`. This Apache-2.0 model data is stored outside the package and reused on subsequent runs. The builder never downloads or installs Tesseract executables. It reports page and line progress, limits each page to 120 seconds and each line to 15 seconds, and converts the recognized text automatically when structural checks pass. OCR-derived scores are marked `unreviewed-ocr`; successful conversion does not certify every spelling.
 
 For a new setup, build v5 directly from the recorded sources, including automatic French imagery PDF conversion:
 
@@ -106,7 +106,7 @@ eau,67.5,class-midpoint,VI,65,70,example
 
 These rows adapt Hogenraad and Orianne's [published appendix](https://psychologicabelgica.com/articles/10.5334/pb.672), CC BY 4.0, by multiplying intervals by ten and taking their midpoints.
 
-Keep `approximation=class-midpoint` whenever scores come from rating bands. `class`, `lower` and `upper` document those bands. `review_status` describes the supplied file, and `source_pdf_sha256` can retain its source checksum. Preserve these columns in converted files and keep the conversion audit alongside them. Exact word-level ratings may use the two-column format only when independently verified; class midpoints remain approximate after transcription review.
+Keep `approximation=class-midpoint` whenever scores come from rating bands. `class`, `lower` and `upper` document those bands. `review_status` describes the supplied file, and `source_pdf_sha256` can retain its source checksum. Preserve these columns in converted files and keep the conversion audit alongside them. Exact word-level ratings may use the two-column format only when independently verified; transcription review does not turn class midpoints into exact ratings.
 
 **Import reviewed appendix text without OCR.** Keep all six `Classe I` through `Classe VI` headings or `[I]` through `[VI]` markers, then convert the transcription:
 
@@ -140,7 +140,7 @@ The converter verifies the report checksum, joins the three tables by word numbe
 
 ## Optional LIWC and MPQA imports
 
-LIWC remains user supplied. Obtain an authorized English LIWC 2007 dictionary and add its 62 GCAM categories:
+Supply an authorized English LIWC 2007 dictionary to add its 62 GCAM categories:
 
 ```shell
 gdelt-regkg-cli build gcam --use v5 --gcam-add liwc --source liwc=/path/to/LIWC2007_English.dic --sources-dir downloads/resources --download-sources --output local-resources

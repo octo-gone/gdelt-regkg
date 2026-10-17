@@ -33,13 +33,13 @@ Enhanced offsets refer to the English body analyzed, `result.text`, rather than 
 
 Use `translate_text` with a loaded backend, then copy provenance through `RecordMetadata.from_translation`. English input passes through unchanged. Regional labels such as `es-ES` normalize to `spa`; unsupported labels fail. A custom backend supplies an engine identity and `translate(text, source_language)`.
 
-Follow the [translation guide](../../guides/translation.md) for runnable detection, translation and record-generation examples. The [Python reference](../python-api.md#translation) lists label-verification and backend options; [performance](../../guides/performance.md) covers batching and persistent caching.
+Follow the [translation guide](../../guides/translation.md) for runnable detection, translation and record-generation examples. The [performance](../../guides/performance.md) guide covers batching and persistent caching.
 
 ### Language detection
 
 Missing labels are detected locally with Lingua. Long bodies are sampled at their beginning, middle and end. Detection exposes confidence and margin; permissive detection returns the best available candidate, while strict detection rejects weak evidence. No candidate raises `LanguageDetectionError` in either mode.
 
-Verification of a supplied label is conservative by default. It requires confident evidence, and Lingua confirms proposed corrections with its full models. Custom detectors control their own thresholds; corrections are available in `result.language_detection`. Set `detect_missing_language=False` to require a supplied label. See [language detection](../python-api.md#language-detection) and the [translation options](../python-api.md#translation).
+Verification of a supplied label is conservative by default. It requires confident evidence, and Lingua confirms proposed corrections with its full models. Custom detectors control their own thresholds; corrections are available in `result.language_detection`. Set `detect_missing_language=False` to require a supplied label.
 
 ## Limitations
 
@@ -49,4 +49,4 @@ M2M100 does not reproduce GDELT’s translation engine. Translation, mixed-langu
 
 [Complete pipeline](../../guides/translation.md#complete-pipeline-example) · [Record ID](record-id.md) · [Translation API](../../guides/translation.md#language-detection-and-translation) · [Current agreement](../../evaluation/results.md#agreement-with-gdelt)
 
-[Field index](README.md) · [Python API](../python-api.md)
+[Field index](README.md)

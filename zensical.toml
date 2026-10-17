@@ -1,0 +1,223 @@
+# Zensical configuration reference: https://zensical.org/docs/setup/basics/
+[project]
+site_name = "gdelt-regkg"
+site_description = "Reconstruct GDELT GKG records from article text and metadata: setup, guides, field formats and Python API."
+site_author = "Nikita Klimin"
+
+site_url = "https://octo-gone.github.io/gdelt-regkg/"
+repo_url = "https://github.com/octo-gone/gdelt-regkg"
+repo_name = "octo-gone/gdelt-regkg"
+edit_uri = "edit/master/docs/"
+copyright = "Copyright &copy; Nikita Klimin — MIT license"
+
+docs_dir = "docs"
+site_dir = "site"
+use_directory_urls = true
+dev_addr = "127.0.0.1:8000"
+watch = ["src/gdelt_regkg"]
+
+# README.md serves as the homepage, preserving existing GitHub Markdown links.
+# All authored pages are listed explicitly; api-autonav adds the Python API.
+nav = [
+  { "Home" = "README.md" },
+  { "Get started" = [
+    { "Installation and setup" = "installation.md" },
+    { "Quickstart" = "quickstart.md" },
+  ] },
+  { "Guides" = [
+    { "Generate records" = "guides/records.md" },
+    { "Build resources" = "guides/resources.md" },
+    { "Dictionary imports" = "guides/dictionary-imports.md" },
+    { "Translation" = "guides/translation.md" },
+    { "Performance" = "guides/performance.md" },
+    { "Benchmarking" = "guides/benchmarking.md" },
+    { "Tone refinement" = "guides/tone-refinement.md" },
+  ] },
+  { "Reference" = [
+    { "CLI" = "reference/cli.md" },
+    { "Dictionaries" = "reference/dictionaries.md" },
+    { "GKG fields" = [
+      { "Overview" = "reference/fields/README.md" },
+      { "01 · Record ID" = "reference/fields/record-id.md" },
+      { "02 · Date" = "reference/fields/date.md" },
+      { "03 · Source collection" = "reference/fields/source-collection.md" },
+      { "04 · Source name" = "reference/fields/source-name.md" },
+      { "05 · Document identifier" = "reference/fields/document-identifier.md" },
+      { "06 · Counts" = "reference/fields/counts.md" },
+      { "07 · Enhanced counts" = "reference/fields/enhanced-counts.md" },
+      { "08 · Themes" = "reference/fields/themes.md" },
+      { "09 · Enhanced themes" = "reference/fields/enhanced-themes.md" },
+      { "10 · Locations" = "reference/fields/locations.md" },
+      { "11 · Enhanced locations" = "reference/fields/enhanced-locations.md" },
+      { "12 · Persons" = "reference/fields/persons.md" },
+      { "13 · Enhanced persons" = "reference/fields/enhanced-persons.md" },
+      { "14 · Organizations" = "reference/fields/organizations.md" },
+      { "15 · Enhanced organizations" = "reference/fields/enhanced-organizations.md" },
+      { "16 · Tone" = "reference/fields/tone.md" },
+      { "17 · Enhanced dates" = "reference/fields/enhanced-dates.md" },
+      { "18 · GCAM" = "reference/fields/gcam.md" },
+      { "19 · Sharing image" = "reference/fields/sharing-image.md" },
+      { "20 · Related images" = "reference/fields/related-images.md" },
+      { "21 · Social image embeds" = "reference/fields/social-image-embeds.md" },
+      { "22 · Social video embeds" = "reference/fields/social-video-embeds.md" },
+      { "23 · Quotations" = "reference/fields/quotations.md" },
+      { "24 · All names" = "reference/fields/all-names.md" },
+      { "25 · Amounts" = "reference/fields/amounts.md" },
+      { "26 · Translation info" = "reference/fields/translation-info.md" },
+      { "27 · Extra XML" = "reference/fields/extras-xml.md" },
+    ] },
+  ] },
+  { "Evaluation" = [
+    { "Results" = "evaluation/results.md" },
+    { "Methodology" = "evaluation/methodology.md" },
+  ] },
+  { "Development" = [
+    { "Migration" = "migration.md" },
+    { "Build the documentation" = "development/documentation.md" },
+    { "Contributing ↗" = "https://github.com/octo-gone/gdelt-regkg/blob/master/CONTRIBUTING.md" },
+    { "Changelog ↗" = "https://github.com/octo-gone/gdelt-regkg/blob/master/CHANGELOG.md" },
+  ] },
+]
+
+# CI uses --strict so broken pages and section links fail the build.
+[project.validation]
+invalid_links = true
+invalid_link_anchors = true
+
+[project.theme]
+variant = "modern"
+language = "en"
+features = [
+  "content.action.edit",
+  "content.action.view",
+  "content.code.annotate",
+  "content.code.copy",
+  "content.code.select",
+  "content.footnote.tooltips",
+  "content.tabs.link",
+  "content.tooltips",
+  "navigation.footer",
+  "navigation.indexes",
+  "navigation.instant",
+  "navigation.instant.prefetch",
+  "navigation.instant.progress",
+  "navigation.path",
+  "navigation.sections",
+  "navigation.tabs",
+  "navigation.tabs.sticky",
+  "navigation.top",
+  "navigation.tracking",
+  "search.highlight",
+  "toc.follow",
+]
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: light)"
+scheme = "default"
+primary = "indigo"
+accent = "teal"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: dark)"
+scheme = "slate"
+primary = "indigo"
+accent = "teal"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to light mode"
+
+[[project.extra.social]]
+icon = "fontawesome/brands/github"
+link = "https://github.com/octo-gone/gdelt-regkg"
+name = "Source code on GitHub"
+
+[[project.extra.social]]
+icon = "fontawesome/brands/python"
+link = "https://pypi.org/project/gdelt-regkg/"
+name = "Package on PyPI"
+
+# Zensical implements these plugins natively; do not install MkDocs equivalents.
+# Only mkdocstrings' Python handler needs an additional docs dependency.
+# Supported options: https://zensical.org/docs/compatibility/mkdocs/plugins/
+[project.plugins.search]
+enabled = true
+
+# Preserve GitHub-style NOTE/TIP/WARNING alerts in the existing Markdown.
+[project.plugins.gh-admonitions]
+enabled = true
+
+# Smaller deployed pages without changing authored Markdown or code examples.
+[project.plugins.minify]
+minify_html = true
+
+# Resolve links to Python objects across the generated API reference.
+[project.plugins.autorefs]
+enabled = true
+
+# Discover API pages directly from source; no generated Markdown is committed.
+# Keep the API focused on record generation, resource selection and fields.
+[project.plugins.api-autonav]
+modules = ["src/gdelt_regkg"]
+api_root_uri = "reference/api"
+nav_section_title = "Python API"
+exclude_private = true
+show_full_namespace = false
+exclude = [
+  "re:^gdelt_regkg\\.(benchmark|builders|cli|scripts)(\\.|$)",
+  "gdelt_regkg.fields.rule_inputs",
+  "gdelt_regkg.fields.gcam_tokens",
+]
+
+[project.plugins.mkdocstrings]
+default_handler = "python"
+enable_inventory = true
+
+[project.plugins.mkdocstrings.handlers.python]
+paths = ["src"]
+
+[project.plugins.mkdocstrings.handlers.python.options]
+# Static inspection avoids importing optional NLP backends or downloading models.
+allow_inspection = false
+docstring_style = "google"
+docstring_section_style = "table"
+members_order = "source"
+show_source = true
+show_root_heading = true
+show_root_full_path = false
+show_object_full_path = false
+show_signature_annotations = true
+separate_signature = true
+merge_init_into_class = true
+show_submodules = false
+inherited_members = false
+signature_crossrefs = false
+filters = ["!^_", "^__enter__$", "^__exit__$"]
+
+# Explicit Markdown support for reference tables, callouts, code and content tabs.
+# Tables and fenced code are also built into Zensical's Markdown processing.
+[project.markdown_extensions]
+abbr = {}
+admonition = {}
+attr_list = {}
+def_list = {}
+footnotes = {}
+md_in_html = {}
+toc.permalink = true
+toc.toc_depth = 3
+pymdownx.betterem = {}
+pymdownx.details = {}
+pymdownx.emoji.emoji_generator = "zensical.extensions.emoji.to_svg"
+pymdownx.emoji.emoji_index = "zensical.extensions.emoji.twemoji"
+pymdownx.highlight.anchor_linenums = true
+pymdownx.highlight.line_spans = "__span"
+pymdownx.highlight.pygments_lang_class = true
+pymdownx.inlinehilite = {}
+pymdownx.magiclink = {}
+pymdownx.superfences.custom_fences = [
+  { name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" },
+]
+pymdownx.tabbed.alternate_style = true
+pymdownx.tabbed.combine_header_slug = true
+pymdownx.tasklist.custom_checkbox = true
+

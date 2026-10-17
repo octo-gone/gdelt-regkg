@@ -28,7 +28,7 @@ Marie Curie,0;Microsoft,20;Paris,33;France,40
 
 ## Behavior
 
-Entries are `name,offset`, separated by `;`. Repeated names remain separate. Surface spelling is retained independently of person/organization normalization, title removal and cell filters. Reserved delimiters and whitespace are cleaned only when serializing; offsets remain unchanged.
+Entries are `name,offset`, separated by `;`. Repeated names are separate. Surface spelling is retained independently of person/organization normalization, title removal and cell filters. Reserved delimiters and whitespace are cleaned only when serializing; offsets are unchanged.
 
 Alongside people, organizations and places, the spaCy backend includes named groups, products, events, works of art, laws and languages. Its tagger also finds proper-noun sequences outside recognized entities. Numeric and temporal entity categories are excluded.
 
@@ -46,4 +46,4 @@ Broad proper-noun inclusion can create extra matches; models can miss or split n
 
 [Persons](persons.md) · [Organizations](organizations.md) · [Locations](locations.md) · [Installation and setup](../../installation.md) · [Current agreement](../../evaluation/results.md#agreement-with-gdelt)
 
-[Field index](README.md) · [Python API](../python-api.md)
+[Field index](README.md)

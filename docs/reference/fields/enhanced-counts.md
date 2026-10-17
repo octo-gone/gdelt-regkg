@@ -42,4 +42,4 @@ The extraction limitations are the same as for [counts](counts.md#limitations). 
 
 [Counts](counts.md) · [Translation information](translation-info.md) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
 
-[Field index](README.md) · [Python API](../python-api.md)
+[Field index](README.md)

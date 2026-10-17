@@ -342,7 +342,7 @@ def convert_pdf(
     progress: Callable[[str], None] | None = None,
     draft_path: Path | None = None,
 ) -> tuple[bytes, dict[str, Any]]:
-    """Convert the recorded PDF; approximation and OCR status remain explicit."""
+    """Convert the recorded PDF with explicit approximation and OCR status."""
     text = ocr_pdf(raw, progress=progress)
     if draft_path is not None:
         draft_path.write_text(text, encoding="utf-8")

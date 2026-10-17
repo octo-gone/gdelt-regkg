@@ -34,4 +34,4 @@ Hostname extraction does not collapse subdomains into a registrable domain. Supp
 
 [Source collection](source-collection.md) · [Document identifier](document-identifier.md) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
 
-[Field index](README.md) · [Python API](../python-api.md)
+[Field index](README.md)

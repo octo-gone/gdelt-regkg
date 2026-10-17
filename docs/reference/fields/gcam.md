@@ -98,7 +98,7 @@ Chinese Hedonometer uses this same interface: pass English text with Chinese `or
 
 ## Custom lexicons
 
-Load compatible JSON or gzip profiles with `GCAMLexicon.from_json`. The [schema](../../../src/gdelt_regkg/resources/schemas/gcam-lexicon.schema.json) supports count vocabularies, phrase/wildcard patterns and weighted score maps. Each dimension can declare a three-letter `language`; omitted metadata defaults to English. Weighted maps provide companion counts by default; `emit_count: false` enables value-only dimensions. Count/value companions share one language. Source exclusion tokens and phrases mask matching spans within their dictionary.
+Load compatible JSON or gzip profiles with `GCAMLexicon.from_json`. The [schema](https://github.com/octo-gone/gdelt-regkg/blob/master/src/gdelt_regkg/resources/schemas/gcam-lexicon.schema.json) supports count vocabularies, phrase/wildcard patterns and weighted score maps. Each dimension can declare a three-letter `language`; omitted metadata defaults to English. Weighted maps provide companion counts by default; `emit_count: false` enables value-only dimensions. Count/value companions share one language. Source exclusion tokens and phrases mask matching spans within their dictionary.
 
 ```python
 from gdelt_regkg.fields.gcam import GCAMLexicon, analyze_gcam
@@ -130,4 +130,4 @@ Dictionary licenses apply to their vocabularies and compiled derivatives. See th
 
 [Build resources](../../guides/resources.md) · [API usage](../../guides/records.md) · [Dictionary reference](../dictionaries.md) · [GCAM agreement](../../evaluation/results.md#gcam)
 
-[Field index](README.md) · [Python API](../python-api.md)
+[Field index](README.md)

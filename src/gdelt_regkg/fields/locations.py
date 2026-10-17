@@ -175,7 +175,7 @@ def analyze_locations(
     ner: NERResult | None = None,
     gazetteer: Gazetteer | None = None,
 ) -> LocationResult:
-    """Resolve one unchanged body. Unknown and ambiguous names remain diagnostics.
+    """Resolve place mentions and report unknown or ambiguous names as diagnostics.
 
     Explicit nearby country/ADM1 references take precedence over the reference
     frequency prior. Without context, a candidate needs >=80% of alias frequency.

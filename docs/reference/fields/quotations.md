@@ -26,9 +26,9 @@ assert mention.verb == "said"
 
 ## Behavior
 
-Entries use `offset|length|verb|quote`, separated by `#`. Offset starts at the first content character, excluding quotation marks and surrounding whitespace. Length describes that original body span. The verb may be empty; repeated quotations remain separate.
+Entries use `offset|length|verb|quote`, separated by `#`. Offset starts at the first content character, excluding quotation marks and surrounding whitespace. Length describes that original body span. The verb may be empty; repeated quotations are separate.
 
-Recognizes straight/curly double and single quotation marks and guillemets. Apostrophes inside words are ignored. Nested quotes of another style remain inside the outer quote. Nearby reporting verbs are matched without crossing a sentence, line break or another quotation.
+Recognizes straight/curly double and single quotation marks and guillemets. Apostrophes inside words are ignored. Nested quotes of another style are included inside the outer quote. Nearby reporting verbs are matched without crossing a sentence, line break or another quotation.
 
 Reserved `#`/`|` separators and control characters become spaces, and whitespace is collapsed. Stored mentions preserve the original span; length can differ from the cleaned output’s length. `result.issues` reports delimiter normalization, unclosed quotes and content that becomes empty. No quotes produces `""`.
 
@@ -44,4 +44,4 @@ The extractor does not identify speakers or indirect speech, and can include quo
 
 [API usage](../../guides/records.md) · [Current agreement](../../evaluation/results.md#agreement-with-gdelt) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
 
-[Field index](README.md) · [Python API](../python-api.md)
+[Field index](README.md)

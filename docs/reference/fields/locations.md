@@ -76,7 +76,7 @@ Pass precomputed recognition to `generate_gkg(text, metadata, resources, ner_res
 
 ### Unresolved mentions
 
-Raw place spans remain available in `entities.locations` even when geographic resolution produces an empty cell.
+Raw place spans are available in `entities.locations` even when geographic resolution produces an empty cell.
 
 ```python
 from gdelt_regkg.fields.locations import analyze_locations
@@ -100,16 +100,16 @@ print([(issue.text, issue.reason) for issue in resolved.issues])
 
 `analyze_entities(text, recognizer=ner).locations` returns raw place spans. `entities.to_gkg("LOCATION")` is unsupported because raw NER spans do not contain resolved geography.
 
-Load a custom JSON/gzip database with `Gazetteer.from_json(path)` and pass it as `gazetteer=` to `analyze_locations`. For record generation, compose `Resources(gazetteer=gazetteer, recognizer=ner)` and pass those resources to `generate_gkg(text, metadata, resources)`. See the [gazetteer schema](../../../src/gdelt_regkg/resources/schemas/gazetteer.schema.json) and [resource setup](../../guides/resources.md#custom-gazetteer).
+Load a custom JSON/gzip database with `Gazetteer.from_json(path)` and pass it as `gazetteer=` to `analyze_locations`. For record generation, compose `Resources(gazetteer=gazetteer, recognizer=ner)` and pass those resources to `generate_gkg(text, metadata, resources)`. See the [gazetteer schema](https://github.com/octo-gone/gdelt-regkg/blob/master/src/gdelt_regkg/resources/schemas/gazetteer.schema.json) and [resource setup](../../guides/resources.md#custom-gazetteer).
 
 ## Limitations
 
 The standard reference contains 17,177 records across 237 country codes; it misses unobserved cities, landmarks and spellings. Matching does not implement transliteration, demonym resolution or a complete geocoder. Frequency preferences can select the wrong place, and historical reference records are not a current boundary database.
 
-This lookup was compiled from 20 GKG archives from 2015–2019. **A recognized place without a lookup entry is omitted from both GKG location columns and cannot supply geography to counts.** Its raw NER span and `unknown-place` diagnostic remain available. There is no external geocoding fallback. Use a more comprehensive compatible gazetteer when broad coverage is required; the recorded profile preserves the study's geographic configuration.
+This lookup was compiled from 20 GKG archives from 2015–2019. **A recognized place without a lookup entry is omitted from both GKG location columns and cannot supply geography to counts.** Its raw NER span and `unknown-place` diagnostic are available. There is no external geocoding fallback. Use a more comprehensive compatible gazetteer when broad coverage is required; the recorded profile preserves the study's geographic configuration.
 
 ## Related
 
 [Enhanced locations](enhanced-locations.md) · [Persons](persons.md) · [Organizations](organizations.md) · [All names](all-names.md) · [Installation and setup](../../installation.md) · [Current agreement](../../evaluation/results.md#agreement-with-gdelt)
 
-[Field index](README.md) · [Python API](../python-api.md)
+[Field index](README.md)

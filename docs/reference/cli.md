@@ -1,6 +1,6 @@
 # Command-line reference
 
-Run `gdelt-regkg-cli` or `python -m gdelt_regkg` after [installation](../installation.md). From a development checkout, prefix the command with `uv run`. The CLI builds resources, benchmarks records and refines tone dictionaries; record extraction is available through the [Python API](python-api.md).
+Run `gdelt-regkg-cli` or `python -m gdelt_regkg` after [installation](../installation.md). From a development checkout, prefix the command with `uv run`. The CLI builds resources, benchmarks records and refines tone dictionaries.
 
 ```shell
 gdelt-regkg-cli --help
@@ -36,7 +36,7 @@ Targets are `tone`, `themes`, `counts`, `ner`, `locations` and `gcam`; `all` sel
 | `--affect-propagate-hierarchy` | Off | Propagate WordNet Affect categories through the hierarchy. |
 | `--affect-nouns-only` | Off | Restrict WordNet Affect matching to noun entries. |
 
-Progress and hash-comparison warnings go to stderr; the final `Built ...` summary goes to stdout. Each selected target produces one profile; `defaults.json` selects the new revisions while unrelated selections and previous files remain. See [output layout](../guides/resources.md#output-layout).
+Progress and hash-comparison warnings go to stderr; the final `Built ...` summary goes to stdout. Each selected target produces one profile; `defaults.json` selects the new revisions without removing unrelated selections or previous files. See [output layout](../guides/resources.md#output-layout).
 
 ## Benchmark
 
@@ -103,7 +103,7 @@ Language filters select evaluated text streams, not translation engines. Native 
 | `--device MODE` | `cpu` | `cpu`, `cuda` or `auto`; CUDA NER requires CuPy. |
 | `--gpu-id N` | `0` | spaCy GPU index. |
 | `--batch-size N` | `16` | Maximum articles per NER/checkpoint batch. |
-| `--batch-chars N` | `100000` | Target batch character limit; a longer single article remains intact. |
+| `--batch-chars N` | `100000` | Target batch character limit; longer articles are processed without splitting. |
 | `--ner-cache PATH` | Unset | Saved entity-mention JSONL matching corpus text hashes. |
 | `--include-translated` | Off | Accept already translated saved bodies; performs no translation. |
 | `--numeric-date-order ORDER` | Unset | `mdy` or `dmy` for ambiguous numeric dates. |

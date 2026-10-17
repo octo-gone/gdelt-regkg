@@ -87,7 +87,7 @@ Use `device="cuda:0", allow_download=False` when loading the translator afterwar
 
 ## English models
 
-Use `SpacyNER.from_model("en_core_web_sm")` or install and select `en_core_web_lg` for the larger model. `resources_dir=` on the factory selects name rules; a supplied pipeline retains its own policy. Models remain external to the package.
+Use `SpacyNER.from_model("en_core_web_sm")` or install and select `en_core_web_lg` for the larger model. `resources_dir=` on the factory selects name rules; a supplied pipeline retains its own policy. Models are installed separately from the package.
 
 ## Non-English articles
 
@@ -164,7 +164,7 @@ print(cupy.cuda.runtime.getDeviceCount())
 print(int(cupy.arange(4).sum()))  # 6 verifies allocation, compilation and computation.
 ```
 
-For an environment that also uses PyTorch, import `torch` before CuPy on Windows so its bundled DLL directories are registered. CUDA 12 component wheels can provide usable libraries without a single toolkit root, so this warning can remain even when the check succeeds. Do not set `CUDA_PATH` to a made-up directory or hide all warnings.
+For an environment that also uses PyTorch, import `torch` before CuPy on Windows so its bundled DLL directories are registered. CUDA 12 component wheels can provide usable libraries without a single toolkit root, so this warning can occur even when the check succeeds. Do not set `CUDA_PATH` to a made-up directory or hide all warnings.
 
 If computation fails and you use a system CUDA Toolkit, point `CUDA_PATH` at its **actual installed root**. Replace the example path below with your installed toolkit directory:
 
@@ -184,7 +184,7 @@ python -m pip install "gdelt-regkg[benchmark]"
 
 Benchmarking specifically does not require NER models or dictionaries. However, some fields generation requires additional resources. Benchamrking CLI uses SQLite workspaces, checkpoints and model batching; see [benchmark](guides/benchmarking.md).
 
-For development dependencies and integration-test resources, follow [Contributing](../CONTRIBUTING.md#local-checks).
+For development dependencies and integration-test resources, follow [Contributing](https://github.com/octo-gone/gdelt-regkg/blob/master/CONTRIBUTING.md#local-checks).
 
 ## Troubleshooting
 

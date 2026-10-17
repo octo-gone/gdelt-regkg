@@ -34,9 +34,9 @@ assert result.word_count == 5
 | 6 | Self/group-reference density |
 | 7 | Word count |
 
-Components are separated by commas. Each density is `100 × matched token occurrences / total tokens`. Repeated words count repeatedly; numbers and stopwords remain in the denominator. Empty or punctuation-only input produces seven zeros.
+Components are separated by commas. Each density is `100 × matched token occurrences / total tokens`. Repeated words count repeatedly; numbers and stopwords count toward the denominator. Empty or punctuation-only input produces seven zeros.
 
-Tokenization uses Unicode NFKC normalization, case folding and normalized apostrophes. Internal apostrophes and hyphens remain within tokens; other punctuation separates them. The standard profile is tone v3; GCAM sentiment dictionaries are scored separately.
+Tokenization uses Unicode NFKC normalization, case folding and normalized apostrophes. Internal apostrophes and hyphens are included within tokens; other punctuation separates them. The standard profile is tone v3; GCAM sentiment dictionaries are scored separately.
 
 ## Options
 
@@ -58,7 +58,7 @@ print(analyze_tone("We play good music.", lexicon=lexicon).to_gkg())
 25,25,0,25,25,25,4
 ```
 
-JSON profiles require `name` and arrays for the four token categories. The [tone schema](../../../src/gdelt_regkg/resources/schemas/tone-lexicon.schema.json) documents the format; the loader also validates normalized tokens.
+JSON profiles require `name` and arrays for the four token categories. The [tone schema](https://github.com/octo-gone/gdelt-regkg/blob/master/src/gdelt_regkg/resources/schemas/tone-lexicon.schema.json) documents the format; the loader also validates normalized tokens.
 
 ## Limitations
 
@@ -66,6 +66,6 @@ No stemming, sense disambiguation, negation reversal, intensifier weighting or c
 
 ## Related
 
-[Installation and setup](../../installation.md) · [GCAM](gcam.md) · [Current agreement](../../evaluation/results.md#agreement-with-gdelt) · [Tone experiments](../../../CHANGELOG.md#seasonal-benchmark)
+[Installation and setup](../../installation.md) · [GCAM](gcam.md) · [Current agreement](../../evaluation/results.md#agreement-with-gdelt) · [Tone experiments](https://github.com/octo-gone/gdelt-regkg/blob/master/CHANGELOG.md#seasonal-benchmark)
 
-[Field index](README.md) · [Python API](../python-api.md)
+[Field index](README.md)

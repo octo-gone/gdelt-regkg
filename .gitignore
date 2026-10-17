@@ -141,6 +141,9 @@ cover/
 # Sphinx documentation
 docs/_build/
 
+# Zensical documentation output
+/site/
+
 # PyBuilder
 .pybuilder/
 target/

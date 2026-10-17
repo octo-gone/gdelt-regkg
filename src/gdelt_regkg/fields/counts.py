@@ -269,7 +269,7 @@ class CountLocation:
     """Resolved geographic mention, in the original text's character coordinates.
 
     Caller owns geocoding and compatible FIPS/GNS/GNIS identifiers. There is no
-    ADM2 component in the count layout. Empty components remain empty on export.
+    ADM2 component in the count layout. Empty components serialize as empty values.
     """
 
     start: int

@@ -28,7 +28,7 @@ Entries are `amount,object,offset`, separated by `;`. Offsets point to the numer
 
 Recognizes Western comma grouping, decimals, signed values, English number words through trillions, magnitude suffixes such as `25m`/`2bn`, and $, €, £, ₹, USD, EUR, GBP and INR prefixes. Currency prefixes become object names; other objects use up to three following words, stopping at common verbs, prepositions and punctuation. Missing objects stay empty.
 
-Percentages, date spans and common version/time/fraction forms are excluded. Repeated quantities remain separate. No accepted amounts produces `""`.
+Percentages, date spans and common version/time/fraction forms are excluded. Repeated quantities are separate. No accepted amounts produces `""`.
 
 ## Options
 
@@ -42,4 +42,4 @@ Indefinite quantities such as “hundreds of boxes” receive no exact value. Eu
 
 [Counts](counts.md) · [Date mentions](enhanced-dates.md) · [Current agreement](../../evaluation/results.md#agreement-with-gdelt) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
 
-[Field index](README.md) · [Python API](../python-api.md)
+[Field index](README.md)

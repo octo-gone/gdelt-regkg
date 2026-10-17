@@ -24,7 +24,7 @@ assert result.mentions[1].year == 0
 
 ## Behavior
 
-Entries use `resolution#month#day#year#offset`, separated by `;`. Missing calendar components remain zero; repeated mentions retain separate zero-based offsets.
+Entries use `resolution#month#day#year#offset`, separated by `;`. Missing calendar components are zero; repeated mentions retain separate zero-based offsets.
 
 | Resolution | Calendar reference |
 | --- | --- |
@@ -61,4 +61,4 @@ Relative dates, weekdays alone, bare months, holidays and two-digit years are no
 
 [Batch date](date.md) · [Amounts](amounts.md) · [Current agreement](../../evaluation/results.md#agreement-with-gdelt) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
 
-[Field index](README.md) · [Python API](../python-api.md)
+[Field index](README.md)

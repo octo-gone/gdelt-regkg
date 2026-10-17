@@ -24,7 +24,7 @@ CRISISLEX_C06_WATER_SANITATION,18;NATURAL_DISASTER_FLOODING,18;
 
 ## Behavior
 
-Each mention is written as `CODE,offset;`. Offsets are zero-based character positions in the analyzed body. Repeated and overlapping phrase hits remain separate; several labels can share an offset.
+Each mention is written as `CODE,offset;`. Offsets are zero-based character positions in the analyzed body. Repeated and overlapping phrase hits are separate; several labels can share an offset.
 
 Use `analyze_themes(text).to_gkg(enhanced=True)` to reuse one analysis for both fields. Context conditions and label coverage are the same as for standard themes. After translation, offsets refer to the English body.
 
@@ -36,4 +36,4 @@ The extraction limitations are the same as for [themes](themes.md#limitations). 
 
 [Themes](themes.md) · [Translation information](translation-info.md) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
 
-[Field index](README.md) · [Python API](../python-api.md)
+[Field index](README.md)

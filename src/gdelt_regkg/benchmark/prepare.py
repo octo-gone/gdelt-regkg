@@ -1,6 +1,6 @@
 """Prepare reproducible GCAM samples and native-language corpus inputs.
 
-Run ``python -m gdelt_regkg.benchmark.prepare --help``. Inputs remain read-only.
+Run ``python -m gdelt_regkg.benchmark.prepare --help``. Inputs are read-only.
 """
 
 import argparse

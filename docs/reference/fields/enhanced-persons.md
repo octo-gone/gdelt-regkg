@@ -25,7 +25,7 @@ Marie Curie,0;Marie Curie,19
 
 ## Behavior
 
-Entries are `name,offset`, separated by `;`. Repeated names remain separate. Offsets are zero-based character positions in the analyzed body, even when the cell policy changes a name’s spelling.
+Entries are `name,offset`, separated by `;`. Repeated names are separate. Offsets are zero-based character positions in the analyzed body, even when the cell policy changes a name’s spelling.
 
 Use `entities.to_gkg("PERSON", enhanced=True)` to share one NER result with the standard field. Pass precomputed recognition to `generate_gkg(text, metadata, resources, ner_result=entities)`; the result must describe that exact body. After translation, offsets refer to the English body.
 
@@ -35,6 +35,6 @@ The extraction limitations are the same as for [persons](persons.md#limitations)
 
 ## Related
 
-[Persons](persons.md) · [Name policies](../python-api.md#name-policies) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
+[Persons](persons.md) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
 
-[Field index](README.md) · [Python API](../python-api.md)
+[Field index](README.md)

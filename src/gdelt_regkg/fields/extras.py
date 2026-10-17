@@ -39,7 +39,7 @@ class Citation:
 
     Supply author names in given-name-first order. Simple 'Surname, Given'
     names are reordered; multi-comma names are retained to avoid guessing.
-    Dates, volumes, issues and pages remain strings, without reinterpretation.
+    Dates, volumes, issues and pages use string values without reinterpretation.
     """
 
     authors: tuple[str, ...] = ()

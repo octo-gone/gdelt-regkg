@@ -31,7 +31,7 @@ Location mentions: [('Paris', 33), ('France', 40)]
 
 ## Behavior
 
-Names are separated by `;` and deduplicated in first-mention order. No accepted names produces `""`. Original organization spans remain available in `entities.organizations`.
+Names are separated by `;` and deduplicated in first-mention order. No accepted names produces `""`. Original organization spans are available in `entities.organizations`.
 
 Reuse a loaded recognizer across documents. `analyze_entities` loads a cached small English recognizer when `recognizer=` is omitted. For record generation, supply it through `Resources(recognizer=ner)` and call `generate_gkg(text, metadata, resources)`, or pass precomputed recognition as `ner_result=entities`. The result must describe the exact analyzed body. Recognized mentions are shared across both organization fields and the other entity columns. See [the generation example](../../guides/records.md#generate-a-gkg-record).
 
@@ -39,7 +39,7 @@ Reuse a loaded recognizer across documents. `analyze_entities` loads a cached sm
 
 `name_policy="surface"` retains spelling and single-word organizations such as `Microsoft`. The default `gdelt-full-names` canonicalizes names, removes single-word names and applies a learned organization filter. Some genuine organizations are consequently absent from GKG cells.
 
-Use `name_policy="gdelt"` to keep single-word organizations with canonical formatting. Pass `name_rules=NameRules()` to disable the learned filter while retaining the selected policy. See [name policies](../python-api.md#name-policies) and [supplied mentions](persons.md#options) for custom backends.
+Use `name_policy="gdelt"` to keep single-word organizations with canonical formatting. Pass `name_rules=NameRules()` to disable the learned filter while retaining the selected policy. See [supplied mentions](persons.md#options) for custom backends.
 
 ## Limitations
 
@@ -51,4 +51,4 @@ Abbreviations and alternate names are not resolved to one identity.
 
 [Enhanced organizations](enhanced-organizations.md) · [Persons](persons.md) · [Shared NER and geography](locations.md#shared-ner-and-geographic-resolution) · [Installation and setup](../../installation.md) · [Current agreement](../../evaluation/results.md#agreement-with-gdelt)
 
-[Field index](README.md) · [Python API](../python-api.md)
+[Field index](README.md)

@@ -67,7 +67,7 @@ with open("articles.gkg.tsv", "w", encoding="utf-8", newline="") as stream:
 The file contains one headerless, tab-separated row with 27 columns and a final newline. Counts receive geography from the shared NER and location analysis. The record supports typed attributes and mapping access through native column names.
 
 > [!NOTE]
-> The empty media values and `extras={}` explicitly declare that these inputs are available and empty. Omitting them leaves those fields unavailable. `strict=True` rejects incomplete records; see [record availability and export](reference/python-api.md#availability-and-errors).
+> The empty media values and `extras={}` explicitly declare that these inputs are available and empty. Omitting them leaves those fields unavailable. `strict=True` rejects incomplete records.
 
 ## Next steps
 

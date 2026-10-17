@@ -17,6 +17,10 @@ classifiers = [
 dependencies = []
 
 [dependency-groups]
+docs = [
+    "zensical==0.0.71",
+    "mkdocstrings-python==2.0.9",
+]
 dev = [
     "scipy>=1.12,<2",
     "scikit-learn>=1.4,<2",
@@ -53,7 +57,7 @@ all = [
 
 [project.urls]
 Repository = "https://github.com/octo-gone/gdelt-regkg"
-Documentation = "https://github.com/octo-gone/gdelt-regkg/blob/master/docs/README.md"
+Documentation = "https://octo-gone.github.io/gdelt-regkg/"
 Issues = "https://github.com/octo-gone/gdelt-regkg/issues"
 Changelog = "https://github.com/octo-gone/gdelt-regkg/blob/master/CHANGELOG.md"
 
@@ -81,6 +85,8 @@ exclude = [
 ]
 include = [
     "/.github/scripts/check_docs.py",
+    "/.github/workflows/docs.yml",
+    "/zensical.toml",
     "/src/gdelt_regkg",
     "/docs",
     "/SECURITY.md",

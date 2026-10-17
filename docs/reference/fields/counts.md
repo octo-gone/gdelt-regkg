@@ -46,7 +46,7 @@ Pass resolved `CountLocation` spans through `locations=`. `analyze_locations(...
 
 Load a custom rule file with `load_count_rules(path)` or `CountRules.from_json(path)` and pass `rules=` to the standalone extractor. Compose `Resources(count_rules=rules)` for record generation.
 
-The [count-rule schema](../../../src/gdelt_regkg/resources/schemas/count-rules.schema.json) uses `name`, `settings` and `rules`. Only `enabled` rules execute; IDs must be unique.
+The [count-rule schema](https://github.com/octo-gone/gdelt-regkg/blob/master/src/gdelt_regkg/resources/schemas/count-rules.schema.json) uses `name`, `settings` and `rules`. Only `enabled` rules execute; IDs must be unique.
 
 | Rule kind | Match |
 | --- | --- |
@@ -62,6 +62,6 @@ The 37 labels cover all count labels observed in the statistical inventory, but 
 
 ## Related
 
-[Enhanced counts](enhanced-counts.md) · [Amounts](amounts.md) · [Custom rules](../../guides/resources.md#resource-selection) · [Current agreement](../../evaluation/results.md#agreement-with-gdelt) · [Count inventory](../../../CHANGELOG.md#count-labels)
+[Enhanced counts](enhanced-counts.md) · [Amounts](amounts.md) · [Custom rules](../../guides/resources.md#resource-selection) · [Current agreement](../../evaluation/results.md#agreement-with-gdelt) · [Count inventory](https://github.com/octo-gone/gdelt-regkg/blob/master/CHANGELOG.md#count-labels)
 
-[Field index](README.md) · [Python API](../python-api.md)
+[Field index](README.md)

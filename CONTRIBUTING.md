@@ -10,7 +10,7 @@ For extraction changes, report the model, resource revisions and relevant precis
 
 Commit code, original rules, schemas and reproducible build recipes. Keep downloaded dictionaries, source-derived profiles, model weights, article corpora, credentials and generated outputs out of the repository and distributions. Small test fixtures must be authored or permitted for redistribution; identify the source and terms of any contributed third-party material.
 
-If you have a missing dictionary, lexicon or matching rules, contact the [maintainer privately](https://github.com/octo-gone) through a contact method listed on their profile to arrange a transfer. Share files only when their terms permit it, and include the source, edition, citation and license or permission statement. Keep these materials in `downloads/` or `local-resources/`; do not commit them to any branch or fork, include them in a pull request, or attach them to a public issue. Private sharing does not authorize redistribution; the materials remain external to the repository and package.
+If you have a missing dictionary, lexicon or matching rules, contact the [maintainer privately](https://github.com/octo-gone) through a contact method listed on their profile to arrange a transfer. Share files only when their terms permit it, and include the source, edition, citation and license or permission statement. Keep these materials in `downloads/` or `local-resources/`; do not commit them to any branch or fork, include them in a pull request, or attach them to a public issue. Private sharing does not authorize redistribution; the materials are external to the repository and package.
 
 Contributions to this project's code and original rules are submitted under its [MIT license](LICENSE). External inputs retain their own terms. Follow the [code of conduct](CODE_OF_CONDUCT.md) and keep reviews focused on the change.
 
@@ -52,6 +52,8 @@ to the checkout and excluded from version control. See [Build resources](docs/gu
 for profile builds and selection; specialized conversion procedures are in [Dictionary imports](docs/guides/dictionary-imports.md).
 
 ## Local checks
+
+For documentation-only work, follow [Build the documentation](docs/development/documentation.md). Install the small docs toolset with `uv sync --only-group docs --inexact`, preview with `uv run --no-sync zensical serve`, and run `uv run --no-sync zensical build --clean --strict` before submitting changes.
 
 Prepare the dictionaries and small English model using [Installation and setup](docs/installation.md#basic-english-setup). From a development checkout, install tools with `uv sync --inexact --group dev --all-extras`. For local M2M100 translation, install PyTorch separately using the [CPU/CUDA instructions](docs/installation.md#non-english-articles). For GPU NER, follow the separate [CuPy setup](docs/installation.md#gpu-inference). The full suite requires the standard dictionaries and geographic reference; source-replay checks also use the original downloaded files.
 

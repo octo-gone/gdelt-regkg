@@ -28,7 +28,7 @@ inputs.
 
 Each selected target produces exactly one profile. The default `--use best`
 selects the current supported recipe, and partial builds preserve unrelated
-`defaults.json` selections. Previous files remain available when you build another
+`defaults.json` selections. Previous files are available when you build another
 recipe into the same directory; only the newly built profile becomes selected.
 
 Build progress appears immediately on stderr: source checks and downloads, each
@@ -175,7 +175,7 @@ The recorded recipe uses 20 files from **2015–2019** to reproduce the geograph
 > The default lookup is a limited reference profile, not a comprehensive worldwide gazetteer.
 >
 > - NER can recognize other places, but a name with no matching lookup entry produces an `unknown-place` diagnostic and is omitted from both GKG location columns. Its geography is also unavailable to counts.
-> - Raw recognized spans remain available through `NERResult.locations`.
+> - Raw recognized spans are available through `NERResult.locations`.
 > - There is no automatic geocoding fallback.
 > - For broad coverage, supply a more comprehensive compatible gazetteer. Adding sampled GKG files alone cannot guarantee coverage of all places.
 
@@ -204,7 +204,7 @@ gdelt-regkg-cli build all --sources-dir downloads/resources --output local-resou
 
 ## Custom profiles
 
-You can build and evaluate custom profiles with the installed library. Keep source inputs, generated profiles and development data separate from the reserved benchmark. For changes to the library itself and its test suite, see [Contributing](../../CONTRIBUTING.md#local-checks).
+You can build and evaluate custom profiles with the installed library. Keep source inputs, generated profiles and development data separate from the reserved benchmark. For changes to the library itself and its test suite, see [Contributing](https://github.com/octo-gone/gdelt-regkg/blob/master/CONTRIBUTING.md#local-checks).
 
 **Build authored rules only.** This builds the authored theme, count and name rules in a separate directory, without downloading CrisisLex:
 
@@ -226,7 +226,7 @@ Always evaluate changed profiles on a fresh reserved sample: broader coverage do
 
 ## Resource selection
 
-For custom files, prepare `counts.json` and `themes.json` using the packaged [JSON schemas](../../src/gdelt_regkg/resources/schemas/). Then load explicit objects:
+For custom files, prepare `counts.json` and `themes.json` using the packaged [JSON schemas](https://github.com/octo-gone/gdelt-regkg/tree/master/src/gdelt_regkg/resources/schemas). Then load explicit objects:
 
 ```python
 from gdelt_regkg import Resources
@@ -239,7 +239,7 @@ custom = Resources(
 )
 ```
 
-Explicit objects override directory defaults. Resources load only when required. The default root is `local-resources/` relative to the working directory. External dictionaries must be prepared locally; extraction does not fetch resources. Authored counts and name rules have packaged fallback. Existing schema IDs and historical build recipes remain supported.
+Explicit objects override directory defaults. Resources load only when required. The default root is `local-resources/` relative to the working directory. External dictionaries must be prepared locally; extraction does not fetch resources. Authored counts and name rules have packaged fallback. Schema IDs and build recipes identify the resource format and revision.
 
 Compiled default profiles are cached by resolved path. Reload explicit objects or restart after editing a cached profile in place. Caller-supplied recognizers retain their own name rules and model settings.
 

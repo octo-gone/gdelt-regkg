@@ -47,7 +47,7 @@ print(detection.language)
 fra
 ```
 
-Strict detection raises `LanguageDetectionError` when a threshold is not met. Empty or numeric-only input raises even with permissive detection. See [language interfaces](../reference/python-api.md#language-detection).
+Strict detection raises `LanguageDetectionError` when a threshold is not met. Empty or numeric-only input raises even with permissive detection.
 
 ## Translate a body
 
@@ -76,7 +76,7 @@ Omitting `language=` detects a label with Lingua. When the language is known, su
 
 ## Complete pipeline example
 
-This example additionally requires the English NER model and standard resources from [quickstart](../quickstart.md#prerequisites). It saves the exact analyzed bodies alongside the rows so enhanced offsets remain usable.
+This example additionally requires the English NER model and standard resources from [quickstart](../quickstart.md#prerequisites). It saves the exact analyzed bodies alongside the rows so enhanced offsets refer to the saved text.
 
 ```python
 import json

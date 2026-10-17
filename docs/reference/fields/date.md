@@ -35,4 +35,4 @@ The library does not infer GDELT’s ingestion time or round timestamps to a col
 
 [Record ID](record-id.md) · [Date mentions](enhanced-dates.md) · [Extra XML](extras-xml.md) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
 
-[Field index](README.md) · [Python API](../python-api.md)
+[Field index](README.md)

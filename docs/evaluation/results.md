@@ -37,21 +37,21 @@ Only **29.98% of attempted URLs** were retained. Exploratory inverse-retention w
 
 Remaining limitations:
 
-- Counts often miss quantities or attach different objects and locations; amount-object and quotation agreement remains low.
+- Counts often miss quantities or attach different objects and locations; amount-object and quotation agreement is low.
 - Themes outside the supported vocabulary are included in the all-label score and cannot be recovered by that profile.
-- The geographic lookup contains places observed in 20 reference archives from 2015–2019. Other recognized names can remain unresolved and be omitted from GKG geography; see [coverage limits](../reference/fields/locations.md#limitations).
+- The geographic lookup contains places observed in 20 reference archives from 2015–2019. Other recognized names can can be unresolved and be omitted from GKG geography; see [coverage limits](../reference/fields/locations.md#limitations).
 - Metadata formatting, media inputs, translation provenance and enhanced offsets have no extraction-accuracy score in this study.
 
-For field agreement on translated articles, see the [seasonal translated-article evaluation](../../CHANGELOG.md#translingual-agreement). Those results combine retrieval, translation and extraction differences; they do not measure translation quality or provenance accuracy independently.
+For field agreement on translated articles, see the [seasonal translated-article evaluation](https://github.com/octo-gone/gdelt-regkg/blob/master/CHANGELOG.md#translingual-agreement). Those results combine retrieval, translation and extraction differences; they do not measure translation quality or provenance accuracy independently.
 
 ## GCAM
 
-The standard local profile uses General Inquirer, WordNet-derived families, theme categories and VADER. Roget and Lexicoder are optional imports. Dimension coverage is **809 of 2,888 (28.01%)** for the standard profile and **1,855 of 2,888 (64.23%)** for the evaluated v4 profile. The v5 build compiles 2,597 dimensions, including 268 authored theme approximations; source-backed coverage remains 2,328. These vocabulary counts give each dimension equal weight.
+The standard local profile uses General Inquirer, WordNet-derived families, theme categories and VADER. Roget and Lexicoder are optional imports. Dimension coverage is **809 of 2,888 (28.01%)** for the standard profile and **1,855 of 2,888 (64.23%)** for the evaluated v4 profile. The v5 build compiles 2,597 dimensions, including 268 authored theme approximations; source-backed coverage is 2,328. These vocabulary counts give each dimension equal weight.
 
 > [!WARNING]
 > The agreement metrics below describe v4. The broader v5 vocabulary includes approximations; its coverage figures do not establish equivalent scores or improved extraction accuracy.
 
-On the latest full corpus, the evaluated v4 profile covers **78.33% of native positive count occurrences** and **81.02% of native document–dimension assignments**. Frequent categories contribute more to occurrence coverage. These shares measure representable native activity, not correctly reconstructed counts. The older seasonal benchmark's occurrence shares are retained in the [historical changelog](../../CHANGELOG.md#combined-gcam-coverage).
+On the latest full corpus, the evaluated v4 profile covers **78.33% of native positive count occurrences** and **81.02% of native document–dimension assignments**. Frequent categories contribute more to occurrence coverage. These shares measure representable native activity, not correctly reconstructed counts. The older seasonal benchmark's occurrence shares are retained in the [historical changelog](https://github.com/octo-gone/gdelt-regkg/blob/master/CHANGELOG.md#combined-gcam-coverage).
 
 The table uses the evaluated v4 profile. Presence F1, count WAPE and aggregate count ratios use the **265,413-article full corpus**; the final column separately reports WAPE for the **54,609-article restricted subset**. Presence F1 compares category occurrence. WAPE divides total absolute count error by total native counts and is expressed as a percentage; lower is better. Count ratios above one indicate aggregate overcounting and below one indicate undercounting. Metrics apply to supported comparable categories.
 

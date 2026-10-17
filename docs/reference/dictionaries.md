@@ -1,58 +1,12 @@
 # GCAM dictionary reference
 
-## Contents
-
-- [Dictionary overview](#dictionary-overview)
-- [Dictionary licenses](#dictionary-licenses)
-- [Forest Values](#forest-values)
-- [General Inquirer](#general-inquirer)
-- [Lexicoder Sentiment Dictionary](#lexicoder-sentiment-dictionary)
-- [Lexicoder Topic Dictionaries](#lexicoder-topic-dictionaries)
-- [Linguistic Inquiry and Word Count (LIWC)](#linguistic-inquiry-and-word-count-liwc)
-- [Loughran–McDonald Financial Sentiment Dictionaries](#loughranmcdonald-financial-sentiment-dictionaries)
-- [Opinion Observer](#opinion-observer)
-- [Regressive Imagery Dictionary](#regressive-imagery-dictionary)
-- [Roget's Thesaurus, 1911 Edition](#rogets-thesaurus-1911-edition)
-- [SentiWordNet 3.0](#sentiwordnet-30)
-- [SentiWords](#sentiwords)
-- [MPQA Subjectivity Lexicon](#mpqa-subjectivity-lexicon)
-- [Body Boundary Dictionary](#body-boundary-dictionary)
-- [WordNet Affect 1.0](#wordnet-affect-10)
-- [WordNet Affect 1.1](#wordnet-affect-11)
-- [WordNet Domains 3.2](#wordnet-domains-32)
-- [WordNet 3.1 Lexical Categories](#wordnet-31-lexical-categories)
-- [GDELT GKG Themes](#gdelt-gkg-themes)
-- [Affective Norms for English Words (ANEW)](#affective-norms-for-english-words-anew)
-- [ML-SENTICON (English)](#ml-senticon-english)
-- [Hedonometer (English)](#hedonometer-english)
-- [Spanish Adaptation of ANEW](#spanish-adaptation-of-anew)
-- [ML-SENTICON (Non-English)](#ml-senticon-non-english)
-- [Hedonometer (Non-English)](#hedonometer-non-english)
-- [Moral Foundations Dictionary](#moral-foundations-dictionary)
-- [VADER Sentiment Lexicon](#vader-sentiment-lexicon)
-- [Portuguese Emotion and Pro-Social Dimensions](#portuguese-emotion-and-pro-social-dimensions)
-- [Regressive Imagery Dictionary — French](#regressive-imagery-dictionary--french)
-- [Regressive Imagery Dictionary — Russian](#regressive-imagery-dictionary--russian)
-- [Regressive Imagery Dictionary — Hungarian](#regressive-imagery-dictionary--hungarian)
-- [Regressive Imagery Dictionary — Swedish](#regressive-imagery-dictionary--swedish)
-- [Regressive Imagery Dictionary — Portuguese](#regressive-imagery-dictionary--portuguese)
-- [Regressive Imagery Dictionary — German](#regressive-imagery-dictionary--german)
-- [Hogenraad's Motive Dictionary](#hogenraads-motive-dictionary)
-- [Hogenraad's Motive Dictionary — French](#hogenraads-motive-dictionary--french)
-- [Hogenraad's Motive Dictionary — Spanish](#hogenraads-motive-dictionary--spanish)
-- [Hogenraad & Orianne's French Imagery Dictionary](#hogenraad--oriannes-french-imagery-dictionary)
-- [Hogenraad's TIME Dictionary](#hogenraads-time-dictionary)
-- [Martindale & Martindale's Temperament/Elements Dictionary](#martindale--martindales-temperamentelements-dictionary)
-- [Central Bank Financial Stability Report Sentiment](#central-bank-financial-stability-report-sentiment)
-- [Extended Moral Foundations Dictionary (eMFD)](#extended-moral-foundations-dictionary-emfd)
-- [Resource source files](#resource-source-files)
-- [Third-party terms](#third-party-terms)
-
 ## Dictionary overview
 
-The **GCAM ID** is GDELT's numeric dictionary identifier: for example, `c26.1` and `v26.1` belong to dictionary 26. A **selector** is the corresponding name accepted by `disabled_dictionaries`, `gcam_disabled_dictionaries` and `--gcam-disable`; numeric IDs are also accepted. Implemented dictionary selectors can also be used with `--gcam-add` to build a profile.
+**GCAM (Global Content Analysis Measures)** brings together dictionaries that describe the emotional, psychological and topical language in news articles. Each dictionary associates words or phrases with categories, such as positive sentiment, fear or moral values, or with numeric ratings, such as happiness. Matching an article against these vocabularies produces category counts and scores in its GKG record.
 
-**Supported** counts categories covered by source-backed vocabulary; **Native** is the category count in the GCAM codebook. Authored approximations are identified separately. Count/value keys for one category count as one dimension. The `v5` preset compiles 2,597 dimensions: 2,328 source-backed dimensions, 268 authored theme approximations and one French imagery approximation. Its language inventory is 2,296 English and 301 non-English dimensions. Optional imports require separate source files. “Source required” identifies an importer whose original dictionary vocabulary must be acquired. Native dictionaries require an original-language body and its language label alongside prepared English text. Chinese scoring uses optional Jieba segmentation; install `gdelt-regkg[build]`.
+The dictionaries offer different perspectives: VADER measures sentiment, Moral Foundations describes moral language, and Loughran–McDonald focuses on financial language. Choose dictionaries suited to your topic and the article's language; their vocabularies, research methods and licenses differ. The entries below explain what each dictionary measures and provide source links and acquisition instructions. Citations are also provided, as GDELT recommends citing the source when using the dictionary.
+
+In the table, **GCAM ID** identifies the dictionary in GDELT, and **Selector** is its name in this library. **Supported** counts categories covered by source-backed vocabulary; **Native** gives the category count in the GCAM codebook. Authored approximations are listed separately. **Availability** shows whether a dictionary is included in the `v5` resource build, needs an optional import, or still requires its original vocabulary.
 
 | Dictionary | GCAM ID | Selector | Supported | Native | Availability |
 | --- | ---: | --- | ---: | ---: | --- |
@@ -97,6 +51,12 @@ The **GCAM ID** is GDELT's numeric dictionary identifier: for example, `c26.1` a
 | [Temperament/Elements](#dictionary-40) | 40 | `temperament` | 0 | 8 | Source required |
 | [Central-bank sentiment](#dictionary-41) | 41 | `central-bank` | 3 | 3 | v5 |
 | [eMFD](#dictionary-42) | 42 | `emfd` | 11 | 11 | v5 |
+
+## Coverage and configuration
+
+The `v5` preset compiles 2,597 dimensions: 2,328 source-backed dimensions, 268 authored theme approximations and one French imagery approximation. Its language inventory is 2,296 English and 301 non-English dimensions. Count/value keys for one category count as one dimension. These coverage counts describe the available vocabulary and categories; they do not establish extraction accuracy.
+
+Use a dictionary's selector or numeric ID with `disabled_dictionaries`, `gcam_disabled_dictionaries` or `--gcam-disable` to exclude it. Implemented selectors can also be used with `--gcam-add` when building a profile. Optional imports require separate source files. Non-English dictionaries need the original-language body and its language label alongside prepared English text; Chinese scoring also needs optional Jieba segmentation from `gdelt-regkg[build]`. See the [GCAM field reference](fields/gcam.md) for scoring and language handling, and [Build resources](../guides/resources.md#gcam-profiles-and-expansion) for profile setup.
 
 ## Dictionary licenses
 
@@ -146,8 +106,10 @@ See each dictionary's license notes for conditions. “Free distribution” desc
 | 41 | [Central-bank sentiment](#dictionary-41) | Unverified |
 | 42 | [eMFD](#dictionary-42) | Unverified |
 
+## Dictionaries
+
 <a id="dictionary-1"></a>
-## Forest Values
+### Forest Values
 
 Classifies forest-related language into economic, ecological, aesthetic and moral/spiritual values.
 
@@ -166,7 +128,7 @@ Download `FOREST.zip` from the [WordStat publisher](https://provalisresearch.com
 ```
 
 <a id="dictionary-2"></a>
-## General Inquirer
+### General Inquirer
 
 Harvard IV-4 and Lasswell vocabulary measures psychological, social and evaluative categories.
 
@@ -187,7 +149,7 @@ Download Harvard's [basic TSV](https://inquirer.sites.fas.harvard.edu/inqtabs.tx
 ```
 
 <a id="dictionary-3"></a>
-## Lexicoder Sentiment Dictionary
+### Lexicoder Sentiment Dictionary
 
 Positive, negative and negated polarity categories developed for political/news texts.
 
@@ -207,7 +169,7 @@ Download `LSDaug2015.zip` from the [publisher](https://www.snsoroka.com/data-lex
 ```
 
 <a id="dictionary-4"></a>
-## Lexicoder Topic Dictionaries
+### Lexicoder Topic Dictionaries
 
 Identifies policy and public-affairs topics.
 
@@ -226,7 +188,7 @@ Obtain the June 2013 `LTDjun2013.zip` distribution from the [publisher](https://
 ```
 
 <a id="dictionary-5"></a>
-## Linguistic Inquiry and Word Count (LIWC)
+### Linguistic Inquiry and Word Count (LIWC)
 
 Psycholinguistic categories cover function words, emotions, cognition, social relations and other language dimensions.
 
@@ -245,7 +207,7 @@ Obtain a compatible English LIWC 2007 `.dic` through [licensed publisher access]
 ```
 
 <a id="dictionary-6"></a>
-## Loughran–McDonald Financial Sentiment Dictionaries
+### Loughran–McDonald Financial Sentiment Dictionaries
 
 Financial-context positive/negative tone, uncertainty, litigation and modal language.
 
@@ -265,7 +227,7 @@ Download the master CSV from the [authors' Notre Dame page](https://sraf.nd.edu/
 ```
 
 <a id="dictionary-7"></a>
-## Opinion Observer
+### Opinion Observer
 
 Positive and negative opinion words from the Hu–Liu resource.
 
@@ -283,7 +245,7 @@ Obtain the [Hu–Liu opinion lexicon](https://www.cs.uic.edu/~liub/FBS/sentiment
 ```
 
 <a id="dictionary-8"></a>
-## Regressive Imagery Dictionary
+### Regressive Imagery Dictionary
 
 Categories distinguish primary/primordial cognition, secondary/conceptual cognition and emotions.
 
@@ -304,7 +266,7 @@ Download English `RID.ZIP` from the [WordStat page](https://provalisresearch.com
 ```
 
 <a id="dictionary-9"></a>
-## Roget's Thesaurus, 1911 Edition
+### Roget's Thesaurus, 1911 Edition
 
 Broad semantic categories group words and phrases by concept.
 
@@ -323,7 +285,7 @@ Download [Roget.zip](https://provalisresearch.com/Download/Roget.zip). The impor
 ```
 
 <a id="dictionary-10"></a>
-## SentiWordNet 3.0
+### SentiWordNet 3.0
 
 Positive and negative scores are associated with WordNet senses.
 
@@ -341,7 +303,7 @@ Download `SentiWordNet_3.0.0.txt` from the [author repository](https://github.co
 ```
 
 <a id="dictionary-11"></a>
-## SentiWords
+### SentiWords
 
 Word-level prior polarity derived from sense-level sentiment resources.
 
@@ -361,7 +323,7 @@ Obtain `SentiWords_1.0.txt` from the [annotations distribution](https://github.c
 ```
 
 <a id="dictionary-12"></a>
-## MPQA Subjectivity Lexicon
+### MPQA Subjectivity Lexicon
 
 Strong/weak subjectivity clues are grouped by positive, negative, neutral and mixed prior polarity.
 
@@ -383,7 +345,7 @@ Use `--download-mpqa` to add this optional dictionary and explicitly permit the 
 ```
 
 <a id="dictionary-13"></a>
-## Body Boundary Dictionary
+### Body Boundary Dictionary
 
 Vocabulary associated with psychological body-boundary concepts, including barrier and penetration imagery.
 
@@ -403,7 +365,7 @@ Download `BodyType.zip` from the [WordStat publisher](https://provalisresearch.c
 ```
 
 <a id="dictionary-14"></a>
-## WordNet Affect 1.0
+### WordNet Affect 1.0
 
 Eleven broad affect labels applied to WordNet concepts.
 
@@ -423,7 +385,7 @@ Obtain the [FBK annotations](https://wndomains.fbk.eu/download.html), or the [re
 ```
 
 <a id="dictionary-15"></a>
-## WordNet Affect 1.1
+### WordNet Affect 1.1
 
 A more detailed hierarchy of affective WordNet labels.
 
@@ -432,7 +394,7 @@ A more detailed hierarchy of affective WordNet labels.
 Obtain the [FBK annotations](https://wndomains.fbk.eu/download.html) and WordNet 1.6, selecting the 1.1 annotations. Cite `strapparava2004affect` from [Affect 1.0](#dictionary-14).
 
 <a id="dictionary-16"></a>
-## WordNet Domains 3.2
+### WordNet Domains 3.2
 
 Subject-field labels such as medicine or economics assigned to WordNet concepts.
 
@@ -452,7 +414,7 @@ Obtain [WordNet Domains 3.2](https://wndomains.fbk.eu/download.html) and WordNet
 ```
 
 <a id="dictionary-17"></a>
-## WordNet 3.1 Lexical Categories
+### WordNet 3.1 Lexical Categories
 
 Broad lexical/semantic classes derived from WordNet's lexicographer categories.
 
@@ -473,11 +435,11 @@ Download [WordNet 3.1](https://wordnetcode.princeton.edu/wn3.1.dict.tar.gz) from
 ```
 
 <a id="dictionary-18"></a>
-## GDELT GKG Themes
+### GDELT GKG Themes
 
 Topic and taxonomy categories corresponding to GKG themes.
 
-**License:** MIT. Applies to local rules and CrisisLex; GDELT metadata retains its source terms. [Project license](../../LICENSE), [CrisisLex](https://github.com/sajao/CrisisLex), [GDELT](https://www.gdeltproject.org/data.html).
+**License:** MIT. Applies to local rules and CrisisLex; GDELT metadata retains its source terms. [Project license](https://github.com/octo-gone/gdelt-regkg/blob/master/LICENSE), [CrisisLex](https://github.com/sajao/CrisisLex), [GDELT](https://www.gdeltproject.org/data.html).
 
 Build from the package's theme rules, [CrisisLex](https://github.com/sajao/CrisisLex) and the GCAM codebook. The codebook supplies category IDs; public category lists do not supply GDELT's production matching rules.
 
@@ -493,7 +455,7 @@ The v5 preset includes authored rules for another 268 dimensions, giving 367 com
 ```
 
 <a id="dictionary-19"></a>
-## Affective Norms for English Words (ANEW)
+### Affective Norms for English Words (ANEW)
 
 Mean valence, arousal and dominance ratings for all participants, men and women.
 
@@ -512,7 +474,7 @@ The build downloads the [original technical report](https://pdodds.w3.uvm.edu/te
 ```
 
 <a id="dictionary-20"></a>
-## ML-SENTICON (English)
+### ML-SENTICON (English)
 
 Eight layers of positive and negative lemma polarity estimates.
 
@@ -531,7 +493,7 @@ The v5 build downloads [senticon.en.xml](https://raw.githubusercontent.com/ITALI
 ```
 
 <a id="dictionary-21"></a>
-## Hedonometer (English)
+### Hedonometer (English)
 
 Mean word happiness ratings from the English labMT vocabulary.
 
@@ -562,7 +524,7 @@ Obtain the complete [labMT-en-v1 word list](https://hedonometer.org/words/labMT-
 ```
 
 <a id="dictionary-22"></a>
-## Spanish Adaptation of ANEW
+### Spanish Adaptation of ANEW
 
 Spanish affective word ratings; this is a language-specific adaptation with its own dimensions.
 
@@ -584,7 +546,7 @@ The v5 build downloads the publisher's original supplementary ZIP and imports `R
 ```
 
 <a id="dictionary-23"></a>
-## ML-SENTICON (Non-English)
+### ML-SENTICON (Non-English)
 
 Layered sentiment lexicons for Catalan, Galician and Spanish.
 
@@ -593,7 +555,7 @@ Layered sentiment lexicons for Catalan, Galician and Spanish.
 The [ML-Senticon repository](https://github.com/ITALIC-US/ML-Senticon) provides Catalan, Galician and Spanish XML files. Cite `cruz2014senticon` from the [English entry](#dictionary-20). The v5 build downloads and imports all three variants with cumulative layers. Native codebook keys are selected by language; Spanish and Galician keys follow the Catalan block within dictionary 23. Basque is outside the native GCAM inventory.
 
 <a id="dictionary-24"></a>
-## Hedonometer (Non-English)
+### Hedonometer (Non-English)
 
 Happiness ratings for the codebook's Arabic, German, French, Hindi, Indonesian, Korean, Portuguese, Russian, Spanish, Urdu and Chinese word lists.
 
@@ -602,7 +564,7 @@ Happiness ratings for the codebook's Arabic, German, French, Hindi, Indonesian, 
 Obtain language-specific word lists from [Hedonometer](https://hedonometer.org/words/). Cite the selected release and the references in the [English entry](#dictionary-21). The v5 build acquires and compiles eleven complete labMT JSON lists. Chinese uses the standard Jieba dictionary with HMM disabled; it requires the `build` extra when analyzing Chinese text. This segmentation is not established as identical to GDELT’s preprocessing.
 
 <a id="dictionary-25"></a>
-## Moral Foundations Dictionary
+### Moral Foundations Dictionary
 
 Virtue/vice vocabulary for five moral foundations plus general moral language.
 
@@ -619,7 +581,7 @@ Obtain the original dictionary from [Moral Foundations materials](https://moralf
 ```
 
 <a id="dictionary-26"></a>
-## VADER Sentiment Lexicon
+### VADER Sentiment Lexicon
 
 Valence ratings of sentiment-bearing words and tokens.
 
@@ -638,7 +600,7 @@ Obtain the vocabulary from the [author repository](https://github.com/cjhutto/va
 ```
 
 <a id="dictionary-27"></a>
-## Portuguese Emotion and Pro-Social Dimensions
+### Portuguese Emotion and Pro-Social Dimensions
 
 Portuguese affective and pro-social vocabulary from Detry, Lopo and Hogenraad.
 
@@ -656,7 +618,8 @@ Request the original Portuguese vocabulary and usage terms from its custodian, u
 ```
 
 <a id="dictionary-28"></a>
-## Regressive Imagery Dictionary — French
+<a id="regressive-imagery-dictionary--french"></a>
+### Regressive Imagery Dictionary — French
 
 French translation of RID by Robert Hogenraad.
 
@@ -673,7 +636,8 @@ Obtain the French CAT/EXC distribution from the [WordStat RID page](https://prov
 ```
 
 <a id="dictionary-29"></a>
-## Regressive Imagery Dictionary — Russian
+<a id="regressive-imagery-dictionary--russian"></a>
+### Regressive Imagery Dictionary — Russian
 
 Russian translation attributed to Leonid Dorfman.
 
@@ -689,7 +653,8 @@ Request the Russian vocabulary and usage terms from the translator or custodian.
 ```
 
 <a id="dictionary-30"></a>
-## Regressive Imagery Dictionary — Hungarian
+<a id="regressive-imagery-dictionary--hungarian"></a>
+### Regressive Imagery Dictionary — Hungarian
 
 Hungarian translation by Tibor Polya and Levente Szasz.
 
@@ -706,7 +671,8 @@ Obtain the Hungarian CAT/EXC distribution from the [WordStat RID page](https://p
 ```
 
 <a id="dictionary-31"></a>
-## Regressive Imagery Dictionary — Swedish
+<a id="regressive-imagery-dictionary--swedish"></a>
+### Regressive Imagery Dictionary — Swedish
 
 Swedish RID translation.
 
@@ -723,7 +689,8 @@ Obtain the Swedish CAT/EXC distribution from the [WordStat RID page](https://pro
 ```
 
 <a id="dictionary-32"></a>
-## Regressive Imagery Dictionary — Portuguese
+<a id="regressive-imagery-dictionary--portuguese"></a>
+### Regressive Imagery Dictionary — Portuguese
 
 Portuguese RID translation; the native codebook identifies partial vocabulary expansion.
 
@@ -740,7 +707,8 @@ Obtain the Portuguese CAT/EXC distribution from the [WordStat RID page](https://
 ```
 
 <a id="dictionary-33"></a>
-## Regressive Imagery Dictionary — German
+<a id="regressive-imagery-dictionary--german"></a>
+### Regressive Imagery Dictionary — German
 
 German RID translation; GDELT identifies nearly complete vocabulary expansion.
 
@@ -757,7 +725,7 @@ Obtain the German CAT/EXC distribution from the [WordStat RID page](https://prov
 ```
 
 <a id="dictionary-35"></a>
-## Hogenraad's Motive Dictionary
+### Hogenraad's Motive Dictionary
 
 Achievement, affiliation and power motivation, with subordinate goal, action, evaluation and relationship categories.
 
@@ -775,7 +743,8 @@ Request the original English version 7.0 vocabulary, category hierarchy and matc
 ```
 
 <a id="dictionary-36"></a>
-## Hogenraad's Motive Dictionary — French
+<a id="hogenraads-motive-dictionary--french"></a>
+### Hogenraad's Motive Dictionary — French
 
 French version of the motivation categories.
 
@@ -793,7 +762,8 @@ Request French version 1.2 and its matching rules from the custodian identified 
 ```
 
 <a id="dictionary-37"></a>
-## Hogenraad's Motive Dictionary — Spanish
+<a id="hogenraads-motive-dictionary--spanish"></a>
+### Hogenraad's Motive Dictionary — Spanish
 
 Spanish version of the motivation categories.
 
@@ -811,11 +781,12 @@ Request Spanish version 1.1 and its matching rules through the original authors 
 ```
 
 <a id="dictionary-38"></a>
-## Hogenraad & Orianne's French Imagery Dictionary
+<a id="hogenraad--oriannes-french-imagery-dictionary"></a>
+### Hogenraad & Orianne's French Imagery Dictionary
 
 Imagery values for French nouns.
 
-The optional [PDF converter](../guides/dictionary-imports.md#french-imagery-pdf-conversion) downloads this paper, renders its appendix and uses line-by-line Tesseract OCR to build class-midpoint estimates. It retrieves checksum-verified French recognition data separately, saves extraction diagnostics and marks the resulting scores as approximate and unreviewed. These estimates are included in v5 and recorded separately from source-backed coverage; exact-data CSV imports remain available.
+The optional [PDF converter](../guides/dictionary-imports.md#french-imagery-pdf-conversion) downloads this paper, renders its appendix and uses line-by-line Tesseract OCR to build class-midpoint estimates. It retrieves checksum-verified French recognition data separately, saves extraction diagnostics and marks the resulting scores as approximate and unreviewed. These estimates are included in v5 and recorded separately from source-backed coverage; exact-data CSV imports are available.
 
 **License:** CC BY 4.0 for the [published paper](https://psychologicabelgica.com/articles/10.5334/pb.672). Confirm the applicable terms of any separately obtained rating file.
 
@@ -834,7 +805,7 @@ Request the original machine-readable French noun ratings through the authors or
 ```
 
 <a id="dictionary-39"></a>
-## Hogenraad's TIME Dictionary
+### Hogenraad's TIME Dictionary
 
 Temporal language beyond explicit dates: duration, sequence, frequency, age, past, present and future.
 
@@ -851,7 +822,8 @@ Request the original English TIME term lists, category hierarchy and matching ru
 ```
 
 <a id="dictionary-40"></a>
-## Martindale & Martindale's Temperament/Elements Dictionary
+<a id="martindale--martindales-temperamentelements-dictionary"></a>
+### Martindale & Martindale's Temperament/Elements Dictionary
 
 Vocabulary connecting the four elements with sanguine, choleric, melancholic and phlegmatic imagery.
 
@@ -872,7 +844,7 @@ Request the original English vocabulary for all eight native categories, with it
 ```
 
 <a id="dictionary-41"></a>
-## Central Bank Financial Stability Report Sentiment
+### Central Bank Financial Stability Report Sentiment
 
 Positive, negative and neutral financial-stability vocabulary.
 
@@ -893,7 +865,7 @@ Download the [XLSX dictionary appendix](https://www.federalreserve.gov/econres/i
 ```
 
 <a id="dictionary-42"></a>
-## Extended Moral Foundations Dictionary (eMFD)
+### Extended Moral Foundations Dictionary (eMFD)
 
 Moral-word coverage and probabilistic foundation/sentiment scores derived from crowd annotations.
 
@@ -926,7 +898,7 @@ The build downloads these files automatically with `--download-sources`. For man
 | `wn2.0.tar.gz` | [WordNet 2.0](https://wordnetcode.princeton.edu/2.0/WordNet-2.0.tar.gz) | Domains synset mapping |
 | `wn1.6.tar.gz` | [WordNet 1.6](https://wordnetcode.princeton.edu/1.6/wn16.unix.tar.gz) | Affect synset mapping |
 | `wndomains-mirror.zip` | [Domains/Affect mirror](https://codeload.github.com/larsmans/wordnet-domains-sentiwords/zip/refs/heads/master), [publisher](https://wndomains.fbk.eu/download.html) | Domains 3.2 and Affect 1.1 annotations |
-| Twenty reference `*.gkg.csv.zip` archives | Exact HTTP URLs in [recipes.json](../../src/gdelt_regkg/resources/recipes.json) | GKG place names, codes, coordinates and feature IDs; see [Geographic reference files](../guides/resources.md#geographic-reference-files) |
+| Twenty reference `*.gkg.csv.zip` archives | Exact HTTP URLs in [recipes.json](https://github.com/octo-gone/gdelt-regkg/blob/master/src/gdelt_regkg/resources/recipes.json) | GKG place names, codes, coordinates and feature IDs; see [Geographic reference files](../guides/resources.md#geographic-reference-files) |
 
 ## Third-party terms
 

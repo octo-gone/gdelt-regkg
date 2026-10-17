@@ -31,13 +31,13 @@ Location mentions: [('Paris', 33), ('France', 40)]
 
 ## Behavior
 
-Names are separated by `;` and deduplicated in first-mention order. No accepted names produces `""`. Original spelling and offsets remain available in `entities.persons`.
+Names are separated by `;` and deduplicated in first-mention order. No accepted names produces `""`. Original spelling and offsets are available in `entities.persons`.
 
 Load the recognizer once and reuse it. `analyze_entities` uses a cached small English recognizer when `recognizer=` is omitted; missing models raise `NERUnavailableError`. For record generation, supply it through `Resources(recognizer=ner)` and call `generate_gkg(text, metadata, resources)`, or pass precomputed recognition as `ner_result=entities`. The result must describe the exact analyzed body. See [the generation example](../../guides/records.md#generate-a-gkg-record).
 
 ## Options
 
-The example uses `name_policy="surface"` to retain spelling and single-word names. The default `gdelt-full-names` lowercases names, normalizes initials and possessives, removes configured leading titles and omits single-word person names. See [name policies](../python-api.md#name-policies).
+The example uses `name_policy="surface"` to retain spelling and single-word names. The default `gdelt-full-names` lowercases names, normalizes initials and possessives, removes configured leading titles and omits single-word person names.
 
 `SpacyNER.from_model("en_core_web_lg")` selects the large English model when it is installed. Existing spans can also be supplied to `analyze_entities` without loading a model.
 
@@ -54,7 +54,7 @@ print(entities.to_gkg("PERSON"))
 Alice Smith
 ```
 
-Custom recognizers implement `analyze(text) -> NERResult`. Supplied span text must match its start/end positions. Reserved commas, semicolons and control characters are replaced during serialization; stored mentions remain unchanged.
+Custom recognizers implement `analyze(text) -> NERResult`. Supplied span text must match its start/end positions. Reserved commas, semicolons and control characters are replaced during serialization; stored mentions are unchanged.
 
 ## Limitations
 
@@ -66,4 +66,4 @@ Surnames and full names are not linked to one identity. A name omitted from a ce
 
 [Enhanced persons](enhanced-persons.md) · [Organizations](organizations.md) · [Shared NER and geography](locations.md#shared-ner-and-geographic-resolution) · [Installation and setup](../../installation.md) · [Current agreement](../../evaluation/results.md#agreement-with-gdelt)
 
-[Field index](README.md) · [Python API](../python-api.md)
+[Field index](README.md)

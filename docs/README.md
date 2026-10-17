@@ -26,7 +26,6 @@ For an expanded setup, use the [TL;DR commands](installation.md#tldr-expanded-co
 
 | Reference | Contents |
 | --- | --- |
-| [Python API](reference/python-api.md) | Public interfaces, options, result types and exceptions |
 | [CLI](reference/cli.md) | Commands, arguments, defaults and output conventions |
 | [GKG fields](reference/fields/README.md) | All 27 columns in wire order, with encodings, examples and limitations |
 | [Dictionaries](reference/dictionaries.md) | GCAM inventory, acquisition links, source terms and citations |
@@ -36,5 +35,6 @@ For an expanded setup, use the [TL;DR commands](installation.md#tldr-expanded-co
 - [Published results](evaluation/results.md) describe measured agreement and the evaluated configurations.
 - [Evaluation methodology](evaluation/methodology.md) explains metrics, sampling and interpretation.
 - [Migration](migration.md) covers upgrading to the current API.
-- [Contributing](../CONTRIBUTING.md) describes architecture, development checks and contribution requirements.
-- [Changelog](../CHANGELOG.md) records releases and historical experiments.
+- [Build the documentation](development/documentation.md) covers local previews, checks and GitHub Pages deployment.
+- [Contributing](https://github.com/octo-gone/gdelt-regkg/blob/master/CONTRIBUTING.md) describes architecture, development checks and contribution requirements.
+- [Changelog](https://github.com/octo-gone/gdelt-regkg/blob/master/CHANGELOG.md) records releases and historical experiments.

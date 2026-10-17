@@ -32,4 +32,4 @@ The formatter does not fetch documents, canonicalize URLs, remove tracking param
 
 [Source name](source-name.md) · [API usage](../../guides/records.md) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
 
-[Field index](README.md) · [Python API](../python-api.md)
+[Field index](README.md)
