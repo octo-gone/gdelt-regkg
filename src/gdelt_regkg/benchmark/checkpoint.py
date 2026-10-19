@@ -155,7 +155,7 @@ def prediction_signature(args, fields, device):
 
 def article_signature(namespace, reference, article):
     # Body hashes are checked when loading the corpus. Include supplied media,
-    # provenance and metadata, not native extraction targets used only for scoring.
+    # source details and metadata, not native extraction targets used only for scoring.
     return digest(
         {
             "configuration": namespace,

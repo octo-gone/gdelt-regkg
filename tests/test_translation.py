@@ -170,7 +170,7 @@ class TranslationTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             translate_text("Original", language="ur", translator=backend)
 
-    def test_pipeline_uses_translated_content_and_provenance(self):
+    def test_pipeline_uses_translated_content_and_metadata(self):
         translated = 'Flooding killed 12 people. Jane said "We need help."'
         backend = Mock(engine="Local fixture", translate=Mock(return_value=translated))
         with warnings.catch_warnings():

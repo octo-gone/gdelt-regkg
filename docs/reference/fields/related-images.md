@@ -1,10 +1,10 @@
 # Related images
 
-`V2.1RELATEDIMAGES` stores supplied article-image URLs. `format_related_images` formats the collection as one GKG cell.
+`V2.1RELATEDIMAGES` stores supplied article-image URLs. `format_related_images` formats the collection as one [Global Knowledge Graph (GKG)](../../get-started/concepts-and-glossary.md#gkg) cell.
 
 ## Requirements
 
-Core package and caller-supplied metadata; no article retrieval or NLP model is required.
+Core package and caller-supplied metadata. No article retrieval or NLP model is required.
 
 ## Example
 
@@ -24,18 +24,18 @@ https://example.org/images/one.jpg;https://example.org/images/two.jpg
 
 ## Behavior
 
-Supply a collection of absolute HTTP(S) URLs without whitespace. Entries are separated by `;`; order and duplicates are preserved. Literal semicolons inside URLs become `%3B`, and existing percent escapes are unchanged.
+Supply a collection of absolute HTTP(S) URLs without whitespace. Entries are separated by `;`. Order and duplicates are preserved. Literal semicolons inside URLs become `%3B`, and existing percent escapes are unchanged.
 
-An empty collection means no matching media; `None` means metadata is unavailable. A prejoined string is rejected.
+An empty collection means no matching media. `None` means metadata is unavailable. A prejoined string is rejected.
 
 In `RecordMetadata`, pass `related_images=`. An encoded `overrides["V2.1RELATEDIMAGES"]` override takes precedence.
 
 ## Limitations
 
-Select images relevant to the article before formatting. Resolve relative URLs yourself; the library does not retrieve pages or verify their media content.
+Select images relevant to the article before formatting. Resolve relative URLs yourself. The library does not retrieve pages or verify their media content.
 
 ## Related
 
-[Sharing image](sharing-image.md) · [API usage](../../guides/records.md) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
+[Sharing image](sharing-image.md) · [Generate records](../../guides/records.md) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
 
-[Field index](README.md)
+[GKG field reference](README.md)

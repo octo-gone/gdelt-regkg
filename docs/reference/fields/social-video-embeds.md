@@ -4,7 +4,7 @@
 
 ## Requirements
 
-Core package and caller-supplied metadata; no article retrieval or NLP model is required.
+Core package and caller-supplied metadata. No article retrieval or NLP model is required.
 
 ## Example
 
@@ -24,18 +24,18 @@ https://example.org/posts/video
 
 ## Behavior
 
-Supply a collection of absolute HTTP(S) URLs without whitespace. Entries are separated by `;`; order and duplicates are preserved. Literal semicolons inside URLs become `%3B`, and existing percent escapes are unchanged.
+Supply a collection of absolute HTTP(S) URLs without whitespace. Entries are separated by `;`. Order and duplicates are preserved. Literal semicolons inside URLs become `%3B`, and existing percent escapes are unchanged.
 
-An empty collection means no matching media; `None` means metadata is unavailable. A prejoined string is rejected.
+An empty collection means no matching media. `None` means metadata is unavailable. A prejoined string is rejected.
 
 In `RecordMetadata`, pass `social_video_embeds=`. An encoded `overrides["V2.1SOCIALVIDEOEMBEDS"]` override takes precedence.
 
 ## Limitations
 
-Identify video embeds and normalize provider URLs before formatting. Resolve relative URLs yourself; the library does not retrieve pages or verify their media content.
+Identify video embeds and normalize provider URLs before formatting. Resolve relative URLs yourself. The library does not retrieve pages or verify their media content.
 
 ## Related
 
-[Sharing image](sharing-image.md) · [API usage](../../guides/records.md) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
+[Sharing image](sharing-image.md) · [Generate records](../../guides/records.md) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
 
-[Field index](README.md)
+[GKG field reference](README.md)

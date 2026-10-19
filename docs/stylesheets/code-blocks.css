@@ -1,0 +1,10 @@
+/* Use the syntax palette so column colours follow the light and dark themes. */
+.highlight .shell-command,
+.highlight .code-column-0 { color: var(--md-code-hl-function-color); }
+.highlight .code-column-1 { color: var(--md-code-hl-number-color); }
+.highlight .code-column-2 { color: var(--md-code-hl-string-color); }
+.highlight .shell-option,
+.highlight .code-column-3 { color: var(--md-code-hl-keyword-color); }
+.highlight .code-column-4 { color: var(--md-code-hl-constant-color); }
+.highlight .code-column-5 { color: var(--md-code-hl-special-color); }
+.highlight .code-column-6 { color: var(--md-code-hl-generic-color); }

@@ -1,0 +1,44 @@
+/* GitHub alert types that do not have dedicated Zensical theme styles. */
+:root {
+  --callout-caution-color: #f03e4f;
+  --callout-caution-background: rgb(240 62 79 / 12%);
+  --callout-important-color: #8b3dff;
+  --callout-important-background: rgb(139 61 255 / 12%);
+  --callout-caution-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 2h10l5 5v10l-5 5H7l-5-5V7Z' fill='none' stroke='black' stroke-width='2'/%3E%3Cpath d='M12 7v6' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='12' cy='17' r='1'/%3E%3C/svg%3E");
+  --callout-important-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 3h14a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H9l-6 4V5a2 2 0 0 1 2-2Z' fill='none' stroke='black' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M12 7v4' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='12' cy='14.5' r='1'/%3E%3C/svg%3E");
+}
+
+[data-md-color-scheme="slate"] {
+  --callout-caution-color: #ff5964;
+  --callout-caution-background: rgb(255 89 100 / 12%);
+  --callout-important-color: #b06cff;
+  --callout-important-background: rgb(176 108 255 / 12%);
+}
+
+.md-typeset :is(.admonition, details).caution {
+  --callout-color: var(--callout-caution-color);
+  --callout-background: var(--callout-caution-background);
+  --callout-icon: var(--callout-caution-icon);
+}
+
+.md-typeset :is(.admonition, details).important {
+  --callout-color: var(--callout-important-color);
+  --callout-background: var(--callout-important-background);
+  --callout-icon: var(--callout-important-icon);
+}
+
+.md-typeset :is(.admonition, details):is(.caution, .important) {
+  background-color: var(--callout-background);
+  border-color: var(--callout-color);
+}
+
+.md-typeset :is(.caution, .important) > :is(.admonition-title, summary) {
+  background-color: transparent;
+  color: inherit;
+}
+
+.md-typeset :is(.caution, .important) > :is(.admonition-title, summary)::before {
+  background-color: var(--callout-color);
+  -webkit-mask-image: var(--callout-icon);
+  mask-image: var(--callout-icon);
+}

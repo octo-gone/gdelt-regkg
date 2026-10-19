@@ -4,7 +4,7 @@
 
 ## Requirements
 
-Core package and caller-supplied metadata; no article retrieval or NLP model is required.
+Core package and caller-supplied metadata. No article retrieval or NLP model is required.
 
 ## Example
 
@@ -30,6 +30,6 @@ The formatter does not fetch documents, canonicalize URLs, remove tracking param
 
 ## Related
 
-[Source name](source-name.md) · [API usage](../../guides/records.md) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
+[Source name](source-name.md) · [Generate records](../../guides/records.md) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
 
-[Field index](README.md)
+[GKG field reference](README.md)

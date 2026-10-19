@@ -4,7 +4,7 @@
 
 ## Requirements
 
-Core package and caller-supplied metadata; no article retrieval or NLP model is required.
+Core package and caller-supplied metadata. No article retrieval or NLP model is required.
 
 ## Example
 
@@ -28,10 +28,10 @@ Set `source_name=` on `RecordMetadata` to override hostname extraction, then pas
 
 ## Limitations
 
-Hostname extraction does not collapse subdomains into a registrable domain. Supply the original source label when reproducing an existing GKG row.
+Hostname extraction does not collapse subdomains into a registrable domain. Supply the original source label when reproducing an existing [GKG](../../get-started/concepts-and-glossary.md#gkg) row.
 
 ## Related
 
 [Source collection](source-collection.md) · [Document identifier](document-identifier.md) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
 
-[Field index](README.md)
+[GKG field reference](README.md)

@@ -162,12 +162,12 @@ class _GCAMReport:
         self.active_by_key = {
             key: CountStats() for key in sorted(self.count_keys, key=dimension_sort_key)
         }
-        self.provenance_presence = {
+        self.source_presence = {
             name: PresenceCounts() for name in ("source-backed", "approximate", "unspecified")
         }
-        self.provenance_keys = {
-            name: {key for key in self.count_keys if self.provenance(key) == name}
-            for name in self.provenance_presence
+        self.source_keys = {
+            name: {key for key in self.count_keys if self.source_type(key) == name}
+            for name in self.source_presence
         }
         self.clusters: dict[str, list[float]] = {}
         self.exclusions: dict[str, int] = defaultdict(int)
@@ -251,8 +251,8 @@ class _GCAMReport:
         b = {k for k, v in right.items() if k.startswith("c") and v > 0 and (k not in unreported)}
         self.all_presence.add(a, b)
         self.all_supported_presence.add(a & supported, b & supported)
-        for provenance, presence in self.provenance_presence.items():
-            keys = self.provenance_keys[provenance] & supported
+        for source_type, presence in self.source_presence.items():
+            keys = self.source_keys[source_type] & supported
             presence.add(a & keys, b & keys)
         self.native.update(a)
         self.native_dimensions.update(
@@ -383,7 +383,7 @@ class _GCAMReport:
                 },
                 self.documents,
             )
-            self.report_provenance(include_scores=dictionary_details)
+            self.report_sources(include_scores=dictionary_details)
             if dictionary_details:
                 self.report_dimensions()
         if dictionary_details:
@@ -404,7 +404,7 @@ class _GCAMReport:
                     "dictionary": FAMILY_NAMES.get(family(key), family(key)),
                     "category": (self.context.options.gcam_dimension_names or {}).get(key, key),
                     "language": (self.context.options.gcam_languages or {}).get(key, "unknown"),
-                    "provenance": self.provenance(key),
+                    "source_type": self.source_type(key),
                     "reference_support": self.reference_scores[key],
                     "prediction_support": self.prediction_scores[key],
                     "score_pairs": len(pairs),
@@ -498,7 +498,7 @@ class _GCAMReport:
             category = language_label(language) + (" / " + category if category else "")
         return {"dimension_key": key, "dimension_name": category}
 
-    def provenance(self, key):
+    def source_type(self, key):
         approximate = self.context.options.gcam_approximate_dimensions
         return (
             "unspecified"
@@ -508,14 +508,14 @@ class _GCAMReport:
             else "source-backed"
         )
 
-    def report_provenance(self, *, include_scores=True):
-        for group, presence in self.provenance_presence.items():
-            dimensions = {key for key in self.known or () if self.provenance(key) == group}
-            keys = {key for key in self.count_keys if self.provenance(key) == group}
+    def report_sources(self, *, include_scores=True):
+        for group, presence in self.source_presence.items():
+            dimensions = {key for key in self.known or () if self.source_type(key) == group}
+            keys = {key for key in self.count_keys if self.source_type(key) == group}
             if not dimensions:
                 continue
             self.context.table(
-                "gcam-provenance",
+                "gcam-sources",
                 "GCAM / " + group,
                 "inventory",
                 {
@@ -525,7 +525,7 @@ class _GCAMReport:
                 },
                 self.documents,
             )
-            self._provenance_counts(group, presence, keys)
+            self._source_counts(group, presence, keys)
             for key in sorted(
                 (key for key in dimensions if key.startswith("v") and include_scores),
                 key=dimension_sort_key,
@@ -533,7 +533,7 @@ class _GCAMReport:
                 pairs = self.paired_scores[key]
                 values = numeric_metrics(pairs)
                 self.context.table(
-                    "gcam-provenance",
+                    "gcam-sources",
                     "GCAM / " + group + " / " + self._score_field(key).removeprefix("GCAM / "),
                     key + " / weighted score",
                     {
@@ -545,7 +545,7 @@ class _GCAMReport:
                     **self._score_metadata(key),
                 )
                 self.context.table(
-                    "gcam-provenance",
+                    "gcam-sources",
                     "GCAM / " + group + " / " + self._score_field(key).removeprefix("GCAM / "),
                     key + " / score availability",
                     {
@@ -557,10 +557,10 @@ class _GCAMReport:
                     **self._score_metadata(key),
                 )
 
-    def _provenance_counts(self, group, presence, keys):
+    def _source_counts(self, group, presence, keys):
         if keys:
             self.context.table(
-                "gcam-provenance",
+                "gcam-sources",
                 "GCAM / " + group,
                 "supported presence",
                 {
@@ -574,7 +574,7 @@ class _GCAMReport:
                 self.documents,
             )
             self.context.table(
-                "gcam-provenance",
+                "gcam-sources",
                 "GCAM / " + group,
                 "active supported counts",
                 count_summary(self.active_by_key[key] for key in keys),
@@ -597,7 +597,7 @@ class _GCAMReport:
                     "dictionary": FAMILY_NAMES.get(family(key), family(key)),
                     "category": (self.context.options.gcam_dimension_names or {}).get(key, key),
                     "language": (self.context.options.gcam_languages or {}).get(key, "unknown"),
-                    "provenance": self.provenance(key)
+                    "source_type": self.source_type(key)
                     if key in self.count_keys
                     else "unimplemented",
                     **prf(

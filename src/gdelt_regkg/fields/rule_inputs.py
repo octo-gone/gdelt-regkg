@@ -59,7 +59,7 @@ def _validate(data, schema, kinds):
         ):
             raise ValueError(f"Rule labels must be a nonempty list of GKG codes: {identifier}")
         if "provenance" in record and not isinstance(record["provenance"], dict):
-            raise TypeError(f"provenance must be an object: {identifier}")
+            raise TypeError(f"Rule source details must be an object: {identifier}")
     return records
 
 

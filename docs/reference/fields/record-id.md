@@ -4,7 +4,7 @@
 
 ## Requirements
 
-Core package and caller-supplied metadata; no article retrieval or NLP model is required.
+Core package and caller-supplied metadata. No article retrieval or NLP model is required.
 
 ## Example
 
@@ -22,16 +22,16 @@ print(format_record_id("20250101120000", 2, translated=True))
 
 ## Behavior
 
-The timestamp uses `YYYYMMDDHHMMSS`. Sequence numbers must be positive integers; the timestamp must be known. `translated=True` inserts `T` before the sequence number.
+The timestamp uses `YYYYMMDDHHMMSS`. Sequence numbers must be positive integers. The timestamp must be known. `translated=True` inserts `T` before the sequence number.
 
-Set `batch_time=` and `sequence=` on `RecordMetadata`, then pass the metadata to `generate_gkg(text, metadata, resources)`. Translation provenance adds the `T` marker automatically. The batch timestamp also fills `V2.1DATE`.
+Set `batch_time=` and `sequence=` on `RecordMetadata`, then pass the metadata to `generate_gkg(text, metadata, resources)`. Translation metadata adds the `T` marker automatically. The batch timestamp also fills `V2.1DATE`.
 
 ## Limitations
 
-Assign sequence numbers so IDs are unique within your dataset. These are locally generated IDs; article text cannot recover the IDs assigned by GDELT.
+Assign sequence numbers so IDs are unique within your dataset. These are locally generated IDs. Article text cannot recover the IDs assigned by GDELT.
 
 ## Related
 
 [Batch date](date.md) · [Translation information](translation-info.md) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
 
-[Field index](README.md)
+[GKG field reference](README.md)

@@ -1,10 +1,10 @@
 # Tone
 
-`V1.5TONE` stores seven numeric components computed by `analyze_tone`. The standard English tone profile uses locally prepared General Inquirer categories with evaluated edits; it approximates GDELT’s tone scoring.
+`V1.5TONE` stores seven numeric components computed by `analyze_tone`. The standard English tone profile uses locally prepared General Inquirer categories with evaluated edits. It approximates GDELT’s tone scoring.
 
 ## Requirements
 
-Prepare the corresponding [local resource profile](../../guides/resources.md). Models and additional dependencies are needed only for the selected workflow.
+Prepare the field's dictionaries using [Build resources](../../guides/resources.md). Models and additional dependencies are needed only for the selected workflow.
 
 ## Example
 
@@ -34,9 +34,9 @@ assert result.word_count == 5
 | 6 | Self/group-reference density |
 | 7 | Word count |
 
-Components are separated by commas. Each density is `100 × matched token occurrences / total tokens`. Repeated words count repeatedly; numbers and stopwords count toward the denominator. Empty or punctuation-only input produces seven zeros.
+Components are separated by commas. Each density is `100 × matched token occurrences / total tokens`. Tone ranges from −100 to +100 points. See [Results](../../evaluation/results.md#tone-scale) for error relative to the native-tone spread. Repeated words count repeatedly. Numbers and stopwords count toward the denominator. Empty or punctuation-only input produces seven zeros.
 
-Tokenization uses Unicode NFKC normalization, case folding and normalized apostrophes. Internal apostrophes and hyphens are included within tokens; other punctuation separates them. The standard profile is tone v3; GCAM sentiment dictionaries are scored separately.
+Tokenization uses Unicode NFKC normalization, case folding and normalized apostrophes. Internal apostrophes and hyphens are included within tokens. Other punctuation separates them. The standard profile is tone v3. [Global Content Analysis Measures (GCAM)](../../get-started/concepts-and-glossary.md#gcam-and-dimensions) sentiment dictionaries are scored separately.
 
 ## Options
 
@@ -58,14 +58,14 @@ print(analyze_tone("We play good music.", lexicon=lexicon).to_gkg())
 25,25,0,25,25,25,4
 ```
 
-JSON profiles require `name` and arrays for the four token categories. The [tone schema](https://github.com/octo-gone/gdelt-regkg/blob/master/src/gdelt_regkg/resources/schemas/tone-lexicon.schema.json) documents the format; the loader also validates normalized tokens.
+JSON profiles require `name` and arrays for the four token categories. The [tone schema](https://github.com/octo-gone/gdelt-regkg/blob/master/src/gdelt_regkg/resources/schemas/tone-lexicon.schema.json) documents the format. The loader also validates normalized tokens.
 
 ## Limitations
 
-No stemming, sense disambiguation, negation reversal, intensifier weighting or constant bias adjustment runs. The dictionaries and tokenizer are approximations; native tone agreement also depends on whether the analyzed body matches GDELT’s original text.
+No stemming, sense disambiguation, negation reversal, intensifier weighting or constant bias adjustment runs. The dictionaries and tokenizer are approximations. Native tone agreement also depends on whether the analyzed body matches GDELT’s original text.
 
 ## Related
 
-[Installation and setup](../../installation.md) · [GCAM](gcam.md) · [Current agreement](../../evaluation/results.md#agreement-with-gdelt) · [Tone experiments](https://github.com/octo-gone/gdelt-regkg/blob/master/CHANGELOG.md#seasonal-benchmark)
+[Installation and setup](../../get-started/installation-and-setup.md) · [GCAM](gcam.md) · [Current agreement](../../evaluation/results.md#results) · [Tone experiments](https://github.com/octo-gone/gdelt-regkg/blob/master/CHANGELOG.md#seasonal-benchmark)
 
-[Field index](README.md)
+[GKG field reference](README.md)

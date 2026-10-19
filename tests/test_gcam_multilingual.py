@@ -350,7 +350,7 @@ class MultilingualGCAMTests(unittest.TestCase):
         self.assertEqual(native.metrics["paired_values"], 1)
         self.assertTrue(any(key[2] == "malformed_language_metadata" for key in report.audit))
 
-    def test_benchmark_predictions_score_original_without_fabricating_translation_provenance(self):
+    def test_benchmark_predictions_score_original_without_fabricating_translation_metadata(self):
         article = {
             "document": "https://example.org/story",
             "text": "chat chat",

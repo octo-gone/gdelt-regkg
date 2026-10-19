@@ -1,6 +1,33 @@
-# Detect and translate article bodies
+# Translation
 
-Record generation analyzes prepared English text. Detect and translate non-English bodies first, then copy translation provenance into metadata. Install the [language and translation dependencies](../installation.md#non-english-articles) before using these examples.
+Record generation analyzes prepared English text. Detect and translate non-English bodies first, then record the original language and translation engine in [metadata](../get-started/concepts-and-glossary.md#metadata). Complete the setup below before using these examples.
+
+## Setup
+
+For language detection without translation, install only the `lang` extra:
+
+```shell
+python -m pip install "gdelt-regkg[lang]"
+```
+
+For M2M100 translation, install a PyTorch build for your operating system using the [PyTorch installation selector](https://pytorch.org/get-started/locally/), then install the feature extras:
+
+```shell
+python -m pip install torch
+python -m pip install "gdelt-regkg[translate,lang]"
+```
+
+The library supports Windows, Linux and macOS. GPU backend availability depends on the operating system. For CUDA translation, use [GPU setup](gpu-setup.md#translation-backend) to select and verify a compatible PyTorch build. CuPy is not required for translation.
+
+### Download model weights
+
+Download the default M2M100 weights explicitly once:
+
+```shell
+python -c "from gdelt_regkg.fields.translation import M2M100Translator; M2M100Translator.from_model(device='cpu', allow_download=True)"
+```
+
+Use `device='cuda:0'` for this command after configuring CUDA. Afterwards load with `allow_download=False` or a local snapshot directory. Installing the feature extras does not download model weights.
 
 ## Language detection and translation
 
@@ -70,13 +97,13 @@ fra
 The authorities have announced new measures to protect the residents.
 ```
 
-Use `allow_download=True` once to explicitly permit downloading model weights. Afterwards use `False` or a local snapshot directory. Model wording can vary. English bodies pass through unchanged. CUDA inference uses FP16; CPU uses FP32. Consecutive sentences are packed and oversized spans are split without truncating the body. `batch_size` controls chunks per model call and `num_beams` controls decoding; empty or output-limited translations that cannot be recovered raise errors.
+Model wording can vary. English bodies pass through unchanged. CUDA inference uses FP16. CPU uses FP32. Consecutive sentences are packed and oversized spans are split without truncating the body. `batch_size` controls chunks per model call and `num_beams` controls decoding. Empty or output-limited translations that cannot be recovered raise errors.
 
-Omitting `language=` detects a label with Lingua. When the language is known, supply it with `language="fra"`. Regional labels such as `es-ES` normalize to `spa`; unsupported labels fail. Supplied labels use `language_check="script"` by default; `"all"` verifies every supplied label and `"none"` trusts it. Custom translators expose an engine identity and `translate(text, source_language)`.
+Omitting `language=` detects a label with Lingua. When the language is known, supply it with `language="fra"`. Regional labels such as `es-ES` normalize to `spa`. Unsupported labels fail. Supplied labels use `language_check="script"` by default. `"all"` verifies every supplied label and `"none"` trusts it. Custom translators expose an engine identity and `translate(text, source_language)`.
 
 ## Complete pipeline example
 
-This example additionally requires the English NER model and standard resources from [quickstart](../quickstart.md#prerequisites). It saves the exact analyzed bodies alongside the rows so enhanced offsets refer to the saved text.
+This example additionally requires the English named entity recognition (NER) model and standard resources from [quickstart](../get-started/quickstart.md#prerequisites). It saves the exact analyzed bodies alongside the rows so enhanced offsets refer to the saved text.
 
 ```python
 import json
@@ -129,15 +156,17 @@ with open("articles.gkg.tsv", "w", encoding="utf-8", newline="") as stream:
     write_gkg(rows, stream)
 ```
 
-The caller owns corpus iteration, sequence uniqueness and body storage. Missing language labels are detected automatically. `RecordMetadata.from_translation` returns a new metadata object and rejects conflicting provenance. Translated records receive the `T` marker in their IDs; English passthrough adds no translation provenance. Titles, media and identifiers are not translated.
+The caller owns corpus iteration, sequence uniqueness and body storage. Missing language labels are detected automatically. `RecordMetadata.from_translation` returns a new metadata object and rejects conflicting source-language or engine values. Translated records receive the `T` marker in their IDs. English input passes through without translation metadata. Titles, media and identifiers are not translated.
+
+## Analyzed text and offsets
 
 > [!IMPORTANT]
 > Enhanced offsets index the analyzed English body, `result.text`. Compute NER and count-location spans after translation and retain that exact body with the output. Offsets into `result.original_text` cannot be reused for translated text.
 
 ## Native-language GCAM
 
-By default, GCAM analyzes English `result.text` and emits its word count as `wc`. With a v5 lexicon, also pass `gcam_original_text=result.original_text` to `generate_gkg` for translated bodies. The source language comes from translated metadata; GCAM selects matching native dictionaries and emits `nwc` for the original body. Other fields and enhanced offsets continue to use English text.
+By default, [Global Content Analysis Measures (GCAM)](../get-started/concepts-and-glossary.md#gcam-and-dimensions) analyzes English `result.text` and emits its word count as `wc`. With a v5 lexicon, also pass `gcam_original_text=result.original_text` to `generate_gkg` for translated bodies. The source language comes from translated metadata. GCAM selects matching native dictionaries and emits `nwc` for the original body. Other fields and enhanced offsets continue to use English text.
 
-Standalone `analyze_gcam` accepts prepared English `text` plus `original_text=` and `original_language=`. Omit original-text inputs for English passthrough. Chinese native scoring requires Jieba through the `build` extra. See [GCAM translation behavior](../reference/fields/gcam.md#translation) and [resource profiles](resources.md#gcam-profiles-and-expansion).
+Standalone `analyze_gcam` accepts prepared English `text` plus `original_text=` and `original_language=`. Omit original-text inputs for English passthrough. Chinese native scoring requires Jieba through the `build` extra. See [GCAM translation behavior](../reference/fields/gcam.md#translation) and [resource profiles](gcam-resources.md#choose-a-preset).
 
-For model reuse, batch translation and persistent caching, see [performance](performance.md).
+For model reuse, batch translation and persistent caching, see [Performance](performance.md).

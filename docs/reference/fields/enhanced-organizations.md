@@ -1,10 +1,10 @@
 # Enhanced organizations
 
-`V2ENHANCEDORGANIZATIONS` uses the same recognition and name policy as [organizations](organizations.md), retaining each accepted mention’s start position.
+`V2ENHANCEDORGANIZATIONS` uses the same recognition and name policy as [Organizations](organizations.md), retaining each accepted mention’s start position.
 
 ## Requirements
 
-Install the `ner` extra and an English spaCy model. Name rules are included; see [installation](../../installation.md#english-models).
+Install the `ner` extra and an English spaCy model. Name rules are included. See [installation](../../get-started/installation-and-setup.md#english-models).
 
 ## Example
 
@@ -25,9 +25,9 @@ Microsoft,0;Microsoft,26
 
 ## Behavior
 
-Entries are `name,offset`, separated by `;`. Repeated names are separate. Offsets are zero-based character positions in the analyzed body; normalization and cell filters do not shift them.
+Entries are `name,offset`, separated by `;`. Repeated names are separate. Offsets are zero-based character positions in the analyzed body. Normalization and cell filters do not shift them.
 
-Use `entities.to_gkg("ORG", enhanced=True)` to share one NER result with the standard field. Pass precomputed recognition to `generate_gkg(text, metadata, resources, ner_result=entities)`; the result must describe that exact body. After translation, offsets refer to the English body.
+Use `entities.to_gkg("ORG", enhanced=True)` to share one NER result with the standard field. Pass precomputed recognition to `generate_gkg(text, metadata, resources, ner_result=entities)`. The result must describe that exact body. After translation, offsets refer to the English body.
 
 ## Limitations
 
@@ -37,4 +37,4 @@ The extraction limitations are the same as for [organizations](organizations.md#
 
 [Organizations](organizations.md) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
 
-[Field index](README.md)
+[GKG field reference](README.md)

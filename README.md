@@ -8,7 +8,7 @@
 
 Reconstruct GDELT GKG records from prepared article text and supplied metadata. Generate complete 27-column records or analyze individual fields from Python.
 
-**[Documentation](https://octo-gone.github.io/gdelt-regkg/)** · [Installation](https://octo-gone.github.io/gdelt-regkg/installation/) · [Quickstart](https://octo-gone.github.io/gdelt-regkg/quickstart/) · [Field reference](https://octo-gone.github.io/gdelt-regkg/reference/fields/)
+**[Documentation](https://octo-gone.github.io/gdelt-regkg/)** · [Installation and setup](https://octo-gone.github.io/gdelt-regkg/get-started/installation-and-setup/) · [Quickstart](https://octo-gone.github.io/gdelt-regkg/get-started/quickstart/) · [GKG field reference](https://octo-gone.github.io/gdelt-regkg/reference/fields/)
 
 You can use `gdelt-regkg` to:
 
@@ -20,7 +20,7 @@ You can use `gdelt-regkg` to:
 - Compare reconstructed fields with archived GKG output using the benchmark tools.
 
 > [!NOTE]
-> Text-derived values **approximate** GDELT's processing and **can differ** from native GKG output. Metadata and media fields format caller-supplied values. See the [GDELT Global Knowledge Graph Codebook](https://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf) for the native format and [published agreement results](https://octo-gone.github.io/gdelt-regkg/evaluation/results/) for measured reconstruction quality.
+> Text-derived values **approximate** GDELT's processing and **can differ** from native GKG output. Metadata and media fields format caller-supplied values. See the [GDELT Global Knowledge Graph Codebook](https://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf) for the native format and [Results](https://octo-gone.github.io/gdelt-regkg/evaluation/results/) for measured reconstruction quality.
 
 ## Installation
 
@@ -32,10 +32,10 @@ python -m spacy download en_core_web_sm
 gdelt-regkg-cli build all --sources-dir downloads/resources --download-sources --output local-resources
 ```
 
-See [installation](https://octo-gone.github.io/gdelt-regkg/installation/) for optional dependencies, translation and CPU/CUDA setup. External dictionaries and models are prepared locally and retain their own [source terms](https://octo-gone.github.io/gdelt-regkg/reference/dictionaries/#third-party-terms).
+See [Installation and setup](https://octo-gone.github.io/gdelt-regkg/get-started/installation-and-setup/) for optional dependencies, translation and CPU/CUDA setup. External dictionaries and models are prepared locally and retain their own [source terms](https://octo-gone.github.io/gdelt-regkg/reference/dictionaries/#third-party-terms).
 
 > [!TIP]
-> For expanded GCAM coverage and GPU inference, follow the [TL;DR setup commands](https://octo-gone.github.io/gdelt-regkg/installation/#tldr-expanded-coverage-and-gpu): v5 plus LIWC 2007 and MPQA, `en_core_web_lg`, and CUDA with CuPy. LIWC requires an authorized dictionary supplied by you. Broader coverage does not guarantee higher accuracy; see [measured agreement](https://octo-gone.github.io/gdelt-regkg/evaluation/results/).
+> To analyze a wider range of emotional, psychological and topical language, follow [Build GCAM resources](https://octo-gone.github.io/gdelt-regkg/guides/gcam-resources/#complete-expanded-example). The guide explains the available word lists, where to obtain them and how to prepare them for the library. Some lists require a license. For faster entity extraction or translation on a compatible NVIDIA GPU, follow [GPU setup](https://octo-gone.github.io/gdelt-regkg/guides/gpu-setup/). More categories do not guarantee closer agreement with GDELT. See [Results](https://octo-gone.github.io/gdelt-regkg/evaluation/results/).
 
 ## Usage
 
@@ -89,23 +89,25 @@ with open("articles.gkg.tsv", "w", encoding="utf-8", newline="") as stream:
 
 `articles.gkg.tsv` contains one complete, headerless GKG row. Run from the directory containing `local-resources/` prepared by `gdelt-regkg-cli build`.
 
-See [quickstart](https://octo-gone.github.io/gdelt-regkg/quickstart/) for standalone field extraction and [record generation](https://octo-gone.github.io/gdelt-regkg/guides/records/) for metadata, overrides and export behavior.
+See [Quickstart](https://octo-gone.github.io/gdelt-regkg/get-started/quickstart/) for standalone field extraction and [Generate records](https://octo-gone.github.io/gdelt-regkg/guides/records/) for metadata, overrides and export behavior.
 
 ## Documentation
 
 | Topic | Documentation |
 | --- | --- |
-| Start here | [Documentation site](https://octo-gone.github.io/gdelt-regkg/) and [quickstart](https://octo-gone.github.io/gdelt-regkg/quickstart/) |
-| Field formats and limitations | [All 27 GKG fields](https://octo-gone.github.io/gdelt-regkg/reference/fields/) |
-| Dictionaries and configuration | [Resource guide](https://octo-gone.github.io/gdelt-regkg/guides/resources/) |
-| Non-English articles | [Translation guide](https://octo-gone.github.io/gdelt-regkg/guides/translation/) |
-| Command-line tools | [CLI reference](https://octo-gone.github.io/gdelt-regkg/reference/cli/) and [benchmark guide](https://octo-gone.github.io/gdelt-regkg/guides/benchmarking/) |
-| Accuracy and interpretation | [Results](https://octo-gone.github.io/gdelt-regkg/evaluation/results/) and [methodology](https://octo-gone.github.io/gdelt-regkg/evaluation/methodology/) |
-| Upgrading | [Migration guide](https://octo-gone.github.io/gdelt-regkg/migration/) and [changelog](https://github.com/octo-gone/gdelt-regkg/blob/master/CHANGELOG.md) |
+| Start here | [Home](https://octo-gone.github.io/gdelt-regkg/) and [Quickstart](https://octo-gone.github.io/gdelt-regkg/get-started/quickstart/) |
+| Field formats and limitations | [GKG field reference](https://octo-gone.github.io/gdelt-regkg/reference/fields/) |
+| Dictionaries and configuration | [Build resources](https://octo-gone.github.io/gdelt-regkg/guides/resources/) |
+| Dictionary presets and custom inventories | [Build GCAM resources](https://octo-gone.github.io/gdelt-regkg/guides/gcam-resources/) |
+| Geographic reference lookups | [Build gazetteers](https://octo-gone.github.io/gdelt-regkg/guides/gazetteers/) |
+| Non-English articles | [Translation](https://octo-gone.github.io/gdelt-regkg/guides/translation/) |
+| Command-line tools | [CLI](https://octo-gone.github.io/gdelt-regkg/reference/cli/) and [Benchmarking](https://octo-gone.github.io/gdelt-regkg/guides/benchmarking/) |
+| Accuracy and interpretation | [Results](https://octo-gone.github.io/gdelt-regkg/evaluation/results/) and [Methodology](https://octo-gone.github.io/gdelt-regkg/evaluation/methodology/) |
+| Upgrading | [Migration](https://octo-gone.github.io/gdelt-regkg/get-started/migration/) and [changelog](https://github.com/octo-gone/gdelt-regkg/blob/master/CHANGELOG.md) |
 
 ## Contributing
 
-See [Contributing](https://github.com/octo-gone/gdelt-regkg/blob/master/CONTRIBUTING.md) for project architecture, local checks and evaluation requirements. Use the GitHub issue forms for bugs, features and extraction differences. Follow the [code of conduct](https://github.com/octo-gone/gdelt-regkg/blob/master/CODE_OF_CONDUCT.md); report vulnerabilities through the [security policy](https://github.com/octo-gone/gdelt-regkg/blob/master/SECURITY.md).
+See [Development setup](https://octo-gone.github.io/gdelt-regkg/development/setup/) for local checks and evaluation requirements, and [Project structure](https://octo-gone.github.io/gdelt-regkg/development/project-structure/) for the source layout. [Contributing](https://github.com/octo-gone/gdelt-regkg/blob/master/CONTRIBUTING.md) covers issue reports, pull requests and external inputs. Follow the [code of conduct](https://github.com/octo-gone/gdelt-regkg/blob/master/CODE_OF_CONDUCT.md); report vulnerabilities through the [security policy](https://github.com/octo-gone/gdelt-regkg/blob/master/SECURITY.md).
 
 ## License and disclaimer
 

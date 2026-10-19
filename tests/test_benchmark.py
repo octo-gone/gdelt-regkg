@@ -551,14 +551,16 @@ class BenchmarkTests(unittest.TestCase):
             rows = list(csv.DictReader(stream))
         self.assertFalse(any(value["field"] == "Enhanced Themes" for value in rows))
 
-    def test_saved_body_without_record_id_preserves_supplied_translation_provenance(self):
-        provenance = "srclc:fra;eng:fixture"
-        reference = self.write_rows("reference.jsonl", [row(translation=provenance)])
+    def test_saved_body_without_record_id_preserves_supplied_translation_metadata(self):
+        translation_info = "srclc:fra;eng:fixture"
+        reference = self.write_rows("reference.jsonl", [row(translation=translation_info)])
         corpus_dir = self.root / "bodies"
         corpus_dir.mkdir()
         corpus = corpus_dir / "corpus.jsonl"
         corpus.write_text(
-            json.dumps({"url": row().get("document"), "text": "Hello.", "translation": provenance})
+            json.dumps(
+                {"url": row().get("document"), "text": "Hello.", "translation": translation_info}
+            )
             + "\n",
             encoding="utf-8",
         )

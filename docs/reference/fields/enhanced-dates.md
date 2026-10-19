@@ -1,10 +1,10 @@
 # Date mentions
 
-`V2.1ENHANCEDDATES` stores explicit calendar references found by `analyze_dates`. Every mention includes an offset. GKG has no separate standard `V1DATES` column; `V2.1DATE` is the batch timestamp.
+`V2.1ENHANCEDDATES` stores explicit calendar references found by `analyze_dates`. Every mention includes an offset. [GKG](../../get-started/concepts-and-glossary.md#gkg) has no separate standard `V1DATES` column. Do not confuse with [`V2.1DATE`](date.md) (batch timestamp).
 
 ## Requirements
 
-Core package only; no external dictionary or NLP model is required.
+Core package only. No external dictionary or NLP model is required.
 
 ## Example
 
@@ -24,7 +24,7 @@ assert result.mentions[1].year == 0
 
 ## Behavior
 
-Entries use `resolution#month#day#year#offset`, separated by `;`. Missing calendar components are zero; repeated mentions retain separate zero-based offsets.
+Entries use `resolution#month#day#year#offset`, separated by `;`. Missing calendar components are zero. Repeated mentions retain separate zero-based offsets.
 
 | Resolution | Calendar reference |
 | --- | --- |
@@ -35,7 +35,8 @@ Entries use `resolution#month#day#year#offset`, separated by `;`. Missing calend
 
 Supported forms include ISO dates, English month names/abbreviations, ordinal days, month-year expressions, standalone years from 1500–2199 and slash dates with four-digit years. Invalid dates are excluded without extracting their component years. `result.issues` reports invalid or ambiguous numeric references.
 
-The library emits the `#` separators observed in native GKG archives; the original codebook describes commas. The benchmark accepts both.
+> [!WARNING]
+> The library uses `#` as field separators. The original codebook uses `,`, however non of all observed native GKG archives have it. Blocks use semicolon as described in codebook. For convenience, the benchmark accepts both formats.
 
 ## Options
 
@@ -59,6 +60,6 @@ Relative dates, weekdays alone, bare months, holidays and two-digit years are no
 
 ## Related
 
-[Batch date](date.md) · [Amounts](amounts.md) · [Current agreement](../../evaluation/results.md#agreement-with-gdelt) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
+[Batch date](date.md) · [Amounts](amounts.md) · [Current agreement](../../evaluation/results.md#results) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
 
-[Field index](README.md)
+[GKG field reference](README.md)

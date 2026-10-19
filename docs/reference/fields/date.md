@@ -1,10 +1,10 @@
 # Batch date
 
-`V2.1DATE` stores the row’s batch timestamp. `format_date` converts a supplied timestamp to the compact UTC representation used by GKG.
+`V2.1DATE` stores the row’s batch timestamp. `format_date` converts a supplied timestamp to the compact UTC representation used by [Global Knowledge Graph (GKG)](../../get-started/concepts-and-glossary.md#gkg).
 
 ## Requirements
 
-Core package and caller-supplied metadata; no article retrieval or NLP model is required.
+Core package and caller-supplied metadata. No article retrieval or NLP model is required.
 
 ## Example
 
@@ -23,7 +23,7 @@ print(format_date(None))
 
 ## Behavior
 
-Accepts a `datetime`, a fourteen-digit string or integer, or `None`. Calendar dates are validated. Aware datetimes convert to UTC; naive datetimes are treated as UTC. `None` and `0` produce `"0"` for an unknown timestamp.
+Accepts a `datetime`, a fourteen-digit string or integer, or `None`. Calendar dates are validated. Aware datetimes convert to UTC. Naive datetimes are treated as UTC. `None` and `0` produce `"0"` for an unknown timestamp.
 
 Set `batch_time=` on `RecordMetadata` to fill this field and the record-ID prefix, then pass the metadata to `generate_gkg(text, metadata, resources)`. Set the article’s publication timestamp separately with `RecordMetadata(..., published_at=...)`; it is written to `PAGE_PRECISEPUBTIMESTAMP` in extra XML. An explicit extras timestamp takes precedence.
 
@@ -35,4 +35,4 @@ The library does not infer GDELT’s ingestion time or round timestamps to a col
 
 [Record ID](record-id.md) · [Date mentions](enhanced-dates.md) · [Extra XML](extras-xml.md) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
 
-[Field index](README.md)
+[GKG field reference](README.md)

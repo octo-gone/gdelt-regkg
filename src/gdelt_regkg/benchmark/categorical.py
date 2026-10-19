@@ -1,4 +1,4 @@
-"""Metadata, theme/entity, media and supplied-provenance evaluation."""
+"""Evaluation of metadata, themes, entities, media and translation details."""
 
 import re
 from datetime import datetime

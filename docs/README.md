@@ -1,40 +1,53 @@
 # Documentation
 
-`gdelt-regkg` reconstructs GDELT GKG records from prepared article text and supplied metadata. Library **approximates** GDELT processing for text-derived fields, metadata fields are supplied by the caller and format according to GDELT.
+`gdelt-regkg` reconstructs GDELT [Global Knowledge Graph (GKG)](get-started/concepts-and-glossary.md#gkg) records from prepared article text and supplied metadata. Generate complete 27-column records or analyze individual fields from Python. The library approximates GDELT's processing for text-derived fields and formats caller-supplied metadata according to the GKG format.
 
-## Get started
+## What the library does
 
-1. [Install the library](installation.md), optional dependencies and models.
-2. [Run the quickstart](quickstart.md) to extract a field and write a complete record.
-3. [Prepare and select resources](guides/resources.md) for your own articles.
+Use the library to process your own news datasets, fill gaps in available records or analyze texts using different NLP methods. Supply plain-text article bodies and metadata, then select dictionaries and models for the fields you need. The library supports English extraction and optional translation, with native-language [Global Content Analysis Measures (GCAM)](get-started/concepts-and-glossary.md#gcam-and-dimensions) dictionaries for applicable source languages.
 
-For an expanded setup, use the [TL;DR commands](installation.md#tldr-expanded-coverage-and-gpu) for GCAM v5 with LIWC and MPQA, the large English model and NVIDIA GPU inference.
+The implementation is independent of the GDELT Project, so constructed values can differ from similar GDELT outputs. Read [Results](evaluation/results.md) and [Limitations and intended use](evaluation/limitations-and-intended-use.md) before treating them as interchangeable.
 
-## Guides
+## Try a field
 
-| Task | Guide |
-| --- | --- |
-| Generate records, supply metadata and export TSV | [Records](guides/records.md) |
-| Build dictionaries and select or customize profiles | [Resources](guides/resources.md) |
-| Convert specialized source files and add optional dictionaries | [Dictionary imports](guides/dictionary-imports.md) |
-| Detect languages, translate bodies and retain provenance | [Translation](guides/translation.md) |
-| Batch inference, reuse models and manage persistent caches | [Performance](guides/performance.md) |
-| Compare native and reconstructed records | [Benchmarking](guides/benchmarking.md) |
-| Fit and evaluate candidate tone dictionaries | [Tone refinement](guides/tone-refinement.md) |
+After installing the core package with `python -m pip install gdelt-regkg`, run:
 
-## Reference
+```python
+from gdelt_regkg.fields.counts import analyze_counts
 
-| Reference | Contents |
-| --- | --- |
-| [CLI](reference/cli.md) | Commands, arguments, defaults and output conventions |
-| [GKG fields](reference/fields/README.md) | All 27 columns in wire order, with encodings, examples and limitations |
-| [Dictionaries](reference/dictionaries.md) | GCAM inventory, acquisition links, source terms and citations |
+text = "12 people were killed."
+result = analyze_counts(text)
+print(result.to_gkg())
+```
 
-## Evaluation and development
+```text
+CRISISLEX_T03_DEAD#12#people#0######;KILL#12#people#0######;
+```
 
-- [Published results](evaluation/results.md) describe measured agreement and the evaluated configurations.
-- [Evaluation methodology](evaluation/methodology.md) explains metrics, sampling and interpretation.
-- [Migration](migration.md) covers upgrading to the current API.
-- [Build the documentation](development/documentation.md) covers local previews, checks and GitHub Pages deployment.
-- [Contributing](https://github.com/octo-gone/gdelt-regkg/blob/master/CONTRIBUTING.md) describes architecture, development checks and contribution requirements.
-- [Changelog](https://github.com/octo-gone/gdelt-regkg/blob/master/CHANGELOG.md) records releases and historical experiments.
+This example uses packaged rules and needs no downloaded model or dictionary. [Quickstart](get-started/quickstart.md) also shows complete record generation and export.
+
+## Generate records from your articles
+
+Start with [Installation and setup](get-started/installation-and-setup.md), then follow [Quickstart](get-started/quickstart.md) to setup basic pipeline. Check [Generate records](guides/records.md) guide, it explains metadata, precomputed recognition results, overrides and export. Use [GKG field reference](reference/fields/README.md) to inspect the 27 columns.
+
+For non-English bodies, [Translation](guides/translation.md) quide covers language detection and translation. [Concepts and glossary](get-started/concepts-and-glossary.md) can help with keywords, abbreviations, metrics and other concepts used throughout documentation.
+
+## Choose dictionaries and execution settings
+
+[Build resources](guides/resources.md) guide explains resource preparation and profile selection. [Build GCAM resources](guides/gcam-resources.md) covers presets, individual dictionary imports and a complete expanded setup. [Build gazetteers](guides/gazetteers.md) covers default and custom geographic references. [Dictionaries](reference/dictionaries.md) describes the inventory and source terms, and [Dictionary imports](guides/dictionary-imports.md) covers specialized conversions.
+
+Use [GPU setup](guides/gpu-setup.md) for backend installation and device selection, [Performance](guides/performance.md) for batching and persistent caches, and [Troubleshooting](guides/troubleshooting.md) for dependency, model and resource errors.
+
+## Understand or reproduce the published results
+
+[Results](evaluation/results.md) identifies the evaluated configurations, article subsets and measured agreement. [Methodology](evaluation/methodology.md) defines metrics, matching and sampling. [Benchmarking](guides/benchmarking.md) provides commands for comparing native and reconstructed records. [Tone refinement](guides/tone-refinement.md) covers fitting candidate dictionaries with separate development and evaluation articles.
+
+## Reference and development
+
+- [CLI](reference/cli.md) documents commands, arguments and defaults.
+- [Migration](get-started/migration.md) explains upgrades to the current API.
+- [Development setup](development/setup.md) covers dependencies, local checks, tests and extraction evaluation.
+- [Project structure](development/project-structure.md) describes the source modules and repository layout.
+- [Build the documentation](development/documentation.md) covers previews, checks and publishing.
+- [Contributing ↗](https://github.com/octo-gone/gdelt-regkg/blob/master/CONTRIBUTING.md) covers issues, pull requests, external inputs and GitHub Pages setup.
+- [Changelog ↗](https://github.com/octo-gone/gdelt-regkg/blob/master/CHANGELOG.md) records releases and historical experiments.

@@ -16,20 +16,33 @@ use_directory_urls = true
 dev_addr = "127.0.0.1:8000"
 watch = ["src/gdelt_regkg"]
 
-# README.md serves as the homepage, preserving existing GitHub Markdown links.
-# All authored pages are listed explicitly; api-autonav adds the Python API.
+extra_javascript = [
+  "javascripts/code-blocks.js",
+  # Math support: https://zensical.org/docs/authoring/math/
+  "javascripts/mathjax.js",
+  "https://unpkg.com/mathjax@3.2.2/es5/tex-chtml.js",
+]
+
+extra_css = ["stylesheets/code-blocks.css", "stylesheets/callouts.css"]
+
 nav = [
   { "Home" = "README.md" },
   { "Get started" = [
-    { "Installation and setup" = "installation.md" },
-    { "Quickstart" = "quickstart.md" },
+    { "Installation and setup" = "get-started/installation-and-setup.md" },
+    { "Quickstart" = "get-started/quickstart.md" },
+    { "Concepts and glossary" = "get-started/concepts-and-glossary.md" },
+    { "Migration" = "get-started/migration.md" },
   ] },
   { "Guides" = [
     { "Generate records" = "guides/records.md" },
     { "Build resources" = "guides/resources.md" },
+    { "Build GCAM resources" = "guides/gcam-resources.md" },
+    { "Build gazetteers" = "guides/gazetteers.md" },
     { "Dictionary imports" = "guides/dictionary-imports.md" },
     { "Translation" = "guides/translation.md" },
+    { "GPU setup" = "guides/gpu-setup.md" },
     { "Performance" = "guides/performance.md" },
+    { "Troubleshooting" = "guides/troubleshooting.md" },
     { "Benchmarking" = "guides/benchmarking.md" },
     { "Tone refinement" = "guides/tone-refinement.md" },
   ] },
@@ -37,9 +50,9 @@ nav = [
     { "CLI" = "reference/cli.md" },
     { "Dictionaries" = "reference/dictionaries.md" },
     { "GKG fields" = [
-      { "Overview" = "reference/fields/README.md" },
+      { "GKG field reference" = "reference/fields/README.md" },
       { "01 · Record ID" = "reference/fields/record-id.md" },
-      { "02 · Date" = "reference/fields/date.md" },
+      { "02 · Batch date" = "reference/fields/date.md" },
       { "03 · Source collection" = "reference/fields/source-collection.md" },
       { "04 · Source name" = "reference/fields/source-name.md" },
       { "05 · Document identifier" = "reference/fields/document-identifier.md" },
@@ -54,7 +67,7 @@ nav = [
       { "14 · Organizations" = "reference/fields/organizations.md" },
       { "15 · Enhanced organizations" = "reference/fields/enhanced-organizations.md" },
       { "16 · Tone" = "reference/fields/tone.md" },
-      { "17 · Enhanced dates" = "reference/fields/enhanced-dates.md" },
+      { "17 · Date mentions" = "reference/fields/enhanced-dates.md" },
       { "18 · GCAM" = "reference/fields/gcam.md" },
       { "19 · Sharing image" = "reference/fields/sharing-image.md" },
       { "20 · Related images" = "reference/fields/related-images.md" },
@@ -63,23 +76,24 @@ nav = [
       { "23 · Quotations" = "reference/fields/quotations.md" },
       { "24 · All names" = "reference/fields/all-names.md" },
       { "25 · Amounts" = "reference/fields/amounts.md" },
-      { "26 · Translation info" = "reference/fields/translation-info.md" },
+      { "26 · Translation information" = "reference/fields/translation-info.md" },
       { "27 · Extra XML" = "reference/fields/extras-xml.md" },
     ] },
   ] },
   { "Evaluation" = [
     { "Results" = "evaluation/results.md" },
     { "Methodology" = "evaluation/methodology.md" },
+    { "Limitations and intended use" = "evaluation/limitations-and-intended-use.md" },
   ] },
   { "Development" = [
-    { "Migration" = "migration.md" },
+    { "Development setup" = "development/setup.md" },
+    { "Project structure" = "development/project-structure.md" },
     { "Build the documentation" = "development/documentation.md" },
     { "Contributing ↗" = "https://github.com/octo-gone/gdelt-regkg/blob/master/CONTRIBUTING.md" },
     { "Changelog ↗" = "https://github.com/octo-gone/gdelt-regkg/blob/master/CHANGELOG.md" },
   ] },
 ]
 
-# CI uses --strict so broken pages and section links fail the build.
 [project.validation]
 invalid_links = true
 invalid_link_anchors = true
@@ -137,26 +151,19 @@ icon = "fontawesome/brands/python"
 link = "https://pypi.org/project/gdelt-regkg/"
 name = "Package on PyPI"
 
-# Zensical implements these plugins natively; do not install MkDocs equivalents.
-# Only mkdocstrings' Python handler needs an additional docs dependency.
 # Supported options: https://zensical.org/docs/compatibility/mkdocs/plugins/
 [project.plugins.search]
 enabled = true
 
-# Preserve GitHub-style NOTE/TIP/WARNING alerts in the existing Markdown.
-[project.plugins.gh-admonitions]
-enabled = true
+[project.markdown_extensions.pymdownx.quotes]
+callouts = true
 
-# Smaller deployed pages without changing authored Markdown or code examples.
 [project.plugins.minify]
 minify_html = true
 
-# Resolve links to Python objects across the generated API reference.
 [project.plugins.autorefs]
 enabled = true
 
-# Discover API pages directly from source; no generated Markdown is committed.
-# Keep the API focused on record generation, resource selection and fields.
 [project.plugins.api-autonav]
 modules = ["src/gdelt_regkg"]
 api_root_uri = "reference/api"
@@ -177,7 +184,6 @@ enable_inventory = true
 paths = ["src"]
 
 [project.plugins.mkdocstrings.handlers.python.options]
-# Static inspection avoids importing optional NLP backends or downloading models.
 allow_inspection = false
 docstring_style = "google"
 docstring_section_style = "table"
@@ -194,8 +200,7 @@ inherited_members = false
 signature_crossrefs = false
 filters = ["!^_", "^__enter__$", "^__exit__$"]
 
-# Explicit Markdown support for reference tables, callouts, code and content tabs.
-# Tables and fenced code are also built into Zensical's Markdown processing.
+# Explicit Markdown support
 [project.markdown_extensions]
 abbr = {}
 admonition = {}
@@ -206,18 +211,23 @@ md_in_html = {}
 toc.permalink = true
 toc.toc_depth = 3
 pymdownx.betterem = {}
+pymdownx.arithmatex.generic = true
 pymdownx.details = {}
 pymdownx.emoji.emoji_generator = "zensical.extensions.emoji.to_svg"
 pymdownx.emoji.emoji_index = "zensical.extensions.emoji.twemoji"
 pymdownx.highlight.anchor_linenums = true
 pymdownx.highlight.line_spans = "__span"
 pymdownx.highlight.pygments_lang_class = true
+pymdownx.highlight.extend_pygments_lang = [
+  { name = "csv", lang = "text" },
+  { name = "tsv", lang = "text" },
+]
 pymdownx.inlinehilite = {}
 pymdownx.magiclink = {}
+pymdownx.superfences.preserve_tabs = true
 pymdownx.superfences.custom_fences = [
   { name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" },
 ]
 pymdownx.tabbed.alternate_style = true
 pymdownx.tabbed.combine_header_slug = true
 pymdownx.tasklist.custom_checkbox = true
-

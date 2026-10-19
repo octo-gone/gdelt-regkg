@@ -4,7 +4,7 @@
 
 ## Requirements
 
-Core package and caller-supplied metadata; no article retrieval or NLP model is required.
+Core package and caller-supplied metadata. No article retrieval or NLP model is required.
 
 ## Example
 
@@ -23,7 +23,7 @@ https://example.org/images/workshop.jpg
 
 ## Behavior
 
-Supply one absolute HTTP(S) URL without whitespace. `""` means no image was found; `None` means the metadata is unavailable.
+Supply one absolute HTTP(S) URL without whitespace. `""` means no image was found. `None` means the metadata is unavailable.
 
 In `RecordMetadata`, pass `sharing_image=`. An encoded `overrides["V2.1SHARINGIMAGE"]` override takes precedence.
 
@@ -33,6 +33,6 @@ Select the image and resolve relative URLs before formatting. The library does n
 
 ## Related
 
-[Related images](related-images.md) · [API usage](../../guides/records.md) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
+[Related images](related-images.md) · [Generate records](../../guides/records.md) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
 
-[Field index](README.md)
+[GKG field reference](README.md)

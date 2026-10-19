@@ -1,4 +1,4 @@
-"""Explicit local translation before English NLP, with reusable provenance."""
+"""Explicit local translation before English NLP, with language and engine metadata."""
 
 from __future__ import annotations
 

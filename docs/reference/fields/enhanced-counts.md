@@ -1,6 +1,6 @@
 # Enhanced counts
 
-`V2.1COUNTS` uses the same extraction as [counts](counts.md), with a zero-based character offset for the quantity.
+`V2.1COUNTS` uses the same extraction as [Counts](counts.md), with a zero-based character offset for the quantity.
 
 ## Requirements
 
@@ -42,4 +42,4 @@ The extraction limitations are the same as for [counts](counts.md#limitations). 
 
 [Counts](counts.md) · [Translation information](translation-info.md) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
 
-[Field index](README.md)
+[GKG field reference](README.md)

@@ -1,4 +1,4 @@
-"""English GCAM dictionary converters with explicit source/category provenance."""
+"""English GCAM dictionary converters with source and category details."""
 
 from __future__ import annotations
 
@@ -208,7 +208,7 @@ def add_general_inquirer_legacy(baseline, source, codebook):
 
 
 def add_authored_themes(baseline, codebook):
-    """Add authored phrases while preserving existing rules and provenance."""
+    """Add authored phrases while preserving existing rules and source details."""
     source = read_resource_json("themes", "gcam-experimental.v1.json")
     native = set(_native(codebook, 18).values())
     existing = {rule["theme"] for rule in baseline.get("theme_rules", ())}

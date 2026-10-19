@@ -2,6 +2,14 @@
 
 This changelog records implementation changes and the research behind each version. Versions group the iterative work; dictionary revisions such as tone v3 are separate from package versions. Each Research section may contain the method, results and conclusions for that stage.
 
+## 2.1.1
+
+- Added a Zensical documentation site with an automatically generated Python API reference and GitHub Pages publishing workflow.
+- Organized getting-started and development pages, updated navigation and links.
+- Expanded metric definitions and formulas, including covariance, variance and thresholded sign agreement.
+- Corrected dictionary licensing summaries and expanded third-party attribution and redistribution notes.
+- Renamed GCAM source reports to `gcam-sources.md` and `.csv`, and the dimension-report classification column to `source_type`.
+
 ## 2.1.0 GCAM update
 
 This release expands GCAM dictionary coverage, adds original-language analysis alongside English text, and improves multilingual benchmark reports.
@@ -16,13 +24,13 @@ This release expands GCAM dictionary coverage, adds original-language analysis a
 
 - Expanded dictionary sources and import support, including translated RID, Spanish ANEW, multilingual Hedonometer and ML-SENTICON, and eMFD weighted scores. Chinese Hedonometer uses Jieba segmentation. Optional LIWC 2007 and MPQA imports provide 62 and 14 dimensions respectively; LIWC requires a user-supplied dictionary, and MPQA mirror downloads require explicit `--download-mpqa` permission.
 - Convert the original ANEW report into nine mean-rating dimensions for 1,034 words. French imagery can be imported from verified ratings or converted from the paper's rating bands using OCR or reviewed text. OCR requires a separately installed Tesseract engine. See [dictionary imports](docs/guides/dictionary-imports.md) for setup and commands.
-- Build coverage reports distinguish source-backed dimensions from authored theme rules and approximate French imagery scores, retaining source and review metadata. Broader vocabulary coverage does not establish closer agreement with native GKG output. See [profiles and coverage](docs/guides/resources.md#gcam-profiles-and-expansion).
+- Build coverage reports distinguish source-backed dimensions from authored theme rules and approximate French imagery scores, retaining source and review metadata. Broader vocabulary coverage does not establish closer agreement with native GKG output. See [profiles and coverage](docs/guides/gcam-resources.md#choose-a-preset).
 
 ### Benchmarking
 
 - Evaluate multilingual GCAM using the English and original-language bodies available for each article. Reports include a language overview; `--gcam-language` filters scoring to one language, and `--gcam-split-languages` separates dictionary results by language.
 - Added label-macro and article-level agreement, errors for active category counts, weighted-score availability and per-dimension diagnostics. Presence and supported-presence metrics distinguish vocabulary gaps from agreement within the selected profile.
-- Added reproducible corpus sampling, body-size filtering, original-language article acquisition and publisher-cluster bootstrap intervals. Separate reports describe source provenance, approximations, sample selection and article-level differences.
+- Added reproducible corpus sampling, body-size filtering, original-language article acquisition and publisher-cluster bootstrap intervals. Separate reports describe dictionary sources, approximations, sample selection and article-level differences.
 - Reports display dictionary and dimension names alongside native IDs, sort dimension identifiers numerically, and keep count and weighted-score results with their dictionary. CSV exports provide separate dimension keys and names. See [benchmarking](docs/guides/benchmarking.md) for workflows and report formats.
 
 ### Documentation
@@ -36,7 +44,7 @@ This release expands GCAM dictionary coverage, adds original-language analysis a
 - `generate_gkg` now accepts `RecordMetadata` and `Resources` and returns a frozen, typed `GKGRecord`. Its ordered mapping view, `to_mapping()` and `to_row()` share the same 27-column declaration; TSV serialization still accepts ordinary mappings.
 - Removed `extract_*` wrappers and metadata compatibility aliases. Import structured analyzers and backend types from their owning `gdelt_regkg.fields` modules; root exports now contain record/resource models, generation/export functions and relevant errors.
 - Removed `ExtractionConfig` and `default_extraction_config`. Compose `Resources(count_rules=..., theme_lexicon=...)` using the independent rule loaders.
-- Removed generator translator/language-detection parameters. Translate explicitly, preserve the analyzed body and use `RecordMetadata.from_translation(result, metadata)` for provenance. Enhanced offsets index `result.text`; translated record IDs retain `T`.
+- Removed generator translator/language-detection parameters. Translate explicitly, preserve the analyzed body and use `RecordMetadata.from_translation(result, metadata)` to record the source language and translation engine. Enhanced offsets index `result.text`; translated record IDs retain `T`.
 - Rename encoded generation `field_values=` to `overrides=`; supply precomputed spans through `ner_result=` and a recognizer through `Resources(recognizer=...)`.
 - Strict incomplete generation now raises `IncompleteGKGError`, while extractor failures propagate. Missing optional dependencies raise `OptionalDependencyError`, distinct from missing model/resource errors.
 - Added `ner`, `translate`, `lang`, `benchmark` and `all` extras. The core has no third-party runtime dependencies. Removed direct `hf-xet` requirements and CUDA-specific extras; install PyTorch and CuPy separately using the explicit CPU/CUDA setup instructions.
@@ -50,7 +58,7 @@ This release expands GCAM dictionary coverage, adds original-language analysis a
 
 ### Migration
 
-See the [2.0 migration guide](docs/migration.md#upgrade-to-20) for updated imports, record generation, translation and resource configuration.
+See the [2.0 migration guide](docs/get-started/migration.md#upgrade-to-20) for updated imports, record generation, translation and resource configuration.
 
 ## 1.3.0 Unified benchmarking
 
@@ -182,7 +190,7 @@ The release keeps the evaluated extraction choices and resource profiles. There 
 
 ### Research
 
-External vocabularies, the geographic snapshot and the GCAM codebook now build locally from separately obtained sources. The package retains authored rules, schemas, source hashes and replay instructions. CrisisLex phrases are restored from their source using hash-based rule IDs, and source-dependent tone exclusions are stored as hashes. Custom dictionaries and authored count/name rules remain usable independently of the supplied recipes. See [Installation and setup](docs/installation.md).
+External vocabularies, the geographic snapshot and the GCAM codebook now build locally from separately obtained sources. The package retains authored rules, schemas, source hashes and replay instructions. CrisisLex phrases are restored from their source using hash-based rule IDs, and source-dependent tone exclusions are stored as hashes. Custom dictionaries and authored count/name rules remain usable independently of the supplied recipes. See [Installation and setup](docs/get-started/installation-and-setup.md).
 
 All rebuilt profiles have identical parsed contents to their predecessors. Replay on the same saved bodies checks whether moving resources out of the package changes extraction.
 
@@ -330,7 +338,7 @@ WordNet Domains adds all 168 native domain labels using WordNet 2.0. Source anno
 | Density MAE, pp | 1.5941 | 1.6013 | +0.0073 |
 | Median count Pearson | 0.5900 | 0.5991 | +0.0090 |
 
-Domains contributes a substantial share of native count activity and gives useful category-presence agreement, but missed assignments and count error still limit replication. The source remains separately supplied; see [setup and source terms](docs/installation.md).
+Domains contributes a substantial share of native count activity and gives useful category-presence agreement, but missed assignments and count error still limit replication. The source remains separately supplied; see [setup and source terms](docs/get-started/installation-and-setup.md).
 
 ## 0.14.0 WordNet Affect
 
@@ -1009,7 +1017,7 @@ Archive timestamps identify processing batches, not publication times. Sampling 
 
 F1 summarizes precision and recall; higher is better. MAE is average absolute error, and bias is local minus native output. Count WAPE is total absolute count error divided by total native counts, expressed as a percentage; lower is better. Correlation measures whether values vary together, not whether they match. Vocabulary coverage counts supported labels or dimensions; occurrence coverage weights them by their frequency. Neither is extraction accuracy. Tone sign comparisons treat values within ±0.5 points as neutral. `pp` means percentage points.
 
-Resource revision numbers such as tone v3 are independent of package versions. Historical profiles can now be rebuilt locally using [Installation and setup](docs/installation.md); external vocabularies and model weights are not shipped with the current package.
+Resource revision numbers such as tone v3 are independent of package versions. Historical profiles can now be rebuilt locally using [Installation and setup](docs/get-started/installation-and-setup.md); external vocabularies and model weights are not shipped with the current package.
 
 #### Implementation review
 

@@ -4,7 +4,7 @@
 
 ## Requirements
 
-Install the `ner` extra and an English spaCy model. Name rules are included; see [installation](../../installation.md#english-models).
+Install the `ner` extra and an English spaCy model. Name rules are included. See [installation](../../get-started/installation-and-setup.md#english-models).
 
 ## Example
 
@@ -37,7 +37,7 @@ Reuse a loaded recognizer across documents. `analyze_entities` loads a cached sm
 
 ## Options
 
-`name_policy="surface"` retains spelling and single-word organizations such as `Microsoft`. The default `gdelt-full-names` canonicalizes names, removes single-word names and applies a learned organization filter. Some genuine organizations are consequently absent from GKG cells.
+`name_policy="surface"` retains spelling and single-word organizations such as `Microsoft`. The default `gdelt-full-names` canonicalizes names, removes single-word names and applies a learned organization filter. Some genuine organizations are consequently absent from [GKG](../../get-started/concepts-and-glossary.md#gkg) cells.
 
 Use `name_policy="gdelt"` to keep single-word organizations with canonical formatting. Pass `name_rules=NameRules()` to disable the learned filter while retaining the selected policy. See [supplied mentions](persons.md#options) for custom backends.
 
@@ -49,6 +49,6 @@ Abbreviations and alternate names are not resolved to one identity.
 
 ## Related
 
-[Enhanced organizations](enhanced-organizations.md) · [Persons](persons.md) · [Shared NER and geography](locations.md#shared-ner-and-geographic-resolution) · [Installation and setup](../../installation.md) · [Current agreement](../../evaluation/results.md#agreement-with-gdelt)
+[Enhanced organizations](enhanced-organizations.md) · [Persons](persons.md) · [Shared NER and geography](locations.md#shared-ner-and-geographic-resolution) · [Installation and setup](../../get-started/installation-and-setup.md) · [Current agreement](../../evaluation/results.md#results)
 
-[Field index](README.md)
+[GKG field reference](README.md)

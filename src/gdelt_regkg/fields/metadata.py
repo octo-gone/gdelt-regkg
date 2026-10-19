@@ -86,7 +86,7 @@ def document_identifier(value: str) -> str:
 
 
 def format_translation_info(source_language: str | None = None, engine: str | None = None) -> str:
-    """Format supplied machine-translation provenance; does not translate.
+    """Format the source language and translation engine; does not translate.
 
     Supply both an ISO 639-2 code and an engine citation, or neither.
     Only the code's shape is checked, not membership in ISO 639-2.
@@ -174,18 +174,22 @@ class RecordMetadata:
     def from_translation(
         cls, result: TranslationResult, metadata: RecordMetadata
     ) -> RecordMetadata:
-        """Copy provenance; enhanced offsets must index result.text, not original_text."""
+        """Copy translation metadata; enhanced offsets must index result.text."""
         if not isinstance(result, TranslationResult) or not isinstance(metadata, cls):
             raise TypeError("Expected TranslationResult and RecordMetadata")
         language = normalize_language(result.source_language)
-        provenance = (language, result.engine) if language != "eng" else (None, None)
+        translation_info = (language, result.engine) if language != "eng" else (None, None)
         if (metadata.source_language, metadata.translation_engine) not in (
             (None, None),
-            provenance,
+            translation_info,
         ):
-            raise ValueError("Existing metadata conflicts with translation provenance")
-        format_translation_info(*provenance)
-        return replace(metadata, source_language=provenance[0], translation_engine=provenance[1])
+            raise ValueError(
+                "Existing metadata conflicts with the source language or translation engine"
+            )
+        format_translation_info(*translation_info)
+        return replace(
+            metadata, source_language=translation_info[0], translation_engine=translation_info[1]
+        )
 
     def to_mapping(self) -> dict[str, str | None]:
         stamp = format_date(self.batch_time)

@@ -65,12 +65,12 @@ class GCAMEvaluationTests(unittest.TestCase):
                     (row.subset, row.calculation) for row in report.rows if row.dimension_key
                 )
                 self.assertTrue(all(count == 1 for count in identities.values()))
-                provenance_scores = [
+                source_scores = [
                     row
-                    for row in report.tables["gcam-provenance"]
+                    for row in report.tables["gcam-sources"]
                     if row.calculation.endswith(" / weighted score")
                 ]
-                self.assertEqual(len(provenance_scores), len(keys))
+                self.assertEqual(len(source_scores), len(keys))
                 details = report.details["gcam-dimensions"]
                 self.assertEqual(Counter(row["key"] for row in details), Counter(keys))
                 write_report(report, root / name)
@@ -359,13 +359,13 @@ class GCAMEvaluationTests(unittest.TestCase):
         self.assertEqual(active["mae"], 2)
         self.assertEqual(active["paired_values"], 1)
         self.assertEqual(active["within_one_count"], 0)
-        provenance = {
+        source_groups = {
             row.field: row
-            for row in report.tables["gcam-provenance"]
+            for row in report.tables["gcam-sources"]
             if row.calculation == "supported presence"
         }
-        self.assertEqual(provenance["GCAM / source-backed"].metrics["f1"], 1)
-        self.assertEqual(provenance["GCAM / approximate"].metrics["f1"], 0)
+        self.assertEqual(source_groups["GCAM / source-backed"].metrics["f1"], 1)
+        self.assertEqual(source_groups["GCAM / approximate"].metrics["f1"], 0)
         self.assertEqual(len(report.details["gcam-dimensions"]), 2)
 
     def test_score_availability_includes_defined_zero_and_missing_scores(self):
@@ -433,7 +433,7 @@ class GCAMEvaluationTests(unittest.TestCase):
         low, high = publisher_intervals(groups, 200, 17)["micro_f1"]
         self.assertEqual((low, high), (0.5, 1))
 
-    def test_report_writes_separate_provenance_sampling_and_dimension_files(self):
+    def test_report_writes_separate_source_sampling_and_dimension_files(self):
         report = evaluate(
             [(item("wc:10,c2.1:1"), item("wc:10,c2.1:1"))],
             fields=("gcam",),
@@ -444,16 +444,26 @@ class GCAMEvaluationTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             write_report(report, directory)
             for name in (
-                "gcam-provenance.md",
-                "gcam-provenance.csv",
+                "gcam-sources.md",
+                "gcam-sources.csv",
                 "gcam-sampling.md",
                 "gcam-sampling.csv",
                 "gcam-dimensions.csv",
                 "gcam-articles.csv",
             ):
                 self.assertTrue((Path(directory) / name).is_file())
+            source_report = (Path(directory) / "gcam-sources.md").read_text(encoding="utf-8")
+            self.assertIn("# GCAM SOURCES", source_report)
+            self.assertIn("Source classifications follow profile annotations", source_report)
+            summary = (Path(directory) / "metrics.md").read_text(encoding="utf-8")
+            self.assertIn("[gcam-sources](gcam-sources.md)", summary)
+            with (Path(directory) / "gcam-dimensions.csv").open(
+                encoding="utf-8", newline=""
+            ) as stream:
+                dimensions = list(csv.DictReader(stream))
+            self.assertEqual(dimensions[0]["source_type"], "source-backed")
 
-    def test_value_only_approximation_has_provenance_without_count_presence(self):
+    def test_value_only_approximation_has_source_classification_without_count_presence(self):
         report = evaluate(
             [(item("v38.1:30"), item("v38.1:32"))],
             fields=("gcam",),
@@ -461,10 +471,11 @@ class GCAMEvaluationTests(unittest.TestCase):
                 gcam_keys=frozenset({"v38.1"}), gcam_approximate_dimensions=frozenset({"38.1"})
             ),
         )
-        rows = report.tables["gcam-provenance"]
+        rows = report.tables["gcam-sources"]
         self.assertEqual(rows[0].metrics["compiled_dimensions"], 1)
         self.assertEqual(rows[0].metrics["count_dimensions"], 0)
         self.assertEqual(rows[1].metrics["mae"], 2)
+        self.assertEqual(report.details["gcam-dimensions"][0]["source_type"], "approximate")
 
     def test_cache_preserves_language_metadata_and_migrates_old_schema(self):
         with tempfile.TemporaryDirectory() as directory:

@@ -169,7 +169,7 @@ def generate_gkg(
 ) -> GKGRecord:
     """Analyze prepared English text. Enhanced offsets index this exact body.
 
-    Translate separately and use RecordMetadata.from_translation for provenance.
+    Translate separately and copy language and engine values with RecordMetadata.from_translation.
     Overrides replace output cells, not dependencies needed by other fields.
     None marks unavailable fields; an empty string marks an available empty result.
     """

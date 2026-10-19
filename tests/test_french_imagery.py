@@ -1,4 +1,4 @@
-"""French imagery OCR conversion, approximation provenance and build imports."""
+"""French imagery OCR conversion, approximation details and build imports."""
 
 import csv
 import io
@@ -198,7 +198,7 @@ class FrenchImageryTests(unittest.TestCase):
         self.assertEqual(audit["review_status"], "unreviewed-ocr")
         self.assertIn(b"cause,19.5", raw)
 
-    def test_build_csv_and_pdf_provenance_and_coverage(self):
+    def test_build_csv_and_pdf_source_details_and_coverage(self):
         raw, audit = self.convert()
         book = {
             "source_sha256": "authored",

@@ -1,10 +1,10 @@
 # Quotations
 
-`V2.1QUOTATIONS` stores directly quoted spans and nearby reporting verbs. `analyze_quotations` uses quotation marks and English verb patterns; it needs no NER model or downloaded dictionary.
+`V2.1QUOTATIONS` stores directly quoted spans and nearby reporting verbs. `analyze_quotations` uses quotation marks and English verb patterns. It needs no named NER model or downloaded dictionary.
 
 ## Requirements
 
-Core package only; no external dictionary or NLP model is required.
+Core package only. No external dictionary or NLP model is required.
 
 ## Example
 
@@ -26,11 +26,11 @@ assert mention.verb == "said"
 
 ## Behavior
 
-Entries use `offset|length|verb|quote`, separated by `#`. Offset starts at the first content character, excluding quotation marks and surrounding whitespace. Length describes that original body span. The verb may be empty; repeated quotations are separate.
+Entries use `offset|length|verb|quote`, separated by `#`. Offset starts at the first content character, excluding quotation marks and surrounding whitespace. Length describes that original body span. The verb may be empty. Repeated quotations are separate.
 
 Recognizes straight/curly double and single quotation marks and guillemets. Apostrophes inside words are ignored. Nested quotes of another style are included inside the outer quote. Nearby reporting verbs are matched without crossing a sentence, line break or another quotation.
 
-Reserved `#`/`|` separators and control characters become spaces, and whitespace is collapsed. Stored mentions preserve the original span; length can differ from the cleaned output’s length. `result.issues` reports delimiter normalization, unclosed quotes and content that becomes empty. No quotes produces `""`.
+Reserved `#`/`|` separators and control characters become spaces, and whitespace is collapsed. Stored mentions preserve the original span. Length can differ from the cleaned output’s length. `result.issues` reports delimiter normalization, unclosed quotes and content that becomes empty. No quotes produces `""`.
 
 ## Options
 
@@ -38,10 +38,12 @@ The generator fills this field automatically. An encoded `overrides["V2.1QUOTATI
 
 ## Limitations
 
-The extractor does not identify speakers or indirect speech, and can include quoted titles or scare quotes. Nearby verbs can be missed or assigned incorrectly. Exact-content agreement with native GDELT quotations is low; retrieved body and boundary differences also affect it.
+The extractor does not identify speakers or indirect speech, and can include quoted titles or scare quotes. Nearby verbs can be missed or assigned incorrectly. Exact-content agreement with native GDELT quotations is low. Retrieved body and boundary differences also affect it.
+
+Content-only and content-plus-verb agreement use different matching rules. No comparable trivial extraction baseline has been reported. See [Results](../../evaluation/results.md#tone-scale) for scores and interpretation.
 
 ## Related
 
-[API usage](../../guides/records.md) · [Current agreement](../../evaluation/results.md#agreement-with-gdelt) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
+[Generate records](../../guides/records.md) · [Current agreement](../../evaluation/results.md#results) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
 
-[Field index](README.md)
+[GKG field reference](README.md)

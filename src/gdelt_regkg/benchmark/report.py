@@ -166,8 +166,8 @@ def write_report(report, output):
             "# GKG benchmark", "# " + name.replace("-", " ").upper(), 1
         )
         note = (
-            "Provenance follows profile annotations; source-backed does not mean independently verified. Only implemented dimensions enter these groups."
-            if name == "gcam-provenance"
+            "Source classifications follow profile annotations; source-backed does not mean independently verified. Only implemented dimensions enter these groups."
+            if name == "gcam-sources"
             else "Intervals use publisher-cluster percentile bootstrap. Selected samples describe the stated cohort, not the full corpus; similar length does not establish identical text. Fewer than two publisher clusters yields undefined intervals."
         )
         (output / (name + ".md")).write_text(table + "\n" + note + "\n", encoding="utf-8")

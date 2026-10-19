@@ -1,10 +1,10 @@
 # Quickstart
 
-Extract an individual field, then generate and write a complete GKG record. The library accepts article bodies as plain text; HTML retrieval and body extraction are the caller's responsibility.
+Extract an individual field, then generate and write a complete [Global Knowledge Graph (GKG)](concepts-and-glossary.md#gkg) record. The library accepts article bodies as plain text. HTML retrieval and body extraction are the caller's responsibility.
 
 ## Prerequisites
 
-Use Python 3.12 or newer. For all examples on this page, install the English NER backend and small model, then build the standard resources:
+Use Python 3.12 or newer. For all examples on this page, install the English named entity recognition (NER) backend and small model, then build the standard resources:
 
 ```shell
 python -m pip install "gdelt-regkg[ner]"
@@ -12,11 +12,11 @@ python -m spacy download en_core_web_sm
 gdelt-regkg-cli build all --sources-dir downloads/resources --download-sources --output local-resources
 ```
 
-Run Python from the directory containing `local-resources/`. Setup explicitly downloads external inputs; extraction uses the prepared files. See [installation](installation.md) for feature-specific dependencies and [resource preparation](guides/resources.md) for sources and profiles.
+Run Python from the directory containing `local-resources/`. Setup explicitly downloads external inputs. Extraction uses the prepared files. See [Installation and setup](installation-and-setup.md) for feature-specific dependencies and [Build resources](../guides/resources.md) for sources and profiles.
 
 ## Standalone fields
 
-Counts use packaged authored rules and can also run with only the core package:
+In this example Counts and Dates fields are generated. Analyzer processes data once, then the structured result can be serialized:
 
 ```python
 from gdelt_regkg.fields.counts import analyze_counts
@@ -34,7 +34,7 @@ CRISISLEX_T03_DEAD#12#people#0#######0;KILL#12#people#0#######0;
 3#3#2#2025#0
 ```
 
-Import analyzers from their corresponding `gdelt_regkg.fields` modules. Analyze once and serialize standard or enhanced cells from the structured result. The [field reference](reference/fields/README.md) provides formats and examples for each column.
+Import additional analyzers from their corresponding `gdelt_regkg.fields` modules. The [GKG field reference](../reference/fields/README.md) provides formats and examples for each column.
 
 ## Generate a GKG record
 
@@ -64,14 +64,14 @@ with open("articles.gkg.tsv", "w", encoding="utf-8", newline="") as stream:
     write_gkg([record], stream)
 ```
 
-The file contains one headerless, tab-separated row with 27 columns and a final newline. Counts receive geography from the shared NER and location analysis. The record supports typed attributes and mapping access through native column names.
+The output file contains one headerless, tab-separated row with 27 columns and a final newline. Counts receive geography from the shared NER and location analysis. The record supports typed attributes and mapping access through native column names.
 
 > [!NOTE]
 > The empty media values and `extras={}` explicitly declare that these inputs are available and empty. Omitting them leaves those fields unavailable. `strict=True` rejects incomplete records.
 
 ## Next steps
 
-- [Generate records](guides/records.md) with publication metadata, overrides or precomputed NER.
-- [Select resources](guides/resources.md#resource-selection) or supply custom dictionaries.
-- [Translate non-English articles](guides/translation.md) before extraction and preserve the analyzed body for enhanced offsets.
-- [Review measured agreement](evaluation/results.md) before interpreting reconstructed fields as native GKG values.
+- [Generate records](../guides/records.md) with publication metadata, overrides or precomputed NER.
+- [Select resources](../guides/resources.md#resource-selection) or supply custom dictionaries.
+- [Translation](../guides/translation.md) before extraction and preserve the analyzed body for enhanced offsets.
+- [Results](../evaluation/results.md) before interpreting reconstructed fields as native GKG values.

@@ -4,7 +4,7 @@
 
 ## Requirements
 
-Install the `ner` extra and an English spaCy model. Name rules are included; see [installation](../../installation.md#english-models).
+Install the `ner` extra and an English spaCy model. Name rules are included. See [installation](../../get-started/installation-and-setup.md#english-models).
 
 ## Example
 
@@ -33,7 +33,7 @@ Location mentions: [('Paris', 33), ('France', 40)]
 
 Names are separated by `;` and deduplicated in first-mention order. No accepted names produces `""`. Original spelling and offsets are available in `entities.persons`.
 
-Load the recognizer once and reuse it. `analyze_entities` uses a cached small English recognizer when `recognizer=` is omitted; missing models raise `NERUnavailableError`. For record generation, supply it through `Resources(recognizer=ner)` and call `generate_gkg(text, metadata, resources)`, or pass precomputed recognition as `ner_result=entities`. The result must describe the exact analyzed body. See [the generation example](../../guides/records.md#generate-a-gkg-record).
+Load the recognizer once and reuse it. `analyze_entities` uses a cached small English recognizer when `recognizer=` is omitted. Missing models raise `NERUnavailableError`. For record generation, supply it through `Resources(recognizer=ner)` and call `generate_gkg(text, metadata, resources)`, or pass precomputed recognition as `ner_result=entities`. The result must describe the exact analyzed body. See [the generation example](../../guides/records.md#generate-a-gkg-record).
 
 ## Options
 
@@ -54,7 +54,7 @@ print(entities.to_gkg("PERSON"))
 Alice Smith
 ```
 
-Custom recognizers implement `analyze(text) -> NERResult`. Supplied span text must match its start/end positions. Reserved commas, semicolons and control characters are replaced during serialization; stored mentions are unchanged.
+Custom recognizers implement `analyze(text) -> NERResult`. Supplied span text must match its start/end positions. Reserved commas, semicolons and control characters are replaced during serialization. Stored mentions are unchanged.
 
 ## Limitations
 
@@ -64,6 +64,6 @@ Surnames and full names are not linked to one identity. A name omitted from a ce
 
 ## Related
 
-[Enhanced persons](enhanced-persons.md) · [Organizations](organizations.md) · [Shared NER and geography](locations.md#shared-ner-and-geographic-resolution) · [Installation and setup](../../installation.md) · [Current agreement](../../evaluation/results.md#agreement-with-gdelt)
+[Enhanced persons](enhanced-persons.md) · [Organizations](organizations.md) · [Shared NER and geography](locations.md#shared-ner-and-geographic-resolution) · [Installation and setup](../../get-started/installation-and-setup.md) · [Current agreement](../../evaluation/results.md#results)
 
-[Field index](README.md)
+[GKG field reference](README.md)

@@ -265,7 +265,7 @@ def translation(cell):
         or not re.fullmatch(r"[a-z]{3}", values["srclc"])
         or not values["eng"].strip()
     ):
-        raise ValueError("Translation requires srclc and eng provenance")
+        raise ValueError("Translation requires source-language (srclc) and engine (eng) values")
     return values["srclc"]
 
 

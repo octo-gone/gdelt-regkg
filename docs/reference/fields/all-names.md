@@ -4,7 +4,7 @@
 
 ## Requirements
 
-Install the `ner` extra and an English spaCy model. Name rules are included; see [installation](../../installation.md#english-models).
+Install the `ner` extra and an English spaCy model. Name rules are included. See [installation](../../get-started/installation-and-setup.md#english-models).
 
 ## Example
 
@@ -28,7 +28,7 @@ Marie Curie,0;Microsoft,20;Paris,33;France,40
 
 ## Behavior
 
-Entries are `name,offset`, separated by `;`. Repeated names are separate. Surface spelling is retained independently of person/organization normalization, title removal and cell filters. Reserved delimiters and whitespace are cleaned only when serializing; offsets are unchanged.
+Entries are `name,offset`, separated by `;`. Repeated names are separate. Surface spelling is retained independently of person/organization normalization, title removal and cell filters. Reserved delimiters and whitespace are cleaned only when serializing. Offsets are unchanged.
 
 Alongside people, organizations and places, the spaCy backend includes named groups, products, events, works of art, laws and languages. Its tagger also finds proper-noun sequences outside recognized entities. Numeric and temporal entity categories are excluded.
 
@@ -40,10 +40,10 @@ Custom backends can supply `NameMention` spans through `NERResult(..., name_ment
 
 ## Limitations
 
-Broad proper-noun inclusion can create extra matches; models can miss or split names. This is an approximation of GDELT’s separate Names engine and does not resolve aliases or identities.
+Broad proper-noun inclusion can create extra matches. Models can miss or split names. This is an approximation of GDELT’s separate Names engine and does not resolve aliases or identities.
 
 ## Related
 
-[Persons](persons.md) · [Organizations](organizations.md) · [Locations](locations.md) · [Installation and setup](../../installation.md) · [Current agreement](../../evaluation/results.md#agreement-with-gdelt)
+[Persons](persons.md) · [Organizations](organizations.md) · [Locations](locations.md) · [Installation and setup](../../get-started/installation-and-setup.md) · [Current agreement](../../evaluation/results.md#results)
 
-[Field index](README.md)
+[GKG field reference](README.md)

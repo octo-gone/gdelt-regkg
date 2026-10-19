@@ -1,10 +1,11 @@
+
 # Extra XML
 
-`V2EXTRASXML` stores additional data that has no dedicated GKG column. You can define custom element names and nested structures for your own metadata, annotations or processing results. Common examples include article titles, authors, publication times, links and citations. `format_extras_xml` serializes the supplied data as an XML fragment.
+`V2EXTRASXML` stores additional data that has no dedicated [Global Knowledge Graph (GKG)](../../get-started/concepts-and-glossary.md#gkg) column. You can define custom element names and nested structures for your own metadata, annotations or processing results. Common examples include article titles, authors, publication times, links and citations. `format_extras_xml` serializes the supplied data as an XML fragment.
 
 ## Requirements
 
-Core package and caller-supplied metadata; no article retrieval or NLP model is required.
+Core package and caller-supplied metadata. No article retrieval or NLP model is required.
 
 ## Example
 
@@ -26,21 +27,21 @@ print(format_extras_xml(elements))
 
 ## Behavior
 
-Dictionary keys become element names. The `PAGE_*` names are common conventions; they are not a required or exhaustive set. In the example, `CUSTOM_DATA` and its child elements are defined by the application.
+Dictionary keys become element names. The `PAGE_*` names are common conventions, however they are not a required or exhaustive set. In the example, `CUSTOM_DATA` and its child elements are defined by the application.
 
 Strings become escaped text, dictionaries create nested blocks, lists/tuples repeat an element and `None` omits it. Scalar values must be strings, so numbers and booleans need conversion to text. Empty strings create empty elements. Insertion order is preserved, with no added root element.
 
-Tabs and line breaks become XML character references so the fragment fits one TSV cell. String values containing markup are escaped; use nested dictionaries for child elements. XML names and characters are validated.
+Tabs and line breaks become XML character references so the fragment fits one TSV cell. String values containing markup are escaped. Use nested dictionaries for child elements. XML names and characters are validated.
 
-For semicolon-delimited metadata such as `PAGE_LINKS`, supply a joined string; a list would create repeated XML elements. Normalize authors and timestamps before formatting.
+For semicolon-delimited metadata such as `PAGE_LINKS`, supply a joined string. A list would create repeated XML elements. Normalize authors and timestamps before formatting.
 
-In `RecordMetadata`, pass `extras=elements`. `extras={}` explicitly produces an empty cell; `extras=None` leaves the field unavailable. `format_optional_extras` in `gdelt_regkg.fields.metadata` preserves `None` and otherwise uses the same formatter.
+In `RecordMetadata`, pass `extras=elements`. `extras={}` explicitly produces an empty cell. `extras=None` leaves the field unavailable. `format_optional_extras` in `gdelt_regkg.fields.metadata` preserves `None` and otherwise uses the same formatter.
 
 ## Options
 
 ### Citations
 
-`citation_elements` builds a citation block from `Citation` objects. The same structure can also be supplied as nested dictionaries.
+For convenience library provides builders for citations. `citation_elements` builds a citation block from `Citation` objects. The same structure can also be supplied as nested dictionaries.
 
 ```python
 from gdelt_regkg.fields.extras import Citation
@@ -57,7 +58,7 @@ print(format_extras_xml(elements))
 <CITEDREFERENCESLIST><CITATION><AUTHORS><AUTHOR>Alice Smith</AUTHOR></AUTHORS><TITLE>Workshop notes</TITLE><DATE>2024</DATE></CITATION></CITEDREFERENCESLIST>
 ```
 
-`Citation` accepts authors, title, book title, date, journal, volume, issue, pages, institution, publisher, location and marker. Blank optional values are omitted; simple `Surname, Given` authors are reordered. Reference order and duplicates are retained.
+`Citation` accepts authors, title, book title, date, journal, volume, issue, pages, institution, publisher, location and marker. Blank optional values are omitted. Simple `Surname, Given` authors are reordered. Reference order and duplicates are retained.
 
 ## Limitations
 
@@ -65,6 +66,6 @@ No HTML or citation extraction runs. Attributes, namespaces and mixed text/child
 
 ## Related
 
-[Batch date](date.md) · [API usage](../../guides/records.md) · [Article metadata format](https://blog.gdeltproject.org/new-gkg-2-0-article-metadata-fields/) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
+[Batch date](date.md) · [Generate records](../../guides/records.md) · [Article metadata format](https://blog.gdeltproject.org/new-gkg-2-0-article-metadata-fields/) · [GKG 2.1 format](http://data.gdeltproject.org/documentation/GDELT-Global_Knowledge_Graph_Codebook-V2.1.pdf)
 
-[Field index](README.md)
+[GKG field reference](README.md)
