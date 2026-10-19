@@ -1,4 +1,4 @@
-"""Explicit English date mentions without inferring absent years or relative dates."""
+"""Explicit calendar date extraction from English text."""
 
 from __future__ import annotations
 
@@ -40,6 +40,18 @@ _PATTERNS = (
 
 @dataclass(frozen=True)
 class DateMention:
+    """A calendar date with a source span and known date components.
+
+    Attributes:
+        text: Matched date text.
+        start: Zero-based character offset.
+        end: Exclusive end offset.
+        resolution: 1 for year, 2 for month/year, 3 for full date, 4 for month/day.
+        month: Month number, or zero when absent.
+        day: Day number, or zero when absent.
+        year: Year, or zero when absent.
+    """
+
     text: str
     start: int
     end: int
@@ -79,6 +91,8 @@ class DateMention:
 
 @dataclass(frozen=True)
 class DateIssue:
+    """An ambiguous or invalid date candidate with its text, offset, and reason."""
+
     text: str
     start: int
     reason: str
@@ -86,19 +100,39 @@ class DateIssue:
 
 @dataclass(frozen=True)
 class DateResult:
+    """Date mentions and rejected candidates for an input body.
+
+    Attributes:
+        text: Analyzed body.
+        mentions: Accepted dates in source order.
+        issues: Ambiguous or invalid candidates in source order.
+    """
+
     text: str
     mentions: tuple[DateMention, ...]
     issues: tuple[DateIssue, ...] = ()
 
     def to_gkg(self):
+        """Serialize the enhanced dates field, or an empty string for no matches."""
         return ";".join(m.to_gkg() for m in self.mentions)
 
 
 def analyze_dates(text: str, *, numeric_order: NumericDateOrder | None = None) -> DateResult:
-    """Extract years 1500–2199 and explicit calendar dates; reject ambiguous slashes.
+    """Extract calendar dates and years from 1500 through 2199.
 
-    Set numeric_order to 'mdy' or 'dmy' to resolve ambiguous numeric dates.
-    Missing date components stay zero. Invalid full dates never fall back to years.
+    Missing components stay zero. Ambiguous numeric dates are reported as issues
+    unless `numeric_order` resolves them.
+
+    Args:
+        text: Prepared English body.
+        numeric_order: `mdy`, `dmy`, or `None` to retain ambiguous dates as issues.
+
+    Returns:
+        Accepted date mentions and diagnostics with source character offsets.
+
+    Raises:
+        TypeError: If `text` is not a string.
+        ValueError: If `numeric_order` is unsupported.
     """
     if not isinstance(text, str):
         raise TypeError("text must be str")

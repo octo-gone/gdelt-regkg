@@ -1,8 +1,4 @@
-"""Dictionary-frequency approximation of GKG tone; see docs/reference/fields/tone.md.
-
-The locally built General Inquirer categories are NOT GDELT's production lexicon.
-No POS model, sentiment reasoning, negation inversion, or stopword removal.
-"""
+"""Dictionary-frequency scoring for the GKG tone field."""
 
 from __future__ import annotations
 
@@ -41,11 +37,10 @@ def tokenize_tone(text: str) -> list[str]:
 
 @dataclass(frozen=True)
 class ToneLexicon:
-    """Four sets of exact tokens, reusable across documents and pandas rows.
+    """Named positive, negative, activity, and self-group token collections.
 
-    Collections are normalized and frozen at construction. Every category is
-    required; an explicitly empty category is permitted for controlled tests.
-    Overlap across categories is allowed. No stemming or sense disambiguation.
+    Categories are normalized and frozen at construction. Empty categories and
+    overlap between categories are supported.
     """
 
     name: str
@@ -117,6 +112,19 @@ def baseline_tone_lexicon(resources_dir: StrPath | None = None) -> ToneLexicon:
 
 @dataclass(frozen=True)
 class ToneResult:
+    """Tone scores, token count, and the lexicon identity.
+
+    Attributes:
+        tone: Positive score minus negative score.
+        positive_score: Percentage of tokens matching positive words.
+        negative_score: Percentage of tokens matching negative words.
+        polarity: Percentage matching either positive or negative words.
+        activity_reference_density: Percentage matching activity words.
+        self_group_reference_density: Percentage matching self-group words.
+        word_count: Total tokens, including repetitions.
+        lexicon_name: Name of the dictionary used.
+    """
+
     tone: float
     positive_score: float
     negative_score: float
@@ -127,7 +135,7 @@ class ToneResult:
     lexicon_name: str
 
     def to_gkg(self) -> str:
-        """Six scores and integer word count, in the V1.5TONE field order."""
+        """Serialize six scores and the word count in GKG tone field order."""
         scores = (
             self.tone,
             self.positive_score,
@@ -140,12 +148,28 @@ class ToneResult:
 
 
 def analyze_tone(text: str, *, lexicon: ToneLexicon | None = None) -> ToneResult:
-    """Compute percentages of all tokens using exact, case-insensitive matches.
+    """Compute dictionary-based tone scores for article text.
 
-    Default: benchmark-refined English dictionary approximation. Supply English text (or
-    its translation), or an appropriate custom lexicon for other languages.
-    Polarity counts the union of positive/negative matches once per token.
-    Empty or punctuation-only input returns zero scores and a zero word count.
+    Args:
+        text: Plain article text in the lexicon's language. The default lexicon
+            expects English text or an English translation.
+        lexicon: Reusable tone dictionary. If omitted, load the configured
+            default English dictionary from local resources.
+
+    Returns:
+        The seven tone components and the name of the dictionary used.
+
+    Raises:
+        TypeError: If text is not a string or lexicon is not a ToneLexicon.
+        ResourceUnavailableError: If the default local dictionary is unavailable.
+
+    Examples:
+        >>> lexicon = ToneLexicon("example", {"good"}, {"bad"}, set(), set())
+        >>> result = analyze_tone("good good bad", lexicon=lexicon)
+        >>> result.word_count
+        3
+        >>> round(result.tone, 2)
+        33.33
     """
     tokens = tokenize_tone(text)
     if lexicon is None:

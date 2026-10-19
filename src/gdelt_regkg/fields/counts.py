@@ -1,8 +1,4 @@
-"""Configurable English count patterns, independent of themes and CAMEO.
-
-Rules and offset conventions are local approximations. Geography is optional
-caller-supplied resolved data.
-"""
+"""Event-related quantity extraction from English text."""
 
 from __future__ import annotations
 
@@ -50,7 +46,11 @@ def _alternation(phrases) -> str:
 
 @dataclass(frozen=True)
 class CountRules:
-    """Literal vocabulary and bounds for the existing count grammar."""
+    """Named vocabulary, context bounds, and templates for count extraction.
+
+    Trigger phrases map to one or more count labels. Load custom rule files with
+    `from_json` and reuse the compiled rules across documents.
+    """
 
     name: str
     triggers: Mapping[str, str | tuple[str, ...]]
@@ -266,10 +266,10 @@ def _span(start: int, end: int) -> None:
 
 @dataclass(frozen=True)
 class CountLocation:
-    """Resolved geographic mention, in the original text's character coordinates.
+    """Resolved geography for attaching a location to a count mention.
 
-    Caller owns geocoding and compatible FIPS/GNS/GNIS identifiers. There is no
-    ADM2 component in the count layout. Empty components serialize as empty values.
+    `start` and `end` delimit a source-text span. Geographic components use GKG
+    location types and compatible FIPS/GNS/GNIS identifiers; empty values are allowed.
     """
 
     start: int
@@ -306,6 +306,12 @@ class CountLocation:
 
 @dataclass(frozen=True)
 class CountMention:
+    """An event label, exact quantity, object description, and optional geography.
+
+    `start` identifies the quantity, `end` ends the matched construction, and
+    `trigger_start` identifies its trigger. Offsets are zero-based characters.
+    """
+
     count_type: str
     number: int
     object_type: str
@@ -344,6 +350,8 @@ class CountMention:
 
 @dataclass(frozen=True)
 class CountIssue:
+    """A rejected count candidate's start, exclusive end, and rejection reason."""
+
     start: int
     end: int
     reason: str
@@ -351,12 +359,25 @@ class CountIssue:
 
 @dataclass(frozen=True)
 class CountResult:
+    """Count mentions, rejected candidates, and the extraction profile name.
+
+    `empty_object_nouns` identifies object labels omitted during serialization.
+    """
+
     mentions: tuple[CountMention, ...]
     issues: tuple[CountIssue, ...]
     profile_name: str = PROFILE
     empty_object_nouns: tuple[str, ...] = field(default=(), repr=False)
 
     def to_gkg(self, *, enhanced: bool = False) -> str:
+        """Serialize standard or enhanced count entries.
+
+        Args:
+            enhanced: Append each quantity's source character offset.
+
+        Returns:
+            Semicolon-terminated entries, or an empty string for no matches.
+        """
         return "".join(
             (
                 replace(m, object_type="")
@@ -431,7 +452,22 @@ def _nearest_location(locations: tuple[CountLocation, ...], start: int) -> Count
 def analyze_counts(
     text: str, *, locations: Iterable[CountLocation] = (), rules: CountRules | None = None
 ) -> CountResult:
-    """Extract exact positive quantities in a limited set of English constructions."""
+    """Extract event-related quantities using English vocabulary and templates.
+
+    Args:
+        text: Prepared English body.
+        locations: Resolved geographic spans for this body. Counts use the nearest
+            supplied location.
+        rules: Reusable count rules. Defaults to the configured profile.
+
+    Returns:
+        Count mentions and diagnostics for rejected trigger matches.
+
+    Raises:
+        TypeError: If text, rules, or locations have invalid types.
+        ValueError: If a supplied location extends beyond the body.
+        ResourceUnavailableError: If the default profile is unavailable.
+    """
     if not isinstance(text, str):
         raise TypeError("text must be str")
     rules = default_count_rules() if rules is None else rules

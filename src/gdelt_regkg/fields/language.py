@@ -17,6 +17,15 @@ if TYPE_CHECKING:
 
 @dataclass(frozen=True)
 class LanguageDetection:
+    """A language candidate with confidence and detector identity.
+
+    Attributes:
+        language: Lowercase ISO 639-3 code.
+        confidence: Detector score for the best candidate.
+        margin: Score difference between the best and second-best candidates.
+        detector: Detector identity.
+    """
+
     language: str
     confidence: float
     margin: float
@@ -24,6 +33,8 @@ class LanguageDetection:
 
 
 class LanguageDetector(Protocol):
+    """Interface for backends implementing `detect(text)` with a `LanguageDetection`."""
+
     def detect(self, text: str) -> LanguageDetection: ...
 
 
@@ -32,7 +43,14 @@ class LanguageDetectionError(ValueError):
 
 
 class LinguaDetector:
-    """Return a scored language candidate, optionally enforcing quality thresholds."""
+    """Local language identifier with optional confidence thresholds.
+
+    Args:
+        strict: Reject short text and candidates below the configured thresholds.
+        min_letters: Minimum alphabetic sample length in strict mode.
+        min_confidence: Minimum candidate confidence in strict mode.
+        min_margin: Minimum gap from the next candidate in strict mode.
+    """
 
     def __init__(
         self,
@@ -54,6 +72,7 @@ class LinguaDetector:
         self.min_confidence, self.min_margin = min_confidence, min_margin
 
     def detect(self, text: str) -> LanguageDetection:
+        """Identify a language candidate using this detector's thresholds."""
         return self._detect_with(text, self.backend, "lingua/low-accuracy")
 
     def confirm(self, text: str, supplied: str, candidate: str) -> LanguageDetection:
@@ -107,7 +126,20 @@ def default_language_detector(*, strict: bool = False) -> LinguaDetector:
 
 
 def detect_language(text: str, *, detector: LanguageDetector | None = None) -> LanguageDetection:
-    """Return a scored candidate; pass LinguaDetector(strict=True) to reject weak evidence."""
+    """Identify a language candidate for a prepared article body.
+
+    Args:
+        text: Body to analyze.
+        detector: Custom detector. Defaults to a permissive local Lingua detector.
+
+    Returns:
+        A language code, confidence, margin, and detector identity.
+
+    Raises:
+        TypeError: If `text` or the detector result has an invalid type.
+        LanguageDetectionError: If no candidate exists or strict thresholds fail.
+        OptionalDependencyError: If the default detector's dependency is unavailable.
+    """
     if not isinstance(text, str):
         raise TypeError("text must be str")
     result = (default_language_detector() if detector is None else detector).detect(text)

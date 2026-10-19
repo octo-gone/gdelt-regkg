@@ -25,6 +25,12 @@ def location_key(name):
 
 @dataclass(frozen=True)
 class Place:
+    """A gazetteer place with GKG geography codes and a native feature identifier.
+
+    Coordinates are strings. `country_code` uses FIPS codes, `aliases` supplies
+    alternate names, and `frequency` provides a prior for ambiguous names.
+    """
+
     geo_type: str
     full_name: str
     country_code: str
@@ -72,6 +78,8 @@ class Place:
 
 @dataclass(frozen=True)
 class Gazetteer:
+    """Named collection of places and aliases for offline geographic resolution."""
+
     name: str
     places: tuple[Place, ...]
     _index: dict = field(init=False, repr=False, compare=False)
@@ -92,6 +100,7 @@ class Gazetteer:
 
     @classmethod
     def from_json(cls, path: str | Path) -> Gazetteer:
+        """Load a gazetteer from a UTF-8 JSON file, optionally gzip-compressed."""
         path = Path(path)
         raw = gzip.decompress(path.read_bytes()) if path.suffix == ".gz" else path.read_bytes()
         return _load(json.loads(raw.decode("utf-8")))
@@ -117,6 +126,11 @@ def _cached_gazetteer(path):
 
 @dataclass(frozen=True)
 class LocationMention:
+    """A matched place name, source-text span, and resolved gazetteer record.
+
+    `start` is a zero-based character offset and `end` is exclusive.
+    """
+
     text: str
     start: int
     end: int
@@ -147,6 +161,8 @@ class LocationMention:
 
 @dataclass(frozen=True)
 class LocationIssue:
+    """An unresolved place name with its source offset and rejection reason."""
+
     text: str
     start: int
     reason: str
@@ -154,17 +170,35 @@ class LocationIssue:
 
 @dataclass(frozen=True)
 class LocationResult:
+    """Resolved locations and diagnostics for an input body.
+
+    Attributes:
+        text: Analyzed body.
+        mentions: Resolved places in source order.
+        issues: Unknown or ambiguous place candidates.
+        gazetteer_name: Name of the geographic reference used.
+    """
+
     text: str
     mentions: tuple[LocationMention, ...]
     issues: tuple[LocationIssue, ...]
     gazetteer_name: str
 
     def to_gkg(self, *, enhanced=False):
+        """Serialize standard or enhanced locations as semicolon-separated entries.
+
+        An empty result produces an empty string.
+
+        Args:
+            enhanced (bool): Include ADM2 codes and offsets for every mention. Standard
+                output keeps distinct entries in first-match order.
+        """
         entries = [m.to_gkg(enhanced=enhanced) for m in self.mentions]
         return ";".join(entries if enhanced else dict.fromkeys(entries))
 
     @property
     def count_locations(self):
+        """Resolved spans suitable for the `locations` argument of `analyze_counts`."""
         return tuple(m.as_count_location() for m in self.mentions)
 
 
@@ -175,11 +209,26 @@ def analyze_locations(
     ner: NERResult | None = None,
     gazetteer: Gazetteer | None = None,
 ) -> LocationResult:
-    """Resolve place mentions and report unknown or ambiguous names as diagnostics.
+    """Resolve recognized place names against an offline gazetteer.
 
-    Explicit nearby country/ADM1 references take precedence over the reference
-    frequency prior. Without context, a candidate needs >=80% of alias frequency.
-    Multiple aliases of one feature do not inflate that prior.
+    Nearby country and ADM1 references guide ambiguous matches. Otherwise, a
+    candidate needs at least 80% of the alias frequency to be selected.
+
+    Args:
+        text: Prepared body.
+        recognizer: Entity recognizer. Defaults to the installed English model.
+        ner: Precomputed NER for this exact body; supply it instead of `recognizer`.
+        gazetteer: Geographic reference. Defaults to the configured local profile.
+
+    Returns:
+        Resolved places and diagnostics for unknown or ambiguous names.
+
+    Raises:
+        TypeError: If text or gazetteer has an invalid type.
+        ValueError: If both NER inputs are supplied or the result describes another body.
+        NERUnavailableError: If the default recognizer model is unavailable.
+        OptionalDependencyError: If a recognizer dependency is unavailable.
+        ResourceUnavailableError: If a required default profile is unavailable.
     """
     if not isinstance(text, str):
         raise TypeError("text must be str")

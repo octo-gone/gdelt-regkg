@@ -21,6 +21,12 @@ _VERBS = re.compile(
 
 @dataclass(frozen=True)
 class QuotationMention:
+    """Quoted text with zero-based start, exclusive end, and a reporting verb.
+
+    The span excludes quotation marks and surrounding whitespace. An empty `verb`
+    means no nearby reporting verb was found.
+    """
+
     text: str
     start: int
     end: int
@@ -48,6 +54,8 @@ class QuotationMention:
 
 @dataclass(frozen=True)
 class QuotationIssue:
+    """A source span and reason for an unmatched quote or normalization issue."""
+
     start: int
     end: int
     reason: str
@@ -55,10 +63,13 @@ class QuotationIssue:
 
 @dataclass(frozen=True)
 class QuotationResult:
+    """Quotation mentions and diagnostics in source order."""
+
     mentions: tuple[QuotationMention, ...]
     issues: tuple[QuotationIssue, ...]
 
     def to_gkg(self) -> str:
+        """Serialize the quotations field, or an empty string for no matches."""
         return "#".join(mention.to_gkg() for mention in self.mentions)
 
 
@@ -86,13 +97,19 @@ def _verb(text, opening, closing, previous_end, next_start):
 
 
 def analyze_quotations(text: str) -> QuotationResult:
-    """Find outer quoted spans without modifying original coordinates.
+    """Find outer quoted spans and nearby English reporting verbs.
 
-    Accept straight/curly double and single quotes and guillemets. Apostrophes
-    inside words are ignored. Nested quotes of another style are included in the outer text.
-    Unmatched openings and normalized wire delimiters are reported in ``issues``. Quoted
-    titles and scare quotes are not distinguished from speech. Verb association
-    is a bounded English heuristic, not speaker attribution or parsing.
+    Supports straight and curly quotes and guillemets. Quoted titles and scare
+    quotes are included alongside speech.
+
+    Args:
+        text: Prepared body whose character offsets should be preserved.
+
+    Returns:
+        Quotations and diagnostics for unmatched quotes or normalized delimiters.
+
+    Raises:
+        TypeError: If `text` is not a string.
     """
     if not isinstance(text, str):
         raise TypeError("text must be str")

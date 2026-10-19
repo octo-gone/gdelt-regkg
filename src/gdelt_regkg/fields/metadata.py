@@ -1,4 +1,4 @@
-"""Format caller-supplied document metadata without extracting article text."""
+"""Caller-supplied document metadata for GKG records."""
 
 from __future__ import annotations
 
@@ -156,6 +156,26 @@ def format_optional_extras(elements: Mapping[str, XMLValue] | None) -> str | Non
 
 @dataclass(frozen=True)
 class RecordMetadata:
+    """Document identity, timestamps, media, and translation provenance.
+
+    `None` media values mark unavailable data. Empty values mark known absence.
+
+    Args:
+        identifier: Document URL, DOI, or citation.
+        batch_time: Record batch timestamp.
+        sequence: Caller-managed positive sequence number within the batch.
+        published_at: Optional precise publication timestamp for extras.
+        source_collection: GKG source collection code, from 1 through 6.
+        source_name: Explicit source label; defaults to a web URL's hostname.
+        sharing_image: Selected sharing-image URL.
+        related_images: Selected article image URLs.
+        social_image_embeds: Social-post URLs containing images.
+        social_video_embeds: Selected video URLs.
+        extras: Additional XML extension elements.
+        source_language: Original language code for translated bodies.
+        translation_engine: Engine citation, supplied with `source_language`.
+    """
+
     identifier: str
     batch_time: Timestamp
     sequence: int
@@ -174,7 +194,19 @@ class RecordMetadata:
     def from_translation(
         cls, result: TranslationResult, metadata: RecordMetadata
     ) -> RecordMetadata:
-        """Copy translation metadata; enhanced offsets must index result.text."""
+        """Copy translation provenance into a new metadata instance.
+
+        Args:
+            result: Translation result whose English text will be analyzed.
+            metadata: Existing document metadata.
+
+        Returns:
+            Updated metadata with source language and engine for translated input.
+
+        Raises:
+            TypeError: If argument types are invalid.
+            ValueError: If translation provenance conflicts with existing metadata.
+        """
         if not isinstance(result, TranslationResult) or not isinstance(metadata, cls):
             raise TypeError("Expected TranslationResult and RecordMetadata")
         language = normalize_language(result.source_language)
@@ -192,6 +224,7 @@ class RecordMetadata:
         )
 
     def to_mapping(self) -> dict[str, str | None]:
+        """Format the record identity, source, batch date, and translation cells."""
         stamp = format_date(self.batch_time)
         translation = format_translation_info(self.source_language, self.translation_engine)
         return {

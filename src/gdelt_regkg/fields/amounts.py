@@ -55,6 +55,16 @@ def _number(value: str) -> Decimal:
 
 @dataclass(frozen=True)
 class AmountMention:
+    """An exact quantity and object label at a source-text span.
+
+    Attributes:
+        text: Matched quantity text.
+        start: Zero-based character offset of the quantity.
+        end: Exclusive end offset of the quantity.
+        amount: Exact numeric value as a `Decimal`.
+        object_type: Attached object label or normalized currency name.
+    """
+
     text: str
     start: int
     end: int
@@ -83,19 +93,36 @@ class AmountMention:
 
 @dataclass(frozen=True)
 class AmountResult:
+    """Amount matches for the original input text.
+
+    Attributes:
+        text: Analyzed body.
+        mentions: Quantities in source order.
+    """
+
     text: str
     mentions: tuple[AmountMention, ...]
 
     def to_gkg(self):
+        """Serialize the amounts field, using an empty string for no matches."""
         return ";".join(m.to_gkg() for m in self.mentions)
 
 
 def analyze_amounts(text: str, *, numeric_order: NumericDateOrder | None = None) -> AmountResult:
-    """Parse exact numbers, magnitude suffixes and currencies; exclude dates/percentages.
+    """Extract exact English quantities and currencies with short object labels.
 
-    Object attachment reads at most three following words, stopping at common
-    verbs, prepositions and punctuation. This is not dependency parsing.
-    Indefinite 'hundreds of' quantities are deliberately not assigned exact values.
+    Dates, percentages, and indefinite quantities are excluded.
+
+    Args:
+        text: Prepared English body.
+        numeric_order: `mdy` or `dmy` to resolve ambiguous dates before exclusion.
+
+    Returns:
+        Quantities with exact decimal values and source character offsets.
+
+    Raises:
+        TypeError: If `text` is not a string.
+        ValueError: If `numeric_order` is unsupported.
     """
     if not isinstance(text, str):
         raise TypeError("text must be str")

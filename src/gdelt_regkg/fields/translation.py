@@ -1,4 +1,4 @@
-"""Explicit local translation before English NLP, with language and engine metadata."""
+"""English translation with source-language and engine metadata."""
 
 from __future__ import annotations
 
@@ -187,6 +187,16 @@ def normalize_language(value: str) -> str:
 
 @dataclass(frozen=True)
 class TranslationResult:
+    """Prepared English text and its translation provenance.
+
+    Attributes:
+        original_text: Original input body.
+        text: English body for downstream analysis.
+        source_language: Normalized source-language code.
+        engine: Translation engine citation, or `None` for English input.
+        language_detection: Detection or verification evidence, when collected.
+    """
+
     original_text: str
     text: str
     source_language: str
@@ -195,10 +205,13 @@ class TranslationResult:
 
     @property
     def translated(self) -> bool:
+        """Whether the source language required translation into English."""
         return self.source_language != "eng"
 
 
 class Translator(Protocol):
+    """English translation backend exposing `engine` and `translate(text, source_language)`."""
+
     engine: str
 
     def translate(self, text: str, source_language: str) -> str: ...
@@ -213,7 +226,28 @@ def translate_text(
     language_detector: LanguageDetector | None = None,
     language_check: LanguageCheck = "script",
 ) -> TranslationResult:
-    """Translate to English; detect missing labels locally, and bypass English."""
+    """Prepare English text and record its source language and translation engine.
+
+    English input passes through unchanged.
+
+    Args:
+        text: Prepared article body.
+        language: Supported language code, name, or regional tag.
+        translator: Backend used for non-English input.
+        detect_missing_language: Detect the language when its label is missing.
+        language_detector: Custom detection backend. Defaults to local Lingua.
+        language_check: `none`, `script` for alphabet conflicts, or `all` to check
+            every supplied label.
+
+    Returns:
+        English text with original text, language, engine, and detection evidence.
+
+    Raises:
+        TypeError: If `text` is not a string or detection output is invalid.
+        ValueError: If language settings, the engine, or translated text are invalid.
+        LanguageDetectionError: If detection fails or a script conflict is unresolved.
+        OptionalDependencyError: If a required detection dependency is unavailable.
+    """
     if not isinstance(text, str):
         raise TypeError("text must be str")
     detection = None
@@ -248,7 +282,10 @@ class TranslationUnavailableError(RuntimeError):
 
 
 class M2M100Translator:
-    """Local sentence/chunk translation; load once, use sequentially, reuse."""
+    """Local M2M100 translation with sentence chunking and batched inference.
+
+    Load with `from_model` and reuse one instance for sequential translation calls.
+    """
 
     def __init__(self, tokenizer, model, *, engine, chunk_tokens=384, batch_size=4, num_beams=4):
         if type(chunk_tokens) is not int or not 1 <= chunk_tokens <= 512:
@@ -275,6 +312,24 @@ class M2M100Translator:
         batch_size=4,
         num_beams=4,
     ) -> M2M100Translator:
+        """Load a reusable M2M100 model and tokenizer.
+
+        Args:
+            model (str): Model identifier or local model directory.
+            device (str): PyTorch device, such as `cpu` or `cuda:0`.
+            allow_download (bool): Allow model downloads when local files are missing.
+            revision (str | None): Optional model revision.
+            batch_size (int): Positive number of text chunks per inference batch.
+            num_beams (int): Positive beam count for generation.
+
+        Returns:
+            A translator with an engine citation identifying its configuration.
+
+        Raises:
+            OptionalDependencyError: If a required backend dependency is unavailable.
+            TranslationUnavailableError: If model resources cannot be loaded.
+            ValueError: If batch or beam settings are invalid.
+        """
         require_dependency("torch", "translate")
         transformers = require_dependency("transformers", "translate")
         require_dependency("sentencepiece", "translate")
@@ -298,6 +353,18 @@ class M2M100Translator:
         return cls(tokenizer, network, engine=engine, batch_size=batch_size, num_beams=num_beams)
 
     def translate(self, text: str, source_language: str) -> str:
+        """Translate one body into English using the batch translation path.
+
+        Args:
+            text: Source body.
+            source_language: Supported language code, name, or regional tag.
+
+        Returns:
+            The English translation.
+
+        Raises:
+            ValueError: If the language, input, or generated output is unsupported.
+        """
         return self.translate_many([text], source_language)[0]
 
     def _chunks(self, text):
@@ -369,7 +436,21 @@ class M2M100Translator:
         return " ".join(self._retry_empty(part, depth + 1) for part in parts)
 
     def translate_many(self, texts: Iterable[str], source_language: str) -> list[str]:
-        """Translate same-language bodies in bounded chunk batches, preserving order."""
+        """Translate same-language bodies in bounded batches of text chunks.
+
+        Args:
+            texts: Source bodies sharing one language.
+            source_language: Supported language code, name, or regional tag.
+
+        Returns:
+            English translations in input order, with translated chunks joined
+            by newlines.
+
+        Raises:
+            ValueError: If the language is unsupported or a body produces invalid
+                or empty output.
+            OptionalDependencyError: If PyTorch is unavailable.
+        """
         torch = require_dependency("torch", "translate")
 
         source = normalize_language(source_language)

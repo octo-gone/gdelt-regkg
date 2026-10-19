@@ -37,6 +37,13 @@ def _order(key):
 
 @dataclass(frozen=True)
 class GCAMLexicon:
+    """Reusable GCAM count dictionaries, weighted scores, and matching options.
+
+    `dimensions` maps count keys to word sets; `weighted_dimensions` maps score
+    keys to word weights. Load compiled profiles with `from_json` and select
+    dictionaries or languages before analysis.
+    """
+
     name: str
     dimensions: Mapping[str, frozenset[str]]
     weighted_dimensions: Mapping[str, Mapping[str, float]] = field(default_factory=dict)
@@ -126,7 +133,18 @@ class GCAMLexicon:
         return tuple(sorted((*self.dimensions, *self.weighted_dimensions), key=_order))
 
     def without_dictionaries(self, disabled: Iterable[int | str] = ()) -> GCAMLexicon:
-        """Return a reusable selection; excluded matchers are never evaluated."""
+        """Select a lexicon with the requested dictionaries excluded.
+
+        Args:
+            disabled: Collection of dictionary names, integer IDs, or numeric strings.
+
+        Returns:
+            A reusable selection, or this lexicon if no applicable IDs are excluded.
+
+        Raises:
+            TypeError: If selectors have invalid types or form a bare string.
+            ValueError: If a dictionary name or ID is unknown.
+        """
         present = {dictionary_id(key) for key in self.implemented_dimensions}
         ids = tuple(
             code for code in resolve_dictionaries(disabled, custom_ids=present) if code in present
@@ -136,7 +154,7 @@ class GCAMLexicon:
         return self._selection(("dictionaries", *ids), lambda key: dictionary_id(key) not in ids)
 
     def for_language(self, language: str = "eng") -> GCAMLexicon:
-        """Select applicable dimensions, including languages sharing a dictionary ID."""
+        """Select dimensions for a supported language code, name, or regional tag."""
         language = normalize_language(language)
         if all(value == language for value in self.languages.values()):
             return self
@@ -368,6 +386,7 @@ class GCAMLexicon:
 
     @classmethod
     def from_json(cls, path: str | Path) -> GCAMLexicon:
+        """Load a compiled GCAM profile from JSON or gzip-compressed JSON."""
         return _load(read_gcam_json(path))
 
 
@@ -450,6 +469,17 @@ def _cached_gcam_lexicon(path):
 
 @dataclass(frozen=True)
 class GCAMResult:
+    """GCAM counts and weighted scores with the profile's supported dimensions.
+
+    Attributes:
+        word_count: English input token count.
+        counts: Count-dimension matches, including supported zero counts.
+        implemented_dimensions: Keys computed by the selected lexicon.
+        lexicon_name: Profile identity.
+        values: Weighted means for dimensions with matched words.
+        native_word_count: Original-language token count when native text is supplied.
+    """
+
     word_count: int
     counts: Mapping[str, int]
     implemented_dimensions: tuple[str, ...]
@@ -458,6 +488,10 @@ class GCAMResult:
     native_word_count: int | None = None
 
     def to_gkg(self):
+        """Serialize word counts and sparse dimension values in GCAM key order.
+
+        Zero counts are omitted. Matched weighted means of zero are retained.
+        """
         entries = [f"wc:{self.word_count}"]
         if self.native_word_count is not None:
             entries.append(f"nwc:{self.native_word_count}")
@@ -613,12 +647,25 @@ def analyze_gcam(
     original_text: str | None = None,
     original_language: str | None = None,
 ) -> GCAMResult:
-    """Counts and means of matched occurrences, without VADER sentence heuristics.
+    """Compute dictionary match counts and matched-word weighted means.
 
-    Text is prepared English. Optional original text is scored only by dictionaries
-    matching original_language, using the same contract for every source language.
-    A supported zero-match count is sparse; its mean is undefined and omitted.
-    A matched mean of zero is retained. Unsupported dimensions are uncomputed.
+    Original-language text is scored with dimensions for that language.
+
+    Args:
+        text: Prepared English body.
+        lexicon: Reusable GCAM profile. Defaults to the configured local profile.
+        disabled_dictionaries: Dictionary names or IDs to exclude before matching.
+        original_text: Optional body before English translation.
+        original_language: Non-English language of `original_text`; supply both together.
+
+    Returns:
+        Counts, weighted means, and supported dimension keys. Unmatched weighted
+        means are omitted.
+
+    Raises:
+        TypeError: If text, lexicon, or dictionary selectors have invalid types.
+        ValueError: If dictionary selectors or the original-language inputs are invalid.
+        ResourceUnavailableError: If the default local profile is unavailable.
     """
     if (original_text is None) != (original_language is None):
         raise ValueError("Supply original_text and original_language together")

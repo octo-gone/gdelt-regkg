@@ -1,4 +1,4 @@
-"""Compose prepared English text and explicit metadata into one GKG record."""
+"""Generate and serialize GKG records from prepared English text and metadata."""
 
 from __future__ import annotations
 
@@ -65,6 +65,7 @@ METADATA_COLUMNS = (
     "V2EXTRASXML",
 )
 OVERRIDABLE_COLUMNS = frozenset((*TEXT_COLUMNS, *METADATA_COLUMNS))
+"""GKG column names accepted by the `overrides` argument of `generate_gkg`."""
 
 
 def _entity_fields(text, resources, supplied, ner_result, count_locations):
@@ -167,11 +168,41 @@ def generate_gkg(
     gcam_original_text: str | None = None,
     strict: bool = False,
 ) -> GKGRecord:
-    """Analyze prepared English text. Enhanced offsets index this exact body.
+    """Build a GKG record from prepared English text and supplied metadata.
 
-    Translate separately and copy language and engine values with RecordMetadata.from_translation.
-    Overrides replace output cells, not dependencies needed by other fields.
-    None marks unavailable fields; an empty string marks an available empty result.
+    Enhanced offsets refer to `text`. For translated input, copy language and
+    engine metadata with `RecordMetadata.from_translation`. Overridden cells may
+    share analysis dependencies with other fields.
+
+    Args:
+        text: Prepared English body to analyze.
+        metadata: Document identity, timestamps, media, and translation metadata.
+        resources: Resource configuration. Defaults to `Resources()`.
+        overrides: Encoded output cells keyed by names in `OVERRIDABLE_COLUMNS`.
+        ner_result: Precomputed entities for this exact body, taking precedence
+            over the configured recognizer.
+        count_locations: Explicit count geography. Nonempty input takes precedence
+            over locations derived from entities.
+        numeric_date_order: `mdy` or `dmy` for ambiguous dates; `None` leaves them
+            unresolved. Also applies to amounts containing dates.
+        gcam_disabled_dictionaries: GCAM dictionary names or IDs to exclude.
+        gcam_original_text: Original body for native-language GCAM scoring, paired
+            with `metadata.source_language`.
+        strict: Raise an error if any output field is unavailable.
+
+    Returns:
+        A 27-field record. `None` marks unavailable fields; an empty string marks
+            an available field with no results.
+
+    Raises:
+        TypeError: If argument types or output cell types are invalid.
+        ValueError: If metadata, overrides, date order, or analysis inputs are
+            invalid. A supplied NER result must describe `text` exactly.
+        IncompleteGKGError: If `strict` is true and any field is unavailable.
+        ResourceUnavailableError: If a required default resource is missing.
+
+    Warns:
+        IncompleteGKGWarning: If fields are unavailable and `strict` is false.
     """
     if not isinstance(text, str):
         raise TypeError("text must be str")
@@ -215,14 +246,43 @@ def generate_gkg(
 
 
 def serialize_gkg(record: Mapping[str, str | None], *, allow_incomplete: bool = False) -> str:
-    """Return one validated, unquoted 27-column TSV line with a final newline."""
+    """Serialize one record as an unquoted 27-column TSV line.
+
+    Args:
+        record: Mapping with exactly the column names in `GKG_COLUMNS`.
+        allow_incomplete: Convert unavailable (`None`) cells to empty strings.
+
+    Returns:
+        A tab-separated line in GKG column order, ending with a newline.
+
+    Raises:
+        TypeError: If a cell has an invalid type.
+        ValueError: If keys are incorrect, a cell contains row separators, or
+            unavailable cells are present while `allow_incomplete` is false.
+    """
     return "\t".join(mapping_row(record, allow_incomplete=allow_incomplete)) + "\n"
 
 
 def write_gkg(
     records: Iterable[Mapping[str, str | None]], stream: TextIO, *, allow_incomplete: bool = False
 ) -> int:
-    """Write headerless rows; earlier rows remain written if a later row fails."""
+    """Write GKG records to a text stream as headerless TSV rows.
+
+    Each row is validated before writing. Earlier rows remain if a later row fails.
+
+    Args:
+        records: Record mappings in output order.
+        stream: Writable text stream, which remains open after writing.
+        allow_incomplete: Convert unavailable (`None`) cells to empty strings.
+
+    Returns:
+        The number of records written.
+
+    Raises:
+        TypeError: If a cell has an invalid type.
+        ValueError: If record validation fails.
+        OSError: If writing to the stream fails.
+    """
     count = 0
     for record in records:
         stream.write(serialize_gkg(record, allow_incomplete=allow_incomplete))

@@ -1,8 +1,4 @@
-"""Stable GCAM dictionary identities shared by scoring, builds and reports.
-
-IDs follow the codebook's Variable column, including the c41 correction.
-Language applicability is carried by individual compiled dimensions.
-"""
+"""GCAM dictionary names, IDs, and selector resolution."""
 
 from collections.abc import Iterable
 from types import MappingProxyType
@@ -52,6 +48,8 @@ DICTIONARIES = MappingProxyType(
         42: "emfd",
     }
 )
+"""Read-only mapping from GCAM dictionary IDs to canonical dictionary names."""
+
 DICTIONARY_IDS = MappingProxyType(
     {
         **{name: code for code, name in DICTIONARIES.items()},
@@ -60,6 +58,11 @@ DICTIONARY_IDS = MappingProxyType(
         "themes-authored": 18,
     }
 )
+"""Read-only mapping from canonical dictionary names and aliases to GCAM IDs.
+
+Includes all names from ``DICTIONARIES``, plus ``general-inquirer-legacy`` (2),
+``themes-experimental`` (18), and ``themes-authored`` (18).
+"""
 
 
 def dictionary_id(key: str) -> int:
@@ -69,10 +72,25 @@ def dictionary_id(key: str) -> int:
 def resolve_dictionaries(
     values: Iterable[int | str], *, custom_ids: Iterable[int] = ()
 ) -> tuple[int, ...]:
-    """Resolve a collection of canonical names or positive numeric IDs.
+    """Convert GCAM dictionary names and IDs into a sorted tuple of unique IDs.
 
-    Known dictionaries absent from a profile are valid no-ops. Custom dictionary
-    IDs must occur in the supplied profile. Bare strings and bools are rejected.
+    Names are case-insensitive and may include surrounding whitespace. Built-in
+    dictionaries are accepted even when absent from the caller's profile; custom
+    dictionary IDs must be supplied explicitly through ``custom_ids``.
+
+    Args:
+        values: Iterable of dictionary names, aliases, integer IDs, or numeric
+            strings. Pass a collection, even when selecting a single dictionary.
+        custom_ids: Additional dictionary IDs available in the caller's profile.
+
+    Returns:
+        The resolved dictionary IDs in ascending order, with duplicates removed.
+
+    Raises:
+        TypeError: If ``values`` is a bare string or bytes object, or an item is
+            neither a string nor an integer. Boolean items are also rejected.
+        ValueError: If a name or ID is unknown to both the built-in dictionaries
+            and ``custom_ids``.
     """
     if isinstance(values, (str, bytes)):
         raise TypeError("disabled_dictionaries must be a collection of names or IDs")

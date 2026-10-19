@@ -1,4 +1,4 @@
-"""Explicit SQLite translation caching, independent of language verification."""
+"""Persistent SQLite caching for English translations."""
 
 from __future__ import annotations
 
@@ -13,15 +13,26 @@ from .types import StrPath
 
 
 class CachedTranslator:
-    """Owned thread-affine cache; closing it does not close the translator.
+    """Cache translations by engine, source language, and input text.
 
-    Create one instance per worker. Independent instances may share a WAL file.
-    Successful translation operations commit; pending work is rolled back on close.
+    Create one instance per worker; instances may share a database file.
+    Use as a context manager to close the cache automatically.
+
+    Args:
+        translator: Translation backend with a nonempty engine identifier.
+        path: SQLite database path, or `:memory:` for an in-memory cache.
+        timeout: SQLite lock timeout in seconds.
+
+    Raises:
+        ValueError: If the engine identifier or timeout is invalid.
+        sqlite3.Error: If the cache cannot be opened or initialized.
     """
 
     def __init__(self, translator: Translator, path: StrPath, *, timeout: float = 60):
         self.translator = translator
+        """Wrapped translation backend."""
         self.engine = translator.engine
+        """Engine identifier used in cache keys."""
         if not isinstance(self.engine, str) or not self.engine.strip():
             raise ValueError("Translator must identify its engine")
         self._connection: sqlite3.Connection | None = open_database(path, timeout=timeout)
@@ -36,6 +47,11 @@ class CachedTranslator:
 
     @property
     def connection(self) -> sqlite3.Connection:
+        """Return the cache's open SQLite connection.
+
+        Raises:
+            RuntimeError: If the cache is closed.
+        """
         if self._connection is None:
             raise RuntimeError("Translation cache is closed")
         return self._connection
@@ -48,6 +64,10 @@ class CachedTranslator:
         self.close()
 
     def close(self) -> None:
+        """Roll back pending work and close the cache connection.
+
+        Repeated calls are safe. The wrapped translator remains available.
+        """
         connection, self._connection = self._connection, None
         close_database(connection)
 
@@ -57,9 +77,45 @@ class CachedTranslator:
         ).hexdigest()
 
     def translate(self, text: str, source_language: str) -> str:
+        """Translate one body into English, reusing cached results.
+
+        Args:
+            text: Source body to translate.
+            source_language: Supported language code, name, or regional tag.
+
+        Returns:
+            The English translation. English input is returned unchanged.
+
+        Raises:
+            TypeError: If `text` is not a string.
+            ValueError: If the language is invalid, a non-English body is blank,
+                or the backend returns invalid output.
+            RuntimeError: If the cache is closed.
+            sqlite3.Error: If reading or saving cached results fails.
+        """
         return self.translate_many([text], source_language)[0]
 
     def translate_many(self, texts: Iterable[str], source_language: str) -> list[str]:
+        """Translate bodies into English, batching unique cache misses.
+
+        Uses the backend's batch method when available. New results are committed
+        after validation.
+
+        Args:
+            texts: Source bodies to translate.
+            source_language: Supported language code, name, or regional tag.
+
+        Returns:
+            Translations in input order, preserving duplicates. English input
+            is returned unchanged.
+
+        Raises:
+            TypeError: If `texts` is not iterable or contains non-string values.
+            ValueError: If the language is invalid, a non-English body is blank,
+                or the backend returns invalid output.
+            RuntimeError: If the cache is closed.
+            sqlite3.Error: If reading or saving cached results fails.
+        """
         source = normalize_language(source_language)
         texts = list(texts)
         if any(not isinstance(text, str) for text in texts):

@@ -1,4 +1,4 @@
-"""Consistent errors for explicitly requested optional features."""
+"""Dependency errors for optional extraction and build features."""
 
 from importlib import import_module
 from types import ModuleType

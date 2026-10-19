@@ -1,7 +1,4 @@
-"""Reusable literal theme matching with original-text offsets.
-
-This is an explicit approximation, not GDELT's production matching engine.
-"""
+"""Literal theme matching with source-text character offsets."""
 
 from __future__ import annotations
 
@@ -21,6 +18,12 @@ _CODE = re.compile(r"[A-Z][A-Z0-9_-]*")
 
 @dataclass(frozen=True)
 class ThemeRule:
+    """A theme label and literal phrase with document-wide context conditions.
+
+    Each `requires_all` group needs at least one matching phrase. Any matching
+    `exclude_any` phrase suppresses the rule.
+    """
+
     theme: str
     phrase: str
     requires_all: tuple[tuple[str, ...], ...] = ()
@@ -56,11 +59,10 @@ class ThemeRule:
 
 @dataclass(frozen=True)
 class ThemeLexicon:
-    """Compile once; phrases match casefolded token sequences, including punctuation.
+    """Reusable named collection of literal theme rules.
 
-    Whitespace between tokens is ignored. Optional literal context groups and
-    exclusions gate a rule at document scope. There is no automatic stemming,
-    negation reasoning, parent-category inference, or substring matching.
+    Matching uses casefolded token sequences, including punctuation, and ignores
+    whitespace between tokens. Context conditions apply across the document.
     """
 
     name: str
@@ -97,6 +99,15 @@ class ThemeLexicon:
     def from_mapping(
         cls, themes: Mapping[str, Iterable[str]], *, name: str = "custom"
     ) -> ThemeLexicon:
+        """Build a lexicon from theme codes mapped to collections of phrases.
+
+        Args:
+            themes: Theme codes and their literal matching phrases.
+            name: Source or version identifier.
+
+        Returns:
+            A compiled lexicon ready for `analyze_themes`.
+        """
         rules: list[ThemeRule] = []
         for theme, phrases in themes.items():
             if isinstance(phrases, str):
@@ -128,6 +139,8 @@ def _cached_theme_lexicon(path):
 
 @dataclass(frozen=True)
 class ThemeMention:
+    """A theme code and matched text with zero-based start and exclusive end offsets."""
+
     theme: str
     start: int
     end: int
@@ -136,23 +149,42 @@ class ThemeMention:
 
 @dataclass(frozen=True)
 class ThemeResult:
+    """Theme matches in source order and the name of the lexicon used."""
+
     mentions: tuple[ThemeMention, ...]
     lexicon_name: str
 
     def to_gkg(self, *, enhanced: bool = False) -> str:
+        """Serialize standard or enhanced theme entries.
+
+        Args:
+            enhanced: Include offsets for every mention. Standard output keeps
+                distinct theme codes in first-match order.
+
+        Returns:
+            Semicolon-terminated entries, or an empty string for no matches.
+        """
         if enhanced:
             return "".join(f"{m.theme},{m.start};" for m in self.mentions)
         return "".join(code + ";" for code in dict.fromkeys(m.theme for m in self.mentions))
 
 
 def analyze_themes(text: str, *, lexicon: ThemeLexicon | None = None) -> ThemeResult:
-    """Return mentions in source order; offsets are zero-based Python characters.
+    """Match literal theme phrases while preserving source character offsets.
 
-    Repeated and overlapping phrase matches are retained, including matches
-    of different lengths for the same theme and start.
-    Case folding is per token, so expansions (e.g. sharp-s) do not shift offsets.
-    Conditions inspect the whole document; the offset still anchors the rule's
-    matching phrase, not the additional context words.
+    Repeated and overlapping matches are retained. Context conditions inspect
+    the whole document; offsets identify each rule's matching phrase.
+
+    Args:
+        text: Prepared body in the lexicon's language.
+        lexicon: Reusable theme rules. Defaults to the configured local profile.
+
+    Returns:
+        Theme mentions in source order and the lexicon identity.
+
+    Raises:
+        TypeError: If `text` or `lexicon` has an invalid type.
+        ResourceUnavailableError: If the default local profile is unavailable.
     """
     if not isinstance(text, str):
         raise TypeError("text must be str")

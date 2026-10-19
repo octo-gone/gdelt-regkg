@@ -1,4 +1,4 @@
-"""Small shared public argument types without backend imports."""
+"""Small shared public argument types."""
 
 from os import PathLike
 from typing import Literal

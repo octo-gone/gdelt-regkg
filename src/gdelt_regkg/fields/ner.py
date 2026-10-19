@@ -62,7 +62,10 @@ def canonical_entity_name(value: str) -> str:
 
 @dataclass(frozen=True)
 class NameRules:
-    """Optional calibrated cell spellings and exclusions; source mentions stay intact."""
+    """Named rules for output spelling, aliases, and organization filtering.
+
+    Rules affect serialized entity names while source spans retain their text.
+    """
 
     name: str = "identity"
     strip_person_titles: bool = False
@@ -119,6 +122,7 @@ class NameRules:
 
     @classmethod
     def from_json(cls, path: StrPath | Traversable) -> NameRules:
+        """Load name-normalization rules from a UTF-8 JSON file or package resource."""
         source = Path(path) if isinstance(path, (str, PathLike)) else path
         payload = json.loads(source.read_text(encoding="utf-8"))
         if not isinstance(payload, dict):
@@ -170,6 +174,16 @@ class NERUnavailableError(RuntimeError):
 
 @dataclass(frozen=True)
 class EntityMention:
+    """A recognized entity with source text and character offsets.
+
+    Attributes:
+        text: Exact source span.
+        label: Normalized `PERSON`, `ORG`, or `LOCATION` label.
+        start: Zero-based start offset.
+        end: Exclusive end offset.
+        source_label: Original recognizer label, when available.
+    """
+
     text: str
     label: str
     start: int
@@ -193,7 +207,10 @@ class EntityMention:
 
 @dataclass(frozen=True)
 class NameMention:
-    """A broad named span; includes events, laws and products beyond entity cells."""
+    """A broad named span with source text, start, exclusive end, and source label.
+
+    Names can include events, laws, and products alongside entity categories.
+    """
 
     text: str
     start: int
@@ -215,6 +232,17 @@ class NameMention:
 
 @dataclass(frozen=True)
 class NERResult:
+    """Validated entity and name spans for an unchanged input body.
+
+    Attributes:
+        text: Analyzed body.
+        mentions: Entities sorted by source position.
+        backend_name: Recognizer identity.
+        name_policy: Output spelling policy: `surface`, `gdelt`, or `gdelt-full-names`.
+        name_rules: Optional output normalization and filtering rules.
+        name_mentions: Broad name spans; defaults to the supplied entity spans.
+    """
+
     text: str
     mentions: tuple[EntityMention, ...]
     backend_name: str = "supplied-mentions"
@@ -263,23 +291,40 @@ class NERResult:
 
     @property
     def all_names(self) -> tuple[NameMention, ...]:
+        """Broad name spans in source order."""
         assert self.name_mentions is not None  # Normalized in __post_init__.
         return self.name_mentions
 
     @property
     def persons(self) -> tuple[EntityMention, ...]:
+        """Person mentions in source order."""
         return tuple(m for m in self.mentions if m.label == "PERSON")
 
     @property
     def organizations(self) -> tuple[EntityMention, ...]:
+        """Organization mentions in source order."""
         return tuple(m for m in self.mentions if m.label == "ORG")
 
     @property
     def locations(self) -> tuple[EntityMention, ...]:
+        """Place mentions awaiting geographic resolution."""
         return tuple(m for m in self.mentions if m.label == "LOCATION")
 
     def to_gkg(self, label: str, *, enhanced: bool = False) -> str:
-        """Distinct names for legacy fields; every mention for enhanced fields."""
+        """Serialize person or organization names using the configured name policy.
+
+        Args:
+            label: `PERSON` or `ORG`.
+            enhanced: Include offsets for every mention. Standard output keeps
+                distinct names in first-match order.
+
+        Returns:
+            Semicolon-separated entries, or an empty string for no output names.
+
+        Raises:
+            ValueError: If `label` is unsupported.
+            NotImplementedError: If `label` is `LOCATION`, which needs geocoding.
+        """
         if label == "LOCATION":
             raise NotImplementedError(
                 "Location mentions require geographic resolution before GKG serialization"
@@ -308,11 +353,21 @@ class NERResult:
 
 
 class EntityRecognizer(Protocol):
+    """Interface for backends implementing `analyze(text)` with an `NERResult`."""
+
     def analyze(self, text: str) -> NERResult: ...
 
 
 class SpacyNER:
-    """Wrap a loaded spaCy pipeline; load once and reuse across documents."""
+    """Reusable entity recognizer backed by a loaded spaCy pipeline.
+
+    Args:
+        nlp (spacy.language.Language): Loaded pipeline containing `ner` or `entity_ruler`.
+        name: Optional backend identity.
+        filter_spans: Apply built-in span quality filters.
+        name_policy: `surface`, `gdelt`, or `gdelt-full-names` output policy.
+        name_rules: Optional output normalization and filtering rules.
+    """
 
     def __init__(
         self,
@@ -346,6 +401,23 @@ class SpacyNER:
         name_rules: NameRules | None = None,
         resources_dir: StrPath | None = None,
     ) -> SpacyNER:
+        """Load an installed spaCy model for entity and broad-name extraction.
+
+        Args:
+            model: Installed model name or path.
+            name_policy: Output spelling policy. Defaults to `gdelt-full-names`.
+            name_rules: Custom name rules; the default full-name policy loads
+                configured rules when omitted.
+            resources_dir: Local root for default name rules.
+
+        Returns:
+            A reusable recognizer.
+
+        Raises:
+            OptionalDependencyError: If spaCy is unavailable.
+            NERUnavailableError: If the model cannot be loaded.
+            ResourceUnavailableError: If required default name rules are unavailable.
+        """
         spacy = require_dependency("spacy", "ner")
         try:
             nlp = spacy.load(model)
@@ -360,13 +432,26 @@ class SpacyNER:
         return cls(nlp, name_policy=name_policy, name_rules=name_rules)
 
     def analyze(self, text: str) -> NERResult:
+        """Analyze one body, preserving its source text and character offsets."""
         if not isinstance(text, str):
             raise TypeError("text must be str")
         doc = self.nlp(text)
         return self._analyze_doc(text, doc)
 
     def analyze_many(self, texts: Iterable[str], *, batch_size: int = 32) -> Iterator[NERResult]:
-        """Batch the model while retaining the same mention filtering and offsets."""
+        """Analyze bodies in batches while preserving input order and offsets.
+
+        Args:
+            texts: Bodies to analyze.
+            batch_size: Positive number of documents per model batch.
+
+        Yields:
+            One NER result per input body.
+
+        Raises:
+            TypeError: If an input body is not a string.
+            ValueError: If `batch_size` is invalid or the backend alters source text.
+        """
         if type(batch_size) is not int or batch_size < 1:
             raise ValueError("batch_size must be a positive integer")
         texts = list(texts)
@@ -462,7 +547,22 @@ def analyze_entities(
     recognizer: EntityRecognizer | None = None,
     mentions: Iterable[EntityMention] | None = None,
 ) -> NERResult:
-    """Analyze body text or validate supplied mentions in original coordinates."""
+    """Extract entities or validate supplied mentions against an input body.
+
+    Args:
+        text: Prepared body.
+        recognizer: Custom backend. Defaults to the installed English spaCy model.
+        mentions: Existing entity spans; supply these instead of `recognizer`.
+
+    Returns:
+        Validated entity and broad-name spans for the unchanged body.
+
+    Raises:
+        TypeError: If the body or supplied mentions have invalid types.
+        ValueError: If NER inputs conflict or spans do not match the body.
+        NERUnavailableError: If the default model is unavailable.
+        OptionalDependencyError: If the default recognizer's dependency is unavailable.
+    """
     if not isinstance(text, str):
         raise TypeError("text must be str")
     if mentions is not None:

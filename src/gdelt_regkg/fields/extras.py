@@ -35,11 +35,10 @@ def _text(value: str) -> str:
 
 @dataclass(frozen=True)
 class Citation:
-    """Parsed reference metadata; omitted values produce no XML element.
+    """Caller-supplied reference metadata for the extras XML field.
 
-    Supply author names in given-name-first order. Simple 'Surname, Given'
-    names are reordered; multi-comma names are retained to avoid guessing.
-    Dates, volumes, issues and pages use string values without reinterpretation.
+    Simple `Surname, Given` author names are reordered. Dates, volumes, issues,
+    and pages retain their string values. Omitted values produce no XML element.
     """
 
     authors: tuple[str, ...] = ()
@@ -82,7 +81,17 @@ class Citation:
 
 
 def citation_elements(citations: Iterable[Citation]) -> dict[str, XMLValue]:
-    """Convert references into an optional block for format_extras_xml."""
+    """Convert citation metadata into an extras XML element mapping.
+
+    Args:
+        citations: References in output order.
+
+    Returns:
+        A cited-reference block for `format_extras_xml`, or an empty mapping.
+
+    Raises:
+        TypeError: If an entry is not a `Citation`.
+    """
     references: list[XMLValue] = []
     for citation in citations:
         if not isinstance(citation, Citation):
@@ -116,11 +125,20 @@ def _append(parent: Element, name: str, value: XMLValue) -> None:
 
 
 def format_extras_xml(elements: Mapping[str, XMLValue]) -> str:
-    """Format arbitrary extension elements as a rootless XML fragment.
+    """Serialize extension metadata as a rootless XML fragment.
 
-    Strings become escaped text, mappings become nested elements, lists/tuples
-    repeat an element, and None omits it. Insertion order is preserved. Values
-    are caller-supplied; no page metadata is extracted or inferred.
+    Strings become escaped text, mappings become nested elements, and sequences
+    repeat elements. `None` values omit elements. Insertion order is preserved.
+
+    Args:
+        elements: XML tag names mapped to text, nested mappings, or sequences.
+
+    Returns:
+        XML suitable for one GKG cell, or an empty string for no elements.
+
+    Raises:
+        TypeError: If elements or text values have invalid types.
+        ValueError: If tag names or characters are invalid in XML.
     """
     if not isinstance(elements, Mapping):
         raise TypeError("elements must be a mapping of XML tag names to values")

@@ -83,6 +83,8 @@ class GKGRecord(Mapping[str, str | None]):
 
 _COLUMN_FIELDS = {f.metadata["column"]: f.name for f in fields(GKGRecord)}
 GKG_COLUMNS: list[str] = list(_COLUMN_FIELDS)
+"""GKG column names in serialization order, also exported by `gdelt_regkg.utils`."""
+
 FIELD_NAMES: tuple[str, ...] = tuple(_COLUMN_FIELDS.values())
 _REQUIRED_FIELDS = frozenset(
     ("recordid", "date", "source_collection", "source", "document", "translation")

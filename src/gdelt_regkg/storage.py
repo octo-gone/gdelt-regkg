@@ -1,4 +1,4 @@
-"""Connection lifecycle shared by persistent translation and benchmark tools."""
+"""SQLite connection lifecycle for persistent caches and benchmarks."""
 
 from __future__ import annotations
 
@@ -12,10 +12,22 @@ from .types import StrPath
 def open_database(
     path: StrPath, *, timeout: float, validate: Callable[[sqlite3.Connection], None] | None = None
 ) -> sqlite3.Connection:
-    """Open an owned, thread-affine connection; file databases use WAL.
+    """Open a SQLite connection with WAL enabled for file databases.
 
-    Every thread/process must create its own owner and connection. The caller
-    closes the connection and explicitly commits successful transactions.
+    Use the connection in its creating thread and commit successful writes
+    explicitly. Validation failures close the connection and propagate to callers.
+
+    Args:
+        path: Database path, or `:memory:` for an in-memory database.
+        timeout: Finite, nonnegative lock timeout in seconds.
+        validate: Optional connection check run before journal setup.
+
+    Returns:
+        An open connection owned by the caller.
+
+    Raises:
+        ValueError: If `timeout` is invalid.
+        sqlite3.Error: If opening the database or configuring its journal fails.
     """
     if (
         isinstance(timeout, bool)
@@ -38,7 +50,16 @@ def open_database(
 
 
 def close_database(connection: sqlite3.Connection | None) -> None:
-    """Discard uncommitted work and always close an owned connection."""
+    """Roll back pending work and close a SQLite connection.
+
+    The connection is closed even if rollback fails.
+
+    Args:
+        connection: Connection to close. Passing `None` has no effect.
+
+    Raises:
+        sqlite3.Error: If rollback or closure fails.
+    """
     if connection is not None:
         try:
             connection.rollback()
