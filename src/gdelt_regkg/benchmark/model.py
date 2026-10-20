@@ -159,18 +159,44 @@ class ScoreContext:
     subset: str = "all"
     language: str = ""
     _parsed: dict = field(default_factory=dict)
+    article_sink: Callable[[dict], None] | None = None
+    _article_references: list = field(default_factory=list)
 
     def clear_parsed(self):
         """Release field-local objects before scoring the next field."""
         self._parsed.clear()
+        self._article_references.clear()
 
     def note(self, side, field_name, issue, detail="", count=1):
         self.report.note(side, field_name, issue, detail, count, subset=self.subset)
 
     def parsed(self, field_name: str, parser: Callable) -> list[tuple]:
         if field_name not in self._parsed:
-            self._parsed[field_name] = list(self.iter_parsed(field_name, parser))
+            if self.article_sink is None:
+                self._parsed[field_name] = list(self.iter_parsed(field_name, parser))
+            else:
+                parsed = list(self.iter_parsed(field_name, parser, include_rows=True))
+                self._parsed[field_name] = [(a, b) for a, b, _, _ in parsed]
+                self._article_references = [reference for _, _, reference, _ in parsed]
         return self._parsed[field_name]
+
+    def article(self, reference_row, field_name, calculation, kind, **values):
+        """Stream sufficient statistics without retaining a second corpus in RAM."""
+        if self.article_sink is not None:
+            self.article_sink(
+                {
+                    "recordid": reference_row.get("recordid"),
+                    "document": reference_row.get("document"),
+                    "date": reference_row.get("date"),
+                    "publisher": reference_row.get("source"),
+                    "subset": self.subset,
+                    "language": self.language or self.options.gcam_evaluation_language or "",
+                    "field": field_name,
+                    "calculation": calculation,
+                    "kind": kind,
+                    **values,
+                }
+            )
 
     def iter_parsed(self, field_name: str, parser: Callable, *, include_rows=False):
         """Exclude unavailable/native-invalid fields; invalid predictions become empty.

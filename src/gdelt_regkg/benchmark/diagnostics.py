@@ -50,6 +50,7 @@ def evaluate_diagnostics(context):
         ("enhanced_persons", "enhanced_locations"),
     ):
         comparisons = []
+        references = []
         for pair in context.pairs:
             edges = []
             try:
@@ -62,4 +63,6 @@ def evaluate_diagnostics(context):
                 continue
             if len(edges) == 2:
                 comparisons.append(tuple(edges))
+                references.append(pair[0])
+        context._article_references = references
         add_sets(context, "Proximity", f"{first} + {second}, ≤{window} chars", comparisons)

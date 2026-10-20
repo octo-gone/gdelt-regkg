@@ -57,6 +57,17 @@ def tone(context, name):
     cohen_kappa_score = require_dependency("sklearn.metrics", "benchmark").cohen_kappa_score
 
     rows = context.parsed(name, parsers.tone)
+    if context.article_sink is not None:
+        for reference, (expected, actual) in zip(context._article_references, rows, strict=True):
+            for index, part in enumerate(TONE_PARTS):
+                context.article(
+                    reference,
+                    "Tone",
+                    part,
+                    "numeric",
+                    reference=expected[index] if expected is not None else None,
+                    prediction=actual[index] if actual is not None else None,
+                )
     pairs = [(a, b) for a, b in rows if a is not None and b is not None]
     for index, part in enumerate(TONE_PARTS):
         values = numeric_metrics([(a[index], b[index]) for a, b in pairs])
@@ -174,6 +185,8 @@ class _GCAMReport:
         self.paired_scores: dict[str, list[tuple[float, float]]] = defaultdict(list)
         self.reference_scores: dict[str, int] = defaultdict(int)
         self.prediction_scores: dict[str, int] = defaultdict(int)
+        self.article_counts: dict[str, list[float]] = {}
+        self.article_scores: dict[str, tuple[float | None, float | None]] = {}
         self.documents = self.assignments = self.supported_assignments = 0
         self.occurrences = self.supported_occurrences = 0.0
 
@@ -230,9 +243,16 @@ class _GCAMReport:
                 self.active_by_key[key].add(*args)
                 count_error += abs(actual - expected)
                 count_reference += expected
+                if self.context.article_sink is not None:
+                    item = self.article_counts.setdefault(family(key), [0.0, 0.0, 0])
+                    item[0] += abs(actual - expected)
+                    item[1] += expected
+                    item[2] += 1
         return count_error, count_reference
 
     def observe(self, left, right, languages=None, publisher="unknown"):
+        self.article_counts = {}
+        self.article_scores = {}
         supported = self._applicable(languages)
         applicable = {"eng"} if languages is None else set(languages)
         left = {
@@ -293,6 +313,8 @@ class _GCAMReport:
                 cluster[index] += value
         for key in left.keys() | right.keys():
             if key.startswith("v") or key in {"wc", "nwc"}:
+                if self.context.article_sink is not None:
+                    self.article_scores[key] = (left.get(key), right.get(key))
                 self.reference_scores[key] += key in left
                 self.prediction_scores[key] += key in right
                 if key in left and key in right:
@@ -675,6 +697,56 @@ def _evaluated_languages(prediction, context):
 def _observe_article(report, left, right, reference, prediction, languages, publisher):
     a, b = report.observe(left, right, languages, publisher)
     context = report.context
+    if context.article_sink is not None:
+        supported = report._applicable(languages)
+        groups = [
+            ("GCAM", "presence", a, b),
+            ("GCAM", "supported presence", a & supported, b & supported),
+        ]
+        for code in sorted({family(key) for key in a | b}, key=int):
+            aa, bb = ({key for key in values if family(key) == code} for values in (a, b))
+            label = "GCAM / " + FAMILY_NAMES.get(code, code)
+            groups.extend(
+                [
+                    (label, "presence", aa, bb),
+                    (label, "supported presence", aa & supported, bb & supported),
+                ]
+            )
+        for label, calculation, aa, bb in groups:
+            union = aa | bb
+            context.article(
+                reference,
+                label,
+                calculation,
+                "set",
+                tp=len(aa & bb),
+                reference=len(aa),
+                prediction=len(bb),
+                exact=int(aa == bb),
+                jaccard=len(aa & bb) / len(union) if union else None,
+            )
+        for code, (error, total, active) in report.article_counts.items():
+            context.article(
+                reference,
+                "GCAM / " + FAMILY_NAMES.get(code, code),
+                "active supported counts",
+                "count",
+                absolute_error=error,
+                reference=total,
+                active=active,
+            )
+        for key, (expected, actual) in report.article_scores.items():
+            if key.startswith("v") and (
+                report.known is None or key in report.known or "c" + key[1:] in report.known
+            ):
+                context.article(
+                    reference,
+                    report._score_field(key),
+                    key + " / weighted score",
+                    "numeric",
+                    reference=expected,
+                    prediction=actual,
+                )
     context.report.details.setdefault("gcam-articles", []).append(
         {
             "subset": context.subset,
@@ -703,7 +775,15 @@ def _observe_article(report, left, right, reference, prediction, languages, publ
 def _language_report(context, name, code):
     options = replace(context.options, gcam_evaluation_language=code)
     return _GCAMReport(
-        ScoreContext([], options, context.report, context.subset, language=code), name
+        ScoreContext(
+            [],
+            options,
+            context.report,
+            context.subset,
+            language=code,
+            article_sink=context.article_sink,
+        ),
+        name,
     )
 
 

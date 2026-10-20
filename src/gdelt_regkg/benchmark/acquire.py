@@ -10,6 +10,7 @@ import re
 import time
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
+from http.client import HTTPException
 from pathlib import Path
 from urllib.parse import urlsplit
 from urllib.request import Request, urlopen
@@ -100,7 +101,7 @@ def _fetch(item):
             "retrieval": {"final_url": final, **language_audit},
         }
         return code, body, cells, None
-    except (OSError, ValueError, RuntimeError) as error:
+    except (OSError, ValueError, RuntimeError, HTTPException) as error:
         return code, None, cells, type(error).__name__ + ": " + str(error)[:160]
 
 

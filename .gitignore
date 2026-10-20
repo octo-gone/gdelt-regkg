@@ -4,6 +4,7 @@
 tmp/
 output/
 research/
+experiments/
 
 # Library
 downloads/

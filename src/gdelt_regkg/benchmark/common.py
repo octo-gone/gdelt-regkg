@@ -7,6 +7,24 @@ from .metrics import offset_metrics, set_metrics
 
 
 def add_sets(context, field, calculation, rows, *, agreement=False, macro=False):
+    if context.article_sink is not None:
+        from .metrics import size
+
+        for reference, (expected, actual) in zip(context._article_references, rows, strict=True):
+            tp = size(expected & actual)
+            support, predicted = size(expected), size(actual)
+            union = support + predicted - tp
+            context.article(
+                reference,
+                field,
+                calculation,
+                "set",
+                tp=tp,
+                reference=support,
+                prediction=predicted,
+                exact=int(expected == actual),
+                jaccard=tp / union if union else None,
+            )
     values = set_metrics(rows)
     metrics = {name: values[name] for name in ("precision", "recall", "f1")}
     if macro:

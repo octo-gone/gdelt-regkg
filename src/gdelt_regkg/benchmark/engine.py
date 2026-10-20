@@ -40,10 +40,20 @@ def select_fields(names):
     return tuple(name for name in FIELD_NAMES if name in selected)
 
 
-def evaluate(pairs, *, fields=("all",), options=None, report=None, subset="all", progress=None):
+def evaluate(
+    pairs,
+    *,
+    fields=("all",),
+    options=None,
+    report=None,
+    subset="all",
+    progress=None,
+    article_sink=None,
+):
     options = BenchmarkOptions() if options is None else options
     report = BenchmarkReport() if report is None else report
     context = ScoreContext(list(pairs), options, report, subset)
+    context.article_sink = article_sink
     names = tuple(fields)
     # CLI selection already expands groups and applies exclusions. Preserve
     # canonical field lists here, including exclusion of an enhanced partner.

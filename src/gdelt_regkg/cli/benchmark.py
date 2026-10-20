@@ -12,6 +12,7 @@ from importlib.resources import files
 from pathlib import Path
 
 from gdelt_regkg.benchmark import BenchmarkOptions, BenchmarkReport, evaluate, write_report
+from gdelt_regkg.benchmark.articles import ArticleMetrics
 from gdelt_regkg.benchmark.checkpoint import prediction_signature, select_device
 from gdelt_regkg.benchmark.corpus import (
     NER_FIELDS,
@@ -51,6 +52,9 @@ def add_arguments(parser):
         help="Saved article-body JSONL files or directories; generates predictions locally",
     )
     parser.add_argument("--output", type=Path, default=Path("benchmark-results"))
+    parser.add_argument(
+        "--article-metrics", type=Path, help="Stream per-article statistics to JSONL or JSONL.gz"
+    )
     parser.add_argument(
         "--fields",
         nargs="+",
@@ -345,7 +349,15 @@ def run_with_store(args, fields, options, store):
     print_progress(
         f"[benchmark] Scoring {len(pairs)} matched documents across {len(fields)} fields"
     )
-    evaluate(pairs, fields=fields, options=options, report=report, progress=print_progress)
+    with ArticleMetrics(getattr(args, "article_metrics", None)) as sink:
+        evaluate(
+            pairs,
+            fields=fields,
+            options=options,
+            report=report,
+            progress=print_progress,
+            article_sink=sink,
+        )
     for name, subset in sorted(
         strata(pairs, args.stratify).items(), key=lambda item: (-len(item[1]), item[0])
     )[: args.max_strata]:

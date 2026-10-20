@@ -206,6 +206,10 @@ The default workspace is `OUTPUT/benchmark.sqlite3`. Select its path with `--cac
 
 Library callers use `BenchmarkStore(path, timeout=5)` as a context manager or call its idempotent `close()`. Instances are thread-affine. Create one inside each worker rather than sharing it across threads. Build requests use frozen `BuildOptions`, prediction requests use `PredictionOptions`, and scoring requests use `BenchmarkOptions`.
 
+### Article-level statistics
+
+Add `--article-metrics articles.jsonl.gz` to stream article-level sufficient statistics for the main matched population. `.jsonl` writes uncompressed output. The export records document keys, publisher, date, field, calculation and language. Categorical rows contain matches, reference/prediction support, exact agreement and Jaccard; numeric rows contain reference/prediction values; GCAM count rows contain active supported count error and native count mass by dictionary. These contributions support publisher-cluster resampling and pooled subset analysis without repeating extraction. Optional `--stratify` report rows are not duplicated in this export. Missing numeric values remain `null`; field exclusions remain in the regular audit. The destination is replaced only after successful scoring.
+
 ## Archived implementation
 
 For the previous benchmark scripts and reports, see version 1.0.2 on [PyPI](https://pypi.org/project/gdelt-regkg/1.0.2/) and the [GitHub v1.0.2 tag](https://github.com/octo-gone/gdelt-regkg/tree/v1.0.2).

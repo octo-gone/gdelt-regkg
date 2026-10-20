@@ -2,6 +2,15 @@
 
 This changelog records implementation changes and the research behind each version. Versions group the iterative work; dictionary revisions such as tone v3 are separate from package versions. Each Research section may contain the method, results and conclusions for that stage.
 
+## 2.1.2
+
+- Added optional article-level statistics export through `--article-metrics` (JSONL or gzip), covering categorical fields, tone, and GCAM.
+- Added an optional `article_sink` callback to `evaluate()` for custom analysis.
+- Made export writes atomic to prevent saving incomplete files.
+- Fixed truncated HTTP responses aborting collection; they are now recorded as retrieval failures.
+
+Existing API calls and default reports remain compatible.
+
 ## 2.1.1
 
 - Added a Zensical documentation site with an automatically generated Python API reference and GitHub Pages publishing workflow.
