@@ -4,7 +4,7 @@
 
 Global Content Analysis Measures (GCAM) brings together dictionaries that describe the emotional, psychological and topical language in news articles. Each dictionary associates words or phrases with categories, such as positive sentiment, fear or moral values, or with numeric ratings, such as happiness. Matching an article against these vocabularies produces category counts and scores in its [Global Knowledge Graph (GKG)](../get-started/concepts-and-glossary.md#gkg) record.
 
-The dictionaries offer different perspectives, for example, VADER measures sentiment; Moral Foundations describes moral language; Loughran–McDonald focuses on financial language. Choose dictionaries suited to your topic and the article's language. However their vocabularies, research methods and licenses differ. The entries below explain what each dictionary measures and provide source links and acquisition instructions. Citations are also provided, as GDELT recommends citing the sources when using the dictionary. For some dictionaries there are multiple BibTeX entries and also additional ones, for convenience. First block is the main ones, second block — additional.
+The dictionaries offer different perspectives: VADER measures sentiment, Moral Foundations describes moral language, and Loughran–McDonald focuses on financial language. Choose resources suited to your topic and the article's language. The entries below provide source links, acquisition instructions and citations. The first BibTeX block gives the primary reference; later blocks provide additional resource, software or methodological references. Cite the edition you used. A research paper's publication year does not establish the release date of a downloadable dictionary or translation.
 
 In the table, **GCAM ID** identifies the dictionary in GDELT, and **Selector** is its name in this library. **Supported** counts categories covered by source-backed vocabulary. **Native** gives the category count in the GCAM codebook. Authored approximations are listed separately. **Availability** shows whether a dictionary is included in the resource build profile (`v5`), needs an optional import, or still requires its original vocabulary.
 
@@ -125,7 +125,8 @@ Download `FOREST.zip` from the [WordStat publisher](https://provalisresearch.com
   type = {Research Paper},
   number = {NC-323},
   address = {St. Paul, MN},
-  year = {1995}
+  year = {1995},
+  doi = {10.2737/NC-RP-323}
 }
 ```
 
@@ -207,8 +208,9 @@ Obtain the June 2013 `LTDjun2013.zip` distribution from the [publisher](https://
 ```bibtex
 @misc{albaugh2013topics,
   author = {Albaugh, Quinn and Sevenans, Julie and Soroka, Stuart},
-  title = {Lexicoder Topic Dictionaries, June 2013 Versions},
+  title = {Lexicoder Topic Dictionaries, {June} 2013 Versions},
   year = {2013},
+  month = jun,
   howpublished = {McGill University, Montreal, Canada},
   url = {https://www.snsoroka.com/data-lexicoder/}
 }
@@ -239,7 +241,7 @@ Obtain a compatible English LIWC 2007 `.dic` through [licensed publisher access]
 ```bibtex
 @misc{pennebaker2007liwc,
   author = {Pennebaker, James W. and Booth, Roger J. and Francis, Martha E.},
-  title = {Linguistic Inquiry and Word Count: {LIWC}},
+  title = {{Linguistic Inquiry and Word Count} ({LIWC2007}): A text analysis program},
   year = {2007},
   howpublished = {Computer software, Austin, Texas},
   url = {https://www.liwc.app/}
@@ -281,12 +283,13 @@ Download the master CSV from the [authors' Notre Dame page](https://sraf.nd.edu/
 ```bibtex
 @article{loughran2011liability,
   author = {Loughran, Tim and McDonald, Bill},
-  title = {When Is a Liability Not a Liability? Textual Analysis, Dictionaries, and 10-Ks},
+  title = {When Is a Liability Not a Liability? Textual Analysis, Dictionaries, and {10-Ks}},
   journal = {The Journal of Finance},
-  year = {2011},
-  volume = {66},
   number = {1},
+  volume = {66},
   pages = {35--65},
+  year = {2011},
+  month = feb,
   doi = {10.1111/j.1540-6261.2010.01625.x}
 }
 ```
@@ -338,10 +341,10 @@ Download English `RID.ZIP` from the [WordStat page](https://provalisresearch.com
   author = {Martindale, Colin},
   title = {Narrative Pattern Analysis: A Quantitative Method for Inferring the Symbolic Meaning of Narratives},
   booktitle = {Literary Discourse: Aspects of Cognitive and Social Psychological Approaches},
-  editor = {Halasz, Laszlo},
+  editor = {Hal{\'a}sz, L{\'a}szl{\'o}},
+  pages = {167--181},
   publisher = {De Gruyter},
-  year = {1987},
-  pages = {167--181}
+  year = {1987}
 }
 ```
 
@@ -376,9 +379,15 @@ Download `SentiWordNet_3.0.0.txt` from the [author repository](https://github.co
 ```bibtex
 @inproceedings{baccianella2010sentiwordnet,
   author = {Baccianella, Stefano and Esuli, Andrea and Sebastiani, Fabrizio},
-  title = {{SentiWordNet} 3.0: An Enhanced Lexical Resource for Sentiment Analysis and Opinion Mining},
-  booktitle = {Proceedings of LREC},
-  year = {2010}
+  title = {{S}enti{W}ord{N}et 3.0: An Enhanced Lexical Resource for Sentiment Analysis and Opinion Mining},
+  booktitle = {Proceedings of the Seventh International Conference on Language Resources and Evaluation ({LREC}'10)},
+  editor = {Calzolari, Nicoletta and Choukri, Khalid and Maegaard, Bente and Mariani, Joseph and Odijk, Jan and Piperidis, Stelios and Rosner, Mike and Tapias, Daniel},
+  pages = {2200--2204},
+  publisher = {European Language Resources Association (ELRA)},
+  address = {Valletta, Malta},
+  year = {2010},
+  month = may,
+  url = {https://aclanthology.org/L10-1531/}
 }
 ```
 
@@ -404,10 +413,14 @@ Obtain `SentiWords_1.0.txt` from the [annotations distribution](https://github.c
 ```bibtex
 @inproceedings{guerini2013prior,
   author = {Guerini, Marco and Gatti, Lorenzo and Turchi, Marco},
-  title = {Sentiment Analysis: How to Derive Prior Polarities from {SentiWordNet}},
-  booktitle = {Proceedings of EMNLP},
-  year = {2013},
+  title = {Sentiment Analysis: How to Derive Prior Polarities from {S}enti{W}ord{N}et},
+  booktitle = {Proceedings of the 2013 Conference on Empirical Methods in Natural Language Processing},
+  editor = {Yarowsky, David and Baldwin, Timothy and Korhonen, Anna and Livescu, Karen and Bethard, Steven},
   pages = {1259--1269},
+  publisher = {Association for Computational Linguistics},
+  address = {Seattle, Washington, USA},
+  year = {2013},
+  month = oct,
   url = {https://aclanthology.org/D13-1125/}
 }
 ```
@@ -440,9 +453,13 @@ Use `--download-mpqa` to add this optional dictionary and explicitly permit the 
 @inproceedings{wilson2005polarity,
   author = {Wilson, Theresa and Wiebe, Janyce and Hoffmann, Paul},
   title = {Recognizing Contextual Polarity in Phrase-Level Sentiment Analysis},
-  booktitle = {Proceedings of HLT-EMNLP},
-  year = {2005},
+  booktitle = {Proceedings of Human Language Technology Conference and Conference on Empirical Methods in Natural Language Processing},
+  editor = {Mooney, Raymond and Brew, Chris and Chien, Lee-Feng and Kirchhoff, Katrin},
   pages = {347--354},
+  publisher = {Association for Computational Linguistics},
+  address = {Vancouver, British Columbia, Canada},
+  year = {2005},
+  month = oct,
   url = {https://aclanthology.org/H05-1044/}
 }
 ```
@@ -471,11 +488,16 @@ Download `BodyType.zip` from the [WordStat publisher](https://provalisresearch.c
 ```bibtex
 @article{wilson2006boundary,
   author = {Wilson, Andrew},
-  title = {Development and Application of a Content Analysis Dictionary for Body Boundary Research},
+  title = {Development and application of a content analysis dictionary for body boundary research},
   journal = {Literary and Linguistic Computing},
-  year = {2006},
+  number = {1},
   volume = {21},
-  pages = {105--110}
+  pages = {105--110},
+  publisher = {Oxford University Press},
+  year = {2006},
+  month = apr,
+  doi = {10.1093/llc/fqi014},
+  issn = {1477-4615}
 }
 ```
 
@@ -491,11 +513,15 @@ Obtain the [FBK annotations](https://wndomains.fbk.eu/download.html), or the [re
 ```bibtex
 @inproceedings{strapparava2004affect,
   author = {Strapparava, Carlo and Valitutti, Alessandro},
-  title = {{WordNet-Affect}: An Affective Extension of {WordNet}},
-  booktitle = {Proceedings of the 4th International Conference on Language Resources and Evaluation (LREC 2004)},
-  year = {2004},
+  title = {{WordNet Affect}: an Affective Extension of {WordNet}},
+  booktitle = {Proceedings of the Fourth International Conference on Language Resources and Evaluation ({LREC}{'}04)},
+  editor = {Lino, Maria Teresa and Xavier, Maria Francisca and Ferreira, F{\'a}tima and Costa, Rute and Silva, Raquel},
   pages = {1083--1086},
-  url = {https://wndomains.fbk.eu/download.html}
+  publisher = {European Language Resources Association (ELRA)},
+  address = {Lisbon, Portugal},
+  year = {2004},
+  month = may,
+  url = {https://aclanthology.org/L04-1208/}
 }
 ```
 
@@ -519,12 +545,16 @@ Obtain [WordNet Domains 3.2](https://wndomains.fbk.eu/download.html) and WordNet
 
 ```bibtex
 @inproceedings{magnini2000domains,
-  author = {Magnini, Bernardo and Cavaglia, Gabriela},
-  title = {Integrating Subject Field Codes into {WordNet}},
-  booktitle = {Proceedings of the 2nd International Conference on Language Resources and Evaluation (LREC 2000)},
-  year = {2000},
+  author = {Magnini, Bernardo and Cavagli{\`a}, Gabriela},
+  title = {Integrating Subject Field Codes into {W}ord{N}et},
+  booktitle = {Proceedings of the Second International Conference on Language Resources and Evaluation ({LREC}{'}00)},
+  editor = {Gavrilidou, M. and Carayannis, G. and Markantonatou, S. and Piperidis, S. and Stainhauer, G.},
   pages = {1413--1418},
-  url = {https://wndomains.fbk.eu/download.html}
+  publisher = {European Language Resources Association (ELRA)},
+  address = {Athens, Greece},
+  year = {2000},
+  month = may,
+  url = {https://aclanthology.org/L00-1167/}
 }
 ```
 
@@ -550,12 +580,14 @@ Download [WordNet 3.1](https://wordnetcode.princeton.edu/wn3.1.dict.tar.gz) from
 ```bibtex
 @article{miller1995wordnet,
   author = {Miller, George A.},
-  title = {{WordNet}: A Lexical Database for English},
+  title = {{WordNet}: A Lexical Database for {English}},
   journal = {Communications of the ACM},
-  year = {1995},
-  volume = {38},
   number = {11},
-  pages = {39--41}
+  volume = {38},
+  pages = {39--41},
+  year = {1995},
+  month = nov,
+  doi = {10.1145/219717.219748}
 }
 ```
 
@@ -589,26 +621,38 @@ The v5 preset includes authored rules for another 268 dimensions, giving 367 com
 
 ```bibtex
 @misc{leetaru2013gkg,
-  author = {Leetaru, Kalev Hannes},
-  title = {The {GDELT} Global Knowledge Graph ({GKG})},
-  year = {2013},
-  url = {https://www.gdeltproject.org/}
+  author = {{The GDELT Project}},
+  title = {{GDELT Global Knowledge Graph}},
+  year = {2014},
+  month = jan,
+  day = {25},
+  howpublished = {The GDELT Project Blog},
+  url = {https://blog.gdeltproject.org/gdelt-global-knowledge-graph/}
 }
 ```
 
 ```bibtex
 @inproceedings{leetaru2013gdelt,
   author = {Leetaru, Kalev and Schrodt, Philip A.},
-  title = {{GDELT}: Global Data on Events, Location, and Tone, 1979--2012},
-  booktitle = {ISA Annual Convention},
-  year = {2013}
+  title = {{GDELT}: Global data on events, location and tone 1979--2012},
+  booktitle = {International Studies Association Annual Convention},
+  address = {San Francisco, CA, United States},
+  year = {2013},
+  month = apr,
+  note = {Paper presentation, April 3--6},
+  url = {https://data.gdeltproject.org/documentation/ISA.2013.GDELT.pdf}
 }
 @inproceedings{olteanu2014crisislex,
   author = {Olteanu, Alexandra and Castillo, Carlos and Diaz, Fernando and Vieweg, Sarah},
-  title = {{CrisisLex}: A Lexicon for Collecting and Filtering Microblogged Communications in Crises},
-  booktitle = {Proceedings of ICWSM 2014},
+  title = {{CrisisLex}: A lexicon for collecting and filtering microblogged communications in crises},
+  booktitle = {Proceedings of the International AAAI Conference on Web and Social Media},
+  number = {1},
+  volume = {8},
+  pages = {376--385},
+  publisher = {AAAI Press},
   year = {2014},
-  pages = {376--385}
+  month = may,
+  doi = {10.1609/icwsm.v8i1.14538}
 }
 @inproceedings{olteanu2015expect,
   author = {Olteanu, Alexandra and Vieweg, Sarah and Castillo, Carlos},
@@ -631,8 +675,9 @@ The build downloads the [original technical report](https://pdodds.w3.uvm.edu/te
 ```bibtex
 @techreport{bradley1999anew,
   author = {Bradley, Margaret M. and Lang, Peter J.},
-  title = {Affective Norms for English Words ({ANEW}): Stimuli, Instruction Manual and Affective Ratings},
+  title = {Affective Norms for {English} Words ({ANEW}): Instruction Manual and Affective Ratings},
   institution = {Center for Research in Psychophysiology, University of Florida},
+  type = {Technical Report},
   number = {C-1},
   year = {1999}
 }
@@ -661,28 +706,29 @@ The v5 build downloads [senticon.en.xml](https://raw.githubusercontent.com/ITALI
 
 ```bibtex
 @article{cruz2014building,
-  author = {Cruz, Ferm{\'i}n L. and Troyano, Jos{\'e} A. and Pontes, Beatriz and Ortega, F. Javier},
+  author = {Cruz, Ferm{\'i}n L. and Troyano, Jos{\'e} Antonio and Pontes, Beatriz and Ortega, Francisco Javier},
   title = {Building layered, multilingual sentiment lexicons at synset and lemma levels},
   journal = {Expert Systems with Applications},
-  volume = {41},
   number = {13},
+  volume = {41},
   pages = {5984--5994},
+  publisher = {Elsevier},
   year = {2014},
-  doi = {10.1016/j.eswa.2014.04.005},
-  publisher = {Elsevier}
+  doi = {10.1016/j.eswa.2014.04.005}
 }
 ```
 
 ```bibtex
-@article{cruz2014mlsenti
-  author = {Cruz, Ferm{\'i}n L. and Troyano, Jos{\'e} A. and Pontes, Beatriz and Ortega, F. Javier},
+@article{cruz2014mlsenti,
+  author = {Cruz, Ferm{\'i}n L. and Troyano, Jos{\'e} Antonio and Pontes, Beatriz and Ortega, Francisco Javier},
   title = {{ML-SentiCon}: un lexic{\'o}n multiling{\"u}e de polaridades sem{\'a}nticas a nivel de lemas},
   journal = {Procesamiento del Lenguaje Natural},
   number = {53},
   pages = {113--120},
+  publisher = {Sociedad Espa{\~n}ola para el Procesamiento del Lenguaje Natural},
   year = {2014},
-  url = {https://unirioja.es},
-  publisher = {Sociedad Espa{\~n}ola para el Procesamiento del Lenguaje Natural}
+  month = sep,
+  url = {https://idus.us.es/items/e7b5497e-b205-4d75-b8d8-17a4fba8a7cc}
 }
 ```
 
@@ -697,23 +743,31 @@ Obtain the complete [labMT-en-v1 word list](https://hedonometer.org/words/labMT-
 
 ```bibtex
 @article{dodds2011hedonometer,
-  author = {Dodds, Peter S. and Harris, Kameron D. and Kloumann, Isabel M. and Bliss, Catherine A. and Danforth, Christopher M.},
-  title = {Temporal Patterns of Happiness and Information in a Global Social Network: Hedonometrics and Twitter},
+  author = {Dodds, Peter Sheridan and Harris, Kameron Decker and Kloumann, Isabel M. and Bliss, Catherine A. and Danforth, Christopher M.},
+  title = {Temporal Patterns of Happiness and Information in a Global Social Network: Hedonometrics and {Twitter}},
   journal = {PLoS ONE},
-  year = {2011},
-  volume = {6},
   number = {12},
+  volume = {6},
   pages = {e26752},
+  year = {2011},
+  month = dec,
   doi = {10.1371/journal.pone.0026752}
 }
 ```
 
 ```bibtex
-@misc{dodds2014a,
-  author = {Dodds, P. S. and Clark, E. M. and Desu, S. and Frank, M. R. and Reagan, A. J. and Williams, J. R. and Mitchell, L. and Harris, K. D. and Kloumann, I. M. and Bagrow, J. P. and Megerdoomian, K. and McMahon, M. T. and Tivnan, B. F. and Danforth, C. M.},
-  title = {Human Language Reveals a Universal Positivity Bias},
-  year = {2014},
-  doi = {10.48550/arXiv.1406.3855}
+@article{dodds2014a,
+  author = {Dodds, Peter Sheridan and Clark, Eric M. and Desu, Suma and Frank, Morgan R. and Reagan, Andrew J. and Williams, Jake Ryland and Mitchell, Lewis and Harris, Kameron Decker and Kloumann, Isabel M. and Bagrow, James P. and Megerdoomian, Karine and McMahon, Matthew T. and Tivnan, Brian F. and Danforth, Christopher M.},
+  title = {Human language reveals a universal positivity bias},
+  journal = {Proceedings of the National Academy of Sciences},
+  number = {8},
+  volume = {112},
+  pages = {2389--2394},
+  year = {2015},
+  doi = {10.1073/pnas.1411678112},
+  url = {https://www.pnas.org/doi/abs/10.1073/pnas.1411678112},
+  eprint = {1406.3855},
+  archiveprefix = {arXiv}
 }
 ```
 
@@ -728,13 +782,14 @@ The v5 build downloads the publisher's original supplementary ZIP and imports `R
 
 ```bibtex
 @article{redondo2007anew,
-  author = {Redondo, Jaime and Fraga, Isabel and Padron, Isabel and Comesana, Montserrat},
-  title = {The Spanish Adaptation of {ANEW} (Affective Norms for English Words)},
+  author = {Redondo, Jaime and Fraga, Isabel and Padr{\'o}n, Isabel and Comesa{\~n}a, Montserrat},
+  title = {The {Spanish} Adaptation of {ANEW} (Affective Norms for {English} Words)},
   journal = {Behavior Research Methods},
-  year = {2007},
-  volume = {39},
   number = {3},
+  volume = {39},
   pages = {600--605},
+  year = {2007},
+  month = aug,
   doi = {10.3758/BF03193031}
 }
 ```
@@ -746,7 +801,7 @@ Layered sentiment lexicons for Catalan, Galician and Spanish.
 
 **License:** MIT in the [selected ITALIC-US repository](https://github.com/ITALIC-US/ML-Senticon/blob/main/LICENSE), as for the [English distribution](#dictionary-20). Retain the repository notices and cite Cruz et al. (2014).
 
-The [ML-Senticon repository](https://github.com/ITALIC-US/ML-Senticon) provides Catalan, Galician and Spanish XML files. Cite `cruz2014senticon` from the [English entry](#dictionary-20). The v5 build downloads and imports all three variants with cumulative layers. Native codebook keys are selected by language. Spanish and Galician keys follow the Catalan block within dictionary 23. Basque is outside the native GCAM inventory.
+The [ML-Senticon repository](https://github.com/ITALIC-US/ML-Senticon) provides Catalan, Galician and Spanish XML files. Cite `cruz2014building` from the [English entry](#dictionary-20). The v5 build downloads and imports all three variants with cumulative layers. Native codebook keys are selected by language. Spanish and Galician keys follow the Catalan block within dictionary 23. Basque is outside the native GCAM inventory.
 
 <a id="dictionary-24"></a>
 ### Hedonometer (Non-English)
@@ -775,16 +830,6 @@ Obtain the original dictionary from [Moral Foundations materials](https://moralf
 ```
 
 ```bibtex
-@article{graham2009liberals,
-  author = {Graham, Jesse and Haidt, Jonathan and Nosek, Brian A.},
-  title = {Liberals and Conservatives Rely on Different Sets of Moral Foundations},
-  journal = {Journal of Personality and Social Psychology},
-  year = {2009},
-  volume = {96},
-  number = {5},
-  pages = {1029--1046},
-  doi = {10.1037/a0015141}
-}
 @article{haidt2007when,
   author = {Haidt, Jonathan and Graham, Jesse},
   title = {When Morality Opposes Justice: Conservatives Have Moral Intuitions That Liberals May Not Recognize},
@@ -794,6 +839,16 @@ Obtain the original dictionary from [Moral Foundations materials](https://moralf
   number = {1},
   pages = {98--116},
   doi = {10.1007/s11211-007-0034-z}
+}
+@article{graham2009liberals,
+  author = {Graham, Jesse and Haidt, Jonathan and Nosek, Brian A.},
+  title = {Liberals and Conservatives Rely on Different Sets of Moral Foundations},
+  journal = {Journal of Personality and Social Psychology},
+  year = {2009},
+  volume = {96},
+  number = {5},
+  pages = {1029--1046},
+  doi = {10.1037/a0015141}
 }
 ```
 
@@ -808,11 +863,11 @@ Obtain the vocabulary from the [author repository](https://github.com/cjhutto/va
 
 ```bibtex
 @inproceedings{hutto2014vader,
-  author = {Hutto, C. J. and Gilbert, Eric},
+  author = {Hutto, Clayton J. and Gilbert, Eric},
   title = {{VADER}: A Parsimonious Rule-Based Model for Sentiment Analysis of Social Media Text},
   booktitle = {Proceedings of the 8th International AAAI Conference on Weblogs and Social Media (ICWSM)},
-  year = {2014},
   pages = {216--225},
+  year = {2014},
   doi = {10.1609/icwsm.v8i1.14550}
 }
 ```
@@ -850,6 +905,7 @@ Obtain the French CAT/EXC distribution from the [WordStat RID page](https://prov
 @misc{hogenraadRIDFrench,
   author = {Hogenraad, Robert},
   title = {Regressive Imagery Dictionary: French Translation},
+  howpublished = {Dictionary resource hosted by Provalis Research},
   url = {https://provalisresearch.com/products/content-analysis-software/wordstat-dictionary/regressive-imagery-dictionary/}
 }
 ```
@@ -939,6 +995,7 @@ Obtain the German CAT/EXC distribution from the [WordStat RID page](https://prov
 @misc{delphendahlRIDGerman,
   author = {Delphendahl, Renate},
   title = {Regressive Imagery Dictionary: German Translation},
+  howpublished = {Dictionary resource hosted by Provalis Research},
   url = {https://provalisresearch.com/products/content-analysis-software/wordstat-dictionary/regressive-imagery-dictionary/}
 }
 ```
@@ -1014,12 +1071,14 @@ Request the original machine-readable French noun ratings through the authors or
 ```bibtex
 @article{hogenraad1981imagery,
   author = {Hogenraad, Robert and Orianne, Etienne},
-  title = {Valences d'imagerie de 1.130 noms de la langue francaise parlee},
+  title = {Valences d'imagerie de 1.130 noms de la langue fran\c{c}aise parl{\'e}e},
   journal = {Psychologica Belgica},
-  year = {1981},
-  volume = {21},
   number = {1},
+  volume = {21},
   pages = {21--30},
+  year = {1981},
+  month = jan,
+  doi = {10.5334/pb.672}
 }
 ```
 
@@ -1079,6 +1138,7 @@ Download the [XLSX dictionary appendix](https://www.federalreserve.gov/econres/i
   type = {International Finance Discussion Papers},
   number = {1203},
   year = {2017},
+  month = mar,
   doi = {10.17016/IFDP.2017.1203}
 }
 ```
@@ -1107,13 +1167,46 @@ Obtain `emfd_scoring.csv` from the [authors' repository](https://github.com/medi
 
 ```bibtex
 @article{hopp2020emfd,
-  author = {Hopp, Frederic R. and Fisher, Jacob T. and Cornell, Devin and Huskey, Richard and Weber, Rene},
+  author = {Hopp, Frederic R. and Fisher, Jacob T. and Cornell, Devin and Huskey, Richard and Weber, Ren{\'e}},
   title = {The Extended Moral Foundations Dictionary ({eMFD}): Development and Applications of a Crowd-Sourced Approach to Extracting Moral Intuitions from Text},
   journal = {Behavior Research Methods},
-  year = {2021},
+  number = {1},
   volume = {53},
   pages = {232--246},
+  year = {2021},
+  month = feb,
   doi = {10.3758/s13428-020-01433-0}
+}
+```
+
+## Preprocessing citations
+
+For Chinese segmentation, cite Jieba when you use it. For French imagery conversion from PDF, cite Tesseract when you use the OCR converter. These references describe preprocessing tools, separately from the dictionary resources above.
+
+```bibtex
+@misc{sun2020jieba,
+  author = {Sun, Junyi},
+  title = {{jieba}: Chinese Word Segmentation},
+  year = {2020},
+  month = jan,
+  day = {20},
+  howpublished = {Computer software},
+  version = {0.42.1},
+  url = {https://github.com/fxsjy/jieba}
+}
+```
+
+```bibtex
+@inproceedings{smith2007tesseract,
+  author = {Smith, Ray},
+  title = {An Overview of the {Tesseract OCR} Engine},
+  booktitle = {Ninth International Conference on Document Analysis and Recognition (ICDAR)},
+  pages = {629--633},
+  publisher = {IEEE Computer Society},
+  address = {Curitiba, Brazil},
+  year = {2007},
+  month = sep,
+  doi = {10.1109/ICDAR.2007.4376991}
 }
 ```
 

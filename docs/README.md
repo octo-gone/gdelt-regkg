@@ -42,6 +42,26 @@ Use [GPU setup](guides/gpu-setup.md) for backend installation and device selecti
 
 [Results](evaluation/results.md) identifies the evaluated configurations, article subsets and measured agreement. [Methodology](evaluation/methodology.md) defines metrics, matching and sampling. [Benchmarking](guides/benchmarking.md) provides commands for comparing native and reconstructed records. [Tone refinement](guides/tone-refinement.md) covers fitting candidate dictionaries with separate development and evaluation articles.
 
+## Citing the software
+
+Cite the release used in your work. The citation for version 2.1.2 is:
+
+```bibtex
+@misc{klimin2026gdeltregkg,
+  author = {Klimin, Nikita A.},
+  title = {{gdelt-regkg}},
+  publisher = {Zenodo},
+  year = {2026},
+  month = oct,
+  howpublished = {Computer software},
+  version = {2.1.2},
+  note = {Version 2.1.2},
+  doi = {10.5281/zenodo.23314745}
+}
+```
+
+For another release, use the metadata from its Zenodo record. Machine-readable citation metadata is also available in [`CITATION.cff`](https://github.com/octo-gone/gdelt-regkg/blob/master/CITATION.cff). Cite the [dictionaries](reference/dictionaries.md) and [preprocessing tools](reference/dictionaries.md#preprocessing-citations) used in your analysis separately.
+
 ## Reference and development
 
 - [CLI](reference/cli.md) documents commands, arguments and defaults.

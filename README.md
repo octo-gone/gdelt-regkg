@@ -105,6 +105,10 @@ See [Quickstart](https://octo-gone.github.io/gdelt-regkg/get-started/quickstart/
 | Accuracy and interpretation | [Results](https://octo-gone.github.io/gdelt-regkg/evaluation/results/) and [Methodology](https://octo-gone.github.io/gdelt-regkg/evaluation/methodology/) |
 | Upgrading | [Migration](https://octo-gone.github.io/gdelt-regkg/get-started/migration/) and [changelog](https://github.com/octo-gone/gdelt-regkg/blob/master/CHANGELOG.md) |
 
+## Citation
+
+If you use this package in research, cite the [software release on Zenodo](https://doi.org/10.5281/zenodo.23314745). See [Citing the software](https://octo-gone.github.io/gdelt-regkg/#citing-the-software) for BibTeX and [`CITATION.cff`](https://github.com/octo-gone/gdelt-regkg/blob/master/CITATION.cff) for machine-readable metadata. Cite the [dictionary resources](https://octo-gone.github.io/gdelt-regkg/reference/dictionaries/) used in your analysis separately.
+
 ## Contributing
 
 See [Development setup](https://octo-gone.github.io/gdelt-regkg/development/setup/) for local checks and evaluation requirements, and [Project structure](https://octo-gone.github.io/gdelt-regkg/development/project-structure/) for the source layout. [Contributing](https://github.com/octo-gone/gdelt-regkg/blob/master/CONTRIBUTING.md) covers issue reports, pull requests and external inputs. Follow the [code of conduct](https://github.com/octo-gone/gdelt-regkg/blob/master/CODE_OF_CONDUCT.md); report vulnerabilities through the [security policy](https://github.com/octo-gone/gdelt-regkg/blob/master/SECURITY.md).
