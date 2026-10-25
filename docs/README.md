@@ -42,6 +42,15 @@ Use [GPU setup](guides/gpu-setup.md) for backend installation and device selecti
 
 [Results](evaluation/results.md) identifies the evaluated configurations, article subsets and measured agreement. [Methodology](evaluation/methodology.md) defines metrics, matching and sampling. [Benchmarking](guides/benchmarking.md) provides commands for comparing native and reconstructed records. [Tone refinement](guides/tone-refinement.md) covers fitting candidate dictionaries with separate development and evaluation articles.
 
+## Future work
+
+1. Add a Moses statistical translation adapter to `Translator`.
+2. Implement CLD2 in `LanguageDetector`.
+3. Extend GCAM dictionary profiles with language-specific tokenization, morphological normalization, contextual exclusions, and other dictionary-specific preprocessing.
+
+> [!NOTE]
+> GDELT's [2015 Translingual architecture](https://blog.gdeltproject.org/gdelt-translingual-translating-the-planet/) used CLD2, Moses statistical machine translation, and dictionary-based translation ranking. The [2021 Translingual 2.0 architecture](https://blog.gdeltproject.org/experiments-with-machine-translation-improving-translation-speed-and-hardware-efficiency/) introduced hybrid neural–statistical translation. Exact configurations for archived records are undocumented.
+
 ## Citing the software
 
 Cite the release used in your work. The citation for version 2.1.2 is:

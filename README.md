@@ -113,6 +113,8 @@ If you use this package in research, cite the [software release on Zenodo](https
 
 See [Development setup](https://octo-gone.github.io/gdelt-regkg/development/setup/) for local checks and evaluation requirements, and [Project structure](https://octo-gone.github.io/gdelt-regkg/development/project-structure/) for the source layout. [Contributing](https://github.com/octo-gone/gdelt-regkg/blob/master/CONTRIBUTING.md) covers issue reports, pull requests and external inputs. Follow the [code of conduct](https://github.com/octo-gone/gdelt-regkg/blob/master/CODE_OF_CONDUCT.md); report vulnerabilities through the [security policy](https://github.com/octo-gone/gdelt-regkg/blob/master/SECURITY.md).
 
+Implementation tasks are listed under [Future work](https://octo-gone.github.io/gdelt-regkg/#future-work).
+
 ## License and disclaimer
 
 This is an independent implementation, unaffiliated with and not endorsed by the GDELT Project. Reconstructed fields are approximate; results depend on article text, translation, models and dictionaries. Validate them for your intended analysis.
