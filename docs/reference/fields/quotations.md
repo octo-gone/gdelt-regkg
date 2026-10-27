@@ -40,7 +40,7 @@ The generator fills this field automatically. An encoded `overrides["V2.1QUOTATI
 
 The extractor does not identify speakers or indirect speech, and can include quoted titles or scare quotes. Nearby verbs can be missed or assigned incorrectly. Exact-content agreement with native GDELT quotations is low. Retrieved body and boundary differences also affect it.
 
-Content-only and content-plus-verb agreement use different matching rules. No comparable trivial extraction baseline has been reported. See [Results](../../evaluation/results.md#tone-scale) for scores and interpretation.
+Content-only and content-plus-verb agreement use different matching rules. No comparable trivial extraction baseline has been reported. See [Results](../../evaluation/results.md#field-agreement) for content agreement and the [development benchmark](../../evaluation/development-benchmarks.md#field-agreement) for the earlier content-plus-verb scores.
 
 ## Related
 

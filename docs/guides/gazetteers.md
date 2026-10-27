@@ -6,7 +6,7 @@ Gazetteer construction reads reference records. It does not retrieve articles or
 
 ## Build the default reference
 
-The recorded geographic recipe uses 20 GKG archives from 2015–2019 to reproduce the lookup used in the published evaluation. Review the reference-source terms in [Dictionaries](../reference/dictionaries.md#third-party-terms) before obtaining the data.
+The recorded (default) geographic recipe uses 20 GKG archives from 2015–2019 to build the 17,177-entry comparison inventory.
 
 ```shell
 gdelt-regkg-cli build locations --sources-dir downloads/resources --download-sources --output local-resources

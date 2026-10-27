@@ -1,6 +1,8 @@
 # Methodology
 
-Agreement with archived [Global Knowledge Graph (GKG)](../get-started/concepts-and-glossary.md#gkg) output depends on the reconstruction and the available input text. [Results](results.md) identifies the evaluated population and configuration. [Benchmarking](../guides/benchmarking.md) explains how to evaluate your own inputs.
+Agreement with archived [Global Knowledge Graph (GKG)](../get-started/concepts-and-glossary.md#gkg) output depends on the reconstruction and the available input text. [Results](results.md) identifies the paper's evaluated population and configuration. The earlier [development benchmark](development-benchmarks.md) has its own sample and resource inventory. [Benchmarking](../guides/benchmarking.md) explains how to evaluate your own inputs.
+
+The sections below describe **benchmark-tool reporting behavior** and metric definitions. See the [arXiv v1 paper](https://arxiv.org/html/2610.35358v1) for the study methodology.
 
 ## Field metrics
 
@@ -8,13 +10,15 @@ The [F1 score](../get-started/concepts-and-glossary.md#f1-scores) combines preci
 
 ### Report populations and undefined scores
 
-Metadata fields each receive one validity row. F1 calculations always include precision and recall. Coverage rows carry evaluated-document, reference-support and prediction-support counts. Tone components and GCAM families use separate rows for numeric errors and associated diagnostics. Constant or insufficient samples have undefined correlations and concordance rather than perfect scores.
+Metadata fields each receive one validity row. F1 calculations always include precision and recall. Coverage rows carry evaluated-document, reference-support and prediction-support counts. Tone components and GCAM families use separate rows for numeric errors and associated diagnostics. Correlations are undefined when either sequence is constant. CCC is undefined for fewer than two pairs or a zero denominator; different constant sequences yield CCC = 0.
 
 Label-macro rows average over the union of observed reference and prediction labels. Per-label precision or recall with zero support contributes zero to that macro average. An entirely empty label population has undefined macro scores. Validity rows concern the evaluated matched-document population. Alignment and input audits account separately for unmatched or structurally unreadable rows.
 
 ## GCAM metrics
 
-Presence measures whether a category occurs, regardless of its count. Read micro F1 alongside label-macro F1, mean article F1, [Jaccard similarity](../get-started/concepts-and-glossary.md#jaccard-similarity) and dictionary-specific rows. Pooled micro-F1 sums matches, false positives and false negatives across articles before calculating the score. Frequent categories dominate micro-F1. Label-macro gives every observed category equal weight. Both-empty articles are excluded from mean article F1/Jaccard and counted separately. Exact set agreement includes them.
+Presence requires a positive lexical count; a weighted score alone does not establish presence. Read micro F1 alongside label-macro F1, mean article F1, [Jaccard similarity](../get-started/concepts-and-glossary.md#jaccard-similarity) and dictionary-specific rows. Pooled micro-F1 sums matches, false positives and false negatives across articles before calculating the score. Frequent categories dominate micro-F1. Label-macro gives every observed category equal weight. Both-empty articles are excluded from mean article F1/Jaccard and counted separately. Exact set agreement includes them.
+
+If a native weighted score lacks a companion count, that article/category count comparison is excluded on both sides. Reconstructed-only counts outside those exclusions can still contribute false positives.
 
 | Presence scope | What it evaluates |
 | --- | --- |

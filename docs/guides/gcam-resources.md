@@ -17,7 +17,7 @@ Review the [dictionary licenses](../reference/dictionaries.md#dictionary-license
 | `v5` | v4 plus RID editions, financial and moral dictionaries, sentiment ratings, additional WordNet scores and authored approximations | 2,597 / 2,888 | `gcam.v5.json.gz` |
 | `full` | Alias for v5 | Same as v5 | `gcam.v5.json.gz` |
 
-The published GCAM agreement metrics evaluate v4. V5 expands the representable inventory to 2,296 English and 301 non-English dimensions. Its 2,597 dimensions consist of 2,328 source-backed dimensions, 268 authored theme approximations and one French imagery approximation. The [dictionary overview](../reference/dictionaries.md#dictionary-overview) lists the individual families included in v5 and the optional imports. Coverage describes the available categories, independently of extraction agreement. See [Results](../evaluation/results.md#gcam).
+The [paper's agreement metrics](../evaluation/results.md#gcam) evaluate a custom v5 profile with LIWC and MPQA, containing 2,673 categories. The earlier [development benchmark](../evaluation/development-benchmarks.md#gcam) evaluates v4. The base v5 preset represents 2,296 English and 301 non-English dimensions, comprising 2,328 source-backed dimensions, 268 authored theme approximations and one French imagery approximation. The [dictionary overview](../reference/dictionaries.md#dictionary-overview) lists individual families and optional imports. Coverage describes available categories, independently of extraction agreement.
 
 Install the dependencies for your selected inputs using [Installation and setup](../get-started/installation-and-setup.md#optional-dependencies). V5 includes French imagery PDF conversion, which needs the `build` extra and Tesseract, unless you provide compatible converted data. See [Dictionary imports](dictionary-imports.md#french-imagery-pdf-conversion).
 
@@ -160,17 +160,6 @@ python -m spacy download en_core_web_lg
 ```
 
 Device selection and dictionary selection are independent. Follow [GPU setup](gpu-setup.md) for accelerated inference and [Translation](translation.md#setup) for translation dependencies and model weights.
-
-### Understand the coverage counts
-
-| Configuration | Source-backed dimensions | Authored theme approximations | French imagery approximation | Total compiled dimensions |
-| --- | ---: | ---: | ---: | ---: |
-| v5 | 2,328 | 268 | 1 | 2,597 |
-| v5 + LIWC 2007 + MPQA | 2,404 | 268 | 1 | 2,673 |
-
-LIWC adds 62 source-backed dimensions and MPQA adds 14. Both configurations contain 269 approximations: 268 authored theme dimensions and one French imagery dimension estimated from class midpoints. A category's count and value keys count as one dimension. Complete source dictionaries are required to obtain these totals.
-
-The published agreement metrics evaluate v4. Agreement for this expanded configuration has not been established. See [Results](../evaluation/results.md#gcam).
 
 ## Inspect and use the result
 

@@ -1,4 +1,4 @@
-"""Bump the project and citation versions: bump.py --patch | --minor | --major."""
+"""Bump project, CFF and docs citation versions: bump.py --patch | --minor | --major."""
 
 from __future__ import annotations
 
@@ -15,6 +15,23 @@ def replace_version(text: str, pattern: str, version: str, filename: str) -> str
     return updated
 
 
+def update_software_citation(text: str, version: str) -> str:
+    """Update the software citation while preserving other citations and formatting."""
+    pattern = r"(?ms)^## Citing the software\r?\n.*?(?=^## |\Z)"
+    sections = list(re.finditer(pattern, text))
+    if len(sections) != 1:
+        raise ValueError("Expected exactly one 'Citing the software' section in docs/README.md")
+    section = sections[0]
+    updated = section[0]
+    for field_pattern in (
+        r"(?m)^(Cite the release used in your work\. The citation for version )\d+\.\d+\.\d+(?= is:)",
+        r"(?m)^(  version = \{)\d+\.\d+\.\d+(?=\},\r?$)",
+        r"(?m)^(  note = \{Version )\d+\.\d+\.\d+(?=\},\r?$)",
+    ):
+        updated = replace_version(updated, field_pattern, version, "docs/README.md")
+    return text[: section.start()] + updated + text[section.end() :]
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     group = parser.add_mutually_exclusive_group(required=True)
@@ -25,10 +42,12 @@ def main() -> None:
     root = Path(__file__).resolve().parents[2]
     pyproject_path = root / "pyproject.toml"
     citation_path = root / "CITATION.cff"
+    docs_path = root / "docs" / "README.md"
     try:
         # Read/write bytes to preserve line endings and unrelated formatting.
         pyproject = pyproject_path.read_bytes().decode("utf-8")
         citation = citation_path.read_bytes().decode("utf-8")
+        docs = docs_path.read_bytes().decode("utf-8")
         current = tomllib.loads(pyproject)["project"]["version"]
         if not re.fullmatch(r"(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)", current):
             raise ValueError(f"Expected a major.minor.patch version; found {current!r}")
@@ -54,12 +73,14 @@ def main() -> None:
             version,
             citation_path.name,
         )
+        docs = update_software_citation(docs, version)
     except (OSError, ValueError, KeyError, TypeError) as exc:
         parser.error(str(exc))
 
     pyproject_path.write_bytes(pyproject.encode("utf-8"))
     citation_path.write_bytes(citation.encode("utf-8"))
-    print(f"Updated pyproject.toml and CITATION.cff: {current} -> {version}")
+    docs_path.write_bytes(docs.encode("utf-8"))
+    print(f"Updated pyproject.toml, CITATION.cff and docs/README.md: {current} -> {version}")
 
 
 if __name__ == "__main__":

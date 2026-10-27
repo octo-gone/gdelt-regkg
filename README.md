@@ -5,6 +5,7 @@
 [![Python](https://img.shields.io/badge/python-3.12%2B-blue)](https://pypi.org/project/gdelt-regkg/)
 [![License](https://img.shields.io/github/license/octo-gone/gdelt-regkg)](https://github.com/octo-gone/gdelt-regkg/blob/master/LICENSE)
 [![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.23314745-blue)](https://doi.org/10.5281/zenodo.23314745)
+[![arXiv](https://img.shields.io/badge/arXiv-2610.35358-b31b1b)](https://arxiv.org/abs/2610.35358)
 
 Reconstruct GDELT GKG records from prepared article text and supplied metadata. Generate complete 27-column records or analyze individual fields from Python.
 
@@ -108,6 +109,8 @@ See [Quickstart](https://octo-gone.github.io/gdelt-regkg/get-started/quickstart/
 ## Citation
 
 If you use this package in research, cite the [software release on Zenodo](https://doi.org/10.5281/zenodo.23314745). See [Citing the software](https://octo-gone.github.io/gdelt-regkg/#citing-the-software) for BibTeX and [`CITATION.cff`](https://github.com/octo-gone/gdelt-regkg/blob/master/CITATION.cff) for machine-readable metadata. Cite the [dictionary resources](https://octo-gone.github.io/gdelt-regkg/reference/dictionaries/) used in your analysis separately.
+
+For the field-level agreement evaluation, cite Nikita A. Klimin (2026), [*Agreement Between Reconstructed and Native GDELT GKG Records: A Field-Level Baseline*](https://arxiv.org/abs/2610.35358). See [Citing the agreement study](https://octo-gone.github.io/gdelt-regkg/#citing-the-agreement-study) for BibTeX.
 
 ## Contributing
 

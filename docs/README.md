@@ -38,9 +38,11 @@ For non-English bodies, [Translation](guides/translation.md) quide covers langua
 
 Use [GPU setup](guides/gpu-setup.md) for backend installation and device selection, [Performance](guides/performance.md) for batching and persistent caches, and [Troubleshooting](guides/troubleshooting.md) for dependency, model and resource errors.
 
-## Understand or reproduce the published results
+## Understand or reproduce the Results
 
-[Results](evaluation/results.md) identifies the evaluated configurations, article subsets and measured agreement. [Methodology](evaluation/methodology.md) defines metrics, matching and sampling. [Benchmarking](guides/benchmarking.md) provides commands for comparing native and reconstructed records. [Tone refinement](guides/tone-refinement.md) covers fitting candidate dictionaries with separate development and evaluation articles.
+The agreement study, [*Agreement Between Reconstructed and Native GDELT GKG Records: A Field-Level Baseline*](https://arxiv.org/abs/2610.35358), evaluates reconstructed fields against native GKG records. See [Citing the agreement study](#citing-the-agreement-study) for its citation.
+
+[Results](evaluation/results.md) summarizes the paper and compares it with the earlier [development benchmark](evaluation/development-benchmarks.md). [Methodology](evaluation/methodology.md) distinguishes the study design from the benchmark tools' reporting behavior. [Benchmarking](guides/benchmarking.md) provides commands for comparing native and reconstructed records. [Tone refinement](guides/tone-refinement.md) covers fitting candidate dictionaries with separate development and evaluation articles.
 
 ## Future work
 
@@ -53,7 +55,7 @@ Use [GPU setup](guides/gpu-setup.md) for backend installation and device selecti
 
 ## Citing the software
 
-Cite the release used in your work. The citation for version 2.1.2 is:
+Cite the release used in your work. The citation for version 2.1.3 is:
 
 ```bibtex
 @misc{klimin2026gdeltregkg,
@@ -63,13 +65,32 @@ Cite the release used in your work. The citation for version 2.1.2 is:
   year = {2026},
   month = oct,
   howpublished = {Computer software},
-  version = {2.1.2},
-  note = {Version 2.1.2},
+  version = {2.1.3},
+  note = {Version 2.1.3},
   doi = {10.5281/zenodo.23314745}
 }
 ```
 
 For another release, use the metadata from its Zenodo record. Machine-readable citation metadata is also available in [`CITATION.cff`](https://github.com/octo-gone/gdelt-regkg/blob/master/CITATION.cff). Cite the [dictionaries](reference/dictionaries.md) and [preprocessing tools](reference/dictionaries.md#preprocessing-citations) used in your analysis separately.
+
+## Citing the agreement study
+
+When discussing the field-level agreement evaluation, cite Nikita A. Klimin (2026), [*Agreement Between Reconstructed and Native GDELT GKG Records: A Field-Level Baseline*](https://arxiv.org/abs/2610.35358):
+
+```bibtex
+@misc{klimin2026agreement,
+  author = {Klimin, Nikita A.},
+  title = {Agreement Between Reconstructed and Native {GDELT} {GKG} Records: A Field-Level Baseline},
+  year = {2026},
+  eprint = {2610.35358},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.CL},
+  doi = {10.48550/arXiv.2610.35358},
+  url = {https://arxiv.org/abs/2610.35358}
+}
+```
+
+The paper evaluates 193,550 English articles from 2020–2025 and 2,500 articles in five other languages. [Results](evaluation/results.md) summarizes its findings; the larger, earlier English corpus is documented under [Development benchmark](evaluation/development-benchmarks.md). Use the paper's stated samples and metrics when citing its findings. Cite the [software release](#citing-the-software) as well when using the package.
 
 ## Reference and development
 

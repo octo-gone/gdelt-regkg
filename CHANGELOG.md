@@ -2,6 +2,13 @@
 
 This changelog records implementation changes and the research behind each version. Versions group the iterative work; dictionary revisions such as tone v3 are separate from package versions. Each Research section may contain the method, results and conclusions for that stage.
 
+## 2.1.3
+
+- Added the agreement paper citation and results; preserved the earlier development benchmark separately.
+- Updated dictionary BibTeX entries and added citations for Jieba and Tesseract.
+
+No changes to the public API or extraction behavior.
+
 ## 2.1.2
 
 - Added optional article-level statistics export through `--article-metrics` (JSONL or gzip), covering categorical fields, tone, and GCAM.

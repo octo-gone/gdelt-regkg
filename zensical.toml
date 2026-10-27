@@ -82,6 +82,7 @@ nav = [
   ] },
   { "Evaluation" = [
     { "Results" = "evaluation/results.md" },
+    { "Development benchmark" = "evaluation/development-benchmarks.md" },
     { "Methodology" = "evaluation/methodology.md" },
     { "Limitations and intended use" = "evaluation/limitations-and-intended-use.md" },
   ] },

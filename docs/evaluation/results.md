@@ -1,88 +1,77 @@
 # Results
 
-Published results compare reconstructed fields with archived Global Knowledge Graph output. These measurements describe the stated models, profiles and retained article samples. See [Methodology](methodology.md) for definitions and interpretation.
+The published agreement baseline is Nikita A. Klimin (2026), [*Agreement Between Reconstructed and Native GDELT GKG Records: A Field-Level Baseline*](https://arxiv.org/abs/2610.35358v1), arXiv v1, submitted 26 October 2026. This page summarizes that version. See [BibTeX](../README.md#citing-the-agreement-study) to cite it.
+
+The earlier [development benchmark](development-benchmarks.md) remains available separately. Its larger corpus and GCAM v4 tables describe a different evaluation. Neither report establishes agreement for every later software release or dictionary build.
+
+## Paper and development benchmark
+
+| Evaluation detail | Published paper (arXiv v1) | Earlier development benchmark |
+| --- | --- | --- |
+| English period | 2020–2025 | 2018–2025 |
+| Retained English articles | 193,550 | 265,413 |
+| Publishers / source labels | 8,729 | 10,531 |
+| Attempted unique URLs | 577,221 | 885,193 |
+| Retention after exclusions | 33.53% | 29.98% |
+| Title-and-length subset (±10%) | 54,485 | 54,609 |
+| GCAM configuration | Custom v5 with LIWC and MPQA | v4 |
+| Additional languages | 500 articles each in French, Spanish, German, Russian and Chinese | Earlier translated-article experiments linked separately |
+
+The sample, time span, resource inventory and selection rules affect the scores. Similar point estimates across these reports do not measure software improvement or regression. In particular, the retention fractions combine several exclusions and cannot be interpreted as a change in retrieval success alone.
 
 ## Study configuration
 
-The latest study compares archived GKG outputs with reconstruction on **265,413 retained English articles** from 2018–2025, covering 10,531 sources. This is оnly 29.98% of attempted URLs, other bodies were unavailable or corrupted. It is not a validated population correction, and the retained corpus does not represent all GDELT news.
-
-Library uses the recorded tone/count/theme profiles, expanded GCAM dictionaries and spaCy `en_core_web_lg` for named entity recognition (NER) with the `gdelt-full-names` policy.
+The paper evaluates `gdelt-regkg` 2.1.2, spaCy `en_core_web_lg` 3.8.0, tone/themes/counts v3, names v1 and a custom GCAM v5 profile. Its primary gazetteer has 119,733 entries; a paired comparison uses 17,177 entries. Methods and resource details are in Section V of the [paper](https://arxiv.org/html/2610.35358v1).
 
 ### English articles
 
-The full corpus is the primary result. The restricted subset contains 54,609 articles from 2020–2025 with exact normalized titles and [local/native](../get-started/concepts-and-glossary.md#native-and-reconstructed) word-count ratios between 0.90 and 1.10. Word counts come from their respective tone fields. The restricted subset differs in both period and selection criteria from the full corpus. Similar lengths do not establish identical text, so these results measure agreement on the selected articles without isolating extraction error.
-
-### How to read the results
-
-[F1](../get-started/concepts-and-glossary.md#f1-scores) combines precision and recall, with 1 denoting perfect agreement. [Mean absolute error (MAE)](../get-started/concepts-and-glossary.md#mae) uses the quantity's original units and is lower when agreement is closer. [Lin's concordance correlation coefficient (CCC)](../get-started/concepts-and-glossary.md#ccc) has 1 as perfect concordance. See [metric definitions](../get-started/concepts-and-glossary.md#f1-scores) and [Methodology](methodology.md) for calculation and matching rules.
-
-Location identity scores use 265,340 valid full-corpus pairs and 54,593 restricted pairs. Other non-GCAM field scores use the listed article counts. All F1 values are pooled micro-F1. Enhanced offsets have not been benchmarked.
-
-Full-corpus source-cluster bootstrap 95% intervals are 1.767–1.828 for tone MAE, 0.6371–0.6545 for person F1, 0.4092–0.4204 for organization F1 and 0.6410–0.6565 for location F1, using 2,000 draws. The intervals are conditional on observed acquisition.
-
-Exploratory inverse-retention weighting increases tone MAE to 1.888 with weights capped at 20 and 2.063 without capping. The weighting demonstrates sensitivity to selection.
+The full corpus is the main population. The title-and-length subset requires eligible matching normalized titles and reconstructed/native tone word-count ratios from 0.90 to 1.10. It is a selected population; similar titles and lengths do not establish identical bodies or isolate extraction error.
 
 ### Field agreement
 
-| Field | Implementation | Full corpus | Restricted subset |
-| --- | --- | --- | --- |
-| [Record ID](../reference/fields/record-id.md), [Batch date](../reference/fields/date.md), [Document identifier](../reference/fields/document-identifier.md) | Supplied timestamps, sequence and identifier | Metadata formatting | Not scored |
-| [Source collection](../reference/fields/source-collection.md), [Source name](../reference/fields/source-name.md) | Supplied collection and a source label or hostname | Metadata formatting | Not scored |
-| [Counts](../reference/fields/counts.md) · [Enhanced counts](../reference/fields/enhanced-counts.md) | Rules matching quantities and event triggers across 37 labels | F1 0.2888 for label/quantity<br>0.1639 including object<br>0.0652 including geography | F1 0.3210 for label/quantity<br>0.1823 including object<br>0.0688 including geography |
-| [Themes](../reference/fields/themes.md) · [Enhanced themes](../reference/fields/enhanced-themes.md) | Phrase matching and context rules across 519 labels | F1 0.6144 across all native labels<br>0.6965 within supported labels | F1 0.6720 across all native labels<br>0.7667 within supported labels |
-| [Locations](../reference/fields/locations.md) · [Enhanced locations](../reference/fields/enhanced-locations.md) | NER plus offline geographic resolution | Feature-identity F1 0.6489 | Feature-identity F1 0.7253 |
-| [Persons](../reference/fields/persons.md) · [Enhanced persons](../reference/fields/enhanced-persons.md) | spaCy NER and name normalization | Name F1 0.6456 | Name F1 0.7483 |
-| [Organizations](../reference/fields/organizations.md) · [Enhanced organizations](../reference/fields/enhanced-organizations.md) | spaCy NER, normalization and name filter | Name F1 0.4149 | Name F1 0.4833 |
-| [Tone](../reference/fields/tone.md) | Dictionary scoring with tone v3 | MAE 1.795 points<br>CCC 0.746 | MAE 1.475 points<br>CCC 0.830 |
-| [Date mentions](../reference/fields/enhanced-dates.md) | Explicit English calendar expressions | Date F1 0.4286 | Date F1 0.5066 |
-| [GCAM](../reference/fields/gcam.md) | English category counts and VADER lexical means | 809 / 2,888 dimensions (28.01%) standard<br>1,855 / 2,888 (64.23%) v4 | Same supported vocabulary<br>family metrics below |
-| [Sharing image](../reference/fields/sharing-image.md), [Related images](../reference/fields/related-images.md), [Social image embeds](../reference/fields/social-image-embeds.md), [Social video embeds](../reference/fields/social-video-embeds.md) | Supplied media URLs | Metadata formatting | Not scored |
-| [Quotations](../reference/fields/quotations.md) | Quoted spans and reporting-verb rules | Content F1 0.0671<br>including verb 0.0377 | Content F1 0.0843<br>including verb 0.0464 |
-| [All names](../reference/fields/all-names.md) | Broad entities and proper-noun spans | Surface-name F1 0.2301 | Surface-name F1 0.2828 |
-| [Amounts](../reference/fields/amounts.md) | Numeric/textual values with bounded objects | Value/object F1 0.1973<br>value alone 0.4054 | Value/object F1 0.2455<br>value alone 0.4912 |
-| [Translation information](../reference/fields/translation-info.md) | Language detection, optional translation and language/engine metadata | Not evaluated in the English study | Not scored |
-| [Extra XML](../reference/fields/extras-xml.md) | Supplied extension metadata | XML formatting | Not scored |
+The following values are from Tables IV–VI and Section VI-C of the [paper](https://arxiv.org/html/2610.35358v1). Categorical values are pooled micro-F1. The development column is included for comparison; its full tables and restricted-subset scores remain on the [development page](development-benchmarks.md#field-agreement).
 
-See [Limitations and intended use](limitations-and-intended-use.md) for interpretation across fields.
+| Metric | Paper: full English corpus | Paper: title-and-length ±10% | Development: full English corpus |
+| --- | ---: | ---: | ---: |
+| Tone MAE (points) | 1.787 | 1.474 | 1.795 |
+| Tone CCC | 0.749 | 0.830 | 0.746 |
+| Person identity F1 | 0.646 | 0.748 | 0.646 |
+| Organization identity F1 | 0.417 | 0.483 | 0.415 |
+| Location identity F1 | 0.654 | 0.727 | 0.649 |
+| Theme F1, all labels | 0.617 | — | 0.614 |
+| Theme F1, implemented labels | 0.698 | — | 0.697 |
+| Count F1, label + quantity | 0.285 | — | 0.289 |
+| Count F1, including object | 0.166 | — | 0.164 |
+| Count F1, full tuple | 0.070 | 0.073 | 0.065 |
+| Date-component F1 | 0.424 | — | 0.429 |
+| Amount F1, value + object | 0.198 | — | 0.197 |
+| Quotation-content F1 | 0.068 | — | 0.067 |
+| All-names identity F1 | 0.231 | — | 0.230 |
 
-For field agreement on translated articles, see the [seasonal translated-article evaluation](https://github.com/octo-gone/gdelt-regkg/blob/master/CHANGELOG.md#translingual-agreement). Those results combine retrieval, translation and extraction differences. They do not independently measure translation quality or the accuracy of recorded language and engine values.
+A dash means this summary does not list that result. The paper also reports precision, recall, macro scores and publisher-cluster intervals. Those distinguish common-item agreement from article-, category- and publisher-level agreement. See [Methodology](methodology.md) for metric definitions.
 
 ### Tone scale
 
-Tone ranges from −100 to +100 points and is calculated as positive-word density minus negative-word density. The native-tone standard deviation is 3.873 points in the full corpus and 3.631 points in the restricted subset. The corresponding MAEs of 1.795 and 1.475 points are about 0.464 and 0.406 native standard deviations.
+Tone uses a −100 to +100 scale. In the paper, native tone has standard deviation 3.891 points; MAE is 0.459 of that spread. The full-corpus 95% publisher-cluster interval is 1.76–1.82 for MAE and 0.736–0.759 for CCC. These intervals describe variation within the retained sample.
 
 ## GCAM
 
-> [!WARNING]
-> The agreement metrics below describe v4. Dimension coverage is 1,855 of 2,888 (64.23%) for the evaluated v4 profile. See [Build GCAM resources](../guides/gcam-resources.md#understand-the-coverage-counts) for the build and coverage report.
+The paper evaluates a custom v5 profile with LIWC and MPQA, implementing 2,492 categories across its evaluated languages. English category-presence micro-F1 is 0.824 across the observed inventory and 0.840 within the implemented inventory. These scopes have different denominators. See Section VI-H and Appendix B of the [paper](https://arxiv.org/html/2610.35358v1) for dictionary-level presence, count and weighted-score results.
 
-On the latest full corpus, the evaluated profile covers 64.23% of documented dimensions, 78.33% of native positive count occurrences and 81.02% of native document–dimension assignments. Frequent categories contribute more to occurrence coverage. These shares measure representable native activity, not correctly reconstructed counts. The older seasonal benchmark's occurrence shares are retained in the [historical changelog](https://github.com/octo-gone/gdelt-regkg/blob/master/CHANGELOG.md#combined-gcam-coverage).
+Count WAPE was 41.4% for General Inquirer, 38.2% for LIWC and 36.3% for MPQA: high presence agreement did not imply close count agreement.
 
-Presence F1, weighted absolute percentage error (WAPE) for counts and aggregate count ratios use the 265,413-article full corpus. The final column separately reports WAPE for the 54,609-article restricted subset. Presence F1 compares category occurrence. Count ratios above one indicate aggregate overcounting and below one indicate undercounting. Metrics apply to supported comparable categories.
+The study profile contains 2,673 compiled categories: 2,492 in the evaluated languages and 181 in other languages, consistent with the [build inventory](../guides/gcam-resources.md#understand-the-coverage-counts). Record the sources, options and compiled resources when reproducing it. The historical [v4 family tables](development-benchmarks.md#gcam) apply to the development corpus.
 
-| Family (supported / native dimensions) | Full presence F1 | Full count WAPE | Full local/native count ratio | Restricted count WAPE |
-| --- | ---: | ---: | ---: | ---: |
-| General Inquirer (217 / 228) | 0.9268 | 41.20% | 0.866 | 27.30% |
-| Lexicoder, optional (4 / 4) | 0.9702 | 43.12% | 0.742 | 34.12% |
-| Roget, optional (1,042 / 1,042) | 0.8169 | 70.73% | 1.183 | 50.78% |
-| WordNet Affect (280 / 280) | 0.3187 | 93.19% | 0.259 | 88.61% |
-| WordNet Domains (168 / 168) | 0.8143 | 63.09% | 0.654 | 54.46% |
-| WordNet lexical categories (44 / 44) | 0.9621 | 75.87% | 1.472 | 54.35% |
-| GCAM themes (99 / 368) | 0.6893 | 67.05% | 0.625 | 56.25% |
+## Languages and geographic resources
 
-High presence F1 can coexist with biased counts: WordNet lexical categories have presence F1 0.9621 but an aggregate count ratio of 1.472. Vocabulary coverage therefore does not make local and native category counts interchangeable.
+The paper adds translated-tone and original-language GCAM evaluations, reported separately in Tables VII–VIII. Translated-tone MAE ranges from 2.10 to 2.64 points; Chinese has 499 complete translations. These language samples have different inclusion rules from the English corpus.
 
-The VADER evaluation measures mean valence among matched lexical entries. It does not evaluate the complete VADER sentiment algorithm. Pairs with undefined means are excluded.
+The paired gazetteer experiment raises native-place coverage from 89.5% to 97.1%, while both full-corpus location F1 estimates round to 0.654. Inventory coverage and output agreement measure different properties. See Table VI of the [paper](https://arxiv.org/html/2610.35358v1).
 
-| Subset | Comparable pairs | MAE | CCC | Sign agreement |
-| --- | ---: | ---: | ---: | ---: |
-| Full corpus | 262,295 | 0.242 | 0.871 | 90.94% |
-| Restricted subset | 54,518 | 0.139 | 0.952 | 93.92% |
+## Temporal agreement
+
+Monthly agreement does not consistently improve for newer articles. Some fields show monthly variation and calendar patterns (Section VI-F of the paper).
 
 ## Choosing a configuration
 
-- To reproduce the latest English study's model and vocabulary configuration, use `en_core_web_lg`, the `gdelt-full-names` policy and the recorded local profiles. See [English models](../get-started/installation-and-setup.md#english-models) and [GCAM profiles](../guides/gcam-resources.md#choose-a-preset).
-- Use v4 to reproduce the evaluated GCAM vocabulary, or v5 for the broader English and native-language inventory. Broader coverage does not guarantee lower count error.
-- Translate non-English bodies before English extraction. The [full pipeline example](../guides/translation.md#complete-pipeline-example) handles detection, translation and extraction.
-
-[Benchmarking](../guides/benchmarking.md) · [CLI](../reference/cli.md)
+Use the paper's software and resource configuration for claims about its baseline. Use the [benchmark tools](../guides/benchmarking.md) to evaluate a current or customized build on appropriate held-out articles. [Build GCAM resources](../guides/gcam-resources.md) describes available presets; [Limitations and intended use](limitations-and-intended-use.md) explains how to interpret reconstructed records.
