@@ -31,27 +31,33 @@ repos:
         name: pylint
         entry: uv run --no-sync python -X utf8 -m pylint
         language: system
-        files: ^(src/|\.github/scripts/|pyproject\.toml|\.pre-commit-config\.yaml)
-        pass_filenames: false
-        args: [src/gdelt_regkg, .github/scripts]
-        always_run: true
+        types: [python]
+        files: ^(src/|\.github/scripts/)
         require_serial: true
       - id: mypy
         name: mypy
         entry: uv run --no-sync python -X utf8 -m mypy
         language: system
-        files: ^(src/|\.github/scripts/|pyproject\.toml|\.pre-commit-config\.yaml)
-        pass_filenames: false
-        always_run: true
+        types_or: [python, pyi]
+        files: ^(src/|\.github/scripts/)
         require_serial: true
 
   - repo: https://github.com/citation-file-format/cffconvert
     rev: 054bda51dbe278b3e86f27c890e3f3ac877d616c
     hooks:
       - id: validate-cff
-        name: cffconvert
+        name: validate cff file
         description: "Validate CITATION.cff file"
         args: ["--validate"]
         files: CITATION.cff
+
+  - repo: local
+    hooks:
+      - id: check-docs
+        name: check documentation
+        entry: uv run --no-sync python -X utf8 .github/scripts/check_docs.py
+        language: system
+        pass_filenames: false
+        always_run: true
 
 exclude: ^(tmp|research|output[^/]*|dist|build)/

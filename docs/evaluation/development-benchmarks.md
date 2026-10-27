@@ -57,7 +57,7 @@ Tone ranges from −100 to +100 points and is calculated as positive-word densit
 ## GCAM
 
 > [!WARNING]
-> The agreement metrics below describe v4. Dimension coverage is 1,855 of 2,888 (64.23%) for the evaluated v4 profile. See [Build GCAM resources](../guides/gcam-resources.md#understand-the-coverage-counts) for the build and coverage report.
+> The agreement metrics below describe v4. Dimension coverage is 1,855 of 2,888 (64.23%) for the evaluated v4 profile. See [Build GCAM resources](../guides/gcam-resources.md) for the build and coverage report.
 
 On this development corpus, the evaluated profile covers 64.23% of documented dimensions, 78.33% of native positive count occurrences and 81.02% of native document–dimension assignments. Frequent categories contribute more to occurrence coverage. These shares measure representable native activity, not correctly reconstructed counts. The older seasonal benchmark's occurrence shares are retained in the [historical changelog](https://github.com/octo-gone/gdelt-regkg/blob/master/CHANGELOG.md#combined-gcam-coverage).
 

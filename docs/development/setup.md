@@ -24,7 +24,7 @@ uv run --no-sync python .github/scripts/check_docs.py
 
 The hooks format Python with isort and Ruff, check correctness with pylint and mypy, and validate repository metadata. Review any formatting changes before committing. The configuration is in [`.pre-commit-config.yaml`](https://github.com/octo-gone/gdelt-regkg/blob/master/.pre-commit-config.yaml) and [`pyproject.toml`](https://github.com/octo-gone/gdelt-regkg/blob/master/pyproject.toml).
 
-Pylint and mypy check the complete package and maintained scripts using the installed development environment. They do not require dictionaries, model weights or PyTorch. To run them separately:
+The pylint and mypy hooks check changed Python files under `src/` and `.github/scripts/` using the installed development environment. Mypy may also check imported modules. They do not require dictionaries, model weights or PyTorch. To check the complete package and maintained scripts, including after lint configuration changes:
 
 ```shell
 uv run --no-sync python -m pylint src/gdelt_regkg .github/scripts

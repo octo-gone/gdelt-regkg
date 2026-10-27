@@ -79,7 +79,7 @@ $$
 
 For example, a configuration representing 80 of 100 dimensions has 80% vocabulary coverage. This describes what can be represented. Agreement metrics evaluate the values actually produced.
 
-Build coverage reports distinguish source-backed `supported_dimensions` from total `compiled_dimensions`, which also include approximations. Runtime implemented dimensions can include both. Keep these populations distinct when comparing coverage figures. See [Build GCAM resources](../guides/gcam-resources.md#understand-the-coverage-counts).
+Build coverage reports distinguish source-backed `supported_dimensions` from total `compiled_dimensions`, which also include approximations. Runtime implemented dimensions can include both. Keep these populations distinct when comparing coverage figures. See [Build GCAM resources](../guides/gcam-resources.md).
 
 ## Evaluation and metrics
 

@@ -60,7 +60,7 @@ The paper evaluates a custom v5 profile with LIWC and MPQA, implementing 2,492 c
 
 Count WAPE was 41.4% for General Inquirer, 38.2% for LIWC and 36.3% for MPQA: high presence agreement did not imply close count agreement.
 
-The study profile contains 2,673 compiled categories: 2,492 in the evaluated languages and 181 in other languages, consistent with the [build inventory](../guides/gcam-resources.md#understand-the-coverage-counts). Record the sources, options and compiled resources when reproducing it. The historical [v4 family tables](development-benchmarks.md#gcam) apply to the development corpus.
+The study profile contains 2,673 compiled categories: 2,492 in the evaluated languages and 181 in other languages, consistent with the [build inventory](../guides/gcam-resources.md). Record the sources, options and compiled resources when reproducing it. The historical [v4 family tables](development-benchmarks.md#gcam) apply to the development corpus.
 
 ## Languages and geographic resources
 
