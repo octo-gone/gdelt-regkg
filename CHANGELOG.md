@@ -2,6 +2,11 @@
 
 This changelog records implementation changes and the research behind each version. Versions group the iterative work; dictionary revisions such as tone v3 are separate from package versions. Each Research section may contain the method, results and conclusions for that stage.
 
+## 2.1.4
+
+- Fixed conflicting generation-length warnings in M2M100 translation.
+- Added `chunk_tokens`, `max_new_tokens` and `min_new_tokens` controls to `M2M100Translator.from_model()`, with output limits also configurable in the constructor. Engine identities record these settings for cache separation.
+
 ## 2.1.3
 
 - Added the agreement paper citation and results; preserved the earlier development benchmark separately.

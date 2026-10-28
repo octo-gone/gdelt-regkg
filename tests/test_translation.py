@@ -274,6 +274,102 @@ class TranslationTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "output limit"):
                 backend.translate("Long sentence", "urd")
 
+    def test_generation_limits_override_inherited_lengths_and_apply_to_retries(self):
+        class Inputs(dict):
+            def to(self, device):
+                return self
+
+        tokenizer = Mock(eos_token_id=2, pad_token_id=0)
+        tokenizer.return_value = Inputs(input_ids=[1])
+        tokenizer.get_lang_id.return_value = 5
+        tokenizer.decode.return_value = "Translated"
+        network = Mock(device="cpu", generation_config=SimpleNamespace(max_length=200))
+        network.generate.return_value = [Mock(tolist=Mock(return_value=[4, 2]))]
+        backend = M2M100Translator(
+            tokenizer,
+            network,
+            engine="fixture",
+            num_beams=3,
+            max_new_tokens=1023,
+            min_new_tokens=0,
+        )
+        for retry, beams in ((False, 3), (True, 1)):
+            with self.subTest(retry=retry):
+                self.assertEqual(backend._generate(["Original"], retry=retry), ["Translated"])
+                kwargs = network.generate.call_args.kwargs
+                self.assertIsNone(kwargs["max_length"])
+                self.assertEqual(kwargs["min_length"], 1)
+                self.assertEqual(kwargs["max_new_tokens"], 1023)
+                self.assertIsNone(kwargs["min_new_tokens"])
+                self.assertEqual(kwargs["num_beams"], beams)
+        self.assertEqual(network.generation_config.max_length, 200)
+        network.generate.return_value = [Mock(tolist=Mock(return_value=[4, 7]))]
+        with self.assertRaisesRegex(ValueError, "max_new_tokens=1023"):
+            backend._generate(["Original"])
+
+    def test_translation_options_fail_before_loading_models(self):
+        invalid = {
+            "chunk_tokens": (0, 513, 1.5, True),
+            "batch_size": (0, -1, 1.5, True),
+            "num_beams": (0, -1, 1.5, True),
+            "max_new_tokens": (0, -1, 1.5, True),
+            "min_new_tokens": (-1, 769, 1.5, True),
+        }
+        with patch("gdelt_regkg.fields.translation.require_dependency") as dependency:
+            for name, values in invalid.items():
+                for value in values:
+                    with self.subTest(name=name, value=value):
+                        options = {name: value}
+                        with self.assertRaisesRegex(ValueError, name):
+                            M2M100Translator(Mock(), Mock(), engine="fixture", **options)
+                        with self.assertRaisesRegex(ValueError, name):
+                            M2M100Translator.from_model(**options)
+            dependency.assert_not_called()
+
+    def test_factory_settings_separate_cached_translations(self):
+        tokenizer = Mock()
+        network = Mock(config=SimpleNamespace(_commit_hash="fixture"))
+        network.to.return_value = network
+        network.eval.return_value = network
+        transformers = SimpleNamespace(
+            __version__="fixture",
+            M2M100Tokenizer=Mock(from_pretrained=Mock(return_value=tokenizer)),
+            M2M100ForConditionalGeneration=Mock(from_pretrained=Mock(return_value=network)),
+        )
+        configurations = [
+            {},
+            {"max_new_tokens": 1023},
+            {"min_new_tokens": 0},
+            {"chunk_tokens": 256},
+            {"num_beams": 2},
+            {"batch_size": 1},
+        ]
+        engines = []
+        with (
+            tempfile.TemporaryDirectory() as directory,
+            patch(
+                "gdelt_regkg.fields.translation.require_dependency",
+                side_effect=lambda name, extra: transformers if name == "transformers" else None,
+            ),
+        ):
+            for options in configurations:
+                with self.subTest(options=options):
+                    backend = M2M100Translator.from_model(**options)
+                    for name, value in options.items():
+                        self.assertEqual(getattr(backend, name), value)
+                    engines.append(backend.engine)
+                    backend.translate_many = Mock(return_value=["Translated"])
+                    with CachedTranslator(
+                        backend, Path(directory) / "translations.sqlite"
+                    ) as cache:
+                        self.assertEqual(cache.translate("Original", "fra"), "Translated")
+                    # Batch size changes scheduling, so it can reuse the default translation.
+                    self.assertEqual(
+                        backend.translate_many.call_count, 0 if "batch_size" in options else 1
+                    )
+        self.assertEqual(len(set(engines[:5])), 5)
+        self.assertEqual(engines[0], engines[5])
+
     def test_translation_packs_sentences_and_batches_article_chunks(self):
         class Inputs(dict):
             def to(self, device):

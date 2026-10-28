@@ -55,7 +55,7 @@ The agreement study, [*Agreement Between Reconstructed and Native GDELT GKG Reco
 
 ## Citing the software
 
-Cite the release used in your work. The citation for version 2.1.3 is:
+Cite the release used in your work. The citation for version 2.1.4 is:
 
 ```bibtex
 @misc{klimin2026gdeltregkg,
@@ -65,8 +65,8 @@ Cite the release used in your work. The citation for version 2.1.3 is:
   year = {2026},
   month = oct,
   howpublished = {Computer software},
-  version = {2.1.3},
-  note = {Version 2.1.3},
+  version = {2.1.4},
+  note = {Version 2.1.4},
   doi = {10.5281/zenodo.23314745}
 }
 ```

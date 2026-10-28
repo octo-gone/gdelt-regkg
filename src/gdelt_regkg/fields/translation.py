@@ -281,25 +281,47 @@ class TranslationUnavailableError(RuntimeError):
     """Optional dependencies or local model resources are unavailable."""
 
 
+def _validate_translation_options(
+    chunk_tokens, batch_size, num_beams, max_new_tokens, min_new_tokens
+):
+    if type(chunk_tokens) is not int or not 1 <= chunk_tokens <= 512:
+        raise ValueError("chunk_tokens must be an integer between 1 and 512")
+    for name, value in (
+        ("batch_size", batch_size),
+        ("num_beams", num_beams),
+        ("max_new_tokens", max_new_tokens),
+    ):
+        if type(value) is not int or value < 1:
+            raise ValueError(f"{name} must be a positive integer")
+    if type(min_new_tokens) is not int or not 0 <= min_new_tokens <= max_new_tokens:
+        raise ValueError("min_new_tokens must be an integer between 0 and max_new_tokens")
+
+
 class M2M100Translator:
     """Local M2M100 translation with sentence chunking and batched inference.
 
     Load with `from_model` and reuse one instance for sequential translation calls.
     """
 
-    def __init__(self, tokenizer, model, *, engine, chunk_tokens=384, batch_size=4, num_beams=4):
-        if type(chunk_tokens) is not int or not 1 <= chunk_tokens <= 512:
-            raise ValueError("chunk_tokens must be between 1 and 512")
+    def __init__(
+        self,
+        tokenizer,
+        model,
+        *,
+        engine,
+        chunk_tokens=384,
+        batch_size=4,
+        num_beams=4,
+        max_new_tokens=768,
+        min_new_tokens=1,
+    ):
+        _validate_translation_options(
+            chunk_tokens, batch_size, num_beams, max_new_tokens, min_new_tokens
+        )
         self.tokenizer, self.model, self.engine = tokenizer, model, engine
         self.chunk_tokens = chunk_tokens
-        if (
-            type(batch_size) is not int
-            or batch_size < 1
-            or type(num_beams) is not int
-            or num_beams < 1
-        ):
-            raise ValueError("batch_size and num_beams must be positive integers")
         self.batch_size, self.num_beams = batch_size, num_beams
+        self.max_new_tokens, self.min_new_tokens = max_new_tokens, min_new_tokens
 
     @classmethod
     def from_model(
@@ -311,6 +333,9 @@ class M2M100Translator:
         revision=None,
         batch_size=4,
         num_beams=4,
+        chunk_tokens=384,
+        max_new_tokens=768,
+        min_new_tokens=1,
     ) -> M2M100Translator:
         """Load a reusable M2M100 model and tokenizer.
 
@@ -321,6 +346,10 @@ class M2M100Translator:
             revision (str | None): Optional model revision.
             batch_size (int): Positive number of text chunks per inference batch.
             num_beams (int): Positive beam count for generation.
+            chunk_tokens (int): Source tokens per chunk, between 1 and 512.
+            max_new_tokens (int): Positive output-token limit per chunk.
+            min_new_tokens (int): Minimum output tokens per chunk, between zero
+                and `max_new_tokens`.
 
         Returns:
             A translator with an engine citation identifying its configuration.
@@ -328,8 +357,11 @@ class M2M100Translator:
         Raises:
             OptionalDependencyError: If a required backend dependency is unavailable.
             TranslationUnavailableError: If model resources cannot be loaded.
-            ValueError: If batch or beam settings are invalid.
+            ValueError: If chunk, batch, beam, or output-length settings are invalid.
         """
+        _validate_translation_options(
+            chunk_tokens, batch_size, num_beams, max_new_tokens, min_new_tokens
+        )
         require_dependency("torch", "translate")
         transformers = require_dependency("transformers", "translate")
         require_dependency("sentencepiece", "translate")
@@ -349,8 +381,21 @@ class M2M100Translator:
             ) from error
         commit = getattr(network.config, "_commit_hash", None) or revision or "local"
         precision = "fp16" if str(device).startswith("cuda") else "fp32"
-        engine = f"M2M100 {model}@{commit}; transformers {transformers.__version__}; chunk384 beam{num_beams} packed-v2 {precision}"
-        return cls(tokenizer, network, engine=engine, batch_size=batch_size, num_beams=num_beams)
+        engine = (
+            f"M2M100 {model}@{commit}; transformers {transformers.__version__}; "
+            f"chunk{chunk_tokens} beam{num_beams} "
+            f"new{min_new_tokens}-{max_new_tokens} packed-v2 {precision}"
+        )
+        return cls(
+            tokenizer,
+            network,
+            engine=engine,
+            chunk_tokens=chunk_tokens,
+            batch_size=batch_size,
+            num_beams=num_beams,
+            max_new_tokens=max_new_tokens,
+            min_new_tokens=min_new_tokens,
+        )
 
     def translate(self, text: str, source_language: str) -> str:
         """Translate one body into English using the batch translation path.
@@ -396,12 +441,16 @@ class M2M100Translator:
             padding=True,
             truncation=False,
         ).to(self.model.device)
+        # M2M100 starts decoding with one token. Express the minimum as a total
+        # length to avoid conflicting with the model's inherited min_length.
         generated = self.model.generate(
             **inputs,
             forced_bos_token_id=self.tokenizer.get_lang_id("en"),
             num_beams=1 if retry else self.num_beams,
-            max_new_tokens=768,
-            min_new_tokens=1,
+            max_length=None,
+            max_new_tokens=self.max_new_tokens,
+            min_length=self.min_new_tokens + 1,
+            min_new_tokens=None,
         )
         outputs = []
         for sequence in generated:
@@ -410,7 +459,8 @@ class M2M100Translator:
                 ids.pop()
             if not ids or ids[-1] != self.tokenizer.eos_token_id:
                 raise ValueError(
-                    "Translation reached its output limit; article not exported as complete"
+                    f"Translation reached its output limit (max_new_tokens={self.max_new_tokens}); "
+                    "reduce chunk_tokens or increase max_new_tokens; article not exported as complete"
                 )
             outputs.append(self.tokenizer.decode(ids, skip_special_tokens=True).strip())
         if len(outputs) != len(chunks):

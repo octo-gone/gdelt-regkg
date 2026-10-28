@@ -101,6 +101,30 @@ Model wording can vary. English bodies pass through unchanged. CUDA inference us
 
 Omitting `language=` detects a label with Lingua. When the language is known, supply it with `language="fra"`. Regional labels such as `es-ES` normalize to `spa`. Unsupported labels fail. Supplied labels use `language_check="script"` by default. `"all"` verifies every supplied label and `"none"` trusts it. Custom translators expose an engine identity and `translate(text, source_language)`.
 
+### Generation settings
+
+Pass these keyword arguments to `M2M100Translator.from_model()` or its constructor:
+
+| Setting | Default | Controls |
+| --- | ---: | --- |
+| `chunk_tokens` | 384 | Source tokens per chunk, from 1 to 512 |
+| `max_new_tokens` | 768 | Maximum generated tokens per chunk |
+| `min_new_tokens` | 1 | Minimum generated tokens, from 0 to `max_new_tokens` |
+| `batch_size` | 4 | Chunks per model call; smaller batches use less memory |
+| `num_beams` | 4 | Search width; 1 selects greedy decoding |
+
+For a higher output limit:
+
+```python
+backend = M2M100Translator.from_model(
+    device="cpu", chunk_tokens=384, max_new_tokens=1023, batch_size=2,
+)
+```
+
+Token limits apply to each chunk, not the whole article. Increasing the output cap allows longer translations when needed; generation can finish earlier. Length settings are overridden per call to avoid conflicts with inherited model limits. Incomplete output still raises an error suggesting a smaller chunk or higher output cap.
+
+Factory-created engine identities include chunk size, beam count and output limits, keeping cached translations separate when these settings change. For direct construction, supply an `engine` that identifies the model and settings.
+
 ## Complete pipeline example
 
 This example additionally requires the English named entity recognition (NER) model and standard resources from [quickstart](../get-started/quickstart.md#prerequisites). It saves the exact analyzed bodies alongside the rows so enhanced offsets refer to the saved text.

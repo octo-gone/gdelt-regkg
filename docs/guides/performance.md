@@ -22,7 +22,7 @@ Supply each result as `ner_result=` to `generate_gkg` for that exact body. Preco
 
 ## Batching and persistent caching
 
-`M2M100Translator.translate_many(texts, source_language)` batches same-language bodies. Internal chunking preserves long articles. Its factory defaults to a translation batch size of four.
+`M2M100Translator.translate_many(texts, source_language)` batches same-language bodies. Internal chunking preserves long articles. Its factory defaults to a translation batch size of four. Configure chunk size, output limits and beam count using the [translation generation settings](translation.md#generation-settings).
 
 For repeated translations, wrap a loaded backend with a persistent cache:
 
