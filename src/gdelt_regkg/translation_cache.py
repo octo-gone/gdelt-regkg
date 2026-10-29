@@ -5,7 +5,7 @@ from __future__ import annotations
 import hashlib
 import sqlite3
 from collections.abc import Iterable
-from typing import Self
+from typing import Any, Self
 
 from .fields.translation import Translator, normalize_language
 from .storage import close_database, open_database
@@ -13,7 +13,7 @@ from .types import StrPath
 
 
 class CachedTranslator:
-    """Cache translations by engine, source language, and input text.
+    """Cache translations by full identity, source language, and input text.
 
     Create one instance per worker; instances may share a database file.
     Use as a context manager to close the cache automatically.
@@ -32,9 +32,13 @@ class CachedTranslator:
         self.translator = translator
         """Wrapped translation backend."""
         self.engine = translator.engine
-        """Engine identifier used in cache keys."""
+        """Public citation used by translated metadata."""
         if not isinstance(self.engine, str) or not self.engine.strip():
             raise ValueError("Translator must identify its engine")
+        identity = getattr(translator, "cache_identity", None)
+        self.cache_identity = self.engine if identity is None else identity
+        if not isinstance(self.cache_identity, str) or not self.cache_identity.strip():
+            raise ValueError("cache_identity must be a nonempty string")
         self._connection: sqlite3.Connection | None = open_database(path, timeout=timeout)
         try:
             self.connection.execute(
@@ -44,6 +48,11 @@ class CachedTranslator:
         except BaseException:
             self.close()
             raise
+
+    @property
+    def translation_profile(self) -> dict[str, Any] | None:
+        """Full provenance, when exposed by the wrapped backend."""
+        return getattr(self.translator, "translation_profile", None)
 
     @property
     def connection(self) -> sqlite3.Connection:
@@ -73,7 +82,7 @@ class CachedTranslator:
 
     def _key(self, text: str, source: str) -> str:
         return hashlib.sha256(
-            ("translation-v2\0" + self.engine + "\0" + source + "\0" + text).encode("utf-8")
+            ("translation-v2\0" + self.cache_identity + "\0" + source + "\0" + text).encode("utf-8")
         ).hexdigest()
 
     def translate(self, text: str, source_language: str) -> str:

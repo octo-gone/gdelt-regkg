@@ -1,3 +1,6 @@
+import hashlib
+import json
+import os
 import tempfile
 import unittest
 import warnings
@@ -15,10 +18,37 @@ from gdelt_regkg.fields.ner import EntityMention, NERResult
 from gdelt_regkg.fields.translation import (
     M2M100Translator,
     TranslationUnavailableError,
+    _ModelReference,
+    _resolve_model_reference,
     normalize_language,
     translate_text,
 )
 from gdelt_regkg.translation_cache import CachedTranslator
+
+COMMIT = "55c2e61bbf05dfb8d7abccdc3fae6fc8512fd636"
+OTHER_COMMIT = "ae6407352f7f86e328c0f0678d466fc4246e78b3"
+REPOSITORY = "facebook/m2m100_418M"
+REFERENCE = _ModelReference(REPOSITORY, None, COMMIT, REPOSITORY, "hub_resolve_revision")
+
+
+def factory_dependencies():
+    tokenizer = Mock()
+    network = Mock(config=SimpleNamespace())  # Transformers no longer sets _commit_hash.
+    network.to.return_value = network
+    network.eval.return_value = network
+    network.half.return_value = network
+    transformers = SimpleNamespace(
+        __version__="5.19.0",
+        M2M100Tokenizer=Mock(from_pretrained=Mock(return_value=tokenizer)),
+        M2M100ForConditionalGeneration=Mock(from_pretrained=Mock(return_value=network)),
+    )
+    dependencies = {
+        "transformers": transformers,
+        "torch": SimpleNamespace(__version__="fixture-torch"),
+        "sentencepiece": SimpleNamespace(__version__="fixture-sp"),
+        "huggingface_hub": SimpleNamespace(__version__="fixture-hub"),
+    }
+    return dependencies, network
 
 
 class TranslationTests(unittest.TestCase):
@@ -327,15 +357,7 @@ class TranslationTests(unittest.TestCase):
             dependency.assert_not_called()
 
     def test_factory_settings_separate_cached_translations(self):
-        tokenizer = Mock()
-        network = Mock(config=SimpleNamespace(_commit_hash="fixture"))
-        network.to.return_value = network
-        network.eval.return_value = network
-        transformers = SimpleNamespace(
-            __version__="fixture",
-            M2M100Tokenizer=Mock(from_pretrained=Mock(return_value=tokenizer)),
-            M2M100ForConditionalGeneration=Mock(from_pretrained=Mock(return_value=network)),
-        )
+        dependencies, _ = factory_dependencies()
         configurations = [
             {},
             {"max_new_tokens": 1023},
@@ -343,21 +365,29 @@ class TranslationTests(unittest.TestCase):
             {"chunk_tokens": 256},
             {"num_beams": 2},
             {"batch_size": 1},
+            {"device": "cuda:0"},
+            {"device": "cuda:1"},
         ]
         engines = []
+        identities = []
         with (
             tempfile.TemporaryDirectory() as directory,
             patch(
                 "gdelt_regkg.fields.translation.require_dependency",
-                side_effect=lambda name, extra: transformers if name == "transformers" else None,
+                side_effect=lambda name, extra: dependencies[name],
+            ),
+            patch(
+                "gdelt_regkg.fields.translation._resolve_model_reference", return_value=REFERENCE
             ),
         ):
             for options in configurations:
                 with self.subTest(options=options):
                     backend = M2M100Translator.from_model(**options)
                     for name, value in options.items():
-                        self.assertEqual(getattr(backend, name), value)
+                        if name != "device":
+                            self.assertEqual(getattr(backend, name), value)
                     engines.append(backend.engine)
+                    identities.append(backend.cache_identity)
                     backend.translate_many = Mock(return_value=["Translated"])
                     with CachedTranslator(
                         backend, Path(directory) / "translations.sqlite"
@@ -365,10 +395,14 @@ class TranslationTests(unittest.TestCase):
                         self.assertEqual(cache.translate("Original", "fra"), "Translated")
                     # Batch size changes scheduling, so it can reuse the default translation.
                     self.assertEqual(
-                        backend.translate_many.call_count, 0 if "batch_size" in options else 1
+                        backend.translate_many.call_count,
+                        0 if "batch_size" in options or options.get("device") == "cuda:1" else 1,
                     )
-        self.assertEqual(len(set(engines[:5])), 5)
-        self.assertEqual(engines[0], engines[5])
+        self.assertEqual(set(engines), {f"{REPOSITORY}@{COMMIT[:12]}"})
+        self.assertEqual(len(set(identities[:5])), 5)
+        self.assertEqual(identities[0], identities[5])
+        self.assertNotEqual(identities[0], identities[6])
+        self.assertEqual(identities[6], identities[7])
 
     def test_translation_packs_sentences_and_batches_article_chunks(self):
         class Inputs(dict):
@@ -412,6 +446,7 @@ class TranslationTests(unittest.TestCase):
     def test_cache_batches_misses_and_preserves_duplicate_order(self):
         with tempfile.TemporaryDirectory() as directory:
             backend = Mock(
+                spec=["engine", "translate_many"],
                 engine="fixture",
                 translate_many=Mock(return_value=["First English", "Second English"]),
             )
@@ -429,6 +464,316 @@ class TranslationTests(unittest.TestCase):
                 self.assertEqual(backend.translate_many.call_count, 1)
             finally:
                 cache.close()
+
+
+class RevisionResolutionTests(unittest.TestCase):
+    def test_branches_tags_and_default_use_resolved_field_and_context(self):
+        # Model a ResolvedRevision whose string value is still a mutable ref.
+        class Resolved(str):
+            resolved = COMMIT
+
+        resolver = Mock(return_value=Resolved("main"))
+        hub = SimpleNamespace(HfApi=Mock(return_value=SimpleNamespace(resolve_revision=resolver)))
+        errors = SimpleNamespace(RevisionResolutionError=OSError)
+        with patch(
+            "gdelt_regkg.fields.translation.require_dependency",
+            side_effect=lambda name, extra: errors if name.endswith(".errors") else hub,
+        ):
+            for revision in (None, "main", "release-tag"):
+                for allow_download in (False, True):
+                    with self.subTest(revision=revision, allow_download=allow_download):
+                        reference = _resolve_model_reference(
+                            REPOSITORY,
+                            revision=revision,
+                            allow_download=allow_download,
+                            cache_dir="cache",
+                            token=False,
+                        )
+                        self.assertEqual(reference.resolved_revision, COMMIT)
+                        self.assertEqual(reference.requested_revision, revision)
+                        resolver.assert_called_with(
+                            REPOSITORY,
+                            revision=revision,
+                            local_files_only=not allow_download,
+                            cache_dir="cache",
+                            token=False,
+                        )
+
+    def test_explicit_commit_needs_no_hub_resolution(self):
+        with patch("gdelt_regkg.fields.translation.require_dependency") as dependency:
+            reference = _resolve_model_reference(REPOSITORY, revision=OTHER_COMMIT)
+        self.assertEqual(reference.resolved_revision, OTHER_COMMIT)
+        self.assertEqual(reference.resolution_method, "explicit_commit")
+        dependency.assert_not_called()
+
+    def test_config_fallback_selects_requested_snapshot_without_resolving_symlinks(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "models--facebook--m2m100_418M"
+            configs = {}
+            for revision, commit in (("main", COMMIT), ("old-tag", OTHER_COMMIT)):
+                config = root / "snapshots" / commit / "config.json"
+                config.parent.mkdir(parents=True)
+                config.write_text("{}", encoding="utf-8")
+                configs[revision] = str(config)
+            download = Mock(side_effect=lambda *a, **kw: configs[kw["revision"] or "main"])
+            hub = SimpleNamespace(
+                HfApi=Mock(return_value=SimpleNamespace()), hf_hub_download=download
+            )
+            with (
+                patch(
+                    "gdelt_regkg.fields.translation.require_dependency",
+                    return_value=hub,
+                ),
+                patch.object(
+                    Path, "resolve", side_effect=AssertionError("must keep snapshot path")
+                ),
+            ):
+                for revision, commit in ((None, COMMIT), ("old-tag", OTHER_COMMIT)):
+                    reference = _resolve_model_reference(REPOSITORY, revision=revision)
+                    self.assertEqual(reference.resolved_revision, commit)
+                    self.assertEqual(reference.resolution_method, "hub_config_snapshot")
+                    self.assertTrue(download.call_args.kwargs["local_files_only"])
+                download.side_effect = FileNotFoundError("missing offline ref")
+                with self.assertRaises(OSError):
+                    _resolve_model_reference(REPOSITORY, revision="uncached")
+
+    def test_invalid_or_missing_resolution_fails_without_guessing(self):
+        class ResolutionError(Exception):
+            pass
+
+        resolver = Mock()
+        hub = SimpleNamespace(
+            HfApi=Mock(return_value=SimpleNamespace(resolve_revision=resolver)),
+            RevisionResolutionError=ResolutionError,
+        )
+        with patch("gdelt_regkg.fields.translation.require_dependency", return_value=hub):
+            for value in ("main", "local", COMMIT[:12], None):
+                resolver.return_value = SimpleNamespace(resolved=value)
+                with (
+                    self.subTest(value=value),
+                    self.assertRaisesRegex(OSError, "full model commit"),
+                ):
+                    _resolve_model_reference(REPOSITORY)
+            resolver.side_effect = ResolutionError("missing offline ref")
+            with self.assertRaisesRegex(OSError, "Cannot resolve"):
+                _resolve_model_reference(REPOSITORY)
+            resolver.side_effect = TypeError("programming error")
+            with self.assertRaisesRegex(TypeError, "programming error"):
+                _resolve_model_reference(REPOSITORY)
+
+    def test_local_content_identity_uses_names_and_bytes_without_path_or_timestamps(self):
+        with tempfile.TemporaryDirectory() as directory:
+            references = []
+            for name in ("first", "second"):
+                root = Path(directory) / name
+                root.mkdir()
+                for filename, content in {
+                    "config.json": "{}",
+                    "generation_config.json": "{}",
+                    "pytorch_model.bin.index.json": '{"weight_map": {"a": "shard.bin"}}',
+                    "shard.bin": "fixture weights",
+                    "sentencepiece.bpe.model": "fixture tokenizer",
+                }.items():
+                    path = root / filename
+                    path.write_text(content, encoding="utf-8")
+                    os.utime(path, (100 if name == "first" else 200,) * 2)
+                references.append(_resolve_model_reference(root))
+            self.assertEqual(references[0].resolved_revision, references[1].resolved_revision)
+            self.assertEqual(references[0].identity_kind, "local_sha256")
+            root = Path(directory) / "second"
+            for filename in ("shard.bin", "sentencepiece.bpe.model", "config.json"):
+                with self.subTest(filename=filename):
+                    path = root / filename
+                    original = path.read_bytes()
+                    path.write_bytes(b"changed")
+                    self.assertNotEqual(
+                        references[0].resolved_revision,
+                        _resolve_model_reference(root).resolved_revision,
+                    )
+                    path.write_bytes(original)
+            (root / "shard.bin").rename(root / "other-shard.bin")
+            self.assertNotEqual(
+                references[0].resolved_revision, _resolve_model_reference(root).resolved_revision
+            )
+
+
+class TranslationIdentityTests(unittest.TestCase):
+    def setUp(self):
+        self.dependencies, self.network = factory_dependencies()
+        dependency = patch(
+            "gdelt_regkg.fields.translation.require_dependency",
+            side_effect=lambda name, extra: self.dependencies[name],
+        )
+        dependency.start()
+        self.addCleanup(dependency.stop)
+
+    def factory(self, reference=REFERENCE, **options):
+        with patch(
+            "gdelt_regkg.fields.translation._resolve_model_reference", return_value=reference
+        ):
+            return M2M100Translator.from_model(**options)
+
+    def test_factory_pins_both_loaders_and_exports_short_citation(self):
+        backend = self.factory(cache_dir="cache", token=False)
+        for loader in (
+            self.dependencies["transformers"].M2M100Tokenizer,
+            self.dependencies["transformers"].M2M100ForConditionalGeneration,
+        ):
+            loader.from_pretrained.assert_called_once_with(
+                REPOSITORY, local_files_only=True, revision=COMMIT, cache_dir="cache", token=False
+            )
+        self.assertEqual(backend.engine, f"{REPOSITORY}@{COMMIT[:12]}")
+        self.assertIn(COMMIT, backend.cache_identity)
+        profile = backend.translation_profile
+        self.assertEqual(profile["model"]["resolved_revision"], COMMIT)
+        self.assertEqual(profile["tokenizer"]["resolved_revision"], COMMIT)
+        self.assertEqual(profile["revision_resolution"], "hub_resolve_revision")
+        self.assertIsNone(profile["requested_revision"])
+        self.assertIn("torch", profile["dependencies"])
+        json.dumps(profile)
+        backend.translate = Mock(return_value="English body")
+        result = translate_text("Original", language="fr", translator=backend)
+        self.assertEqual(result.engine, backend.engine)
+        self.assertEqual(
+            format_translation_info(result.source_language, result.engine),
+            f"srclc:fra;eng:{REPOSITORY}@{COMMIT[:12]}",
+        )
+        with CachedTranslator(backend, ":memory:") as cached:
+            self.assertEqual(cached.engine, backend.engine)
+            self.assertEqual(cached.cache_identity, backend.cache_identity)
+            self.assertIs(cached.translation_profile, profile)
+            cached.translator.batch_size = 1
+            self.assertEqual(backend.batch_size, 1)
+
+    def test_default_offline_factory_resolves_once_before_both_loads(self):
+        class Resolved(str):
+            resolved = COMMIT
+
+        events = []
+        resolver = Mock(side_effect=lambda *a, **kw: events.append("resolve") or Resolved("main"))
+        self.dependencies["huggingface_hub"].HfApi = Mock(
+            return_value=SimpleNamespace(resolve_revision=resolver)
+        )
+        self.dependencies["huggingface_hub.errors"] = SimpleNamespace(
+            RevisionResolutionError=OSError
+        )
+        transformers = self.dependencies["transformers"]
+        tokenizer = transformers.M2M100Tokenizer.from_pretrained.return_value
+        transformers.M2M100Tokenizer.from_pretrained.side_effect = (
+            lambda *a, **kw: events.append("tokenizer") or tokenizer
+        )
+        transformers.M2M100ForConditionalGeneration.from_pretrained.side_effect = (
+            lambda *a, **kw: events.append("model") or self.network
+        )
+        backend = M2M100Translator.from_model()
+        self.assertEqual(events, ["resolve", "tokenizer", "model"])
+        resolver.assert_called_once_with(
+            REPOSITORY, revision=None, local_files_only=True, cache_dir=None, token=None
+        )
+        for loader in (
+            transformers.M2M100Tokenizer,
+            transformers.M2M100ForConditionalGeneration,
+        ):
+            self.assertEqual(loader.from_pretrained.call_args.kwargs["revision"], COMMIT)
+        self.assertEqual(backend.translation_profile["model"]["resolved_revision"], COMMIT)
+
+    def test_hub_snapshot_and_repository_share_full_identity(self):
+        with tempfile.TemporaryDirectory() as directory:
+            snapshot = Path(directory) / "models--facebook--m2m100_418M" / "snapshots" / COMMIT
+            snapshot.mkdir(parents=True)
+            reference = _resolve_model_reference(snapshot)
+            self.assertEqual(reference.model_identifier, REPOSITORY)
+            self.assertEqual(reference.resolved_revision, COMMIT)
+            snapshot_backend = self.factory(reference)
+            repository_backend = self.factory()
+            self.assertEqual(snapshot_backend.cache_identity, repository_backend.cache_identity)
+            self.assertEqual(snapshot_backend.engine, repository_backend.engine)
+
+    def test_local_names_and_runtime_versions_are_provenance_not_cache_identity(self):
+        identity = "a" * 64
+        first = _ModelReference("first", None, identity, "unused", "manifest", "local_sha256")
+        second = _ModelReference("second", None, identity, "unused", "manifest", "local_sha256")
+        backend = self.factory(first)
+        self.dependencies["torch"].__version__ = "another-runtime"
+        other = self.factory(second)
+        self.assertEqual(backend.engine, "first@sha256:" + identity[:12])
+        self.assertEqual(backend.cache_identity, other.cache_identity)
+        self.assertNotIn("unused", json.dumps(backend.translation_profile))
+        self.assertNotEqual(backend.translation_profile, other.translation_profile)
+
+    def test_model_tokenizer_and_transformers_identity_separate_results(self):
+        backend = self.factory()
+        different = self.factory(
+            _ModelReference(REPOSITORY, "old", OTHER_COMMIT, REPOSITORY, "explicit_commit")
+        )
+        self.assertNotEqual(backend.cache_identity, different.cache_identity)
+        self.dependencies["transformers"].__version__ = "another-transformers"
+        self.assertNotEqual(backend.cache_identity, self.factory().cache_identity)
+
+    def test_factory_missing_revision_preserves_helpful_error_without_loading(self):
+        with patch(
+            "gdelt_regkg.fields.translation._resolve_model_reference",
+            side_effect=OSError("missing revision"),
+        ):
+            with self.assertRaisesRegex(TranslationUnavailableError, "allow_download=True"):
+                M2M100Translator.from_model()
+        self.dependencies["transformers"].M2M100Tokenizer.from_pretrained.assert_not_called()
+
+    def test_factory_cache_ignores_engine_keys_and_preserves_their_rows(self):
+        backend = self.factory()
+        backend.translate_many = Mock(return_value=["New inference"])
+        prefix = f"M2M100 {REPOSITORY}@{COMMIT}; transformers 5.19.0; chunk384 beam4 "
+        labels = [
+            prefix + "new1-768 packed-v2 fp32",
+            prefix + "packed-v2 fp32",
+            prefix.replace(COMMIT, "local") + "new1-768 packed-v2 fp32",
+        ]
+        for label in labels:
+            with self.subTest(label=label), CachedTranslator(backend, ":memory:") as cache:
+                key = hashlib.sha256(
+                    ("translation-v2\0" + label + "\0fra\0Original").encode("utf-8")
+                ).hexdigest()
+                cache.connection.execute(
+                    "INSERT INTO translations VALUES (?, ?)", (key, "Previous result")
+                )
+                cache.connection.commit()
+                self.assertEqual(cache.translate("Original", "fra"), "New inference")
+                self.assertEqual(
+                    cache.connection.execute(
+                        "SELECT body FROM translations WHERE key = ?", (key,)
+                    ).fetchone(),
+                    ("Previous result",),
+                )
+        self.assertEqual(backend.translate_many.call_count, len(labels))
+
+    def test_display_changes_do_not_invalidate_cache_and_invalid_identities_fail(self):
+        backend = Mock(
+            spec=["engine", "translate", "cache_identity"],
+            engine="display one",
+            cache_identity="full configuration",
+            translate=Mock(return_value="English"),
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "cache.sqlite"
+            with CachedTranslator(backend, path) as cache:
+                self.assertEqual(cache.translate("Original", "fr"), "English")
+            backend.engine = "display two"
+            with CachedTranslator(backend, path) as cache:
+                self.assertEqual(cache.engine, "display two")
+                self.assertEqual(cache.translate("Original", "fra"), "English")
+            self.assertEqual(backend.translate.call_count, 1)
+        for invalid in ("", " ", 1, False, Mock()):
+            with self.subTest(invalid=invalid):
+                backend.cache_identity = invalid
+                with self.assertRaisesRegex(ValueError, "cache_identity"):
+                    CachedTranslator(backend, ":memory:")
+                with self.assertRaisesRegex(ValueError, "cache_identity"):
+                    M2M100Translator(Mock(), Mock(), engine="citation", cache_identity=invalid)
+        direct = M2M100Translator(Mock(), Mock(), engine="old identity")
+        self.assertEqual(direct.cache_identity, "old identity")
+        self.assertIsNone(direct.translation_profile)
+        with CachedTranslator(direct, ":memory:") as cache:
+            self.assertEqual(cache.cache_identity, "old identity")
 
 
 if __name__ == "__main__":

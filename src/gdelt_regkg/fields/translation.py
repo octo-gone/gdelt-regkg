@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
 import re
 from collections.abc import Iterable
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any, Protocol
 
 from ..dependencies import require_dependency
@@ -281,6 +284,122 @@ class TranslationUnavailableError(RuntimeError):
     """Optional dependencies or local model resources are unavailable."""
 
 
+@dataclass(frozen=True)
+class _ModelReference:
+    """One immutable identity shared by the model and tokenizer loads."""
+
+    model_identifier: str
+    requested_revision: str | None
+    resolved_revision: str
+    load_reference: str
+    resolution_method: str
+    identity_kind: str = "hub_commit"
+
+
+def _snapshot_identity(path: Path) -> tuple[str, str] | None:
+    # Inspect the lexical snapshot path: resolving symlinks can lead to blobs/.
+    repository = path.parent.parent.name
+    if (
+        path.parent.name == "snapshots"
+        and repository.startswith("models--")
+        and re.fullmatch(r"[0-9a-f]{40}", path.name)
+    ):
+        identifier = repository.removeprefix("models--").replace("--", "/")
+        if identifier and len(identifier.split("/")) <= 2:
+            return identifier, path.name
+    return None
+
+
+def _local_content_hash(directory: Path) -> str:
+    """Hash a sorted file manifest, excluding only VCS/Hub bookkeeping."""
+    manifest = []
+    for path in sorted(
+        directory.rglob("*"), key=lambda path: path.relative_to(directory).as_posix()
+    ):
+        relative = path.relative_to(directory)
+        if any(part in {".git", ".cache"} for part in relative.parts) or not path.is_file():
+            continue
+        with path.open("rb") as stream:
+            digest = hashlib.file_digest(stream, "sha256").hexdigest()
+        manifest.append([relative.as_posix(), digest])
+    if not manifest:
+        raise OSError("Local model directory contains no model files")
+    payload = json.dumps(manifest, ensure_ascii=True, separators=(",", ":"))
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+
+def _resolve_model_reference(
+    model, *, revision=None, allow_download=False, cache_dir=None, token=None
+) -> _ModelReference:
+    """Resolve before loading, without importing PyTorch or Transformers."""
+    model = str(model)
+    directory = Path(model).expanduser().absolute()
+    if directory.is_dir():
+        snapshot = _snapshot_identity(directory)
+        if snapshot is not None:
+            identifier, commit = snapshot
+            if revision is not None and revision != commit:
+                raise ValueError("A Hub snapshot directory already pins its revision")
+            return _ModelReference(identifier, revision, commit, str(directory), "hub_snapshot")
+        return _ModelReference(
+            directory.name or "local-model",
+            revision,
+            _local_content_hash(directory),
+            str(directory),
+            "sha256-sorted-file-manifest-v1",
+            "local_sha256",
+        )
+    if revision is not None and re.fullmatch(r"[0-9a-f]{40}", revision):
+        return _ModelReference(model, revision, revision, model, "explicit_commit")
+    hub = require_dependency("huggingface_hub", "translate")
+    errors = require_dependency("huggingface_hub.errors", "translate")
+    resolution_error = getattr(errors, "RevisionResolutionError", OSError)
+    options = {
+        "revision": revision,
+        "local_files_only": not allow_download,
+        "cache_dir": cache_dir,
+        "token": token,
+    }
+    resolver = getattr(hub.HfApi(), "resolve_revision", None)
+    try:
+        if resolver is not None:
+            resolved = resolver(model, **options)
+            commit = resolved.resolved  # str(resolved) can still be "main".
+            method = "hub_resolve_revision"
+        else:
+            config = hub.hf_hub_download(model, "config.json", **options)
+            snapshot = _snapshot_identity(Path(config).parent)
+            if snapshot is None or snapshot[0] != model:
+                raise OSError("Hub config path does not identify the requested snapshot")
+            _, commit = snapshot
+            method = "hub_config_snapshot"
+    except resolution_error as error:
+        raise OSError(f"Cannot resolve model revision for {model!r}") from error
+    if not isinstance(commit, str) or not re.fullmatch(r"[0-9a-f]{40}", commit):
+        raise OSError("Hub resolver did not return a full model commit")
+    return _ModelReference(model, revision, commit, model, method)
+
+
+def _translation_identity(reference, *, transformers_version, precision, generation):
+    # Resolution path, requested branch, device index and batch size do not
+    # affect inference identity. Full model/tokenizer identities do.
+    identity = {
+        "kind": reference.identity_kind,
+        "revision": reference.resolved_revision,
+    }
+    if reference.identity_kind == "hub_commit":
+        identity["identifier"] = reference.model_identifier
+    configuration = {
+        "model": identity,
+        "tokenizer": identity,
+        "transformers": transformers_version,
+        "precision": precision,
+        "generation": generation,
+        "packing": "packed-v2",
+    }
+    return "m2m100-v1:" + json.dumps(configuration, sort_keys=True, separators=(",", ":"))
+
+
 def _validate_translation_options(
     chunk_tokens, batch_size, num_beams, max_new_tokens, min_new_tokens
 ):
@@ -301,6 +420,13 @@ class M2M100Translator:
     """Local M2M100 translation with sentence chunking and batched inference.
 
     Load with `from_model` and reuse one instance for sequential translation calls.
+
+    Attributes:
+        engine: Public model citation used in translation metadata.
+        cache_identity: Full inference configuration, or the supplied engine for
+            direct construction without an explicit cache identity.
+        translation_profile: JSON-serializable load-time provenance from the
+            factory, or an optional caller-supplied profile for direct construction.
     """
 
     def __init__(
@@ -314,16 +440,26 @@ class M2M100Translator:
         num_beams=4,
         max_new_tokens=768,
         min_new_tokens=1,
+        cache_identity=None,
+        translation_profile=None,
     ):
         _validate_translation_options(
             chunk_tokens, batch_size, num_beams, max_new_tokens, min_new_tokens
         )
         self.tokenizer, self.model, self.engine = tokenizer, model, engine
+        if cache_identity is not None and (
+            not isinstance(cache_identity, str) or not cache_identity.strip()
+        ):
+            raise ValueError("cache_identity must be a nonempty string")
+        self.cache_identity = engine if cache_identity is None else cache_identity
+        self.translation_profile = translation_profile
         self.chunk_tokens = chunk_tokens
         self.batch_size, self.num_beams = batch_size, num_beams
         self.max_new_tokens, self.min_new_tokens = max_new_tokens, min_new_tokens
 
     @classmethod
+    # Keep generation and Hub context explicit and keyword-only.
+    # pylint: disable-next=too-many-arguments
     def from_model(
         cls,
         model="facebook/m2m100_418M",
@@ -336,6 +472,8 @@ class M2M100Translator:
         chunk_tokens=384,
         max_new_tokens=768,
         min_new_tokens=1,
+        cache_dir=None,
+        token=None,
     ) -> M2M100Translator:
         """Load a reusable M2M100 model and tokenizer.
 
@@ -350,9 +488,11 @@ class M2M100Translator:
             max_new_tokens (int): Positive output-token limit per chunk.
             min_new_tokens (int): Minimum output tokens per chunk, between zero
                 and `max_new_tokens`.
+            cache_dir (str | None): Optional Hub cache shared by resolution and loading.
+            token (str | bool | None): Hub authentication, shared by resolution and loading.
 
         Returns:
-            A translator with an engine citation identifying its configuration.
+            A translator with a short model citation and full configuration provenance.
 
         Raises:
             OptionalDependencyError: If a required backend dependency is unavailable.
@@ -362,30 +502,78 @@ class M2M100Translator:
         _validate_translation_options(
             chunk_tokens, batch_size, num_beams, max_new_tokens, min_new_tokens
         )
-        require_dependency("torch", "translate")
+        torch = require_dependency("torch", "translate")
         transformers = require_dependency("transformers", "translate")
-        require_dependency("sentencepiece", "translate")
-        model_class = transformers.M2M100ForConditionalGeneration
-        tokenizer_class = transformers.M2M100Tokenizer
-        options: dict[str, Any] = {"local_files_only": not allow_download}
-        if revision is not None:
-            options["revision"] = revision
+        sentencepiece = require_dependency("sentencepiece", "translate")
+        hub = require_dependency("huggingface_hub", "translate")
         try:
-            tokenizer = tokenizer_class.from_pretrained(model, **options)
-            network = model_class.from_pretrained(model, **options).to(device).eval()
+            reference = _resolve_model_reference(
+                model,
+                revision=revision,
+                allow_download=allow_download,
+                cache_dir=cache_dir,
+                token=token,
+            )
+            options: dict[str, Any] = {"local_files_only": not allow_download}
+            if reference.identity_kind == "hub_commit":
+                options["revision"] = reference.resolved_revision
+            if cache_dir is not None:
+                options["cache_dir"] = cache_dir
+            if token is not None:
+                options["token"] = token
+            tokenizer = transformers.M2M100Tokenizer.from_pretrained(
+                reference.load_reference, **options
+            )
+            network = (
+                transformers.M2M100ForConditionalGeneration.from_pretrained(
+                    reference.load_reference, **options
+                )
+                .to(device)
+                .eval()
+            )
             if str(device).startswith("cuda"):
                 network = network.half()
         except OSError as error:
             raise TranslationUnavailableError(
                 "M2M100 resources unavailable; download explicitly with allow_download=True or supply a local model directory"
             ) from error
-        commit = getattr(network.config, "_commit_hash", None) or revision or "local"
         precision = "fp16" if str(device).startswith("cuda") else "fp32"
-        engine = (
-            f"M2M100 {model}@{commit}; transformers {transformers.__version__}; "
-            f"chunk{chunk_tokens} beam{num_beams} "
-            f"new{min_new_tokens}-{max_new_tokens} packed-v2 {precision}"
+        generation = {
+            "chunk_tokens": chunk_tokens,
+            "num_beams": num_beams,
+            "max_new_tokens": max_new_tokens,
+            "min_new_tokens": min_new_tokens,
+        }
+        cache_identity = _translation_identity(
+            reference,
+            transformers_version=transformers.__version__,
+            precision=precision,
+            generation=generation,
         )
+        model_identity = {
+            "identifier": reference.model_identifier,
+            "identity_kind": reference.identity_kind,
+            "resolved_revision": reference.resolved_revision,
+        }
+        profile = {
+            "schema_version": 1,
+            "model": model_identity,
+            "tokenizer": dict(model_identity),
+            "requested_revision": reference.requested_revision,
+            "revision_resolution": reference.resolution_method,
+            "generation": generation,
+            "precision": precision,
+            "packing": "packed-v2",
+            "dependencies": {
+                "transformers": transformers.__version__,
+                "torch": torch.__version__,
+                "sentencepiece": sentencepiece.__version__,
+                "huggingface_hub": hub.__version__,
+            },
+            "runtime": {"device": str(device), "batch_size": batch_size},
+        }
+        suffix = "sha256:" if reference.identity_kind == "local_sha256" else ""
+        engine = f"{reference.model_identifier}@{suffix}{reference.resolved_revision[:12]}"
         return cls(
             tokenizer,
             network,
@@ -395,6 +583,8 @@ class M2M100Translator:
             num_beams=num_beams,
             max_new_tokens=max_new_tokens,
             min_new_tokens=min_new_tokens,
+            cache_identity=cache_identity,
+            translation_profile=profile,
         )
 
     def translate(self, text: str, source_language: str) -> str:

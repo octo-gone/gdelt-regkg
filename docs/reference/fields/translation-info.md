@@ -23,6 +23,8 @@ srclc:spa;eng:Example translation engine
 
 Supply both a lowercase three-letter ISO 639-2 code and a nonempty engine citation, or neither. The formatter checks the code’s shape. The translation backend also validates supported languages. Semicolons and control characters in citations become spaces, and whitespace is collapsed.
 
+M2M100 citations contain the repository and a 12-character commit prefix, for example `srclc:fra;eng:facebook/m2m100_418M@55c2e61bbf05`. Local model citations use `<directory-name>@sha256:<12-character-prefix>`. Full revisions and inference settings are available in the translator's `translation_profile`; `cache_identity` identifies the configuration for caching. See [model identity](../../guides/translation.md#model-identity).
+
 Translate first with `translate_text`, then pass `result.text` to the generator and copy the source language and engine using `RecordMetadata.from_translation(result, metadata)`. English input passes through without translation metadata. Translated records receive the `T` record-ID marker.
 
 Enhanced offsets refer to the English body analyzed, `result.text`, rather than `result.original_text`. Preserve that body with the output. Metadata titles, authors and identifiers retain their original values.

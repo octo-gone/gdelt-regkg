@@ -2,6 +2,18 @@
 
 This changelog records implementation changes and the research behind each version. Versions group the iterative work; dictionary revisions such as tone v3 are separate from package versions. Each Research section may contain the method, results and conclusions for that stage.
 
+## 2.2.0
+
+- **Breaking:** M2M100 factory citations use `<repository>@<12-character-commit-prefix>` or `<local-name>@sha256:<12-character-prefix>`. Full configuration is available through `cache_identity` and `translation_profile`. Resume checks must use the full identity, not the citation.
+- **Breaking:** Factory cache identities replace verbose engine labels. Previous factory cache entries are not reused; SQLite rows are left intact. No automatic migration or revision assignment for historical `@local` results is provided.
+- Resolve and pin the model and tokenizer to the same Hub commit before loading. Identify local models by their file contents. Translation settings and GKG structure are unchanged.
+
+### Migration
+
+- Compare `cache_identity` in resume checks. Store `engine`, `cache_identity` and `translation_profile` separately in run manifests; the short citation does not identify generation settings.
+- Expect cache misses for translations stored under previous factory engine labels. Keep prepared translations and their recorded provenance if you want to reuse completed work without repeating inference.
+- You can relabel historical `@local` translations with the currently cached Hub commit if the original run provides evidence of that revision.
+
 ## 2.1.4
 
 - Fixed conflicting generation-length warnings in M2M100 translation.
@@ -62,19 +74,19 @@ This release expands GCAM dictionary coverage, adds original-language analysis a
 
 ### Changes
 
-- `generate_gkg` now accepts `RecordMetadata` and `Resources` and returns a frozen, typed `GKGRecord`. Its ordered mapping view, `to_mapping()` and `to_row()` share the same 27-column declaration; TSV serialization still accepts ordinary mappings.
-- Removed `extract_*` wrappers and metadata compatibility aliases. Import structured analyzers and backend types from their owning `gdelt_regkg.fields` modules; root exports now contain record/resource models, generation/export functions and relevant errors.
-- Removed `ExtractionConfig` and `default_extraction_config`. Compose `Resources(count_rules=..., theme_lexicon=...)` using the independent rule loaders.
-- Removed generator translator/language-detection parameters. Translate explicitly, preserve the analyzed body and use `RecordMetadata.from_translation(result, metadata)` to record the source language and translation engine. Enhanced offsets index `result.text`; translated record IDs retain `T`.
-- Rename encoded generation `field_values=` to `overrides=`; supply precomputed spans through `ner_result=` and a recognizer through `Resources(recognizer=...)`.
-- Strict incomplete generation now raises `IncompleteGKGError`, while extractor failures propagate. Missing optional dependencies raise `OptionalDependencyError`, distinct from missing model/resource errors.
-- Added `ner`, `translate`, `lang`, `benchmark` and `all` extras. The core has no third-party runtime dependencies. Removed direct `hf-xet` requirements and CUDA-specific extras; install PyTorch and CuPy separately using the explicit CPU/CUDA setup instructions.
-- Build resolution and benchmark prediction generation use frozen `BuildOptions` and `PredictionOptions`; scoring settings remain in `BenchmarkOptions`.
-- Consolidated tone refinement under `gdelt-regkg-cli refine-tone`; removed the separate console entry point and root script launcher.
-- Import persistent translation caching from `gdelt_regkg.translation_cache`. Both cache and benchmark store support context management and idempotent `close()`, with independent thread-affine connections, file-backed WAL and configurable timeouts. The cache owns its connection, not its wrapped translator. The benchmark retains its default workspace and exclusive lock.
-- Language detection now returns scored candidates for short or uncertain text by default. Opt into the retained quality checks with `LinguaDetector(strict=True)` and configurable letter/confidence/margin thresholds. No-candidate inputs still raise `LanguageDetectionError`; default verification of supplied labels retains strict checks.
+- **Breaking:** `generate_gkg` now accepts `RecordMetadata` and `Resources` and returns a frozen, typed `GKGRecord`. Its ordered mapping view, `to_mapping()` and `to_row()` share the same 27-column declaration; TSV serialization still accepts ordinary mappings.
+- **Breaking:** Removed `extract_*` wrappers and metadata compatibility aliases. Import structured analyzers and backend types from their owning `gdelt_regkg.fields` modules; root exports now contain record/resource models, generation/export functions and relevant errors.
+- **Breaking:** Removed `ExtractionConfig` and `default_extraction_config`. Compose `Resources(count_rules=..., theme_lexicon=...)` using the independent rule loaders.
+- **Breaking:** Removed generator translator/language-detection parameters. Translate explicitly, preserve the analyzed body and use `RecordMetadata.from_translation(result, metadata)` to record the source language and translation engine. Enhanced offsets index `result.text`; translated record IDs retain `T`.
+- **Breaking:** Rename encoded generation `field_values=` to `overrides=`; supply precomputed spans through `ner_result=` and a recognizer through `Resources(recognizer=...)`.
+- **Breaking:** Strict incomplete generation now raises `IncompleteGKGError`, while extractor failures propagate. Missing optional dependencies raise `OptionalDependencyError`, distinct from missing model/resource errors.
+- **Breaking:** Added `ner`, `translate`, `lang`, `benchmark` and `all` extras. The core has no third-party runtime dependencies. Removed direct `hf-xet` requirements and CUDA-specific extras; install PyTorch and CuPy separately using the explicit CPU/CUDA setup instructions.
+- **Breaking:** Build resolution and benchmark prediction generation use frozen `BuildOptions` and `PredictionOptions`; scoring settings remain in `BenchmarkOptions`.
+- **Breaking:** Consolidated tone refinement under `gdelt-regkg-cli refine-tone`; removed the separate console entry point and root script launcher.
+- **Breaking:** Import persistent translation caching from `gdelt_regkg.translation_cache`. Both cache and benchmark store support context management and idempotent `close()`, with independent thread-affine connections, file-backed WAL and configurable timeouts. The cache owns its connection, not its wrapped translator. The benchmark retains its default workspace and exclusive lock.
+- **Breaking:** Language detection now returns scored candidates for short or uncertain text by default. Opt into the retained quality checks with `LinguaDetector(strict=True)` and configurable letter/confidence/margin thresholds. No-candidate inputs still raise `LanguageDetectionError`; default verification of supplied labels retains strict checks.
 - Counts retain resolved geography when both location output cells are overridden. Explicit count-location spans retain precedence.
-- Cached scalar and batch translation share language normalization, English passthrough, validation and key construction. Language verification stays in `translate_text`. A new cache-key namespace bypasses inconsistent older entries without deleting them.
+- **Breaking:** Cached scalar and batch translation share language normalization, English passthrough, validation and key construction. Language verification stays in `translate_text`. A new cache-key namespace bypasses inconsistent older entries without deleting them.
 - Centralized offline resource resolution and retained authored fallback, historical build recipes and stable schema IDs. Split constructor/workflow helpers and enabled bounded complexity checks. Public factories now carry concrete return types.
 
 ### Migration

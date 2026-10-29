@@ -123,7 +123,23 @@ backend = M2M100Translator.from_model(
 
 Token limits apply to each chunk, not the whole article. Increasing the output cap allows longer translations when needed; generation can finish earlier. Length settings are overridden per call to avoid conflicts with inherited model limits. Incomplete output still raises an error suggesting a smaller chunk or higher output cap.
 
-Factory-created engine identities include chunk size, beam count and output limits, keeping cached translations separate when these settings change. For direct construction, supply an `engine` that identifies the model and settings.
+### Model identity
+
+Factory-created translators expose three attributes:
+
+| Attribute | Purpose |
+| --- | --- |
+| `engine` | Citation exported to GKG, such as `facebook/m2m100_418M@55c2e61bbf05` |
+| `cache_identity` | Full model/tokenizer identity and inference settings, used for cache and resume checks |
+| `translation_profile` | JSON-serializable provenance with full revisions, settings, dependency versions and initial runtime details |
+
+The factory resolves a Hub reference to a full commit before loading and pins the model and tokenizer to it. `allow_download=False` uses only cached files; missing resources raise `TranslationUnavailableError`. Use `revision=` to select a branch, tag or full commit. `cache_dir=` and `token=` apply to resolution and loading.
+
+A Hub snapshot directory uses its repository and commit identity. Other local directories use a SHA-256 file-content fingerprint and a `<directory-name>@sha256:<12-character-prefix>` citation. Hashing runs once per load and covers all files except `.git` and `.cache` bookkeeping.
+
+Cache identity includes full model/tokenizer revisions, Transformers version, precision, packing algorithm, chunk size, beam count and output limits. Batch size and device index control scheduling and do not affect cache reuse. Recreate the translator when changing inference settings. Save `engine`, `cache_identity` and `translation_profile` separately when recording a run.
+
+Custom translators supply `engine` and `translate(text, source_language)`. Their optional `cache_identity` must be a nonempty string; otherwise the cache uses `engine`. Direct M2M100 construction accepts `cache_identity=` and `translation_profile=`. `CachedTranslator.translator` provides access to the backend, including `batch_size`.
 
 ## Complete pipeline example
 
